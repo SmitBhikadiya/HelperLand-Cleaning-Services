@@ -7,12 +7,13 @@ h1{
 }
 
 /* Home Page */
-.home{
+.section-home{
     height: 930px;
     background-image: url('../images/bg-home.png');
     background-repeat: no-repeat;
     background-size: 100% 100%;
     position: relative;
+    padding: 10px;
 }
 .navbar-nav {
     margin-left: auto;   
@@ -100,13 +101,10 @@ h1{
 }
 
 
-/* Why Helper */
-
-#whyhelper{
-    height: 700px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+/*############### Section Helper ################*/
+.section-helper{
+    display: block;
+    margin-top: 79px;
 }
 
 .head{
@@ -119,12 +117,12 @@ h1{
 }
 .helper{
     width: 357px;
-    margin: 10px 10px;
+    margin: 10px 25px;
     text-align: center;
 } 
 .helper-image img{
-    height: 80%;
-    width: 80%;
+    width: 320px;
+    height: 320px;
     margin-bottom: 12px;
     border-radius: 50%;
 }
@@ -151,24 +149,49 @@ h1{
     opacity: 0.8;
     color: white;
 }
-.lorem-section{
-    margin: 0px 5% 5% 5%;
-}
-.lorem-section .row{
-    margin-top: 205px;
-}
-.lorem-section .heading{
-    width: 70%;
-}
 
 
 
-/*OUR BLOG*/
-.blog-section{
-    padding-bottom: 22px;
+/*############### SECTION BLOG ##############*/
+.section-blog{
+    height: 960px;
+    position: relative;
+    margin-top: 156px;
+    padding: 75px 10px;
 }
-#ourblog{
-    height: 500px;
+.blog-bg{
+    position: absolute;
+    height: 928px;
+    width: 128px;
+}
+.bg-left{
+    background-image: url("../images/blog-left-bg.png");
+    top: 0;
+    left: 0;
+}
+.bg-right{
+    background-image: url("../images/blog-right-bg.png");
+    top: 0;
+    right: 0;
+}
+
+.sub-lorem{
+   display: flex;
+   width: 80%;
+   margin: auto;
+}
+.col2{
+    margin-left: 97px;
+}
+.col1 .title h2{
+    width: 60%;
+}
+.col1 .content{
+    width: 630px;
+}
+
+.sub-blog{
+    margin-top: 47px;
 }
 .card-body,.card-footer{
     padding: 15px;
@@ -188,12 +211,12 @@ h1{
 }
 .card-date{
     color: grey;
-    font-size: smaller;
+    font-size: 12px;
 }
 
 /* Customer Say */
 
-.customersay{
+.section-customer{
     height: 908px;
     
     background-color: #f4f5f8;
