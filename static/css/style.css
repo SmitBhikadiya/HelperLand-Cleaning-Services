@@ -1,0 +1,386 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+h1{
+    color: rgba(0, 0, 0, 0.904);
+}
+
+/* Home Page */
+.home{
+    height: 930px;
+    background-image: url('../images/bg-home.png');
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    position: relative;
+}
+.navbar-nav {
+    margin-left: auto;   
+}
+.nav-item{
+    margin-left: 20px;
+}
+.nav-btn{
+    border-radius: 20px;
+    color: white;
+}
+.nav-link{
+    color: white;
+}
+.home-heading{
+    margin-bottom: 16px;
+}
+.home-heading h1{
+    color: white;
+}
+.home-content{
+    margin-top: 178px;
+    margin-left: 20px;
+}
+.btn-lets{
+    position: absolute;
+    top: 47%;
+    left: 42%;
+}
+.btn-lets button{
+    border-radius: 25px;
+    padding: 12px 25px;
+    background-color: rgb(5, 115, 119);
+}
+.btn-lets button:hover{
+    background-color: rgb(5, 115, 119);
+}
+.steps{
+    width: 1300px;
+    margin: 0px auto;
+    margin-top: 157px;
+}
+.all-steps{
+    display: flex;
+}
+.step{
+    position: relative;
+    margin: auto;
+}
+.step-text{
+    font-size: 20px;
+    text-align: center;
+    margin-top: 20px;
+    color: white;
+}
+.step-arrow{
+    position: absolute;
+    top: 10%;
+    left:115%;
+}
+.step-img{
+    text-align: center;
+}
+.btn-down{
+    display: flex;
+    justify-content: center;
+}
+.circle{
+    margin-top: 52px;
+    border: 1px solid white;
+    width: fit-content;
+    border-radius: 100%;
+    padding: 10px 12px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.list{
+    
+    list-style: none;
+    color: white;
+}
+.fa-check{
+    color: white;
+}
+
+
+/* Why Helper */
+
+#whyhelper{
+    height: 700px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.head{
+    padding-bottom: 30px;
+    text-align: center;
+}
+.helpers{
+    display: flex;
+    justify-content: center;
+}
+.helper{
+    width: 357px;
+    margin: 10px 10px;
+    text-align: center;
+} 
+.helper-image img{
+    height: 80%;
+    width: 80%;
+    margin-bottom: 12px;
+    border-radius: 50%;
+}
+.helper-title{
+    margin-top: 50px;
+    margin-bottom: 60px;
+}
+.helper-title h2{
+    height: 30px;
+    margin-bottom: 40px;
+}
+.helpers4 img{
+    height: 230px;
+    width: 63px;
+}
+.content{
+    font-size: 18px;
+}
+.nav-item button:hover{
+    background-color: rgb(5, 115, 119);
+    color: white;
+}
+.nav-link:hover{
+    opacity: 0.8;
+    color: white;
+}
+.lorem-section{
+    margin: 0px 5% 5% 5%;
+}
+.lorem-section .row{
+    margin-top: 205px;
+}
+.lorem-section .heading{
+    width: 70%;
+}
+
+
+
+/*OUR BLOG*/
+.blog-section{
+    padding-bottom: 22px;
+}
+#ourblog{
+    height: 500px;
+}
+.card-body,.card-footer{
+    padding: 15px;
+}
+.blog-title{
+    margin-bottom: 40px;
+}
+.blog{
+    width: 357px;
+    margin: 10px 20px;
+    text-align: left;
+    background-color: rgb(255, 255, 255);
+    box-shadow: 0px 0px 30px #E4EBF0;
+} 
+.card-img-top{
+    width: 357px;
+}
+.card-date{
+    color: grey;
+    font-size: smaller;
+}
+
+/* Customer Say */
+
+.customersay{
+    height: 908px;
+    
+    background-color: #f4f5f8;
+}
+.says{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+.say{
+    padding: 30px;
+    width: 357px;
+    margin: auto 20px;
+    height: 370px;
+    background-color: #ffffff;
+    border-left: 4px solid #1d7a8c;
+    margin-bottom: 70px;
+}
+.say-about{
+    display: flex;
+    margin-bottom: 10px;
+}
+.say-profile{
+    margin-right: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.say-name{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.say-msg{
+    margin: auto;
+    cursor: pointer;
+}
+.say-content{
+    font-size: 16px;
+}
+.say-more{
+    font-size: 18px;
+    padding-top: 10px;
+}
+.say-heading{
+    text-align: center;
+    padding: 50px;
+}
+.newsletter {
+    height: 100px;
+    position: absolute;
+    top: 80%;
+    padding-bottom: 30px;
+  }
+  .up {
+    background-color: #525252;
+    position: relative;
+    left: 4%;
+    top: 100%;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+  }
+  .up img {
+    padding: 17px 15px;
+  }
+  .msg-box {
+    position: relative;
+    left: 35%;
+    top: 80%;
+  }
+  .GET-OUR-NEWSLETTER {
+    width: 190px;
+    height: 13px;
+    font-size: 18px;
+    font-weight: 500;
+    color: #353548;
+    padding-left: 63px;
+  }
+  .msg-foam {
+    margin-top: 10px;
+  }
+  .Rounded-Rectangle-649 {
+    width: 233px;
+    height: 40px;
+    padding: 14px 13px 16px 22px;
+    border-radius: 20px;
+    border: solid 1px #565656;
+    outline: none;
+    background-color: #f4f5f8;
+    margin-right: 10px;
+    margin-bottom: 10px;
+  }
+  .Rounded-Rectangle-649-copy {
+    width: 88px;
+    height: 40px;
+    border: none;
+    color: #ffffff;
+    border-radius: 20px;
+    background-color: #ff7b6d;
+  }
+  .layer {
+    position: relative;
+    right: -66%;
+    top: 100%;
+  }
+  
+  /* footer */
+  .footer {
+    height: 180px;
+    width: 100%;
+    background-color: black;
+    margin-bottom: 400px;
+    margin-top: auto;
+  }
+  .footer1 {
+    height: 120px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    padding-right: 100px;
+  }
+  .footer-img {
+    margin-right: 300px;
+    height: 100px;
+  }
+  .footer1-logo {
+    width: 120px;
+    height: 92px;
+    padding: 17px 0 0 17px;
+    position: absolute;
+  }
+  .footer-nav {
+    padding-top: 20px;
+  }
+  .footer-nav ul {
+    list-style-type: none;
+    width: 680px;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+  }
+  .footer-nav li {
+    float: left;
+  }
+  .footer-nav li a {
+    display: block;
+    padding: 8px;
+    text-decoration: none;
+    color: #f1f1f1;
+  }
+  .footer-nav li a:hover{
+    color: #f1f1f1;
+  }
+  .social {
+    float: right;
+    margin-left: 130px;
+  }
+  .social img {
+    padding-right: 15px;
+  }
+  .footer1{
+      margin-top: 100px;
+  }
+  .footer2 {
+    height: 60px;
+    background-color: #292929;
+  }
+  .footer2 p {
+    color: #9ba0a3;
+    padding-top: 15px;
+    margin-left: 300px;
+  }
+  .footer2 p span {
+    color: #6eabef;
+  }
+  .footer2-btn {
+    width: 88px;
+    height: 40px;
+    border: none;
+    color: #4f4f4f;
+    border-radius: 20px;
+    background-color: #eed507;
+    float: right;
+    margin-left: auto;
+    margin-right: 10px;
+  }
