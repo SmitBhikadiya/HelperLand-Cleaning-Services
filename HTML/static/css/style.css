@@ -2,6 +2,9 @@
     margin: 0;
     padding: 0;
 }
+body{
+    overflow-x: hidden;
+}
 h1{
     color: rgba(0, 0, 0, 0.904);
 }
@@ -40,7 +43,7 @@ h1{
 }
 .btn-lets{
     position: absolute;
-    top: 47%;
+    top: 49%;
     left: 42%;
 }
 .btn-lets button{
@@ -406,4 +409,52 @@ h1{
     float: right;
     margin-left: auto;
     margin-right: 10px;
+  }
+
+  @media  screen and (max-width: 991px) {
+      .section-home{
+          z-index: 0;
+      }
+      .steps{
+          width: 1207px;
+      }
+    .navbar-collapse{
+        z-index: 1;
+        background-color: #1d798c9a;
+        border-radius: 10px;
+        padding: 10px;
+      }
+      .nav-item {
+        margin-left: 23px;
+        margin-top: 7px;
+      }
+      .navbar-nav .nav-item .nav-link {
+        padding-right: 15px;
+        padding-left: 15px;
+      }
+      .blog-bg{
+          display: none;
+      }
+      .sub-lorem{
+          margin-left: 10px;
+      }
+      .layer{
+        right: -59%;
+      }
+      .social{
+          margin-left: 3%;
+      }
+        .section-home{
+          width: fit-content;
+      }
+      .section-blog{
+          width: fit-content;
+      }
+      .section-customer{
+          width: fit-content;
+      }
+      .section-helper{
+          width: fit-content;
+      }
+      
   }
