@@ -82,90 +82,6 @@
     }
 }
 
-/*############### Section FAQs ##################*/
-
-.section-faqs{
-    margin: 0;
-    padding: 32px 308px;
-}
-
-/* Faqs header */
-.faqs-header{
-    text-align: center;
-    font-size: 1.3rem;
-}
-.faqs-header h1{
-    font-size: 3rem;
-}
-.h-line{
-    margin-bottom: 34px;
-}
-.faqs-header .line{
-    height: 55px;
-    width: 18%;
-}
-.faqs-header .content{
-    margin: 0 15%;
-    margin-bottom: 36px;
-}
-
-@media screen and (max-width:1500px) {
-    .section-faqs{
-        padding:40px 15%;
-    }
-}
-@media screen and (max-width:990px) {
-    .section-faqs{
-        padding:10%;
-    }
-}
-@media screen and (max-width:415px){
-    .faqs-header .content{
-        font-size: 1rem;
-    }
-}
-
-/* faqs division  */
-
-.division-button{
-    margin-bottom: 48px;
-    display: flex;
-}
-.division-button button{
-    width: 100%;
-    padding-top: 15px;
-    padding-bottom: 15px;
-    text-transform: uppercase;
-    border: none;
-    border-bottom: 4px solid #1d7a8c;
-}
-.division-button .btn-active{
-    background-color: #1d7a8c;
-    color: white;
-}
-
-.faq-quetion{
-    margin-top: 40px;
-    font-size: 1.3rem;
-}
-.faq-quetion img{
-    float: left;
-    margin-right: 10px;
-}
-.faq-quetion button{
-    padding: 0;
-    width: 100%;
-    background-color: none;
-    outline: none;
-}
-.faq-quetion button:focus{
-    outline: none;
-}
-.faq-answer{
-    margin: 18px 30px 0px 30px;
-    padding-bottom: 20px;
-}
-
 /*################ Newsseltter ################*/
 
 .section-newsseltter {
@@ -206,7 +122,7 @@
 .section-footer{
     background-color: #111111;
     margin-bottom: auto;
-    padding: 2% 6%;
+    padding: 2% 6%
 }
 .footer-nav{
     display: flex;
@@ -263,3 +179,4 @@
         float: none;
     }
 }
+
