@@ -88,6 +88,10 @@
     margin: 0;
     padding: 32px 308px;
 }
+.btn-col:focus {
+    outline: none;
+    box-shadow: none;
+}
 
 /* Faqs header */
 .faqs-header{
