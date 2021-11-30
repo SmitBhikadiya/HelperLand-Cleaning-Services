@@ -39,21 +39,21 @@
 /*################ Prices Section ################*/
 .section-prices{
     margin-top: 31px;
-    
 }
 .prices-title{
     text-align: center;
     font-size: 1.2rem;
 }
 .prices-title h1{
-    font-size: 3rem;
+    font-size: 2.5rem;
+    color: #565656;
 }
 .h-line{
     margin-bottom: 34px;
 }
 .prices-title .line{
     height: 50px;
-    width: 11%;
+    width: 5%;
 }
 .prices-card{
     width: 553px;
@@ -119,6 +119,11 @@
     .p-body{
         padding-left: 10px;
     }
+    .p-detailes .p-inside{
+        width: 100%;
+        margin: 16px auto;
+        font-size: 0.5rem;
+    }
 }
 
 /* Header image */
@@ -179,6 +184,10 @@
     text-transform: uppercase;
     font-size: 1.13rem;
     font-weight: 600;
+}
+.newsform{
+    display: flex;
+    justify-content: center;
 }
 .newsform button{
     width: 88px;
@@ -241,9 +250,18 @@
 }
 .hr{
     width: 100%;
-    color: violet;
+    color: rgb(119, 119, 119);
 }
-
+@media screen and (max-width: 362px) {
+    .newsform{
+        display: flex;
+        flex-direction: column;
+    }
+    .input-field{
+       margin-bottom: 10px;
+    }
+    
+}
 @media screen and (max-width:1202px) {
     
 .footer-nav ul{
@@ -261,4 +279,172 @@
         float: none;
     }
 }
+
+/*############### Extra Services ###################*/
+
+.extra-services-list{
+    width: 80%;
+    margin: 20px auto;
+    display: flex;
+    justify-content:space-between;
+
+}
+.extra-services{
+    text-align: center;
+    font-size: 1.2rem;
+}
+.extra-services h1{
+    font-size: 2.5rem;
+    color: #565656;
+}
+.h-line{
+    margin-bottom: 34px;
+    opacity: 0.5;
+}
+.extra-services .line{
+    height: 50px;
+    width: 5%;
+}
+.e-img{
+    width: 108px;
+    height: 108px;
+    border: 1px solid rgba(0, 0, 0, 0.603);
+    border-radius: 50%;
+    margin: 10px auto;
+    position: relative;
+}
+.e-img img{
+    position: absolute;
+    top:50%;
+    left:50%;
+    transform: translate(-50%,-50%);
+}
+.e-service{
+    display: block;
+    text-align: center;
+}
+.e-title{
+    font-size: 1.2rem;
+}
+.e-time{
+    color: #1D7A8C;
+}
+
+/*############ Section Cleaning ########################*/
+
+.section-cleaning{
+    height: 100vh;
+    margin: 0 auto;
+    background-color: #F6F6F6;
+    padding-top: 70px;
+}
+.cleaning-services{
+    width: 80%;
+    margin: 10px auto;
+}
+.cleaning-header{
+    text-align: center;
+    font-size: 1.2rem;
+}
+.cleaning-header h1{
+    font-size: 2.5rem;
+    color: #565656;
+}
+.h-line{
+    margin-bottom: 34px;
+    opacity: 0.5;
+}
+.cleaning-header .line{
+    height: 50px;
+    width: 5%;
+}
+.content-title{
+    text-align:left;
+    font-size: 1.5rem;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+.c-img{
+    width: auto;
+}
+.content-list{
+    padding-left: 1px;
+}
+.content-list li{
+    list-style: none;
+    margin-bottom: 10px;
+}
+
+@media screen and (max-width:1202px) {
+    .section-cleaning{
+        height: 100%;
+    }
+    .c-img img{
+        width: 100%;
+        margin-bottom: 20px;
+        margin-top: 10px;
+    }
+    .cleaning-header h1{
+        font-size: 2rem;
+    }
+}
+
+/*############ Section Helper #######################*/
+.section-whyhelper{
+    height: 100vh;
+    margin: 0 auto;
+    padding-top: 70px;
+}
+.s-whyhelper{
+    width: 80%;
+    margin: 10px auto;
+}
+.whyhelper-header{
+    text-align: center;
+    font-size: 1.2rem;
+}
+.whyhelper-header h1{
+    margin-top: 70px;
+    font-size: 2.5rem;
+    color: #565656;
+}
+.h-line{
+    margin-bottom: 34px;
+    opacity: 0.5;
+}
+.whyhelper-header .line{
+    height: 50px;
+    width: 5%;
+}
+.content-left{
+    text-align: right;
+}
+.content-right{
+    text-align: left;
+}
+.d-first{
+    height: 45%;
+}
+@media screen and (max-width:1215px) {
+    .section-whyhelper{
+        height: 100%;
+    }
+    .content-left{
+        text-align: center;
+    }
+    .content-right{
+        text-align: center;
+    }
+    
+    .whyhelper-banner img{
+        width: 100%;
+        margin: 10px auto
+    }
+    
+}
+
+
+
+
+
 
