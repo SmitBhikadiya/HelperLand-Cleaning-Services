@@ -36,6 +36,50 @@
     opacity: 1;
 }
 
+/* Header image */
+.header-image{
+    height: 370px;
+    background-image: url("../images/prices-title.png");
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+}
+
+@media screen and (max-width:990px) {
+    .section-header{
+        z-index: 0;
+        padding-bottom: 10px;
+    }
+    .header-image{
+        margin-top: 0;
+        background-size: 100% 100%;
+        height: 200px;
+    }
+
+    .navbar-collapse{
+        z-index: 1;
+        background-color: #23565f;
+        border-radius: 10px;
+        padding: 20px;
+    }
+    .nav-item {
+        margin-left: 23px;
+        margin-top: 7px;
+    }
+    .navbar-nav .nav-item .nav-link {
+        padding-right: 15px;
+        padding-left: 15px;
+    }
+}
+@media screen and (max-width: 415px) {
+    .nav-link{
+        width: 100%;
+        text-align: center;
+    }
+    .header-image{
+        
+    }
+}
+
 /*################ Prices Section ################*/
 .section-prices{
     margin-top: 31px;
@@ -126,48 +170,7 @@
     }
 }
 
-/* Header image */
-.header-image{
-    height: 370px;
-    background-image: url("../images/prices-title.png");
-    background-repeat: no-repeat;
-    background-size: 100% 100%;
-}
 
-@media screen and (max-width:990px) {
-    .section-header{
-        z-index: 0;
-        padding-bottom: 10px;
-    }
-    .header-image{
-        margin-top: 0;
-        background-size: 100% 100%;
-    }
-
-    .navbar-collapse{
-        z-index: 1;
-        background-color: #23565f;
-        border-radius: 10px;
-        padding: 20px;
-    }
-    .nav-item {
-        margin-left: 23px;
-        margin-top: 7px;
-    }
-    .navbar-nav .nav-item .nav-link {
-        padding-right: 15px;
-        padding-left: 15px;
-    }
-}
-@media screen and (max-width: 415px) {
-    .nav-link{
-        width: 100%;
-        text-align: center;
-    }
-    .header-image{
-        display: none;
-    }
-}
 
 /*################ Newsseltter ################*/
 
