@@ -425,6 +425,13 @@
 .d-first{
     height: 45%;
 }
+.submit-btn{
+    text-align: center;
+}
+.submit-btn button{
+    background-color: chartreuse;
+    width: 50px;
+}
 @media screen and (max-width:1215px) {
     .section-whyhelper{
         height: 100%;
@@ -440,6 +447,7 @@
         width: 100%;
         margin: 10px auto
     }
+    
     
 }
 
