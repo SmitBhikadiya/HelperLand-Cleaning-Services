@@ -1,213 +1,54 @@
-/*############# Navbar ###############*/
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
+*{
+    font-family: "Roboto", sans-serif;
+}
 
-.navbar{
-    background-color: #525252;
-    padding: 0px 10px;
-}
-.navbar-brand img{
-    width: 73px;
-    height: 54px;
-}
-.navbar-nav{
-    margin-left: auto;
-}
-.nav-item{
-    margin-left: 28px;
-}
-.nav-link{
-    color: white;
-}
-.nav-link:hover{
-    color: white;
-    opacity: 0.7;
-}
-.nav-btn{
-    border-radius: 20px;
-    background-color: #29626d;
-}
-.nav-btn:hover{
-    background-color: #525252;
-    color: white;
-    opacity: 1;
-}
-/* Header image */
-.header-image{
-    height: 370px;
-    background-image: url("../images/cleaner-title.png");
-    background-repeat: no-repeat;
-    background-size: 100% 100%;
-}
-@media screen and (max-width:990px) {
-    .section-header{
-        z-index: 0;
-        padding-bottom: 10px;
-    }
-    .header-image{
-        height: 200px;
-        margin-top: 0;
-        background-size: 100% 100%;
-    }
-
-    .navbar-collapse{
-        z-index: 1;
-        background-color: #23565f;
-        border-radius: 10px;
-        padding: 20px;
-    }
-    .nav-item {
-        margin-left: 23px;
-        margin-top: 7px;
-    }
-    .navbar-nav .nav-item .nav-link {
-        padding-right: 15px;
-        padding-left: 15px;
-    }
-}
-@media screen and (max-width: 415px) {
-    .nav-link{
-        width: 100%;
-        text-align: center;
-    }
-}
 /* Section Common */
-.section-fewwords, .section-ourstory{
+#section-fewwords, #section-ourstory {
     height: 100%;
     margin-top: 20px;
     text-align: center;
 }
-.fewwords-content{
+
+.fewwords-content {
     width: 70%;
     margin: 10px auto;
 }
 
 /* Fewwords title */
-.fewwords-title{
+.fewwords-title {
     text-align: center;
     font-size: 1.2rem;
 }
-.fewwords-title h1{
+
+.fewwords-title h1 {
     margin-top: 25px;
     font-size: 2rem;
     color: #565656;
 }
-.h-line{
+
+.h-line {
     margin-bottom: 34px;
     opacity: 0.5;
 }
-.fewwords-title .line{
+
+.fewwords-title .line {
     height: 50px;
     width: 5%;
 }
 
+/* Footer override CSS */
 
-
-/*################ Newsseltter ################*/
-
-.section-newsseltter {
-    text-align: center;
-    width:100%;
-    display: block;
-    margin-top: 55px;
-    margin-bottom: 53px;
-}
-
-.newstitle{
-    margin-bottom: 16px;
-    text-transform: uppercase;
-    font-size: 1.13rem;
-    font-weight: 600;
-}
-.newsform{
-    display: flex;
-    justify-content: center;
-}
-.newsform button{
-    width: 88px;
-    height: 40px;
-    color: white;
-    border: none;
-    border-radius: 20px;
-    background-color: #ff7b6d;
-}
-.newsform .input-field input{
-    width: 233px;
-    height: 40px;
-    padding: 14px 131px 16px 22px;
-    margin-right: 11px;
-    border-radius: 20px;
-    border: solid 1px #565656;
-    background-color: #f4f5f8;
-}
-
-  
-/*############### footer ##############*/
-
-.section-footer{
-    background-color: #111111;
-    margin-bottom: auto;
-    padding: 2% 6%
-}
-.footer-nav{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-.footer-social{
-    margin: auto 0;
-}
-.footer-social img{
-    margin-left: 10px;
-    float: right;
-}
-
-.footer-nav ul{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    list-style: none;
-    
-}
-.footer-nav ul li{
-    margin-left: 2%;
-    margin-right: 2%;
-}
-.footer-nav ul li a{
-    text-decoration: none;
-    color: white;
+#section-newsseltter{
+    padding-top: 35px;
+    background-color: white;
 }
 .f-sub{
     text-align: center;
-    opacity: 0.5;
-    color: white;
 }
-.hr{
-    width: 100%;
-    color: rgb(119, 119, 119);
+.scroll-icon, .message-icon{
+    display: none;
 }
-@media screen and (max-width: 362px) {
-    .newsform{
-        display: flex;
-        flex-direction: column;
-    }
-    .input-field{
-       margin-bottom: 10px;
-    }
-    
-}
-@media screen and (max-width:1202px) {
-    
-.footer-nav ul{
-    padding-top: 10px;
-    padding-bottom: 10px;
-    flex-wrap: wrap;
-}
-    .footer-logo{
-        text-align: center;
-    }
-    .footer-social{
-        text-align: center;
-    }
-    .footer-social img{
-        float: none;
-    }
+.header-image {
+    background-image: url("../images/hero-title.png");
 }

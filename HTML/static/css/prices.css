@@ -1,116 +1,52 @@
-.main{
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
+*{
+    font-family: "Roboto", sans-serif;
+}
+
+.main {
     margin: 0;
     padding: 0;
 }
 
-/*############# Navbar ###############*/
-
-.navbar{
-    background-color: #525252;
-    padding: 0px 10px;
-}
-.navbar-brand img{
-    width: 73px;
-    height: 54px;
-}
-.navbar-nav{
-    margin-left: auto;
-}
-.nav-item{
-    margin-left: 28px;
-}
-.nav-link{
-    color: white;
-}
-.nav-link:hover{
-    color: white;
-    opacity: 0.7;
-}
-.nav-btn{
-    border-radius: 20px;
-    background-color: #29626d;
-}
-.nav-btn:hover{
-    background-color: #525252;
-    color: white;
-    opacity: 1;
-}
-
-/* Header image */
-.header-image{
-    height: 370px;
-    background-image: url("../images/prices-title.png");
-    background-repeat: no-repeat;
-    background-size: 100% 100%;
-}
-
-@media screen and (max-width:990px) {
-    .section-header{
-        z-index: 0;
-        padding-bottom: 10px;
-    }
-    .header-image{
-        margin-top: 0;
-        background-size: 100% 100%;
-        height: 200px;
-    }
-
-    .navbar-collapse{
-        z-index: 1;
-        background-color: #23565f;
-        border-radius: 10px;
-        padding: 20px;
-    }
-    .nav-item {
-        margin-left: 23px;
-        margin-top: 7px;
-    }
-    .navbar-nav .nav-item .nav-link {
-        padding-right: 15px;
-        padding-left: 15px;
-    }
-}
-@media screen and (max-width: 415px) {
-    .nav-link{
-        width: 100%;
-        text-align: center;
-    }
-    .header-image{
-        
-    }
-}
-
 /*################ Prices Section ################*/
-.section-prices{
+#section-prices {
     margin-top: 31px;
 }
-.prices-title{
+
+.prices-title {
     text-align: center;
     font-size: 1.2rem;
 }
-.prices-title h1{
+
+.prices-title h1 {
     font-size: 2.5rem;
     color: #565656;
 }
-.h-line{
+
+.h-line {
     margin-bottom: 34px;
 }
-.prices-title .line{
+
+.prices-title .line {
     height: 50px;
     width: 5%;
 }
-.prices-card{
+
+.prices-card {
     width: 553px;
     margin: 45px auto;
     border: 1px solid gray;
 }
-.p-body{
+
+.p-body {
     color: gray;
 }
-.p-title{
+
+.p-title {
     background-color: #1D7A8C;
 }
-.p-price{
+
+.p-price {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -118,197 +54,99 @@
     position: relative;
 }
 
-.p-price span{
+.p-price span {
     font-size: 2.5rem;
 }
-.p-title h2{
+
+.p-title h2 {
     padding: 12px 0;
 }
-.p-detailes{
+
+.p-detailes {
     margin: 15px auto;
     align-items: center;
-    
+
 }
-.p-detailes .p-inside{
+
+.p-detailes .p-inside {
     width: 300px;
     margin: 16px auto;
 }
-.p-detaile{
+
+.p-detaile {
     display: flex;
     font-size: 1rem;
 }
-.p-detaile img{
+
+.p-detaile img {
     height: 100%;
     margin-right: 9px;
 }
 
 
 @media screen and (max-width:1500px) {
-    .section-prices{
-        padding:40px 15%;
+    #section-prices {
+        padding: 40px 15%;
     }
 }
+
 @media screen and (max-width:990px) {
-    .section-prices{
-        padding:10%;
+    #section-prices {
+        padding: 10%;
     }
-    .prices-card{
+
+    .prices-card {
         width: 80%;
     }
 }
-@media screen and (max-width:415px){
-    .prices-card{
+
+@media screen and (max-width:415px) {
+    .prices-card {
         width: 95%;
     }
-    .p-body{
+
+    .p-body {
         padding-left: 10px;
     }
-    .p-detailes .p-inside{
+
+    .p-detailes .p-inside {
         width: 100%;
         margin: 16px auto;
         font-size: 0.5rem;
     }
 }
 
-
-
-/*################ Newsseltter ################*/
-
-.section-newsseltter {
-    text-align: center;
-    width:100%;
-    display: block;
-    margin-top: 55px;
-    margin-bottom: 53px;
-}
-
-.newstitle{
-    margin-bottom: 16px;
-    text-transform: uppercase;
-    font-size: 1.13rem;
-    font-weight: 600;
-}
-.newsform{
-    display: flex;
-    justify-content: center;
-}
-.newsform button{
-    width: 88px;
-    height: 40px;
-    color: white;
-    border: none;
-    border-radius: 20px;
-    background-color: #ff7b6d;
-}
-.newsform .input-field input{
-    width: 233px;
-    height: 40px;
-    padding: 14px 131px 16px 22px;
-    margin-right: 11px;
-    border-radius: 20px;
-    border: solid 1px #565656;
-    background-color: #f4f5f8;
-}
-
-  
-/*############### footer ##############*/
-
-.section-footer{
-    background-color: #111111;
-    margin-bottom: auto;
-    padding: 2% 6%
-}
-.footer-nav{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-.footer-social{
-    margin: auto 0;
-}
-.footer-social img{
-    margin-left: 10px;
-    float: right;
-}
-
-.footer-nav ul{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    list-style: none;
-    
-}
-.footer-nav ul li{
-    margin-left: 2%;
-    margin-right: 2%;
-}
-.footer-nav ul li a{
-    text-decoration: none;
-    color: white;
-}
-.f-sub{
-    text-align: center;
-    opacity: 0.5;
-    color: white;
-}
-.hr{
-    width: 100%;
-    color: rgb(119, 119, 119);
-}
-@media screen and (max-width: 362px) {
-    .newsform{
-        display: flex;
-        flex-direction: column;
-    }
-    .input-field{
-       margin-bottom: 10px;
-    }
-    
-}
-@media screen and (max-width:1202px) {
-    
-.footer-nav ul{
-    padding-top: 10px;
-    padding-bottom: 10px;
-    flex-wrap: wrap;
-}
-    .footer-logo{
-        text-align: center;
-    }
-    .footer-social{
-        text-align: center;
-    }
-    .footer-social img{
-        float: none;
-    }
-}
-
 /*############### Extra Services ###################*/
 
-.extra-services-list{
+.extra-services-list {
     width: 80%;
     margin: 20px auto;
     display: flex;
-    justify-content:space-between;
+    justify-content: space-between;
 
 }
-.extra-services{
+
+.extra-services {
     text-align: center;
     font-size: 1.2rem;
 }
-.extra-services h1{
+
+.extra-services h1 {
     font-size: 2.5rem;
     color: #565656;
 }
-.h-line{
+
+.h-line {
     margin-bottom: 34px;
     opacity: 0.5;
 }
-.extra-services .line{
+
+.extra-services .line {
     height: 50px;
     width: 5%;
 }
-.e-img{
+
+.e-img {
     width: 108px;
     height: 108px;
     border: 1px solid rgba(0, 0, 0, 0.603);
@@ -316,146 +154,181 @@
     margin: 10px auto;
     position: relative;
 }
-.e-img img{
+
+.e-img img {
     position: absolute;
-    top:50%;
-    left:50%;
-    transform: translate(-50%,-50%);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
-.e-service{
+
+.e-service {
     display: block;
     text-align: center;
 }
-.e-title{
+
+.e-title {
     font-size: 1.2rem;
 }
-.e-time{
+
+.e-time {
     color: #1D7A8C;
 }
 
 /*############ Section Cleaning ########################*/
 
-.section-cleaning{
+#section-cleaning {
     height: 100vh;
     margin: 0 auto;
     background-color: #F6F6F6;
     padding-top: 70px;
 }
-.cleaning-services{
+
+.cleaning-services {
     width: 80%;
     margin: 10px auto;
 }
-.cleaning-header{
+
+.cleaning-header {
     text-align: center;
     font-size: 1.2rem;
 }
-.cleaning-header h1{
+
+.cleaning-header h1 {
     font-size: 2.5rem;
     color: #565656;
 }
-.h-line{
+
+.h-line {
     margin-bottom: 34px;
     opacity: 0.5;
 }
-.cleaning-header .line{
+
+.cleaning-header .line {
     height: 50px;
     width: 5%;
 }
-.content-title{
-    text-align:left;
+
+.content-title {
+    text-align: left;
     font-size: 1.5rem;
     margin-top: 10px;
     margin-bottom: 10px;
 }
-.c-img{
+
+.c-img {
     width: auto;
 }
-.content-list{
+
+.content-list {
     padding-left: 1px;
 }
-.content-list li{
+
+.content-list li {
     list-style: none;
     margin-bottom: 10px;
 }
 
 @media screen and (max-width:1202px) {
-    .section-cleaning{
+    #section-cleaning {
         height: 100%;
     }
-    .c-img img{
+
+    .c-img img {
         width: 100%;
         margin-bottom: 20px;
         margin-top: 10px;
     }
-    .cleaning-header h1{
+
+    .cleaning-header h1 {
         font-size: 2rem;
     }
 }
 
 /*############ Section Helper #######################*/
-.section-whyhelper{
+#section-whyhelper {
     height: 100vh;
     margin: 0 auto;
     padding-top: 70px;
 }
-.s-whyhelper{
+
+.s-whyhelper {
     width: 80%;
     margin: 10px auto;
 }
-.whyhelper-header{
+
+.whyhelper-header {
     text-align: center;
     font-size: 1.2rem;
 }
-.whyhelper-header h1{
+
+.whyhelper-header h1 {
     margin-top: 70px;
     font-size: 2.5rem;
     color: #565656;
 }
-.h-line{
+
+.h-line {
     margin-bottom: 34px;
     opacity: 0.5;
 }
-.whyhelper-header .line{
+
+.whyhelper-header .line {
     height: 50px;
     width: 5%;
 }
-.content-left{
+
+.content-left {
     text-align: right;
 }
-.content-right{
+
+.content-right {
     text-align: left;
 }
-.d-first{
+
+.d-first {
     height: 45%;
 }
-.submit-btn{
+
+.submit-btn {
     text-align: center;
 }
-.submit-btn button{
+
+.submit-btn button {
     background-color: chartreuse;
     width: 50px;
 }
+
 @media screen and (max-width:1215px) {
-    .section-whyhelper{
+    #section-whyhelper {
         height: 100%;
     }
-    .content-left{
+
+    .content-left {
         text-align: center;
     }
-    .content-right{
+
+    .content-right {
         text-align: center;
     }
-    
-    .whyhelper-banner img{
+
+    .whyhelper-banner img {
         width: 100%;
         margin: 10px auto
     }
-    
-    
 }
 
+/* Footer override CSS */
 
-
-
-
-
+#section-newsseltter{
+    background-color: rgb(255, 255, 255);
+}
+.f-sub{
+    text-align: center;
+}
+.scroll-icon, .message-icon{
+    display: none;
+}
+.header-image {
+    background-image: url("../images/prices-title.png");
+}

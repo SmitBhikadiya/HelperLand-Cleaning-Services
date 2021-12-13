@@ -1,0 +1,422 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    font-family: "Roboto", sans-serif;
+}
+
+body {
+    overflow-x: hidden;
+}
+
+h1, h2, h3 {
+    color: #4F4F4F;
+}
+
+h2 {
+    font-size: 40px;
+}
+
+/* Section HomePage */
+#section-home {
+    height: 930px;
+    background-image: url('../images/bg-home.png');
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    padding: 55px;
+}
+
+.home-heading {
+    margin-bottom: 16px;
+}
+
+.home-heading h1 {
+    color: white;
+}
+
+.home-content {
+    margin-top: 280px;
+    margin-left: 20px;
+}
+
+.btn-lets div {
+    width: 250px;
+    margin: 20px auto;
+    text-align: center;
+}
+
+.btn-lets button {
+    font-size: 18px;
+    border-radius: 25px;
+    padding: 12px 25px;
+    background-color: rgb(5, 115, 119);
+}
+
+.btn-lets button:hover {
+    background-color: rgb(5, 115, 119);
+}
+
+.all-steps {
+    margin: 109px 100px 0px 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.step {
+    position: relative;
+    margin: auto;
+}
+
+.step-text {
+    font-size: 20px;
+    text-align: center;
+    margin-top: 20px;
+    color: white;
+}
+
+.step-arrow {
+    position: absolute;
+    top: 10%;
+    left: 115%;
+}
+
+.step-img {
+    width: 51px;
+    height: 55px;
+    margin: 0 auto;
+}
+
+.btn-down {
+    margin-top: 80px;
+    display: flex;
+    justify-content: center;
+}
+
+.circle {
+    border: 1px solid white;
+    width: fit-content;
+    border-radius: 100%;
+    padding: 10px 14px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.list {
+    padding-left: 0;
+    list-style: none;
+    color: white;
+}
+
+.list li {
+    font-size: 16px;
+    line-height: 1.5;
+}
+
+.fa-check {
+    color: white;
+}
+
+@media screen {
+    .steps {
+        width: 100%;
+    }
+}
+
+@media screen and (max-width:1310px) {
+    #section-home {
+        height: 100%;
+    }
+
+    .step-arrow {
+        position: absolute;
+        top: 10%;
+        left: 100%;
+        display: none;
+    }
+
+    .all-steps {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .all-steps .step {
+        margin-top: 20px;
+    }
+}
+
+@media screen and (max-width:450px) {
+    #section-home {
+        padding: 55px 15px 10px 15px;
+    }
+
+    .btn-lets {
+        margin-top: 150px;
+    }
+
+    .all-steps {
+        margin-left: 50px;
+        margin-right: 50px;
+    }
+}
+
+/*############### Section Helper ################*/
+#section-helper {
+    display: block;
+    margin-top: 79px;
+}
+
+.head {
+    padding-bottom: 30px;
+    text-align: center;
+}
+
+.helpers {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.helper {
+    width: 357px;
+    margin: 10px 25px;
+    text-align: center;
+}
+
+.helper-image img {
+    width: 320px;
+    height: 320px;
+    margin-bottom: 12px;
+    border-radius: 50%;
+}
+
+.helper-title {
+    margin-top: 50px;
+    margin-bottom: 60px;
+}
+
+.helper-title h3 {
+    height: 30px;
+    margin-bottom: 40px;
+}
+
+.helpers4 img {
+    height: 230px;
+    width: 63px;
+}
+
+.content {
+    font-size: 18px;
+}
+
+/*############### SECTION BLOG ##############*/
+#section-blog {
+    height: 960px;
+    position: relative;
+    margin-top: 156px;
+    padding: 75px 10px;
+}
+
+.blog-bg {
+    position: absolute;
+    height: 928px;
+    width: 128px;
+}
+
+.bg-left {
+    background-image: url("../images/blog-left-bg.png");
+    top: 0;
+    left: 0;
+}
+
+.bg-right {
+    background-image: url("../images/blog-right-bg.png");
+    top: 0;
+    right: 0;
+}
+
+.sub-lorem {
+    display: flex;
+    flex-wrap: wrap;
+    width: 76%;
+    margin: auto;
+}
+
+.col1 .title h2 {
+    width: 60%;
+}
+
+.col1 .content {
+    width: 630px;
+}
+
+.sub-blog {
+    margin-top: 47px;
+}
+
+.card-body, .card-footer {
+    padding: 15px;
+}
+
+.blog-title {
+    margin-bottom: 40px;
+}
+
+.blog {
+    width: 357px;
+    margin: 10px 20px;
+    text-align: left;
+    background-color: rgb(255, 255, 255);
+    box-shadow: 0px 0px 30px #E4EBF0;
+}
+
+.card-img-top {
+    width: 357px;
+}
+
+.card-date {
+    color: grey;
+    font-size: 12px;
+}
+
+@media screen and (max-width:1500px) {
+    #section-blog {
+        height: 100%;
+    }
+
+    .col1 {
+        width: 100%;
+    }
+
+    .col1 .content {
+        width: fit-content;
+    }
+
+    .helper4 {
+        margin: 10px auto;
+    }
+}
+
+@media screen and (max-width:1300px) {
+    .blog-bg {
+        display: none;
+    }
+
+    #section-blog .content {
+        width: 100%;
+    }
+
+    .col2 {
+        margin: 10px auto;
+    }
+
+    .sub-lorem {
+        width: 50%;
+    }
+
+    .col1 .title h2 {
+        width: 80%;
+    }
+}
+
+@media screen and (max-width:500px) {
+    .blog-bg {
+        display: none;
+    }
+
+    #section-blog .content {
+        width: 100%;
+    }
+
+    .col2 {
+        margin: 10px auto;
+    }
+
+    .sub-lorem {
+        width: 100%;
+    }
+
+    .col2 img {
+        width: 100%;
+    }
+
+    .card-img-top {
+        width: 100%;
+    }
+}
+
+/* Customer Say */
+
+#section-customer {
+    height: 100%;
+    background-color: #f4f5f8;
+}
+
+.says {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.say {
+    padding: 30px;
+    width: 357px;
+    margin: auto 20px;
+    height: 370px;
+    background-color: #ffffff;
+    border-left: 4px solid #1d7a8c;
+    margin-bottom: 70px;
+}
+
+.say-about {
+    display: flex;
+    margin-bottom: 10px;
+}
+
+.say-profile {
+    margin-right: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.say-name {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.say-msg {
+    margin: auto;
+    cursor: pointer;
+}
+
+.say-content {
+    font-size: 16px;
+}
+
+.say-more {
+    font-size: 18px;
+    padding-top: 10px;
+}
+
+.say-heading {
+    text-align: center;
+    padding: 50px;
+}
+
+@media screen and (max-width:1200px) {
+    #section-customer {
+        height: 100%;
+    }
+}
+
+/*########### EXTRA FOR FOOTER ##########*/
+/* Main */
+.main {
+    z-index: 0;
+}
+

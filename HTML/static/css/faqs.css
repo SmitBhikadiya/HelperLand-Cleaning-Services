@@ -1,269 +1,133 @@
-.main{
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
+*{
+    font-family: "Roboto", sans-serif;
+}
+
+.main {
     margin: 0;
     padding: 0;
 }
 
-/*############# Navbar ###############*/
-
-.navbar{
-    background-color: #525252;
-    padding: 0px 10px;
-}
-.navbar-brand img{
-    width: 73px;
-    height: 54px;
-}
-.navbar-nav{
-    margin-left: auto;
-}
-.nav-item{
-    margin-left: 28px;
-}
-.nav-link{
-    color: white;
-}
-.nav-link:hover{
-    color: white;
-    opacity: 0.7;
-}
-.nav-btn{
-    border-radius: 20px;
-    background-color: #29626d;
-}
-.nav-btn:hover{
-    background-color: #525252;
-    color: white;
-    opacity: 1;
-}
-
-/* Header image */
-.section-header{
-
-}
-.header-image{
-    height: 370px;
-    background-image: url("../images/faqs-title.png");
-    background-repeat: no-repeat;
-    background-size: 100% 100%;
-}
-
-@media screen and (max-width:990px) {
-    .section-header{
-        z-index: 0;
-        padding-bottom: 10px;
-    }
-    .header-image{
-        margin-top: 0;
-        background-size: 100% 100%;
-    }
-
-    .navbar-collapse{
-        z-index: 1;
-        background-color: #23565f;
-        border-radius: 10px;
-        padding: 20px;
-    }
-    .nav-item {
-        margin-left: 23px;
-        margin-top: 7px;
-    }
-    .navbar-nav .nav-item .nav-link {
-        padding-right: 15px;
-        padding-left: 15px;
-    }
-}
-@media screen and (max-width: 415px) {
-    .nav-link{
-        width: 100%;
-        text-align: center;
-    }
-    .header-image{
-        display: none;
-    }
-}
-
 /*############### Section FAQs ##################*/
 
-.section-faqs{
+#section-faqs {
     margin: 0;
     padding: 32px 308px;
 }
+
 .btn-col:focus {
     outline: none;
     box-shadow: none;
 }
 
 /* Faqs header */
-.faqs-header{
+.faqs-header {
     text-align: center;
     font-size: 1.3rem;
 }
-.faqs-header h1{
+
+.faqs-header h1 {
     font-size: 3rem;
 }
-.h-line{
+
+.h-line {
     margin-bottom: 34px;
 }
-.faqs-header .line{
+
+.faqs-header .line {
     height: 55px;
     width: 18%;
 }
-.faqs-header .content{
+
+.faqs-header .content {
     margin: 0 15%;
     margin-bottom: 36px;
 }
 
 @media screen and (max-width:1500px) {
-    .section-faqs{
-        padding:40px 15%;
+    #section-faqs {
+        padding: 40px 15%;
     }
 }
+
 @media screen and (max-width:990px) {
-    .section-faqs{
-        padding:10%;
+    #section-faqs {
+        padding: 10%;
     }
 }
-@media screen and (max-width:415px){
-    .faqs-header .content{
+
+@media screen and (max-width:415px) {
+    .faqs-header .content {
         font-size: 1rem;
     }
 }
 
 /* faqs division  */
 
-.division-button{
+.division-button {
     margin-bottom: 48px;
     display: flex;
 }
-.division-button button{
+
+.division-button button {
     width: 100%;
     padding-top: 15px;
     padding-bottom: 15px;
     text-transform: uppercase;
     border: none;
     border-bottom: 4px solid #1d7a8c;
+    transition: all 0.3s ease;
 }
-.division-button .btn-active{
+
+.division-button .btn-active {
     background-color: #1d7a8c;
     color: white;
 }
 
-.faq-quetion{
+.faq-quetion {
     margin-top: 40px;
     font-size: 1.3rem;
 }
-.faq-quetion img{
+
+.faq-quetion img {
     float: left;
     margin-right: 10px;
+    padding-bottom: 10px;
 }
-.faq-quetion button{
+
+.faq-quetion button {
     padding: 0;
     width: 100%;
     background-color: none;
     outline: none;
+    text-align: left;
 }
-.faq-quetion button:focus{
+
+.faq-quetion button:focus {
     outline: none;
 }
-.faq-answer{
+
+.faq-answer {
     margin: 18px 30px 0px 30px;
     padding-bottom: 20px;
+    transition: all 0.5s ease-in-out;
 }
 
-/*################ Newsseltter ################*/
-
-.section-newsseltter {
-    text-align: center;
-    width:100%;
-    display: block;
-    margin-top: 55px;
-    margin-bottom: 53px;
+@media screen and (max-width:450px) {
+    .faq-quetion img {
+        padding-bottom: 55px;
+    }
 }
 
-.newstitle{
-    margin-bottom: 16px;
-    text-transform: uppercase;
-    font-size: 1.13rem;
-    font-weight: 600;
-}
-.newsform button{
-    width: 88px;
-    height: 40px;
-    color: white;
-    border: none;
-    border-radius: 20px;
-    background-color: #ff7b6d;
-}
-.newsform .input-field input{
-    width: 233px;
-    height: 40px;
-    padding: 14px 131px 16px 22px;
-    margin-right: 11px;
-    border-radius: 20px;
-    border: solid 1px #565656;
-    background-color: #f4f5f8;
-}
+/* Footer override CSS */
 
-  
-/*############### footer ##############*/
-
-.section-footer{
-    background-color: #111111;
-    margin-bottom: auto;
-    padding: 2% 6%;
-}
-.footer-nav{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-.footer-social{
-    margin: auto 0;
-}
-.footer-social img{
-    margin-left: 10px;
-    float: right;
-}
-
-.footer-nav ul{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    list-style: none;
-    
-}
-.footer-nav ul li{
-    margin-left: 2%;
-    margin-right: 2%;
-}
-.footer-nav ul li a{
-    text-decoration: none;
-    color: white;
+#section-newsseltter{
+    background-color: white;
 }
 .f-sub{
     text-align: center;
-    opacity: 0.5;
-    color: white;
-}
-.hr{
-    width: 100%;
-    color: violet;
 }
 
-@media screen and (max-width:1202px) {
-    
-.footer-nav ul{
-    padding-top: 10px;
-    padding-bottom: 10px;
-    flex-wrap: wrap;
-}
-    .footer-logo{
-        text-align: center;
-    }
-    .footer-social{
-        text-align: center;
-    }
-    .footer-social img{
-        float: none;
-    }
+.header-image {
+    background-image: url("../images/faqs-title.png");
 }
