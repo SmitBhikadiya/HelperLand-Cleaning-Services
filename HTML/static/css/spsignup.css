@@ -91,7 +91,7 @@ h2 {
 
 .btn-down {
     position: absolute;
-    top: 85%;
+    bottom: -20%;
     left: 50%;
 }
 
@@ -271,6 +271,9 @@ h2 {
         width: 200px;
     }
 }
+
+/* For captcha */
+
 
 /* Extra CSS */
 
