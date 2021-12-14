@@ -1,0 +1,266 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    font-family: "Roboto", sans-serif;
+}
+
+.header-image {
+    background: none;
+    background-color: #F9F9F9;
+    height: 120px;
+    text-align: center;
+    font-size: 30px;
+    line-height: 120px;
+}
+
+/* model navbar setting */
+#exampleModalnavbartoggle .modal-body, #exampleModalnavbartoggle .modal-footer{
+    justify-content: unset;
+}
+#exampleModalnavbartoggle .modal-body, #exampleModalnavbartoggle .modal-footer{
+    height: 65vh;
+}
+
+@media screen and (max-width:415px) {
+    .header-image {
+        display: block;
+    }
+}
+
+/*############### section sp dashboard ##############*/
+
+#section-cdashboard {
+    padding: 30px 0;
+    width: 80%;
+    margin: 0 auto;
+}
+
+.div-main {
+    height: 932px;
+}
+
+.div-sidebar {
+    height: 100%;
+    width: 250px;
+    float: left;
+    background-color: #1d7a8c;
+}
+
+.div-sidebar a {
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    padding: 17px 15px;
+    font-size: 18px;
+    line-height: 20px;
+    border-bottom: 1px solid white;
+    color: white;
+}
+
+.div-sidebar .active {
+    background-color: #146371;
+}
+
+.div-content {
+    margin-left: 250px;
+    padding-left: 30px;
+}
+#servicehistory{
+}
+#servicehistory table tr div img {
+    margin-right: 5px;
+}
+
+#servicehistory table thead {
+    height: 50px;
+    background-color: #f9f9f9;
+}
+
+#servicehistory table thead th {
+    cursor: pointer;
+}
+
+#servicehistory table thead th img {
+    margin-left: 5px;
+}
+
+#servicehistory table tbody td {
+    line-height: 26px;
+}
+
+#servicehistory table {
+    border-collapse: separate;
+    border-spacing: 0 5px;
+    background-color: #ffffff
+}
+
+#servicehistory table tr {
+    padding: 10px !important;
+    background-color: white;
+}
+
+#servicehistory table tbody {
+    border-top: 0;
+    color: #646464;
+}
+
+#servicehistory .td-rating {
+    display: flex;
+    align-items: center;
+}
+
+#servicehistory .td-rating .rating-user {
+    border: 1px solid gray;
+    border-radius: 50%;
+    padding: 12px 5px 12px 10px;
+    text-align: center;
+}
+
+#servicehistory .td-rating .rating-info {
+    margin-left: 10px;
+}
+
+#servicehistory .td-currn {
+    font-size: 20px;
+    color: #1d7a8c;
+    font-weight: 700;
+}
+
+#servicehistory .td-currn span {
+    font-size: 26px;
+}
+
+#servicehistory .btn-status button {
+    margin-top: 10px;
+    color: white;
+    padding: 1px 10px;
+    font-size: 13px;
+    list-style: 24px;
+    border: none;
+    width: 82px;
+}
+
+#servicehistory .completed button {
+    background-color: #67b644;
+}
+
+#servicehistory .cancelled button {
+    background-color: #ff6b6b;
+}
+
+#servicehistory .btn-ratesp button {
+    margin-top: 7px;
+    width: 70px;
+    font-size: 14px;
+    color: white;
+    background-color: #6da9b5;
+    border-radius: 17px;
+    padding: 5px 10px;
+    border: none;
+}
+
+.fa {
+    color: #ecb91c;
+}
+
+
+
+.btn-cancel button {
+    width: 80px;
+    font-size: 16px;
+    background-color: #ff6b6b;
+    color: white;
+    border-radius: 17px;
+    padding: 5px 10px;
+    box-shadow: none;
+    border: none;
+    margin-top: 8px;
+}
+
+/* service history-title */
+.shistory-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.shistory-title p {
+    font-size: 22px;
+    line-height: 26px;
+    color: #646464;
+    font-weight: 500;
+}
+
+.shistory-title button {
+    width: 70px;
+    padding: 5px;
+    border-radius: 17px;
+    margin-bottom: 5px;
+    border: none;
+    background-color: #146371;
+    color: white;
+}
+
+/* service history pagination */
+.shistory-pagination{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+}
+.paginations{
+    display: flex;
+    align-items: center;
+}
+.paginations div{
+width: 45px;
+cursor: pointer;
+  height: 45px;
+  margin: 0 1px;
+  padding-top: 7px;
+  text-align: center;
+  border: 2px solid #e1e1e1;;
+  border-radius: 50%;
+}
+.paginations .current-page{
+    background-color: #146371;
+    color: white;
+}
+.next-right img, .jump-right img{
+    transform:rotate(180deg);
+}
+.shistory-pagination .form-select{
+    width: 70px;
+    margin: auto 5px;
+}
+.shistory-pagination .form-select:focus{
+    box-shadow: none;
+}
+.shistory-pagination .show-apge{
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+@media screen and (max-width:991px) {
+    #section-cdashboard {
+        padding: 30px 0;
+        width: 95%;
+        margin: 0 auto;
+    }
+
+    .div-sidebar {
+        display: none;
+    }
+
+    .div-content {
+        margin-left: 0px;
+        padding-left: 0px;
+    }
+
+    .div-main {
+        height: 100%;
+    }
+}
