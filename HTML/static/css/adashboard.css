@@ -1,0 +1,261 @@
+/* navabar setting */
+.navbar .navbar-brand {
+    font-family: SwzeraADF 'serif';
+    font-size: 37.5px;
+    line-height: 24.5px;
+    color: white;
+    letter-spacing: 1px;
+    font-weight: 500;
+}
+
+.navbar {
+    background-color: #1fb6ff;
+    color: white;
+    height: 60px;
+    z-index: 99;
+}
+
+.nav-item {
+    font-size: 16px;
+    margin-left: 0;
+}
+
+.admin-user {
+    margin-right: 5px;
+}
+
+.navbar.sticky {
+    background-color: #1fb4ffef;
+    z-index: 99;
+}
+
+.div-main {
+    height: 1500px;
+    width: 273px;
+}
+
+@media screen and (max-width:1223px) {
+    .div-main{
+        height: fit-content;
+    }
+}
+
+/* sidebar */
+.div-sidebar{
+    z-index: 0;
+    position: fixed;
+    top: 0;
+    left: 0;
+    padding: 60px 0px 70px 0px;
+    overflow-y: auto;
+    background-color: white;
+    box-shadow: 2px 0 5.5px 0.5px rgba(0, 0, 0, 0.1);
+}
+
+.div-sidebar a {
+    border-bottom: 1px solid gray;
+    background-color: white;
+    color: #646464;
+    font-size: 16px;
+}
+.div-sidebar .active-nav{
+    transition: all 0.3s ease;
+    background-color: #f9f9f9;
+    border-bottom: 0;
+    border-bottom: 1px solid gray;
+}
+.div-sidebar .active-nav img{
+    transform: rotate(-90deg);
+}
+.div-sidebar .active-nav .nav-toggle{
+    display: block;
+}
+.div-sidebar .nav-toggle{
+    display: none;
+    padding: 10px;
+    color: #646464;
+}
+.div-sidebar .nav-toggle div{
+    margin-top: 10px;
+}
+.div-sidebar a {
+    padding: 13px 13px;
+    display: block;
+}
+
+.div-sidebar a img {
+    float: right;
+    transform: rotate(180deg);
+    margin-top: 5px;
+}
+
+.div-sidebar .sidebar-active {
+    background-color: white;
+    color: #1fb6ff;
+}
+
+.div-main {
+    width: 100%;
+}
+
+/* div-content */
+.differ-section{
+    height: 1100px;
+    overflow-y: hidden;
+}
+.div-content {
+    padding: 24px 20px 500px 20px;
+    background-color: #f2f4f5;
+}
+
+.shistory-title p {
+    font-size: 22px;
+    font-weight: 500;
+    color: #646464;
+}
+
+.shistory-title button {
+    width: 132px;
+    height: 36px;
+    font-size: 14px;
+    border-radius: 3px;
+    background-color: #1fb6ff;
+    color: white;
+}
+
+.shistory-title button span {
+    color: white;
+    margin-right: 3px;
+}
+
+/* seach bar */
+.search-bar {
+    background-color: white;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.search-bar .row1 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.search-bar .row1>div {
+    margin: 0 10px;
+}
+
+.col-name, .col-number, .col-buttons {
+    width: 100%;
+}
+
+.col-zipcode {
+    width: 100%;
+}
+
+.col-buttons button {
+    font-size: 16px;
+    padding: 10px 14px;
+    border-radius: 4px;
+}
+.col-buttons{
+    display: flex;
+}
+.btn-search {
+    background-color: #1fb4ff;
+    color: white;
+    border: 1px solid #1fb4ff;
+    margin-right: 10px;
+}
+
+.btn-clear {
+    border: none;
+    background-color: white;
+    color: #646464;
+    border: 1px solid gray;
+}
+
+@media screen and (max-width:1223px) {
+    .search-bar .row1 {
+        flex-wrap: wrap;
+    }
+
+    .search-bar .row1>div {
+        margin-top: 10px;
+    }
+}
+
+/* table setting */
+#servicehistory .table{
+    margin-bottom: 0;
+}
+#servicehistory .btn-status button {
+    margin-top: 0;
+}
+
+.btn-raction .dropdown-toggle::after {
+    display: none;
+}
+
+.btn-raction .dropdown .dropdown-toggle {
+    background-color: white;
+    border: none;
+}
+
+.btn-raction .dropdown .dropdown-toggle:focus {
+    background-color: #f4f4f4;
+    border-radius: 50%;
+    padding: 6px 10px 6px 14px;
+}
+
+.btn-raction .dropdown-menu button {
+    color: grey;
+}
+
+.btn-raction .dropdown-menu button:focus {
+    background-color: white;
+}
+
+/* pagination */
+.paginations div {
+    border-radius: 0;
+    margin: 0;
+    color: #646464;
+}
+
+.paginations .current-page {
+    background-color: #565656;
+    color: white;
+}
+
+/* shistory-footer */
+.shistory-footer{
+    font-size: 14px;
+    line-height: 24px;
+    margin-top: 24px;
+    color: #a2a6a8;
+}
+
+/* shistory-pagination */
+.shistory-pagination{
+    padding:10px;
+    background-color: white;
+    margin-top: 0;
+}
+
+/* navabr modal setting  */
+#exampleModalnavbartoggle .modal-content{
+    height: 120vh;
+}
+#exampleModalnavbartoggle .modal-body{
+    height: 80vh;
+}
+
+/* servicerequest setting */
+.pending button{
+    background-color: #1fb6ff;
+}
+.new button{
+    background-color: #f2bb37;
+}
+

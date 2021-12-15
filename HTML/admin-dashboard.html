@@ -1,0 +1,1246 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="./static/css/footer.css">
+    <link rel="stylesheet" href="./static/css/header3.css">
+    <link rel="stylesheet" href="./static/css/modal.css">
+    <link rel="stylesheet" href="./static/css/cdashboard.css">
+    <link rel="stylesheet" href="./static/css/adashboard.css">
+
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="./static/js/header.js"></script>
+
+    <title>admin-dashboard</title>
+</head>
+
+<body>
+
+    <!-- Model For Login -->
+    <div class="modal fade" id="exampleModallogin" tabindex="-1" aria-labelledby="exampleModalLabel1"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header text-center">
+                    <h4 class="modal-title" id="staticBackdropLabel">Login to your account</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="#">
+                        <div class="mb-3 form-group icon-textbox">
+                            <input type="email" class="form-control" placeholder="Email">
+                            <img alt="email" src="./static/images/user.png">
+                        </div>
+                        <div class="mb-3 form-group icon-textbox">
+                            <input type="password" class="form-control" placeholder="Password">
+                            <img alt="Password" src="./static/images/lock.png">
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
+                            <label class="form-check-label" for="flexCheckChecked">
+                                Remember Me
+                            </label>
+                        </div>
+                        <button class="submit-button mb-3" type="submit">Login</button>
+                        <div class="text-center mb-2"><a href="#" data-bs-toggle="modal"
+                                data-bs-target="#exampleModalfpwd" data-bs-dismiss="modal">Forgot Password</a></div>
+                        <div class="text-center">Don't have an account? <a href="./userRegistration.html">Create an
+                                account</a></div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Model -->
+
+    <!-- Model For Forgot Password -->
+    <div class="modal fade" id="exampleModalfpwd" tabindex="-1" aria-labelledby="exampleModalLabel2" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="staticBackdropLabel">Forgot Password</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="#">
+                        <div class="mb-3 form-group icon-textbox">
+                            <input type="email" class="form-control" placeholder="Email">
+                            <img alt="email" src="./static/images/user.png">
+                        </div>
+
+                        <button class="submit-button mb-3" type="submit">Login</button>
+                        <div class="text-center mb-2"><a href="#" data-bs-toggle="modal"
+                                data-bs-target="#exampleModallogin" data-bs-dismiss="modal">Login now</a></div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Model -->
+
+    <!--Model For Navbar toggle-->
+    <div class="modal fade navbar-tmodel" id="exampleModalnavbartoggle" tabindex="-1"
+        aria-labelledby="exampleModalLabel2" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-center">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="staticBackdropLabel">Welcome, <br><b>Admin</b> </h4>
+                </div>
+                <div class="modal-body">
+                    <a href="#">Dashboard</a>
+                    <a href="#">Service Management</a>
+                    <a href="#">Role Management</a>
+                    <a href="#">Coupen Code Management</a>
+                    <a href="#">Escalation Management</a>
+                    <a href="#">Service Requests</a>
+                    <a href="#">Service Provider</a>
+                    <a href="#">User Mangement</a>
+                    <a href="#">Finance Module</a>
+                    <a href="#">Zip Code Management</a>
+                    <a href="#">Rating Mangement</a>
+                    <a href="#">Inquiry Mangement</a>
+                    <a href="#">Newsletter Management</a>
+                    <a href="#">Content Management</a>
+                </div>
+                <div class="modal-footer">
+                    <a href="#">Prices & Services</a>
+                    <a href="#">Warranty</a>
+                    <a href="#">Blog</a>
+                    <a href="#">Contact</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--End Model-->
+
+    <div class="main">
+
+        <section id="section-header" class="d-block">
+            <nav class="navbar navbar-expand-lg">
+                <a class="navbar-brand" href="#">
+                    helperland
+                </a>
+                <button class="navbar-toggler navbar-dark" type="button" data-bs-toggle="modal"
+                    data-bs-target="#exampleModalnavbartoggle" data-bs-dismiss="modal">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#"><img src="./static/images/admin-user.png" class="admin-user"
+                                    alt="">James Smith</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#"><img src="./static/images/icon-logout.png" alt=""></a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </section>
+
+        <section id="section-adashboard">
+            <div class="div-main" style="overflow-y:hidden;">
+                <div class="div-sidebar" style="position:fixed">
+                    <a href="#">Service Management</a>
+                    <a href="#">Role Management</a>
+                    <a href="#" class="nav-tog">
+                        Coupon Code Management <img src="./static/images/next-left.png" alt="">
+                        <div class="nav-toggle">
+                            <div>Coupen Code</div>
+                            <div>Usage History</div>
+                        </div>
+                    </a>
+
+                    <a href="#">Escalation Management</a>
+                    <a href="#servicerequest">Service Requests</a>
+                    <a href="#">Service Provider</a>
+                    <a href="#usermanagement">User Mangement</a>
+                    <a href="#" class="nav-tog">
+                        Finance Module <img src="./static/images/next-left.png" alt="">
+                        <div class="nav-toggle">
+                            <div>All Transaction</div>
+                            <div>Generate Payment</div>
+                            <div>Customer Invoices</div>
+                        </div>
+                    </a>
+                    <a href="#">Zip Code Management</a>
+                    <a href="#">Rating Mangement</a>
+                    <a href="#">Inquiry Mangement</a>
+                    <a href="#">Newsletter Management</a>
+                    <a href="#" class="nav-tog">
+                        Content Management <img src="./static/images/next-left.png" alt="">
+                        <div class="nav-toggle">
+                            <div>Blog</div>
+                            <div>FAQs</div>
+                        </div>
+                    </a>
+                </div>
+                <div class="differ-section">
+                    <div class="div-content table-responsive" id="usermanagement">
+                        <div class="shistory-title">
+                            <p>User Management</p>
+                            <button><span class="fa fa-plus-circle"></span>Add New User</button>
+                        </div>
+                        <div class="search-bar">
+                            <form action="#">
+                                <div class="row1">
+                                    <div class="col-name">
+                                        <input type="text" class="form-control" placeholder="User name"
+                                            aria-label="First name">
+                                    </div>
+                                    <div class="col-name">
+                                        <input type="text" class="form-control" placeholder="User role"
+                                            aria-label="Last name">
+                                    </div>
+                                    <div class="col-number">
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text" id="basic-addon1">+49</span>
+                                            </div>
+                                            <input type="number" class="form-control" min="0" max="9999999999"
+                                                placeholder="Phone number" aria-label="Username"
+                                                aria-describedby="basic-addon1">
+                                        </div>
+                                    </div>
+                                    <div class="col-zipcode">
+                                        <input type="text" class="form-control" placeholder="Zipcode"
+                                            aria-label="Last name">
+                                    </div>
+                                    <div class="col-buttons text-center">
+                                        <button type="Search" class="btn-search">Search</button>
+                                        <button type="reset" class="btn-clear">Clear</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div id="servicehistory">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">User Name <img src="./static/images/icon-sort.png" alt=""></th>
+                                        <th scope="col">User Type <img src="./static/images/icon-sort.png" alt=""></th>
+                                        <th scope="col">Role</th>
+                                        <th scope="col">Postal Code <img src="./static/images/icon-sort.png" alt="">
+                                        </th>
+                                        <th scope="col">City</th>
+                                        <th scope="col">Radius <img src="./static/images/icon-sort.png" alt=""></th>
+                                        <th scope="col">User Status <img src="./static/images/icon-sort.png" alt="">
+                                        </th>
+                                        <th scope="col">Action</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <div class="td-name">Lyum Watson</div>
+                                        </td>
+                                        <td>
+                                            <div class="td-name">Call Center</div>
+                                        </td>
+                                        <td>
+                                            <div class="td-name">Inquiry Manager</div>
+                                        </td>
+                                        <td>
+                                            <div class="td-name">123456</div>
+                                        </td>
+                                        <td>
+                                            <div class="td-name">Berlin</div>
+                                        </td>
+                                        <td>
+                                            <div class="td-name"></div>
+                                        </td>
+                                        <td class="btn-status completed"><button>Active</button></td>
+                                        <td class="btn-raction">
+                                            <div class="dropdown">
+                                                <button class="btn btn-secondary dropdown-toggle" type="button"
+                                                    id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    <img src="./static/images/icon-menudot.png" alt="">
+                                                </button>
+                                                <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                                                    <li><button class="dropdown-item" type="button">Edit</button></li>
+                                                    <li><button class="dropdown-item" type="button">Deactivate</button>
+                                                    </li>
+                                                    <li><button class="dropdown-item" type="button">Service
+                                                            History</button>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="td-name">John Smith</div>
+                                        </td>
+                                        <td>
+                                            <div class="td-name">Service Provider</div>
+                                        </td>
+                                        <td>
+                                            <div class="td-name"></div>
+                                        </td>
+                                        <td>
+                                            <div class="td-name">123456</div>
+                                        </td>
+                                        <td>
+                                            <div class="td-name">Berlin</div>
+                                        </td>
+                                        <td>
+                                            <div class="td-name">10 Km</div>
+                                        </td>
+                                        <td class="btn-status completed"><button>Active</button></td>
+                                        <td class="btn-raction">
+                                            <div class="dropdown">
+                                                <button class="btn btn-secondary dropdown-toggle" type="button"
+                                                    id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    <img src="./static/images/icon-menudot.png" alt="">
+                                                </button>
+                                                <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                                                    <li><button class="dropdown-item" type="button">Edit</button></li>
+                                                    <li><button class="dropdown-item" type="button">Deactivate</button>
+                                                    </li>
+                                                    <li><button class="dropdown-item" type="button">Service
+                                                            History</button>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="td-name">John Smith</div>
+                                        </td>
+                                        <td>
+                                            <div class="td-name">Call Center</div>
+                                        </td>
+                                        <td>
+                                            <div class="td-name">Inquiry Manager</div>
+                                        </td>
+                                        <td>
+                                            <div class="td-name">123456</div>
+                                        </td>
+                                        <td>
+                                            <div class="td-name">Berlin</div>
+                                        </td>
+                                        <td>
+                                            <div class="td-name"></div>
+                                        </td>
+                                        <td class="btn-status completed"><button>Active</button></td>
+                                        <td class="btn-raction">
+                                            <div class="dropdown">
+                                                <button class="btn btn-secondary dropdown-toggle" type="button"
+                                                    id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    <img src="./static/images/icon-menudot.png" alt="">
+                                                </button>
+                                                <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                                                    <li><button class="dropdown-item" type="button">Edit</button></li>
+                                                    <li><button class="dropdown-item" type="button">Deactivate</button>
+                                                    </li>
+                                                    <li><button class="dropdown-item" type="button">Service
+                                                            History</button>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="td-name">John Smith</div>
+                                        </td>
+                                        <td>
+                                            <div class="td-name">Customer</div>
+                                        </td>
+                                        <td>
+                                            <div class="td-name"></div>
+                                        </td>
+                                        <td>
+                                            <div class="td-name">123456</div>
+                                        </td>
+                                        <td>
+                                            <div class="td-name">Berlin</div>
+                                        </td>
+                                        <td>
+                                            <div class="td-name"></div>
+                                        </td>
+                                        <td class="btn-status completed"><button>Active</button></td>
+                                        <td class="btn-raction">
+                                            <div class="dropdown">
+                                                <button class="btn btn-secondary dropdown-toggle" type="button"
+                                                    id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    <img src="./static/images/icon-menudot.png" alt="">
+                                                </button>
+                                                <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                                                    <li><button class="dropdown-item" type="button">Edit</button></li>
+                                                    <li><button class="dropdown-item" type="button">Deactivate</button>
+                                                    </li>
+                                                    <li><button class="dropdown-item" type="button">Service
+                                                            History</button>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="td-name">John Smith</div>
+                                        </td>
+                                        <td>
+                                            <div class="td-name">Call Center</div>
+                                        </td>
+                                        <td>
+                                            <div class="td-name">Content Manager</div>
+                                        </td>
+                                        <td>
+                                            <div class="td-name">123456</div>
+                                        </td>
+                                        <td>
+                                            <div class="td-name">Berlin</div>
+                                        </td>
+                                        <td>
+                                            <div class="td-name"></div>
+                                        </td>
+                                        <td class="btn-status completed"><button>Active</button></td>
+                                        <td class="btn-raction">
+                                            <div class="dropdown">
+                                                <button class="btn btn-secondary dropdown-toggle" type="button"
+                                                    id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    <img src="./static/images/icon-menudot.png" alt="">
+                                                </button>
+                                                <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                                                    <li><button class="dropdown-item" type="button">Edit</button></li>
+                                                    <li><button class="dropdown-item" type="button">Deactivate</button>
+                                                    </li>
+                                                    <li><button class="dropdown-item" type="button">Service
+                                                            History</button>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="td-name">John Smith</div>
+                                        </td>
+                                        <td>
+                                            <div class="td-name">Customer</div>
+                                        </td>
+                                        <td>
+                                            <div class="td-name"></div>
+                                        </td>
+                                        <td>
+                                            <div class="td-name">123456</div>
+                                        </td>
+                                        <td>
+                                            <div class="td-name">Berlin</div>
+                                        </td>
+                                        <td>
+                                            <div class="td-name"></div>
+                                        </td>
+                                        <td class="btn-status cancelled"><button>Inactive</button></td>
+                                        <td class="btn-raction">
+                                            <div class="dropdown">
+                                                <button class="btn btn-secondary dropdown-toggle" type="button"
+                                                    id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    <img src="./static/images/icon-menudot.png" alt="">
+                                                </button>
+                                                <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                                                    <li><button class="dropdown-item" type="button">Edit</button></li>
+                                                    <li><button class="dropdown-item" type="button">Deactivate</button>
+                                                    </li>
+                                                    <li><button class="dropdown-item" type="button">Service
+                                                            History</button>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="td-name">John Smith</div>
+                                        </td>
+                                        <td>
+                                            <div class="td-name">Service Provider</div>
+                                        </td>
+                                        <td>
+                                            <div class="td-name"></div>
+                                        </td>
+                                        <td>
+                                            <div class="td-name">123456</div>
+                                        </td>
+                                        <td>
+                                            <div class="td-name">Berlin</div>
+                                        </td>
+                                        <td>
+                                            <div class="td-name">20 Km</div>
+                                        </td>
+                                        <td class="btn-status completed"><button>Active</button></td>
+                                        <td class="btn-raction">
+                                            <div class="dropdown">
+                                                <button class="btn btn-secondary dropdown-toggle" type="button"
+                                                    id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    <img src="./static/images/icon-menudot.png" alt="">
+                                                </button>
+                                                <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                                                    <li><button class="dropdown-item" type="button">Edit</button></li>
+                                                    <li><button class="dropdown-item" type="button">Deactivate</button>
+                                                    </li>
+                                                    <li><button class="dropdown-item" type="button">Service
+                                                            History</button>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="td-name">John Smith</div>
+                                        </td>
+                                        <td>
+                                            <div class="td-name">Call Center</div>
+                                        </td>
+                                        <td>
+                                            <div class="td-name">Finance Manager</div>
+                                        </td>
+                                        <td>
+                                            <div class="td-name">123456</div>
+                                        </td>
+                                        <td>
+                                            <div class="td-name">Berlin</div>
+                                        </td>
+                                        <td>
+                                            <div class="td-name"></div>
+                                        </td>
+                                        <td class="btn-status completed"><button>Active</button></td>
+                                        <td class="btn-raction">
+                                            <div class="dropdown">
+                                                <button class="btn btn-secondary dropdown-toggle" type="button"
+                                                    id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    <img src="./static/images/icon-menudot.png" alt="">
+                                                </button>
+                                                <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                                                    <li><button class="dropdown-item" type="button">Edit</button></li>
+                                                    <li><button class="dropdown-item" type="button">Deactivate</button>
+                                                    </li>
+                                                    <li><button class="dropdown-item" type="button">Service
+                                                            History</button>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="td-name">John Smith</div>
+                                        </td>
+                                        <td>
+                                            <div class="td-name">Customer</div>
+                                        </td>
+                                        <td>
+                                            <div class="td-name"></div>
+                                        </td>
+                                        <td>
+                                            <div class="td-name">123456</div>
+                                        </td>
+                                        <td>
+                                            <div class="td-name">Berlin</div>
+                                        </td>
+                                        <td>
+                                            <div class="td-name"></div>
+                                        </td>
+                                        <td class="btn-status completed"><button>Active</button></td>
+                                        <td class="btn-raction">
+                                            <div class="dropdown">
+                                                <button class="btn btn-secondary dropdown-toggle" type="button"
+                                                    id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    <img src="./static/images/icon-menudot.png" alt="">
+                                                </button>
+                                                <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                                                    <li><button class="dropdown-item" type="button">Edit</button></li>
+                                                    <li><button class="dropdown-item" type="button">Deactivate</button>
+                                                    </li>
+                                                    <li><button class="dropdown-item" type="button">Service
+                                                            History</button>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="td-name">John Smith</div>
+                                        </td>
+                                        <td>
+                                            <div class="td-name">Customer</div>
+                                        </td>
+                                        <td>
+                                            <div class="td-name"></div>
+                                        </td>
+                                        <td>
+                                            <div class="td-name">123456</div>
+                                        </td>
+                                        <td>
+                                            <div class="td-name">Berlin</div>
+                                        </td>
+                                        <td>
+                                            <div class="td-name"></div>
+                                        </td>
+                                        <td class="btn-status completed"><button>Active</button></td>
+                                        <td class="btn-raction">
+                                            <div class="dropdown">
+                                                <button class="btn btn-secondary dropdown-toggle" type="button"
+                                                    id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    <img src="./static/images/icon-menudot.png" alt="">
+                                                </button>
+                                                <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                                                    <li><button class="dropdown-item" type="button">Edit</button></li>
+                                                    <li><button class="dropdown-item" type="button">Deactivate</button>
+                                                    </li>
+                                                    <li><button class="dropdown-item" type="button">Service
+                                                            History</button>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="shistory-pagination">
+                            <div class="show-apge">
+                                show
+                                <select class="form-select" aria-label="Default select example">
+                                    <option selected>10</option>
+                                    <option value="20">20</option>
+                                    <option value="50">50</option>
+                                    <option value="100">100</option>
+                                </select>
+                                Entries
+                            </div>
+                            <div class="paginations">
+                                <div class="next-left"><img src="./static/images/next-left.png" alt=""></div>
+                                <div class="current-page">1</div>
+                                <div>2</div>
+                                <div>3</div>
+                                <div>4</div>
+                                <div>5</div>
+                                <div class="next-right"><img src="./static/images/next-left.png" alt=""></div>
+                            </div>
+                        </div>
+                        <div class="shistory-footer">
+                            ©2018 Helperland. All rights reserved.
+                        </div>
+                    </div>
+
+                    <div class="div-content" id="servicerequest">
+                        <div class="shistory-title">
+                            <p>Service Requests</p>
+                            <button><span class="fa fa-plus-circle"></span>Add New User</button>
+                        </div>
+                        <div class="search-bar">
+                            <form action="#">
+                                <div class="row1">
+                                    <div class="col-name">
+                                        <input type="number" class="form-control" placeholder="Service ID">
+                                    </div>
+                                    <div class="col-name">
+                                        <input type="text" class="form-control" placeholder="Customer">
+                                    </div>
+                                    <div class="col-name">
+                                        <input type="text" class="form-control" placeholder="Serivce Provider">
+                                    </div>
+                                    <div class="col-name">
+                                        <input type="text" class="form-control" placeholder="Status">
+                                    </div>
+                                    <div class="col-name">
+                                        <input type="date" class="form-control" placeholder="From Date">
+                                    </div>
+                                    <div class="col-name">
+                                        <input type="date" class="form-control" placeholder="To Date">
+                                    </div>
+                                    <div class="col-buttons text-center">
+                                        <button type="Search" class="btn-search">Search</button>
+                                        <button type="reset" class="btn-clear">Clear</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div id="servicehistory" class="servicerequests table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Service ID <img src="./static/images/icon-sort.png" alt=""></th>
+                                        <th scope="col">Service Date <img src="./static/images/icon-sort.png" alt="">
+                                        </th>
+                                        <th scope="col">Customer detailes <img src="./static/images/icon-sort.png"
+                                                alt=""></th>
+                                        <th scope="col">Service Provider <img src="./static/images/icon-sort.png"
+                                                alt=""></th>
+                                        <th scope="col">Status <img src="./static/images/icon-sort.png" alt=""></th>
+                                        <th scope="col">Action</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <div class="td-name">323436</div>
+                                        </td>
+                                        <td>
+                                            <div class="td-date"><img src="./static/images/icon-calculator.png"
+                                                    alt=""><b>09/04/2018</b></div>
+                                            <div class="td-time"><img src="./static/images/icon-time.png" alt="">12:00 -
+                                                18:00</div>
+                                        </td>
+                                        <td>
+                                            <div class="td-name">David Bough</div>
+                                            <div class="td-address"><img src="./static/images/icon-address.png"
+                                                    alt="">Musterstrabe 5,12345 Bonn</div>
+                                        </td>
+                                        <td>
+                                            <div class="td-rating">
+
+                                            </div>
+                                        </td>
+                                        <td class="btn-status new"><button>New</button></td>
+                                        <td class="btn-raction">
+                                            <div class="dropdown">
+                                                <button class="btn btn-secondary dropdown-toggle" type="button"
+                                                    id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    <img src="./static/images/icon-menudot.png" alt="">
+                                                </button>
+                                                <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                                                    <li><button class="dropdown-item" type="button">Edit &
+                                                            Reschedule</button></li>
+                                                    <li><button class="dropdown-item" type="button">Refund</button></li>
+                                                    <li><button class="dropdown-item" type="button">Cancel</button>
+                                                    <li><button class="dropdown-item" type="button">Change SP</button>
+                                                    <li><button class="dropdown-item" type="button">Escalate</button>
+                                                    <li><button class="dropdown-item" type="button">History Log</button>
+                                                    <li><button class="dropdown-item" type="button">Download
+                                                            Invoice</button>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="td-name">323436</div>
+                                        </td>
+                                        <td>
+                                            <div class="td-date"><img src="./static/images/icon-calculator.png"
+                                                    alt=""><b>09/04/2018</b></div>
+                                            <div class="td-time"><img src="./static/images/icon-time.png" alt="">12:00 -
+                                                18:00</div>
+                                        </td>
+                                        <td>
+                                            <div class="td-name">David Bough</div>
+                                            <div class="td-address"><img src="./static/images/icon-address.png"
+                                                    alt="">Musterstrabe 5,12345 Bonn</div>
+                                        </td>
+                                        <td>
+                                            <div class="td-rating">
+
+                                            </div>
+                                        </td>
+                                        <td class="btn-status new"><button>New</button></td>
+                                        <td class="btn-raction">
+                                            <div class="dropdown">
+                                                <button class="btn btn-secondary dropdown-toggle" type="button"
+                                                    id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    <img src="./static/images/icon-menudot.png" alt="">
+                                                </button>
+                                                <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                                                    <li><button class="dropdown-item" type="button">Edit &
+                                                            Reschedule</button></li>
+                                                    <li><button class="dropdown-item" type="button">Refund</button></li>
+                                                    <li><button class="dropdown-item" type="button">Cancel</button>
+                                                    <li><button class="dropdown-item" type="button">Change SP</button>
+                                                    <li><button class="dropdown-item" type="button">Escalate</button>
+                                                    <li><button class="dropdown-item" type="button">History Log</button>
+                                                    <li><button class="dropdown-item" type="button">Download
+                                                            Invoice</button>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="td-name">323436</div>
+                                        </td>
+                                        <td>
+                                            <div class="td-date"><img src="./static/images/icon-calculator.png"
+                                                    alt=""><b>09/04/2018</b></div>
+                                            <div class="td-time"><img src="./static/images/icon-time.png" alt="">12:00 -
+                                                18:00</div>
+                                        </td>
+                                        <td>
+                                            <div class="td-name">David Bough</div>
+                                            <div class="td-address"><img src="./static/images/icon-address.png"
+                                                    alt="">Musterstrabe 5,12345 Bonn</div>
+                                        </td>
+                                        <td>
+                                            <div class="td-rating">
+                                                <div class="rating-user"><img src="./static/images/icon-cap.png" alt="">
+                                                </div>
+                                                <div class="rating-info">
+                                                    <div class="info-name">Lyum Watson</div>
+                                                    <div class="info-ratings">
+                                                        <span class="fa fa-star"></span>
+                                                        <span class="fa fa-star"></span>
+                                                        <span class="fa fa-star"></span>
+                                                        <span class="fa fa-star"></span>
+                                                        <span class="fa fa-star-o"></span>
+                                                        4
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="btn-status pending"><button>Pending</button></td>
+                                        <td class="btn-raction">
+                                            <div class="dropdown">
+                                                <button class="btn btn-secondary dropdown-toggle" type="button"
+                                                    id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    <img src="./static/images/icon-menudot.png" alt="">
+                                                </button>
+                                                <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                                                    <li><button class="dropdown-item" type="button">Edit &
+                                                            Reschedule</button></li>
+                                                    <li><button class="dropdown-item" type="button">Refund</button></li>
+                                                    <li><button class="dropdown-item" type="button">Cancel</button>
+                                                    <li><button class="dropdown-item" type="button">Change SP</button>
+                                                    <li><button class="dropdown-item" type="button">Escalate</button>
+                                                    <li><button class="dropdown-item" type="button">History Log</button>
+                                                    <li><button class="dropdown-item" type="button">Download
+                                                            Invoice</button>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="td-name">323436</div>
+                                        </td>
+                                        <td>
+                                            <div class="td-date"><img src="./static/images/icon-calculator.png"
+                                                    alt=""><b>09/04/2018</b></div>
+                                            <div class="td-time"><img src="./static/images/icon-time.png" alt="">12:00 -
+                                                18:00</div>
+                                        </td>
+                                        <td>
+                                            <div class="td-name">David Bough</div>
+                                            <div class="td-address"><img src="./static/images/icon-address.png"
+                                                    alt="">Musterstrabe 5,12345 Bonn</div>
+                                        </td>
+                                        <td>
+                                            <div class="td-rating">
+                                                <div class="rating-user"><img src="./static/images/icon-cap.png" alt="">
+                                                </div>
+                                                <div class="rating-info">
+                                                    <div class="info-name">Lyum Watson</div>
+                                                    <div class="info-ratings">
+                                                        <span class="fa fa-star"></span>
+                                                        <span class="fa fa-star"></span>
+                                                        <span class="fa fa-star"></span>
+                                                        <span class="fa fa-star"></span>
+                                                        <span class="fa fa-star-o"></span>
+                                                        4
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="btn-status pending"><button>Pending</button></td>
+                                        <td class="btn-raction">
+                                            <div class="dropdown">
+                                                <button class="btn btn-secondary dropdown-toggle" type="button"
+                                                    id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    <img src="./static/images/icon-menudot.png" alt="">
+                                                </button>
+                                                <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                                                    <li><button class="dropdown-item" type="button">Edit &
+                                                            Reschedule</button></li>
+                                                    <li><button class="dropdown-item" type="button">Refund</button></li>
+                                                    <li><button class="dropdown-item" type="button">Cancel</button>
+                                                    <li><button class="dropdown-item" type="button">Change SP</button>
+                                                    <li><button class="dropdown-item" type="button">Escalate</button>
+                                                    <li><button class="dropdown-item" type="button">History Log</button>
+                                                    <li><button class="dropdown-item" type="button">Download
+                                                            Invoice</button>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="td-name">323436</div>
+                                        </td>
+                                        <td>
+                                            <div class="td-date"><img src="./static/images/icon-calculator.png"
+                                                    alt=""><b>09/04/2018</b></div>
+                                            <div class="td-time"><img src="./static/images/icon-time.png" alt="">12:00 -
+                                                18:00</div>
+                                        </td>
+                                        <td>
+                                            <div class="td-name">David Bough</div>
+                                            <div class="td-address"><img src="./static/images/icon-address.png"
+                                                    alt="">Musterstrabe 5,12345 Bonn</div>
+                                        </td>
+                                        <td>
+                                            <div class="td-rating">
+                                                <div class="rating-user"><img src="./static/images/icon-cap.png" alt="">
+                                                </div>
+                                                <div class="rating-info">
+                                                    <div class="info-name">Lyum Watson</div>
+                                                    <div class="info-ratings">
+                                                        <span class="fa fa-star"></span>
+                                                        <span class="fa fa-star"></span>
+                                                        <span class="fa fa-star"></span>
+                                                        <span class="fa fa-star"></span>
+                                                        <span class="fa fa-star-o"></span>
+                                                        4
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="btn-status completed"><button>Completed</button></td>
+                                        <td class="btn-raction">
+                                            <div class="dropdown">
+                                                <button class="btn btn-secondary dropdown-toggle" type="button"
+                                                    id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    <img src="./static/images/icon-menudot.png" alt="">
+                                                </button>
+                                                <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                                                    <li><button class="dropdown-item" type="button">Edit &
+                                                            Reschedule</button></li>
+                                                    <li><button class="dropdown-item" type="button">Refund</button></li>
+                                                    <li><button class="dropdown-item" type="button">Cancel</button>
+                                                    <li><button class="dropdown-item" type="button">Change SP</button>
+                                                    <li><button class="dropdown-item" type="button">Escalate</button>
+                                                    <li><button class="dropdown-item" type="button">History Log</button>
+                                                    <li><button class="dropdown-item" type="button">Download
+                                                            Invoice</button>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="td-name">323436</div>
+                                        </td>
+                                        <td>
+                                            <div class="td-date"><img src="./static/images/icon-calculator.png"
+                                                    alt=""><b>09/04/2018</b></div>
+                                            <div class="td-time"><img src="./static/images/icon-time.png" alt="">12:00 -
+                                                18:00</div>
+                                        </td>
+                                        <td>
+                                            <div class="td-name">David Bough</div>
+                                            <div class="td-address"><img src="./static/images/icon-address.png"
+                                                    alt="">Musterstrabe 5,12345 Bonn</div>
+                                        </td>
+                                        <td>
+                                            <div class="td-rating">
+                                                <div class="rating-user"><img src="./static/images/icon-cap.png" alt="">
+                                                </div>
+                                                <div class="rating-info">
+                                                    <div class="info-name">Lyum Watson</div>
+                                                    <div class="info-ratings">
+                                                        <span class="fa fa-star"></span>
+                                                        <span class="fa fa-star"></span>
+                                                        <span class="fa fa-star"></span>
+                                                        <span class="fa fa-star"></span>
+                                                        <span class="fa fa-star-o"></span>
+                                                        4
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="btn-status completed"><button>Completed</button></td>
+                                        <td class="btn-raction">
+                                            <div class="dropdown">
+                                                <button class="btn btn-secondary dropdown-toggle" type="button"
+                                                    id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    <img src="./static/images/icon-menudot.png" alt="">
+                                                </button>
+                                                <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                                                    <li><button class="dropdown-item" type="button">Edit &
+                                                            Reschedule</button></li>
+                                                    <li><button class="dropdown-item" type="button">Refund</button></li>
+                                                    <li><button class="dropdown-item" type="button">Cancel</button>
+                                                    <li><button class="dropdown-item" type="button">Change SP</button>
+                                                    <li><button class="dropdown-item" type="button">Escalate</button>
+                                                    <li><button class="dropdown-item" type="button">History Log</button>
+                                                    <li><button class="dropdown-item" type="button">Download
+                                                            Invoice</button>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="td-name">323436</div>
+                                        </td>
+                                        <td>
+                                            <div class="td-date"><img src="./static/images/icon-calculator.png"
+                                                    alt=""><b>09/04/2018</b></div>
+                                            <div class="td-time"><img src="./static/images/icon-time.png" alt="">12:00 -
+                                                18:00</div>
+                                        </td>
+                                        <td>
+                                            <div class="td-name">David Bough</div>
+                                            <div class="td-address"><img src="./static/images/icon-address.png"
+                                                    alt="">Musterstrabe 5,12345 Bonn</div>
+                                        </td>
+                                        <td>
+                                            <div class="td-rating">
+                                                <div class="rating-user"><img src="./static/images/icon-cap.png" alt="">
+                                                </div>
+                                                <div class="rating-info">
+                                                    <div class="info-name">Lyum Watson</div>
+                                                    <div class="info-ratings">
+                                                        <span class="fa fa-star"></span>
+                                                        <span class="fa fa-star"></span>
+                                                        <span class="fa fa-star"></span>
+                                                        <span class="fa fa-star"></span>
+                                                        <span class="fa fa-star-o"></span>
+                                                        4
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="btn-status cancelled"><button>Cancelled</button></td>
+                                        <td class="btn-raction">
+                                            <div class="dropdown">
+                                                <button class="btn btn-secondary dropdown-toggle" type="button"
+                                                    id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    <img src="./static/images/icon-menudot.png" alt="">
+                                                </button>
+                                                <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                                                    <li><button class="dropdown-item" type="button">Edit &
+                                                            Reschedule</button></li>
+                                                    <li><button class="dropdown-item" type="button">Refund</button></li>
+                                                    <li><button class="dropdown-item" type="button">Cancel</button>
+                                                    <li><button class="dropdown-item" type="button">Change SP</button>
+                                                    <li><button class="dropdown-item" type="button">Escalate</button>
+                                                    <li><button class="dropdown-item" type="button">History Log</button>
+                                                    <li><button class="dropdown-item" type="button">Download
+                                                            Invoice</button>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="td-name">323436</div>
+                                        </td>
+                                        <td>
+                                            <div class="td-date"><img src="./static/images/icon-calculator.png"
+                                                    alt=""><b>09/04/2018</b></div>
+                                            <div class="td-time"><img src="./static/images/icon-time.png" alt="">12:00 -
+                                                18:00</div>
+                                        </td>
+                                        <td>
+                                            <div class="td-name">David Bough</div>
+                                            <div class="td-address"><img src="./static/images/icon-address.png"
+                                                    alt="">Musterstrabe 5,12345 Bonn</div>
+                                        </td>
+                                        <td>
+                                            <div class="td-rating">
+                                                <div class="rating-user"><img src="./static/images/icon-cap.png" alt="">
+                                                </div>
+                                                <div class="rating-info">
+                                                    <div class="info-name">Lyum Watson</div>
+                                                    <div class="info-ratings">
+                                                        <span class="fa fa-star"></span>
+                                                        <span class="fa fa-star"></span>
+                                                        <span class="fa fa-star"></span>
+                                                        <span class="fa fa-star"></span>
+                                                        <span class="fa fa-star-o"></span>
+                                                        4
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="btn-status completed"><button>Completed</button></td>
+                                        <td class="btn-raction">
+                                            <div class="dropdown">
+                                                <button class="btn btn-secondary dropdown-toggle" type="button"
+                                                    id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    <img src="./static/images/icon-menudot.png" alt="">
+                                                </button>
+                                                <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                                                    <li><button class="dropdown-item" type="button">Edit &
+                                                            Reschedule</button></li>
+                                                    <li><button class="dropdown-item" type="button">Refund</button></li>
+                                                    <li><button class="dropdown-item" type="button">Cancel</button>
+                                                    <li><button class="dropdown-item" type="button">Change SP</button>
+                                                    <li><button class="dropdown-item" type="button">Escalate</button>
+                                                    <li><button class="dropdown-item" type="button">History Log</button>
+                                                    <li><button class="dropdown-item" type="button">Download
+                                                            Invoice</button>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="td-name">323436</div>
+                                        </td>
+                                        <td>
+                                            <div class="td-date"><img src="./static/images/icon-calculator.png"
+                                                    alt=""><b>09/04/2018</b></div>
+                                            <div class="td-time"><img src="./static/images/icon-time.png" alt="">12:00 -
+                                                18:00</div>
+                                        </td>
+                                        <td>
+                                            <div class="td-name">David Bough</div>
+                                            <div class="td-address"><img src="./static/images/icon-address.png"
+                                                    alt="">Musterstrabe 5,12345 Bonn</div>
+                                        </td>
+                                        <td>
+                                            <div class="td-rating">
+                                                <div class="rating-user"><img src="./static/images/icon-cap.png" alt="">
+                                                </div>
+                                                <div class="rating-info">
+                                                    <div class="info-name">Lyum Watson</div>
+                                                    <div class="info-ratings">
+                                                        <span class="fa fa-star"></span>
+                                                        <span class="fa fa-star"></span>
+                                                        <span class="fa fa-star"></span>
+                                                        <span class="fa fa-star"></span>
+                                                        <span class="fa fa-star-o"></span>
+                                                        4
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="btn-status cancelled"><button>Cancelled</button></td>
+                                        <td class="btn-raction">
+                                            <div class="dropdown">
+                                                <button class="btn btn-secondary dropdown-toggle" type="button"
+                                                    id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    <img src="./static/images/icon-menudot.png" alt="">
+                                                </button>
+                                                <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                                                    <li><button class="dropdown-item" type="button">Edit &
+                                                            Reschedule</button></li>
+                                                    <li><button class="dropdown-item" type="button">Refund</button></li>
+                                                    <li><button class="dropdown-item" type="button">Cancel</button>
+                                                    <li><button class="dropdown-item" type="button">Change SP</button>
+                                                    <li><button class="dropdown-item" type="button">Escalate</button>
+                                                    <li><button class="dropdown-item" type="button">History Log</button>
+                                                    <li><button class="dropdown-item" type="button">Download
+                                                            Invoice</button>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="td-name">323436</div>
+                                        </td>
+                                        <td>
+                                            <div class="td-date"><img src="./static/images/icon-calculator.png"
+                                                    alt=""><b>09/04/2018</b></div>
+                                            <div class="td-time"><img src="./static/images/icon-time.png" alt="">12:00 -
+                                                18:00</div>
+                                        </td>
+                                        <td>
+                                            <div class="td-name">David Bough</div>
+                                            <div class="td-address"><img src="./static/images/icon-address.png"
+                                                    alt="">Musterstrabe 5,12345 Bonn</div>
+                                        </td>
+                                        <td>
+                                            <div class="td-rating">
+                                                <div class="rating-user"><img src="./static/images/icon-cap.png" alt="">
+                                                </div>
+                                                <div class="rating-info">
+                                                    <div class="info-name">Lyum Watson</div>
+                                                    <div class="info-ratings">
+                                                        <span class="fa fa-star"></span>
+                                                        <span class="fa fa-star"></span>
+                                                        <span class="fa fa-star"></span>
+                                                        <span class="fa fa-star"></span>
+                                                        <span class="fa fa-star-o"></span>
+                                                        4
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="btn-status completed"><button>Completed</button></td>
+                                        <td class="btn-raction">
+                                            <div class="dropdown">
+                                                <button class="btn btn-secondary dropdown-toggle" type="button"
+                                                    id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    <img src="./static/images/icon-menudot.png" alt="">
+                                                </button>
+                                                <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                                                    <li><button class="dropdown-item" type="button">Edit &
+                                                            Reschedule</button></li>
+                                                    <li><button class="dropdown-item" type="button">Refund</button></li>
+                                                    <li><button class="dropdown-item" type="button">Cancel</button>
+                                                    <li><button class="dropdown-item" type="button">Change SP</button>
+                                                    <li><button class="dropdown-item" type="button">Escalate</button>
+                                                    <li><button class="dropdown-item" type="button">History Log</button>
+                                                    <li><button class="dropdown-item" type="button">Download
+                                                            Invoice</button>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="shistory-pagination">
+                            <div class="show-apge">
+                                show
+                                <select class="form-select" aria-label="Default select example">
+                                    <option selected>10</option>
+                                    <option value="20">20</option>
+                                    <option value="50">50</option>
+                                    <option value="100">100</option>
+                                </select>
+                                Entries
+                            </div>
+                            <div class="paginations">
+                                <div class="next-left"><img src="./static/images/next-left.png" alt=""></div>
+                                <div class="current-page">1</div>
+                                <div>2</div>
+                                <div>3</div>
+                                <div>4</div>
+                                <div>5</div>
+                                <div class="next-right"><img src="./static/images/next-left.png" alt=""></div>
+                            </div>
+                        </div>
+                        <div class="shistory-footer">
+                            ©2018 Helperland. All rights reserved.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <script src="./static/js/adashboard.js"></script>
+
+</body>
+
+</html>
