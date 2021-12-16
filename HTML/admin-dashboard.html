@@ -101,9 +101,9 @@
                     <a href="#">Role Management</a>
                     <a href="#">Coupen Code Management</a>
                     <a href="#">Escalation Management</a>
-                    <a href="#">Service Requests</a>
+                    <a href="#servicerequest">Service Requests</a>
                     <a href="#">Service Provider</a>
-                    <a href="#">User Mangement</a>
+                    <a href="#usermanagement">User Mangement</a>
                     <a href="#">Finance Module</a>
                     <a href="#">Zip Code Management</a>
                     <a href="#">Rating Mangement</a>
@@ -153,7 +153,7 @@
                     <a href="#">Service Management</a>
                     <a href="#">Role Management</a>
                     <a href="#" class="nav-tog">
-                        Coupon Code Management <img src="./static/images/next-left.png" alt="">
+                        <p>Coupon Code Management <img src="./static/images/next-left.png" alt=""></p>
                         <div class="nav-toggle">
                             <div>Coupen Code</div>
                             <div>Usage History</div>
@@ -165,7 +165,7 @@
                     <a href="#">Service Provider</a>
                     <a href="#usermanagement">User Mangement</a>
                     <a href="#" class="nav-tog">
-                        Finance Module <img src="./static/images/next-left.png" alt="">
+                        <p>Finance Module <img src="./static/images/next-left.png" alt=""></p>
                         <div class="nav-toggle">
                             <div>All Transaction</div>
                             <div>Generate Payment</div>
@@ -177,7 +177,7 @@
                     <a href="#">Inquiry Mangement</a>
                     <a href="#">Newsletter Management</a>
                     <a href="#" class="nav-tog">
-                        Content Management <img src="./static/images/next-left.png" alt="">
+                        <p>Content Management <img src="./static/images/next-left.png" alt=""></p>
                         <div class="nav-toggle">
                             <div>Blog</div>
                             <div>FAQs</div>
@@ -185,44 +185,48 @@
                     </a>
                 </div>
                 <div class="differ-section">
-                    <div class="div-content table-responsive" id="usermanagement">
+                    
+                    <div class="div-content" id="usermanagement">
                         <div class="shistory-title">
                             <p>User Management</p>
                             <button><span class="fa fa-plus-circle"></span>Add New User</button>
                         </div>
                         <div class="search-bar">
                             <form action="#">
-                                <div class="row1">
-                                    <div class="col-name">
-                                        <input type="text" class="form-control" placeholder="User name"
-                                            aria-label="First name">
+                                <div class="row">
+                                    <div class="col">
+                                        <select class="form-select" aria-label="Default select example">
+                                            <option selected>User name</option>
+                                            <option value="1">One</option>
+                                            <option value="2">Two</option>
+                                            <option value="3">Three</option>
+                                          </select>
                                     </div>
-                                    <div class="col-name">
-                                        <input type="text" class="form-control" placeholder="User role"
-                                            aria-label="Last name">
+                                    <div class="col">
+                                        <select class="form-select" aria-label="Default select example">
+                                            <option selected>User Role</option>
+                                            <option value="1">One</option>
+                                            <option value="2">Two</option>
+                                            <option value="3">Three</option>
+                                        </select>
                                     </div>
-                                    <div class="col-number">
+                                    <div class="col">
                                         <div class="input-group">
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text" id="basic-addon1">+49</span>
-                                            </div>
-                                            <input type="number" class="form-control" min="0" max="9999999999"
-                                                placeholder="Phone number" aria-label="Username"
-                                                aria-describedby="basic-addon1">
-                                        </div>
+                                            <span class="input-group-text" id="basic-addon1">+49</span>
+                                            <input type="text" class="form-control" placeholder="Phone Number" aria-label="Username" aria-describedby="basic-addon1">
+                                          </div>
                                     </div>
-                                    <div class="col-zipcode">
-                                        <input type="text" class="form-control" placeholder="Zipcode"
-                                            aria-label="Last name">
+                                    <div class="col">
+                                        <input type="text" class="form-control" placeholder="zipcode">
                                     </div>
-                                    <div class="col-buttons text-center">
+                                    <div class="col col-buttons">
                                         <button type="Search" class="btn-search">Search</button>
                                         <button type="reset" class="btn-clear">Clear</button>
                                     </div>
-                                </div>
+                                  </div>
                             </form>
                         </div>
-                        <div id="servicehistory">
+                        <div id="servicehistory" class="table-responsive">
                             <table class="table">
                                 <thead>
                                     <tr>
@@ -646,26 +650,35 @@
                         </div>
                         <div class="search-bar">
                             <form action="#">
-                                <div class="row1">
-                                    <div class="col-name">
+                                <div class="row">
+                                    <div class="col col-xs-12">
                                         <input type="number" class="form-control" placeholder="Service ID">
                                     </div>
-                                    <div class="col-name">
-                                        <input type="text" class="form-control" placeholder="Customer">
-                                    </div>
-                                    <div class="col-name">
-                                        <input type="text" class="form-control" placeholder="Serivce Provider">
-                                    </div>
-                                    <div class="col-name">
-                                        <input type="text" class="form-control" placeholder="Status">
-                                    </div>
-                                    <div class="col-name">
+                                    <div class="col col-xs-12">
+                                        <select class="form-select" aria-label="Default select example">
+                                            <option selected>Customer</option>
+                                            <option value="david bought">David Bough</option>
+                                          </select></div>
+                                    <div class="col col-xs-12">
+                                        <select class="form-select" aria-label="Default select example">
+                                            <option selected>Service Pro..</option>
+                                            <option value="lyum watson">Lyum Watson</option>
+                                          </select></div>
+                                    <div class="col col-xs-12">
+                                        <select class="form-select" aria-label="Default select example">
+                                            <option selected>Status</option>
+                                            <option value="New">New</option>
+                                            <option value="Pending">Pending</option>
+                                            <option value="Completed">Completed</option>
+                                            <option value="Cancelled">Cancelled</option>
+                                          </select> </div>
+                                    <div class="col col-xs-12">
                                         <input type="date" class="form-control" placeholder="From Date">
                                     </div>
-                                    <div class="col-name">
+                                    <div class="col col-xs-12">
                                         <input type="date" class="form-control" placeholder="To Date">
                                     </div>
-                                    <div class="col-buttons text-center">
+                                    <div class="col col-xs-12 col-buttons">
                                         <button type="Search" class="btn-search">Search</button>
                                         <button type="reset" class="btn-clear">Clear</button>
                                     </div>
@@ -1233,6 +1246,7 @@
                             ©2018 Helperland. All rights reserved.
                         </div>
                     </div>
+
                 </div>
             </div>
         </section>
