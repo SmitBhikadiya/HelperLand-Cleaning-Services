@@ -20,68 +20,70 @@
 
 <body>
 
-<!-- Model For Login -->
+    <!-- Model For Login -->
 
-<div class="modal fade" id="exampleModallogin" tabindex="-1" aria-labelledby="exampleModalLabel1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header text-center">
-                <h4 class="modal-title" id="staticBackdropLabel">Login to your account</h4>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"  aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form action="#">
-                    <div class="mb-3 form-group icon-textbox">
-                        <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="Email">
-                        <img alt="email" src="./static/images/user.png">
-                    </div>
-                    <div class="mb-3 form-group icon-textbox">
-                        <input type="password" class="form-control" id="exampleFormControlInput2"
-                            placeholder="Password">
-                        <img alt="Password" src="./static/images/lock.png">
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
-                        <label class="form-check-label" for="flexCheckChecked">
-                            Remember Me
-                        </label>
-                    </div>
-                    <button class="submit-button mb-3" type="submit">Login</button>
-                    <div class="text-center mb-2"><a href="#" data-bs-toggle="modal"
-                        data-bs-target="#exampleModalfpwd" data-bs-dismiss="modal">Forgot Password</a></div>
-                    <div class="text-center">Don't have an account? <a href="./userRegistration.html">Create an account</a></div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- End Model -->
-
-<!-- Model For Forgot Password -->
-
-<div class="modal fade" id="exampleModalfpwd" tabindex="-1" aria-labelledby="exampleModalLabel2" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title" id="staticBackdropLabel">Forgot Password</h4>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form action="#">
-                    <div class="mb-3 form-group icon-textbox">
-                        <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="Email">
-                        <img alt="email" src="./static/images/user.png">
-                    </div>
-                    
-                    <button class="submit-button mb-3" type="submit">Login</button>
-                    <div class="text-center mb-2"><a href="#" data-bs-toggle="modal"
-                        data-bs-target="#exampleModallogin" data-bs-dismiss="modal">Login now</a></div>
+    <div class="modal fade" id="exampleModallogin" tabindex="-1" aria-labelledby="exampleModalLabel1"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header text-center">
+                    <h4 class="modal-title" id="staticBackdropLabel">Login to your account</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="#">
+                        <div class="mb-3 form-group icon-textbox">
+                            <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="Email">
+                            <img alt="email" src="./static/images/user.png">
+                        </div>
+                        <div class="mb-3 form-group icon-textbox">
+                            <input type="password" class="form-control" id="exampleFormControlInput2"
+                                placeholder="Password">
+                            <img alt="Password" src="./static/images/lock.png">
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
+                            <label class="form-check-label" for="flexCheckChecked">
+                                Remember Me
+                            </label>
+                        </div>
+                        <button class="submit-button mb-3" type="submit">Login</button>
+                        <div class="text-center mb-2"><a href="#" data-bs-toggle="modal"
+                                data-bs-target="#exampleModalfpwd" data-bs-dismiss="modal">Forgot Password</a></div>
+                        <div class="text-center">Don't have an account? <a href="./userRegistration.html">Create an
+                                account</a></div>
                     </form>
+                </div>
             </div>
         </div>
     </div>
-</div>
-<!-- End Model -->
+    <!-- End Model -->
+
+    <!-- Model For Forgot Password -->
+
+    <div class="modal fade" id="exampleModalfpwd" tabindex="-1" aria-labelledby="exampleModalLabel2" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="staticBackdropLabel">Forgot Password</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="#">
+                        <div class="mb-3 form-group icon-textbox">
+                            <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="Email">
+                            <img alt="email" src="./static/images/user.png">
+                        </div>
+
+                        <button class="submit-button mb-3" type="submit">Login</button>
+                        <div class="text-center mb-2"><a href="#" data-bs-toggle="modal"
+                                data-bs-target="#exampleModallogin" data-bs-dismiss="modal">Login now</a></div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Model -->
 
     <header class="header">
         <nav class="navbar">
@@ -92,8 +94,8 @@
                 <li><a href="#">Our Gaurantee</a></li>
                 <li><a href="#">Blog</a></li>
                 <li><a href="#">Contact Us</a></li>
-                <li><a href="#" class="nav-btn" data-bs-toggle="modal"
-                    data-bs-target="#exampleModallogin" data-bs-dismiss="modal">Login</a></li>
+                <li><a href="#" class="nav-btn" data-bs-toggle="modal" data-bs-target="#exampleModallogin"
+                        data-bs-dismiss="modal">Login</a></li>
                 <li><a href="#" class="nav-btn">Become a Helper</a></li>
                 <li class="li-dropdown">
                     <div class="dropdown">
@@ -409,6 +411,7 @@
             </div>
 
         </section>
+        
     </div>
 
     <footer class="footer">
