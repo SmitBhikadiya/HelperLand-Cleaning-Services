@@ -247,6 +247,19 @@
 #exampleModalnavbartoggle .modal-body{
     height: 80vh;
 }
+#exampleModaledit .modal-content{
+    width: 100%;
+}
+
+.btn-modal{
+    background-color: #1fb6ff;
+    color: white;
+    margin-top: 20px;
+    padding: 10px;
+}
+.btn-modal:hover{
+    color: rgba(255, 255, 255, 0.651);
+}
 
 /* servicerequest setting */
 .pending button{
