@@ -106,19 +106,18 @@
     color: #646464;
 }
 
-#servicehistory .td-rating {
+.td-rating {
     display: flex;
     align-items: center;
 }
-
-#servicehistory .td-rating .rating-user {
+.td-rating .rating-user {
     border: 1px solid gray;
     border-radius: 50%;
     padding: 12px 5px 12px 10px;
     text-align: center;
 }
 
-#servicehistory .td-rating .rating-info {
+.td-rating .rating-info {
     margin-left: 10px;
 }
 
@@ -263,4 +262,44 @@ cursor: pointer;
     .div-main {
         height: 100%;
     }
+}
+
+/*-----------modal SP rating------------- */
+#exampleModalRateSP .modal-content{
+    width: 450px;
+}
+#exampleModalRateSP .modal-dialog{
+    max-width: 450px;
+}
+#exampleModalRateSP hr{
+    margin-top: 2px;
+}
+#exampleModalRateSP .modal-body{
+    margin-top: 10px;
+}
+
+.m-ratings{
+    display: flex;
+}
+.m-ratings p{
+    width: 130px;
+}
+.m-ratings .info-ratings{
+    margin-left: 5px;
+}
+.m-button {
+    margin-top: 10px;
+}
+.m-heading{
+    margin-top: 15px;
+    font-size: 20px;
+}
+.m-button button{
+    border: none;
+    padding: 8px 20px;
+    font-size: 20px;
+    font-weight: 500;
+    border-radius: 25px;
+    background-color: #1d7a8c;
+    color: white;
 }

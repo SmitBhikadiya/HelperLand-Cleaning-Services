@@ -110,3 +110,59 @@
         height: 100%;
     }
 }
+
+/*------------ Modal Service Cancel  --------------*/
+
+.modal-section-map iframe{
+    height: 100%;
+    width: 100%;
+}
+.modal-section-body div p{
+    margin-top: 2px;
+    margin-bottom: 0;
+    font-size: 18px;
+}
+.modal-section-body .m-time{
+    font-size: 26px;
+}
+.modal-section-body .fa-times-circle-o{
+    color: rgb(255, 0, 0);
+}
+.modal-button{
+    padding-top: 7px;
+}
+.modal-button button{
+    width: 130px;
+    border-radius: 25px;
+    padding: 8px 10px; 
+    color: white;
+    border: none;
+}
+.modal-button button i{
+    margin-right: 5px;
+}
+.modal-button-cancel{
+   background-color: #ff6b6b; 
+}
+.modal-button-complete{
+    background-color: #348588;
+}
+
+.modal-section-body .m-currency{
+    font-size: 32px;
+    color: #348588;
+    font-weight: 700;
+}
+.modal-section-body hr{
+    margin: 6px 0;
+}
+.m-head{
+    font-weight: 500;
+}
+
+#exampleModalServiceCancel .modal-content{
+    width: 1000px;
+}
+#exampleModalServiceCancel .modal-dialog{
+    max-width: 1000px;
+}
