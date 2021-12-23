@@ -4,6 +4,11 @@
 }
 /*################ Newsseltter ################*/
 
+#section-newsseltter .scroll-icon{
+    position: fixed;
+    bottom: 190px;
+    left: 50px;
+}
 #section-newsseltter {
     text-align: center;
     width: 100%;
@@ -50,9 +55,14 @@
     border-top: 2px solid gray;
     background-color: #292929;
     color: #F1F1F1;
-    padding: 22px 0;
+    padding: 12px;
+    padding-bottom: 0;
     text-align: center;
     transition: all 0.5s ease;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    z-index: 999999;
 }
 
 .okbtn{
@@ -65,30 +75,24 @@
 }
 
 .scroll-icon{
+    background-color: #525252;
     width: 48px;
     height: 48px;
-    background-color: #ffffff;
     border-radius: 25px;
-    border:1px solid #525252;
     display: flex;
     justify-content: center;
     align-items: center;
-}
-.scroll-icon img{
-    transform: rotate(-180deg);
-}
-.message-icon{
-    position: absolute;
-    bottom: 40px;
-    right: 60px;
-    cursor: pointer;
-}
-.scroll-icon{
     cursor: pointer;
     position: absolute;
     bottom: 40px;
     left: 60px;
-    background-color: rgba(0, 0, 0, 0.116);
+}
+
+.message-icon{
+    position: fixed;
+    bottom: 190px;
+    right: 50px;
+    cursor: pointer;
 }
 .f-sub{
     color: #9ba0a3;
@@ -110,14 +114,33 @@
     .input-field {
         margin-bottom: 10px;
     }
+}
+
+@media screen and (max-width: 420px) {
+    #section-footer{
+        padding: 10px;
+    }
+    .newsform {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .input-field {
+        margin-bottom: 10px;
+    }
 
 }
 
 @media screen and (max-width:663px) {
-    .message-icon,.scroll-icon{
-        top: -30px;
+    .message-icon{
+        bottom: 200px;
+        right: 10px;
     }
-}
+    #section-newsseltter .scroll-icon{
+        bottom: 200px;
+        left: 5px;
+    }
+} 
 
 @media screen and (max-width: 990px) {
     .okbtn{
@@ -140,6 +163,9 @@
     display: flex;
     align-items: center;
     justify-content: center;
+}
+.footer-nav ul{
+    margin-bottom: 0;
 }
 
 .footer-logo img{

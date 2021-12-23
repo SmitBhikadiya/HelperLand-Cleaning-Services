@@ -28,6 +28,7 @@
 
 .nav-link {
     color: white;
+    cursor: pointer;
 }
 
 .nav-link:hover {
