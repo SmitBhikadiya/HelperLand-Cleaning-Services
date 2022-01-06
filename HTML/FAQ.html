@@ -2,55 +2,62 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="./static/css/footer.css">
-    <link rel="stylesheet" href="./static/css/header2.css">
-    <link rel="stylesheet" href="./static/css/modal.css">
-    <link rel="stylesheet" href="./static/css/faqs.css">
-    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="./static/css/footer.css" />
+    <link rel="stylesheet" href="./static/css/header2.css" />
+    <link rel="stylesheet" href="./static/css/modal.css" />
+    <link rel="stylesheet" href="./static/css/faqs.css" />
+
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <title>FAQ</title>
 </head>
 
 <body>
-
     <!-- Model For Login -->
-    <div class="modal fade" id="exampleModallogin" tabindex="-1" aria-labelledby="exampleModalLabel1" aria-hidden="true">
+    <div class="modal fade" id="exampleModallogin" tabindex="-1" aria-labelledby="exampleModalLabel1"
+        aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header text-center">
-                    <h4 class="modal-title" id="staticBackdropLabel">Login to your account</h4>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"  aria-label="Close"></button>
+                    <h4 class="modal-title" id="staticBackdropLabel">
+                        Login to your account
+                    </h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <form action="#">
                         <div class="mb-3 form-group icon-textbox">
-                            <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="Email">
-                            <img alt="email" src="./static/images/user.png">
+                            <input type="email" class="form-control" id="exampleFormControlInput1"
+                                placeholder="Email" />
+                            <img alt="email" src="./static/images/user.png" />
                         </div>
                         <div class="mb-3 form-group icon-textbox">
                             <input type="password" class="form-control" id="exampleFormControlInput2"
-                                placeholder="Password">
-                            <img alt="Password" src="./static/images/lock.png">
+                                placeholder="Password" />
+                            <img alt="Password" src="./static/images/lock.png" />
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
+                            <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked />
                             <label class="form-check-label" for="flexCheckChecked">
                                 Remember Me
                             </label>
                         </div>
                         <button class="submit-button mb-3" type="submit">Login</button>
-                        <div class="text-center mb-2"><a href="#" data-bs-toggle="modal"
-                            data-bs-target="#exampleModalfpwd" data-bs-dismiss="modal">Forgot Password</a></div>
-                        <div class="text-center">Don't have an account? <a href="./userRegistration.html">Create an account</a></div>
+                        <div class="text-center mb-2">
+                            <a href="#" data-bs-toggle="modal" data-bs-target="#exampleModalfpwd"
+                                data-bs-dismiss="modal">Forgot Password</a>
+                        </div>
+                        <div class="text-center">
+                            Don't have an account?
+                            <a href="./userRegistration.html">Create an account</a>
+                        </div>
                     </form>
                 </div>
             </div>
@@ -63,20 +70,25 @@
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title" id="staticBackdropLabel">Forgot Password</h4>
+                    <h4 class="modal-title" id="staticBackdropLabel">
+                        Forgot Password
+                    </h4>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <form action="#">
                         <div class="mb-3 form-group icon-textbox">
-                            <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="Email">
-                            <img alt="email" src="./static/images/user.png">
+                            <input type="email" class="form-control" id="exampleFormControlInput1"
+                                placeholder="Email" />
+                            <img alt="email" src="./static/images/user.png" />
                         </div>
-                        
+
                         <button class="submit-button mb-3" type="submit">Login</button>
-                        <div class="text-center mb-2"><a href="#" data-bs-toggle="modal"
-                            data-bs-target="#exampleModallogin" data-bs-dismiss="modal">Login now</a></div>
-                        </form>
+                        <div class="text-center mb-2">
+                            <a href="#" data-bs-toggle="modal" data-bs-target="#exampleModallogin"
+                                data-bs-dismiss="modal">Login now</a>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -84,11 +96,10 @@
     <!-- End Model -->
 
     <div class="main">
-
         <section id="section-header" class="d-block">
             <nav class="navbar navbar-expand-lg">
                 <a class="navbar-brand" href="Homepage.html">
-                    <img src="./static/images/nav-logo.png" alt="">
+                    <img src="./static/images/nav-logo.png" alt="" />
                 </a>
                 <button class="navbar-toggler navbar-dark" type="button" data-toggle="collapse" data-target="#navbarNav"
                     aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -113,11 +124,14 @@
                         </li>
                         <li class="nav-item">
                             <button class="nav-link btn btn-outline-light nav-btn" href="#" data-bs-toggle="modal"
-                            data-bs-target="#exampleModallogin" data-bs-dismiss="modal">Login</button>
+                                data-bs-target="#exampleModallogin" data-bs-dismiss="modal">
+                                Login
+                            </button>
                         </li>
                         <li class="nav-item">
-                            <button class="nav-link btn btn-outline-light nav-btn" href="#">Become a
-                                Helper</button>
+                            <button class="nav-link btn btn-outline-light nav-btn" href="#">
+                                Become a Helper
+                            </button>
                         </li>
                     </ul>
                 </div>
@@ -129,12 +143,12 @@
             <div class="faqs-header">
                 <h1>FAQs</h1>
                 <div class="h-line">
-                    <img src="./static/images/line.png" alt="" class="line">
-                    <img src="./static/images/star.png" alt="" class="star">
-                    <img src="./static/images/line.png" alt="" class="line">
+                    <img src="./static/images/line.png" alt="" class="line" />
+                    <img src="./static/images/star.png" alt="" class="star" />
+                    <img src="./static/images/line.png" alt="" class="line" />
                 </div>
                 <div class="content">
-                    Whether you are Customer or Service provider,<br>
+                    Whether you are Customer or Service provider,<br />
                     We have tried our best to solve all your queries and questions.
                 </div>
             </div>
@@ -144,366 +158,98 @@
                     <button class="btn-serviceprovider">For Service Provider</button>
                 </div>
                 <div class="faqs">
-                    <div class="faq for-customer">
-
-                        <div class="faq-quetions">
-                            <div class="faq-quetion">
-                                <button type="button" class="btn btn-col" data-toggle="collapse" data-target="#demo1">
-                                    <img src="./static/images/arrow-down.png">
-                                    <p>
-                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum nisl nunc,
-                                        iaculis
-                                        mattis tellus ac ut non imperdiet velit?</p>
-
-                                </button>
+                    <div class="faq for-customer accordion" id="exampleone">
+                        <div class="faq-quetion accordion-header" id="panelsStayOpen-headingOne">
+                            <p class="accordian-button" data-bs-toggle="collapse"
+                                data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true"
+                                aria-controls="panelsStayOpen-collapseOne">
+                                <img class="img" src="./static/images/arrow-down.png" alt="">
+                                What's included in a cleaning?
+                            </p>
+                        </div>
+                        <div id="panelsStayOpen-collapseOne" class="faq-answer accordion-collapse collapse show"
+                            aria-labelledby="headingOne" data-bs-parent="#exampleone">
+                            <div class="accordion-body">
+                                Bedroom, Living Room & Common Areas, Bathrooms, Kitchen, Extras    
                             </div>
-                            <div id="demo1" class="faq-answer collapse show">
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed id diam tincidunt,
-                                fringilla
-                                ante vitae, dapibus velit. Vivamus id tortor rhoncus, efficitur quam at, suscipit
-                                tortor.
-                                Integer fermentum convallis eros vel semper. Ut non imperdiet velit. Praesent eu dui vel
-                                lacus porta eleifend eget quis dui. Integer tempus massa in gravida tincidunt. Fusce in
-                                libero tristique, euismod nisi vel, luctus urna. Interdum et malesuada fames ac ante
-                                ipsum
-                                primis in faucibus. Donec et placerat arcu. Suspendisse lacinia tristique massa. Etiam
-                                risus
-                                justo, scelerisque id arcu eu, sodales tempor eros. Aliquam efficitur pretium urna, sit
-                                amet
-                                congue risus malesuada rutrum. Donec id massa vel velit ullamcorper accumsan ut eget
-                                nisl.
-                                Fusce viverra commodo lacus, sit amet facilisis leo luctus dictum.
+                        </div>
+                        <div class="faq-quetion accordion-header" id="panelsStayOpen-headingTwo">
+                            <p class="accordian-button" data-bs-toggle="collapse"
+                                data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false"
+                                aria-controls="panelsStayOpen-collapseTwo"> 
+                                <img class="img" src="./static/images/arrow-right.png" alt="">
+                                Which Helperland professional will come to my place?
+                            </p>
+                        </div>
+                        <div id="panelsStayOpen-collapseTwo" class="faq-answer accordion-collapse collapse"
+                            aria-labelledby="headingTwo" data-bs-parent="#exampleone">
+                            <div class="accordion-body">
+                                Helperland has a vast network of experienced, top-rated cleaners. Based on the time and date of your request, we work to assign the best professional available. Like working with a specific pro? Add them to your Pro Team from the mobile app and they'll be requested first for all future bookings. You will receive an email with details about your professional prior to your appointment.
                             </div>
                         </div>
 
-                        <div class="faq-quetions">
-                            <div class="faq-quetion">
-                                <button type="button" class="btn btn-col" data-toggle="collapse" data-target="#demo2">
-                                    <img src="./static/images/arrow-right.png">
-                                    <p>
-                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum nisl nunc,
-                                        iaculis
-                                        mattis tellus ac ut non imperdiet velit?</p>
-                                </button>
-                            </div>
-                            <div id="demo2" class="faq-answer collapse in">
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed id diam tincidunt,
-                                fringilla
-                                ante vitae, dapibus velit. Vivamus id tortor rhoncus, efficitur quam at, suscipit
-                                tortor.
-                                Integer fermentum convallis eros vel semper. Ut non imperdiet velit. Praesent eu dui vel
-                                lacus porta eleifend eget quis dui. Integer tempus massa in gravida tincidunt. Fusce in
-                                libero tristique, euismod nisi vel, luctus urna. Interdum et malesuada fames ac ante
-                                ipsum
-                                primis in faucibus. Donec et placerat arcu. Suspendisse lacinia tristique massa. Etiam
-                                risus
-                                justo, scelerisque id arcu eu, sodales tempor eros. Aliquam efficitur pretium urna, sit
-                                amet
-                                congue risus malesuada rutrum. Donec id massa vel velit ullamcorper accumsan ut eget
-                                nisl.
-                                Fusce viverra commodo lacus, sit amet facilisis leo luctus dictum.
+                        <div class="faq-quetion accordion-header" id="panelsStayOpen-headingThree">
+                            <p class="accordian-button" data-bs-toggle="collapse"
+                                data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="false"
+                                aria-controls="panelsStayOpen-collapseThree">
+                                <img class="img" src="./static/images/arrow-right.png" alt="">
+                                Can I skip or reschedule bookings?
+                            </p>
+                        </div>
+                        <div id="panelsStayOpen-collapseThree" class="faq-answer accordion-collapse collapse"
+                            aria-labelledby="headingThree" data-bs-parent="#exampleone">
+                            <div class="accordion-body">
+                                You can reschedule any booking for free at least 24 hours in advance of the scheduled start time. If you need to skip a booking within the minimum commitment, we’ll credit the value of the booking to your account. You can use this credit on future cleanings and other Helperland services.
                             </div>
                         </div>
-
-                        <div class="faq-quetions">
-                            <div class="faq-quetion">
-                                <button type="button" class="btn btn-col" data-toggle="collapse" data-target="#demo3">
-                                    <img src="./static/images/arrow-right.png">
-                                    <p>
-                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum nisl nunc,
-                                        iaculis
-                                        mattis tellus ac ut non imperdiet velit?</p>
-
-                                </button>
-                            </div>
-                            <div id="demo3" class="faq-answer collapse in">
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed id diam tincidunt,
-                                fringilla
-                                ante vitae, dapibus velit. Vivamus id tortor rhoncus, efficitur quam at, suscipit
-                                tortor.
-                                Integer fermentum convallis eros vel semper. Ut non imperdiet velit. Praesent eu dui vel
-                                lacus porta eleifend eget quis dui. Integer tempus massa in gravida tincidunt. Fusce in
-                                libero tristique, euismod nisi vel, luctus urna. Interdum et malesuada fames ac ante
-                                ipsum
-                                primis in faucibus. Donec et placerat arcu. Suspendisse lacinia tristique massa. Etiam
-                                risus
-                                justo, scelerisque id arcu eu, sodales tempor eros. Aliquam efficitur pretium urna, sit
-                                amet
-                                congue risus malesuada rutrum. Donec id massa vel velit ullamcorper accumsan ut eget
-                                nisl.
-                                Fusce viverra commodo lacus, sit amet facilisis leo luctus dictum.
+                        <div class="faq-quetion accordion-header" id="panelsStayOpen-headingFour">
+                            <p class="accordian-button" data-bs-toggle="collapse"
+                                data-bs-target="#panelsStayOpen-collapseFour" aria-expanded="false"
+                                aria-controls="panelsStayOpen-collapseFour">
+                                <img class="img" src="./static/images/arrow-right.png" alt="">
+                                Do I need to be home for the booking?
+                            </p>
+                        </div>
+                        <div id="panelsStayOpen-collapseFour" class="faq-answer accordion-collapse collapse"
+                            aria-labelledby="headingFour" data-bs-parent="#exampleone">
+                            <div class="accordion-body">
+                                We strongly recommend that you are home for the first clean of your booking to show your cleaner around. Some customers choose to give a spare key to their cleaner, but this decision is based on individual preferences.
                             </div>
                         </div>
-
-                        <div class="faq-quetions">
-                            <div class="faq-quetion">
-                                <button type="button" class="btn btn-col" data-toggle="collapse" data-target="#demo4">
-                                    <img src="./static/images/arrow-right.png">
-                                    <p>
-                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum nisl nunc,
-                                        iaculis
-                                        mattis tellus ac ut non imperdiet velit?</p>
-                                </button>
-                            </div>
-                            <div id="demo4" class="faq-answer collapse in">
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed id diam tincidunt,
-                                fringilla
-                                ante vitae, dapibus velit. Vivamus id tortor rhoncus, efficitur quam at, suscipit
-                                tortor.
-                                Integer fermentum convallis eros vel semper. Ut non imperdiet velit. Praesent eu dui vel
-                                lacus porta eleifend eget quis dui. Integer tempus massa in gravida tincidunt. Fusce in
-                                libero tristique, euismod nisi vel, luctus urna. Interdum et malesuada fames ac ante
-                                ipsum
-                                primis in faucibus. Donec et placerat arcu. Suspendisse lacinia tristique massa. Etiam
-                                risus
-                                justo, scelerisque id arcu eu, sodales tempor eros. Aliquam efficitur pretium urna, sit
-                                amet
-                                congue risus malesuada rutrum. Donec id massa vel velit ullamcorper accumsan ut eget
-                                nisl.
-                                Fusce viverra commodo lacus, sit amet facilisis leo luctus dictum.
-                            </div>
-                        </div>
-
-                        <div class="faq-quetions">
-                            <div class="faq-quetion">
-                                <button type="button" class="btn btn-col" data-toggle="collapse" data-target="#demo5">
-                                    <img src="./static/images/arrow-right.png">
-                                    <p>
-                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum nisl nunc,
-                                        iaculis
-                                        mattis tellus ac ut non imperdiet velit?</p>
-                                </button>
-                            </div>
-                            <div id="demo5" class="faq-answer collapse in">
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed id diam tincidunt,
-                                fringilla
-                                ante vitae, dapibus velit. Vivamus id tortor rhoncus, efficitur quam at, suscipit
-                                tortor.
-                                Integer fermentum convallis eros vel semper. Ut non imperdiet velit. Praesent eu dui vel
-                                lacus porta eleifend eget quis dui. Integer tempus massa in gravida tincidunt. Fusce in
-                                libero tristique, euismod nisi vel, luctus urna. Interdum et malesuada fames ac ante
-                                ipsum
-                                primis in faucibus. Donec et placerat arcu. Suspendisse lacinia tristique massa. Etiam
-                                risus
-                                justo, scelerisque id arcu eu, sodales tempor eros. Aliquam efficitur pretium urna, sit
-                                amet
-                                congue risus malesuada rutrum. Donec id massa vel velit ullamcorper accumsan ut eget
-                                nisl.
-                                Fusce viverra commodo lacus, sit amet facilisis leo luctus dictum.
-                            </div>
-                        </div>
-
-                        <div class="faq-quetions">
-                            <div class="faq-quetion">
-                                <button type="button" class="btn btn-col" data-toggle="collapse" data-target="#demo6">
-                                    <img src="./static/images/arrow-right.png">
-                                    <p>
-                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum nisl nunc,
-                                        iaculis
-                                        mattis tellus ac ut non imperdiet velit?</p>
-                                </button>
-                            </div>
-                            <div id="demo6" class="faq-answer collapse in">
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed id diam tincidunt,
-                                fringilla
-                                ante vitae, dapibus velit. Vivamus id tortor rhoncus, efficitur quam at, suscipit
-                                tortor.
-                                Integer fermentum convallis eros vel semper. Ut non imperdiet velit. Praesent eu dui vel
-                                lacus porta eleifend eget quis dui. Integer tempus massa in gravida tincidunt. Fusce in
-                                libero tristique, euismod nisi vel, luctus urna. Interdum et malesuada fames ac ante
-                                ipsum
-                                primis in faucibus. Donec et placerat arcu. Suspendisse lacinia tristique massa. Etiam
-                                risus
-                                justo, scelerisque id arcu eu, sodales tempor eros. Aliquam efficitur pretium urna, sit
-                                amet
-                                congue risus malesuada rutrum. Donec id massa vel velit ullamcorper accumsan ut eget
-                                nisl.
-                                Fusce viverra commodo lacus, sit amet facilisis leo luctus dictum.
-                            </div>
-                        </div>
-
-                        <div class="faq-quetions">
-                            <div class="faq-quetion">
-                                <button type="button" class="btn btn-col" data-toggle="collapse" data-target="#demo7">
-                                    <img src="./static/images/arrow-right.png">
-                                    <p>
-                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum nisl nunc,
-                                        iaculis
-                                        mattis tellus ac ut non imperdiet velit?</p>
-                                </button>
-                            </div>
-                            <div id="demo7" class="faq-answer collapse in">
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed id diam tincidunt,
-                                fringilla
-                                ante vitae, dapibus velit. Vivamus id tortor rhoncus, efficitur quam at, suscipit
-                                tortor.
-                                Integer fermentum convallis eros vel semper. Ut non imperdiet velit. Praesent eu dui vel
-                                lacus porta eleifend eget quis dui. Integer tempus massa in gravida tincidunt. Fusce in
-                                libero tristique, euismod nisi vel, luctus urna. Interdum et malesuada fames ac ante
-                                ipsum
-                                primis in faucibus. Donec et placerat arcu. Suspendisse lacinia tristique massa. Etiam
-                                risus
-                                justo, scelerisque id arcu eu, sodales tempor eros. Aliquam efficitur pretium urna, sit
-                                amet
-                                congue risus malesuada rutrum. Donec id massa vel velit ullamcorper accumsan ut eget
-                                nisl.
-                                Fusce viverra commodo lacus, sit amet facilisis leo luctus dictum.
-                            </div>
-                        </div>
-
-                        <div class="faq-quetions">
-                            <div class="faq-quetion">
-                                <button type="button" class="btn btn-col" data-toggle="collapse" data-target="#demo8">
-                                    <img src="./static/images/arrow-right.png">
-                                    <p>
-                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum nisl nunc,
-                                        iaculis
-                                        mattis tellus ac ut non imperdiet velit?</p>
-                                </button>
-                            </div>
-                            <div id="demo8" class="faq-answer collapse in">
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed id diam tincidunt,
-                                fringilla
-                                ante vitae, dapibus velit. Vivamus id tortor rhoncus, efficitur quam at, suscipit
-                                tortor.
-                                Integer fermentum convallis eros vel semper. Ut non imperdiet velit. Praesent eu dui vel
-                                lacus porta eleifend eget quis dui. Integer tempus massa in gravida tincidunt. Fusce in
-                                libero tristique, euismod nisi vel, luctus urna. Interdum et malesuada fames ac ante
-                                ipsum
-                                primis in faucibus. Donec et placerat arcu. Suspendisse lacinia tristique massa. Etiam
-                                risus
-                                justo, scelerisque id arcu eu, sodales tempor eros. Aliquam efficitur pretium urna, sit
-                                amet
-                                congue risus malesuada rutrum. Donec id massa vel velit ullamcorper accumsan ut eget
-                                nisl.
-                                Fusce viverra commodo lacus, sit amet facilisis leo luctus dictum.
-                            </div>
-                        </div>
-
-                        <div class="faq-quetions">
-                            <div class="faq-quetion">
-                                <button type="button" class="btn btn-col" onclick="changed(this)" data-toggle="collapse"
-                                    data-target="#demo9">
-                                    <img src="./static/images/arrow-right.png">
-                                    <p>
-                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum nisl nunc,
-                                        iaculis
-                                        mattis tellus ac ut non imperdiet velit?</p>
-                                </button>
-                            </div>
-                            <div id="demo9" class="faq-answer collapse in">
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed id diam tincidunt,
-                                fringilla
-                                ante vitae, dapibus velit. Vivamus id tortor rhoncus, efficitur quam at, suscipit
-                                tortor.
-                                Integer fermentum convallis eros vel semper. Ut non imperdiet velit. Praesent eu dui vel
-                                lacus porta eleifend eget quis dui. Integer tempus massa in gravida tincidunt. Fusce in
-                                libero tristique, euismod nisi vel, luctus urna. Interdum et malesuada fames ac ante
-                                ipsum
-                                primis in faucibus. Donec et placerat arcu. Suspendisse lacinia tristique massa. Etiam
-                                risus
-                                justo, scelerisque id arcu eu, sodales tempor eros. Aliquam efficitur pretium urna, sit
-                                amet
-                                congue risus malesuada rutrum. Donec id massa vel velit ullamcorper accumsan ut eget
-                                nisl.
-                                Fusce viverra commodo lacus, sit amet facilisis leo luctus dictum.
-                            </div>
-                        </div>
-
                     </div>
-                    <div class="faq for-service" style="display: none;">
-
-                        <div class="faq-quetions">
-                            <div class="faq-quetion">
-                                <button type="button" class="btn btn-col" data-toggle="collapse" data-target="#demo-1">
-                                    <img src="./static/images/arrow-down.png">
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum nisl nunc,
-                                        iaculis
-                                        mattis tellus ac ut non imperdiet velit?</p>
-                                </button>
-                            </div>
-                            <div id="demo-1" class="faq-answer collapse show">
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed id diam tincidunt,
-                                fringilla
-                                ante vitae, dapibus velit. Vivamus id tortor rhoncus, efficitur quam at, suscipit
-                                tortor.
-                                Integer fermentum convallis eros vel semper. Ut non imperdiet velit. Praesent eu dui vel
-                                lacus porta eleifend eget quis dui. Integer tempus massa in gravida tincidunt. Fusce in
-                                libero tristique, euismod nisi vel, luctus urna. Interdum et malesuada fames ac ante
-                                ipsum
-                                primis in faucibus. Donec et placerat arcu. Suspendisse lacinia tristique massa. Etiam
-                                risus
-                                justo, scelerisque id arcu eu, sodales tempor eros. Aliquam efficitur pretium urna, sit
-                                amet
-                                congue risus malesuada rutrum. Donec id massa vel velit ullamcorper accumsan ut eget
-                                nisl.
-                                Fusce viverra commodo lacus, sit amet facilisis leo luctus dictum.
+                    <div class="faq for-service accordion" id="exampletwo" style="visibility:hidden">
+                        <div class="faq-quetion accordion-header" id="panelsStayOpen-headingFive">
+                            <p class="accordian-button" data-bs-toggle="collapse"
+                                data-bs-target="#panelsStayOpen-collapseFive" aria-expanded="false"
+                                aria-controls="panelsStayOpen-collapseFive">
+                                <img class="img" src="./static/images/arrow-right.png" alt="">
+                                How much do service providers earn?
+                            </p>
+                        </div>
+                        <div id="panelsStayOpen-collapseFive" class="faq-answer accordion-collapse collapse"
+                            aria-labelledby="headingFive" data-bs-parent="#exampletwo">
+                            <div class="accordion-body">
+                                The self-employed service providers working with Helperland set their own payouts, this means that they decide how much they earn per hour.
                             </div>
                         </div>
-
-                        <div class="faq-quetions">
-                            <div class="faq-quetion">
-                                <button type="button" class="btn btn-col" data-toggle="collapse" data-target="#demo-2">
-                                    <img src="./static/images/arrow-right.png">
-                                    <p>
-                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum nisl nunc,
-                                        iaculis
-                                        mattis tellus ac ut non imperdiet velit?</p>
-                                </button>
-                            </div>
-                            <div id="demo-2" class="faq-answer collapse in">
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed id diam tincidunt,
-                                fringilla
-                                ante vitae, dapibus velit. Vivamus id tortor rhoncus, efficitur quam at, suscipit
-                                tortor.
-                                Integer fermentum convallis eros vel semper. Ut non imperdiet velit. Praesent eu dui vel
-                                lacus porta eleifend eget quis dui. Integer tempus massa in gravida tincidunt. Fusce in
-                                libero tristique, euismod nisi vel, luctus urna. Interdum et malesuada fames ac ante
-                                ipsum
-                                primis in faucibus. Donec et placerat arcu. Suspendisse lacinia tristique massa. Etiam
-                                risus
-                                justo, scelerisque id arcu eu, sodales tempor eros. Aliquam efficitur pretium urna, sit
-                                amet
-                                congue risus malesuada rutrum. Donec id massa vel velit ullamcorper accumsan ut eget
-                                nisl.
-                                Fusce viverra commodo lacus, sit amet facilisis leo luctus dictum.
-                            </div>
+                        <div class="faq-quetion accordion-header" id="panelsStayOpen-headingSix">
+                            <p class="accordian-button" data-bs-toggle="collapse"
+                                data-bs-target="#panelsStayOpen-collapseSix" aria-expanded="false"
+                                aria-controls="panelsStayOpen-collapseSix">
+                                <img class="img" src="./static/images/arrow-right.png" alt="">
+                                What support do you provide to the service providers?
+                            </p>
                         </div>
-
-                        <div class="faq-quetions">
-                            <div class="faq-quetion">
-                                <button type="button" class="btn btn-col" data-toggle="collapse" data-target="#demo-3">
-                                    <img src="./static/images/arrow-right.png">
-                                    <p>
-                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum nisl nunc,
-                                        iaculis
-                                        mattis tellus ac ut non imperdiet velit?</p>
-
-                                </button>
-                            </div>
-                            <div id="demo-3" class="faq-answer collapse in">
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed id diam tincidunt,
-                                fringilla
-                                ante vitae, dapibus velit. Vivamus id tortor rhoncus, efficitur quam at, suscipit
-                                tortor.
-                                Integer fermentum convallis eros vel semper. Ut non imperdiet velit. Praesent eu dui vel
-                                lacus porta eleifend eget quis dui. Integer tempus massa in gravida tincidunt. Fusce in
-                                libero tristique, euismod nisi vel, luctus urna. Interdum et malesuada fames ac ante
-                                ipsum
-                                primis in faucibus. Donec et placerat arcu. Suspendisse lacinia tristique massa. Etiam
-                                risus
-                                justo, scelerisque id arcu eu, sodales tempor eros. Aliquam efficitur pretium urna, sit
-                                amet
-                                congue risus malesuada rutrum. Donec id massa vel velit ullamcorper accumsan ut eget
-                                nisl.
-                                Fusce viverra commodo lacus, sit amet facilisis leo luctus dictum.
+                        <div id="panelsStayOpen-collapseSix" class="faq-answer accordion-collapse collapse"
+                            aria-labelledby="headingSix" data-bs-parent="#exampletwo">
+                            <div class="accordion-body">
+                                Our call-centre is available to assist the service providers with all queries or issues in regards to their bookings during office hours. Before a service provider starts receiving jobs, every individual partner receives an orientation session to familiarise with the online platform and their profile.
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
-
     </div>
 
     <section id="section-newsseltter">
@@ -511,7 +257,9 @@
             <p>get our newsselter</p>
         </div>
         <div class="newsform">
-            <div class="input-field"><input type="text" placeholder="Your Email"></div>
+            <div class="input-field">
+                <input type="text" placeholder="Your Email" />
+            </div>
             <button>Submit</button>
         </div>
     </section>
@@ -520,7 +268,7 @@
         <div class="f-main row">
             <div class="footer-logo col-xl-2">
                 <img src="./static/images/white-logo-transparent-background.png"
-                    srcset="./static/images/white-logo-transparent-background.png" class="footer1-logo ">
+                    srcset="./static/images/white-logo-transparent-background.png" class="footer1-logo" />
             </div>
             <div class="footer-nav col-xl-8">
                 <ul>
@@ -534,60 +282,46 @@
                 </ul>
             </div>
             <div class="footer-social col-xl-2">
-                <img src="./static/images/facebook.png" alt="">
-                <img src="./static/images/insta.png" alt="">
+                <img src="./static/images/facebook.png" alt="" />
+                <img src="./static/images/insta.png" alt="" />
             </div>
         </div>
-        <hr class="hr">
+        <hr class="hr" />
         <div class="f-sub">
-            <p>©2018 Helperland. All rights reserved. Terms and Conditions | Privacy Policy</p>
+            <p>
+                ©2018 Helperland. All rights reserved. Terms and Conditions | Privacy
+                Policy
+            </p>
         </div>
     </section>
 
     <script>
         $(document).ready(function () {
-            // Add down arrow icon for collapse element which is open by default
-            $(".collapse.show").each(function () {
-                $(this).prev(".faq-quetion").find("img").attr('src', './static/images/arrow-down.png');
-            });
-
-            // Toggle right and down arrow icon on show hide of collapse element
-            $('.btn-col').on('click', function () {
-                if ($(this).parent().parent().find(".collapse.show").length) {
-                    $(this).children('img').attr('src', "./static/images/arrow-right.png");
+            $('.accordion-header .accordian-button').on('click', function () {
+                var clist = document.getElementsByClassName("accordion-header");
+                for (var i = 0; i < clist.length; i++) {
+                    clist[i].getElementsByClassName("img")[0].setAttribute('src', "./static/images/arrow-right.png");
+                }
+                if ($(this).hasClass("collapsed")) {
+                    $(this).find('.img').attr('src', "./static/images/arrow-right.png");
                 } else {
-                    $(this).children('img').attr('src', "./static/images/arrow-down.png");
+                    $(this).find('.img').attr('src', "./static/images/arrow-down.png");
                 }
             });
-
             $(".btn-customer").click(function () {
-                $(".for-service").css("display", "none");
-                $(".for-customer").css("display", "block");
+                $(".for-service").css("visiblity", "hidden");
+                $(".for-customer").css("visiblity", "visible");
                 $(this).addClass("btn-active");
                 $(".btn-serviceprovider").removeClass("btn-active");
             });
             $(".btn-serviceprovider").click(function () {
-                $(".for-service").css("display", "block");
-                $(".for-customer").css("display", "none");
+                $(".for-service").css("visiblity", "hidden");
+                $(".for-customer").css("visiblity", "visible");
                 $(this).addClass("btn-active");
                 $(".btn-customer").removeClass("btn-active");
             });
-
-            $(".faq-quetion").click(function () {
-                if (!$(this).parent().find(".faq-answer").hasClass("show")) {
-                    const answerlist = document.getElementsByClassName("faq-answer")
-                    const quetionlist = document.getElementsByClassName("faq-quetion");
-                    for (var i = 0; i < answerlist.length; i++) {
-                        answerlist[i].classList.remove("show");
-                        quetionlist[i].querySelector("button").setAttribute("aria-expanded", "false");
-                    }
-                } else {
-                    $(this).find("button").attr("aria-expanded", "true");
-                }
-            });
         });
     </script>
-
 </body>
 
 </html>
