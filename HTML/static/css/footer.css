@@ -18,6 +18,7 @@
     margin: 0;
     position: relative;
     background-color: #f4f5f8;
+    z-index: -1;
 }
 
 .newstitle {

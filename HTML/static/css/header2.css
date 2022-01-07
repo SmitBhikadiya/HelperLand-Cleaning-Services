@@ -15,7 +15,7 @@
 }
 
 .nav-item {
-    margin-left: 28px;
+    margin-left: 20px;
 }
 
 .nav-link {
@@ -39,6 +39,12 @@
     opacity: 1;
 }
 
+.nav-btn:focus, .nav-link:focus{
+    box-shadow: none;
+    background-color: #29626d;
+    color: white;
+}
+
 
 /* Header image */
 
@@ -51,9 +57,10 @@
 /* For Sticky Navbar */
 
 .navbar.sticky{
-    background-color: rgb(85, 85, 85);
+    background-color: rgb(84, 84, 84);
     position: fixed;
     width: 100%;
+    z-index: 99;
 }
 
 @media screen and (max-width:990px) {
@@ -62,20 +69,39 @@
         padding-bottom: 10px;
     }
 
+    #section-header .nav-btn{
+        width: 100%;
+    }
+
     .header-image {
         margin-top: 0;
         background-size: 100% 100%;
     }
 
+    /* collpase triangle */
+    .navbar-collapse .triangle{
+        position: absolute;
+        background-color: #23565f;
+	    clip-path: polygon(50% 10%, 100% 100%, 0 100%);
+	    width: 10px;
+	    height: 10px;
+        top: -9px;
+        right: 2px;
+    }
+
     .navbar-collapse {
         z-index: 1;
         background-color: #23565f;
-        border-radius: 10px;
+        border-radius: 1px;
         padding: 20px;
+        position: absolute;
+        width:300px;
+        top:60px;
+        right: 32px;
     }
 
     .nav-item {
-        margin-left: 23px;
+        margin-left: 0;
         margin-top: 7px;
     }
 
@@ -94,5 +120,9 @@
     .header-image {
         display: none;
     }
+}
+
+.navbar-toggler:focus{
+    box-shadow: none;
 }
 

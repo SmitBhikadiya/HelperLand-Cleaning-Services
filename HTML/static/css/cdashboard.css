@@ -39,6 +39,7 @@
 
 .div-main {
     height: 932px;
+    overflow-y: scroll;
 }
 
 .div-sidebar {
@@ -67,8 +68,7 @@
     margin-left: 250px;
     padding-left: 30px;
 }
-#servicehistory{
-}
+
 #servicehistory table tr div img {
     margin-right: 5px;
 }

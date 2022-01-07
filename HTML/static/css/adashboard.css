@@ -33,7 +33,8 @@
 
 .div-main {
     height: 1600px;
-    width: 273px;
+    overflow-y: hidden;
+    width: 100%;
 }
 
 /* sidebar */
@@ -93,18 +94,15 @@
     color: #1fb6ff;
 }
 
-.div-main {
-    width: 100%;
-}
 
 /* div-content */
 .differ-section{
-    height: 1600px;
-    overflow-y: hidden;
+    overflow-y: scroll;
 }
 .div-content {
     padding: 70px 20px 1000px 20px;
     background-color: #f2f4f5;
+    overflow-y: scroll;
 }
 
 .shistory-title p {

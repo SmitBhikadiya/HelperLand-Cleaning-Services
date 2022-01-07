@@ -31,6 +31,7 @@
 
 .div-main{
     height: 90vh;
+    overflow-y: scroll;
 }
 
 .div-sidebar{
