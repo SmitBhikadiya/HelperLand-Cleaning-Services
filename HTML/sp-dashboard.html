@@ -17,7 +17,6 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <script src="./static/js/header.js"></script>
 
     <title>dashboard-Upcoming Service</title>
 </head>
@@ -245,10 +244,15 @@
                     <a href="#">Service History</a>
                     <a href="#">My Ratings</a>
                     <a href="#">Block Customer</a>
+                    <div class="sidebar-toggle">
+                        <i class="fa fa-angle-double-right"></i>
+                    </div>
                 </div>
                 <div class="div-content table-responsive">
                     <div id="upcomingservice">
-                        <div><h5>Upcoming Service</h5></div>
+                        <div>
+                            <h5>Upcoming Service</h5>
+                        </div>
                         <table class="table">
                             <thead>
                                 <tr>
@@ -312,8 +316,8 @@
                                     </td>
                                     <td style="line-height: 50px;">15 km</td>
                                     <td class="btn-cancel"><button data-bs-toggle="modal"
-                                        data-bs-target="#exampleModalServiceCancel"
-                                        data-bs-dismiss="modal">Cancel</button></td>
+                                            data-bs-target="#exampleModalServiceCancel"
+                                            data-bs-dismiss="modal">Cancel</button></td>
                                 </tr>
                                 <tr>
                                     <td scope="row" style="line-height: 50px;">323436</td>
@@ -330,8 +334,8 @@
                                     </td>
                                     <td style="line-height: 50px;">15 km</td>
                                     <td class="btn-cancel"><button data-bs-toggle="modal"
-                                        data-bs-target="#exampleModalServiceCancel"
-                                        data-bs-dismiss="modal">Cancel</button></td>
+                                            data-bs-target="#exampleModalServiceCancel"
+                                            data-bs-dismiss="modal">Cancel</button></td>
                                 </tr>
                                 <tr>
                                     <td scope="row" style="line-height: 50px;">323436</td>
@@ -348,8 +352,8 @@
                                     </td>
                                     <td style="line-height: 50px;">15 km</td>
                                     <td class="btn-cancel"><button data-bs-toggle="modal"
-                                        data-bs-target="#exampleModalServiceCancel"
-                                        data-bs-dismiss="modal">Cancel</button></td>
+                                            data-bs-target="#exampleModalServiceCancel"
+                                            data-bs-dismiss="modal">Cancel</button></td>
                                 </tr>
                                 <tr>
                                     <td scope="row" style="line-height: 50px;">323436</td>
@@ -366,8 +370,8 @@
                                     </td>
                                     <td style="line-height: 50px;">15 km</td>
                                     <td class="btn-cancel"><button data-bs-toggle="modal"
-                                        data-bs-target="#exampleModalServiceCancel"
-                                        data-bs-dismiss="modal">Cancel</button></td>
+                                            data-bs-target="#exampleModalServiceCancel"
+                                            data-bs-dismiss="modal">Cancel</button></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -405,7 +409,15 @@
             <p>©2018 Helperland. All rights reserved. Terms and Conditions | Privacy Policy</p>
         </div>
     </section>
-
+    <script>
+        $(document).ready(function () {
+            $(".sidebar-toggle").on("click", function () {
+                $(".div-sidebar").toggleClass("toggle");
+                $(".sidebar-toggle i").toggleClass("toggle");
+            });
+        });
+    </script>
+    <script src="./static/js/header.js"></script>
 </body>
 
 </html>

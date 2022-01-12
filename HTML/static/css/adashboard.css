@@ -39,13 +39,11 @@
 
 /* sidebar */
 .div-sidebar{
-    z-index: 0;
-    position: fixed;
-    top: 0;
-    left: 0;
-    padding: 60px 0px;
-    overflow-y: auto;
+    top: 60px;
+    height: 95vh;
     background-color: white;
+    overflow-y: scroll;
+    padding-bottom: 20px;
     box-shadow: 2px 0 5.5px 0.5px rgba(0, 0, 0, 0.1);
 }
 
@@ -93,6 +91,28 @@
     background-color: white;
     color: #1fb6ff;
 }
+
+.sidebar-toggle i{
+    color: white;
+}
+.sidebar-toggle{
+    background-color: #1fb4ffbe;
+    padding: 5px 1px;
+    top: 25px;
+}
+
+.sidebar-active{
+    color: #1fb4ff !important;
+}
+
+@media screen and (max-width:1200px) {
+    .div-sidebar{
+        overflow-y: unset;
+        top: 70px;
+        box-shadow: 0 4px 8px gray;
+    }
+}
+
 
 
 /* div-content */

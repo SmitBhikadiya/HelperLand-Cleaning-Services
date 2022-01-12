@@ -394,9 +394,7 @@ h2 {
 }
 .say:hover{
     border-left-color: #1d7a8c;
-    border-width: 6px;
-    border-bottom-right-radius: 10px;
-    border-top-right-radius: 10px;
+    box-shadow: 0 4px 8px #4F4F4F;
 }
 
 .say-about {
