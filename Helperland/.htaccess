@@ -1,0 +1,6 @@
+
+  RewriteEngine On
+  RewriteBase /Tatvasoft-PSD-TO-HTML/HelperLand/
+
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteRule ^([^\.]+)$ $1.php [NC,L]

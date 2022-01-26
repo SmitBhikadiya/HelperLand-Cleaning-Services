@@ -1,0 +1,689 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
+
+* {
+    font-family: "Roboto", sans-serif;
+}
+
+.main {
+    margin: 0;
+    padding: 0;
+}
+
+#section-bookservice .container {
+    width: 75%;
+}
+
+.book-header {
+    font-size: 1.2rem;
+    margin-top: 85px;
+    text-align: center;
+}
+
+.book-header h1 {
+    margin-top: 25px;
+    font-size: 2.1rem;
+    font-weight: 500;
+    color: #565656;
+}
+
+.h-line {
+    margin-bottom: 34px;
+    opacity: 0.5;
+}
+
+.book-header .line {
+    height: 50px;
+    width: 5%;
+}
+
+/*----------------Navbar-------------*/
+
+.navbar {
+    background-color: #525252;
+    padding: 0px 10px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+}
+
+.navbar-brand img {
+    width: 73px;
+    height: 54px;
+}
+
+.navbar-nav {
+    margin-left: auto;
+}
+
+.nav-item {
+    margin-left: 28px;
+}
+
+.nav-list {
+    margin-bottom: 0;
+}
+
+.nav-link {
+    color: white;
+    cursor: pointer;
+}
+
+.nav-link:hover {
+    color: white;
+    opacity: 0.7;
+}
+
+.nav-btn {
+    border-radius: 20px;
+    background-color: #29626d;
+}
+
+.nav-btn:hover {
+    background-color: #525252;
+    color: white;
+    opacity: 1;
+}
+
+/* For Sticky Navbar */
+
+@media screen and (max-width:990px) {
+    #book-header {
+        z-index: 0;
+        padding-bottom: 10px;
+    }
+
+
+    .navbar-collapse {
+        z-index: 1;
+        background-color: #23565f;
+        border-radius: 10px;
+        padding: 20px;
+    }
+
+    .nav-item {
+        margin-left: 23px;
+        margin-top: 7px;
+    }
+
+    .navbar-nav .nav-item .nav-link {
+        padding-right: 15px;
+        padding-left: 15px;
+    }
+}
+
+@media screen and (max-width: 415px) {
+    .nav-link {
+        width: 100%;
+        text-align: center;
+    }
+
+    .book-header {
+        margin-top: 50px;
+    }
+}
+
+.book {
+    padding: 0px;
+}
+
+.book-main {
+    display: flex;
+    flex-direction: column;
+}
+
+/*--- Book Steps ---*/
+.book-steps.nav {
+    flex-wrap: nowrap;
+}
+
+.book-steps>div {
+    text-align: center;
+    margin-left: 1px;
+    font-size: 18px;
+    font-weight: 300;
+    padding: 15px 5px;
+    width: 100%;
+    border-left: 1px solid #dcdcdc;
+    border-bottom: 1px solid #dcdcdc;
+    cursor: default;
+}
+
+.nav-tabs .nav-link {
+    color: #525252;
+    border-radius: 0;
+    text-align: center;
+}
+
+.nav-tabs .nav-link:hover {
+    opacity: 1;
+}
+
+.nav-tabs .nav-link.active {
+    position: relative;
+    background: #1d7a8c;
+    color: #fff;
+    border: none;
+}
+.nav-tabs .nav-link .img-crop{
+    position: relative;
+    height: 30px;
+    width: 30px;
+    float: left;
+    overflow: hidden;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+
+}
+.nav-tabs .nav-link>div:not(.img-crop){
+    float: left;
+    margin-left: 10px;
+    padding-top: 2px;
+}
+.nav-tabs .nav-link .img-crop img{
+    position: absolute;
+    top: 0px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+.book-steps .nav-link.active .img-crop img,.book-steps .nav-link.filled .img-crop img{
+    top: -34px;
+}
+
+.book-steps div.active:after {
+    position: absolute;
+    content: "";
+    height: 0;
+    width: 0;
+    top: 100%;
+    border-width: 14px 14px 0 14px;
+    border-color: #1d7a8c transparent transparent transparent;
+    border-style: solid;
+    left: 50%;
+    margin-left: -14px;
+}
+
+.book-steps div.filled {
+    background: #1d7a8c;
+    color: #fff;
+}
+
+.book-steps div.filled:after:not(.active) {
+    content: none;
+}
+
+/*---Book Forms---*/
+.book-forms {
+    margin-top: 25px;
+}
+
+.form-submit {
+    background: #1d7a8c;
+    border: none;
+    font-size: 16px;
+    line-height: 24px;
+    color: #fff;
+    border-radius: 50px;
+    transition: all .3s ease;
+    padding: 11px 25px;
+}
+
+.book-forms label {
+    font-size: 16px;
+    font-weight: 500;
+    margin-bottom: 10px;
+    letter-spacing: 0.5px;
+}
+
+/*Form Setup*/
+.form-setup input {
+    margin-right: 5px;
+    width: 35%;
+    height: 45px;
+}
+
+.form-setup input:focus {
+    box-shadow: none;
+    border-color: #1d7a8c;
+}
+
+/*Form Schedule & Plan*/
+.schedule-timing input[type='date'] {
+    width: fit-content;
+    height: 45px;
+    padding-right: 0;
+    margin-right: 5px;
+}
+
+.schedule-timing select {
+    width: fit-content;
+    height: 45px;
+}
+
+.schedule-timing {
+    border-bottom: 1px solid #dcdcdc;
+    padding-bottom: 30px;
+}
+
+.schedule-extra {
+    margin-top: 30px;
+    border-bottom: 1px solid #dcdcdc;
+}
+
+.schedule-extra .schedule-title {
+    font-size: 16px;
+    font-weight: 500;
+    margin-bottom: 25px;
+    letter-spacing: 0.5px;
+}
+
+.schedule-extra .extra-div {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+.schedule-extra .extra-div input[type='checkbox'] {
+    display: none;
+}
+
+.schedule-extra .extra-div .form-check {
+    padding-left: 0;
+}
+
+.schedule-extra .extra-div .form-check input:checked~label .extra-round {
+    border: 3px solid #1d7a8c;
+}
+
+.schedule-extra .extra-div>div {
+    width: 130px;
+    cursor: pointer;
+}
+
+.schedule-extra .extra-div>div .extra-round {
+    margin: 2px 11px;
+}
+
+.schedule-extra .extra-round {
+    padding: 25px;
+    border: 1px solid #c8c8c8;
+    display: inline-block;
+    border-radius: 500px;
+    margin-bottom: 8px;
+    position: relative;
+    width: 110px;
+    height: 110px;
+}
+
+.schedule-extra .extra-round img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.schedule-extra .extra-title {
+    text-align: center;
+}
+
+.schedule-comment {
+    margin-top: 30px;
+    border-bottom: 1px solid #dcdcdc;
+}
+
+.schedule-comment .form-check {
+    margin-top: 15px;
+    margin-left: 10px;
+}
+
+.schedule-submit {
+    margin-top: 15px;
+    text-align: right;
+}
+
+/* detailes-title */
+.detailes-title {
+    font-size: 16px;
+    font-weight: 500;
+    margin-bottom: 25px;
+    letter-spacing: 0.5px;
+}
+
+.detailes-address .form-check {
+    border: 1px solid #80808041;
+    padding: 10px;
+    margin-top: 15px;
+    position: relative;
+}
+
+.detailes-address .form-check input {
+    position: absolute;
+    top: 32%;
+    left: 40px;
+}
+
+.detailes-address .form-check-input:checked {
+    background-color: #1d7a8c;
+    border-color: #1d7a8c;
+}
+
+.detailes-address .form-check-input:checked:focus {
+    box-shadow: none;
+}
+
+.detailes-address .form-check label {
+    width: 100%;
+    padding-left: 40px;
+}
+
+.detailes-address .form-check label div span {
+    font-weight: 400;
+}
+
+.new-address-button {
+    margin-top: 20px;
+}
+
+.new-address-button button {
+    padding: 8px 14px;
+    border-radius: 25px;
+    border: none;
+    border: 2px solid #1d7a8c;
+    color: #1d7a8c;
+    font-size: 18px;
+}
+
+.add-address-buttons button {
+    padding: 8px 16px;
+    border-radius: 25px;
+    border: none;
+    border: 2px solid #1d7a8c;
+    color: #1d7a8c;
+    font-size: 18px;
+}
+
+.btn-save {
+    background-color: #1d7a8c;
+    color: white !important;
+}
+
+.detailes-new-address #new-address {
+    margin-top: 10px;
+}
+
+#new-address .col-6 {
+    margin-top: 10px;
+}
+
+/*favorite sp*/
+.fav-service-provicer {
+    border-bottom: 1px solid #dcdcdc;
+    margin-top: 30px;
+    padding-bottom: 30px;
+
+}
+
+.fav-title, .fav-subtitle {
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    margin-bottom: 10px;
+}
+
+.fav-subtitle {
+    font-weight: 300;
+}
+
+.fav-sp-list {
+    display: flex;
+    flex-direction: row;
+    justify-content: left;
+    align-items: center;
+    padding-top: 30px;
+}
+
+.fav-sp-list .form-check {
+    padding-left: 0px;
+}
+
+.fav-sp-list .form-check input {
+    display: none;
+}
+
+.fav-sp {
+    width: 120px;
+    text-align: center;
+    margin-right: 20px;
+    padding: 2px;
+}
+
+.user-avtar img {
+    width: 80px;
+    margin: 0px auto;
+}
+
+.user-name {
+    font-size: 16px;
+    font-weight: 500;
+    margin-top: 8px;
+}
+
+.user-select {
+    border: 1px solid gray;
+    padding: 4px 15px;
+    margin-top: 8px;
+}
+
+/*------------- Payment Tab------------*/
+.payment-title {
+    font-size: 16px;
+    font-weight: 500;
+    margin-bottom: 25px;
+    letter-spacing: 0.5px;
+}
+
+.promocode {
+    border-bottom: 1px solid #dcdcdc;
+    padding-bottom: 30px;
+}
+
+.promocode div input {
+    width: 30%;
+    height: 40px;
+    padding-left: 10px;
+}
+
+.promocode div button {
+    border-radius: 25px;
+    padding: 8px 20px;
+    border: 1px solid #1d7a8c;
+    color: #1d7a8c;
+}
+
+.promocode div button:hover {
+    background-color: #1d7a8c;
+    color: white;
+}
+
+.payment-card {
+    display: flex;
+    justify-content: space-between;
+    height: 150px;
+    align-items: center;
+    border-bottom: 1px solid #dcdcdc;
+    padding-bottom: 30px;
+}
+
+.payment-card input {
+    border: none;
+    outline: none;
+    font-size: 18px;
+}
+
+.card-number i {
+    margin-right: 6px;
+}
+
+.card-detailes {
+    display: flex;
+    justify-content: right;
+}
+
+.card-detailes>div {
+    width: 70px;
+}
+
+.accept-policy {
+    padding: 30px 0px;
+    border-bottom: 1px solid #dcdcdc;
+
+}
+
+.accept-policy label {
+    font-weight: 300;
+}
+
+.accept-policy label a {
+    text-decoration: none;
+}
+
+
+/*---Book Payment---*/
+.book-payment {
+    box-shadow: 0 0 10px #0000004d;
+    padding: 0;
+}
+
+.payment-header {
+    padding: 18px 5px;
+    font-size: 22px;
+    background-color: #1d7a8c;
+    color: white;
+    padding-left: 20px;
+}
+
+.payment-service-detailes {
+    padding: 20px;
+    font-size: 16px;
+    line-height: 26px;
+    color: #4f4f4f;
+}
+
+.payment-duration .d-title {
+    font-size: 18px;
+}
+
+.duration-basic, .extra, .total-service-time, .per-cleaning, .total-payment {
+    display: flex;
+    justify-content: space-between;
+}
+
+.duration-basic {
+    padding-bottom: 5px;
+}
+
+.payment-extras {
+    border-bottom: 1px solid grey;
+    padding-bottom: 5px;
+}
+
+.payment-extras .extras-title {
+    font-size: 16px;
+    line-height: 26px;
+    font-weight: 500;
+    color: #4f4f4f;
+}
+
+.total-service-time {
+    padding: 5px 0px;
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.per-cleaning {
+    padding: 20px;
+    border-top: 1px solid #80808083;
+    border-bottom: 1px solid #80808083;
+}
+
+.per-cleaning .total {
+    font-weight: 700;
+    font-size: 18px;
+}
+
+.total-payment {
+    padding: 15px 20px;
+    color: #1d7a8c;
+}
+
+.total-payment .title {
+    font-size: 18px;
+    line-height: 58px;
+}
+
+.total-payment .total {
+    font-size: 42px;
+    font-weight: 500;
+}
+
+.always-included {
+    padding: 20px;
+}
+
+/*-- Book Quetions --*/
+.book-quetions {
+    margin-top: 20px;
+}
+
+.accordion-body {
+    padding: 0.3rem 1.9em;
+}
+
+.quetions-title {
+    text-align: center;
+    font-size: 20px;
+    font-weight: 500;
+    color: #4f4f4f;
+    padding-bottom: 10px;
+}
+
+.accordion-item {
+    border: none;
+    position: relative;
+}
+.accordion-button {
+    color: #4f4f4f;
+    background-color: unset;
+    box-shadow: inset 0 -1px 0 rgb(0 0 0 / 13%);
+    padding-left: 30px;
+    padding: 10px 30px;
+}
+.accordion-button:focus {
+    box-shadow: none;
+}
+
+.accordion-button::after {
+    transform: rotate(-90deg);
+    position: absolute;
+    top: 10px;
+    left: 0;
+}
+.accordion-button:not(.collapsed)::after {
+    transform: rotate(0deg);
+}
+.accordion-button:not(.collapsed) {
+    color: unset;
+    background-color: white;
+    box-shadow: none;
+}
+.for-more{
+    padding: 20px 1px;
+}
+.for-more a{
+    text-decoration: none;
+    color: #1d7a8c;
+    font-weight: 500;
+}
