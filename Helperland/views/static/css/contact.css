@@ -69,13 +69,15 @@
     width: 50%;
     margin: 0 auto;
 }
+.c-form .form-check{
+    padding: 15px 35px;
+    color: #80808094;
+    cursor: pointer;
+}
 .form-title{
     text-align: center;
     margin: 40px auto;
     color: #565656;
-}
-.form-control, .input-group-text{
-    height: 50px;
 }
 .submit-btn{
     text-align: center;

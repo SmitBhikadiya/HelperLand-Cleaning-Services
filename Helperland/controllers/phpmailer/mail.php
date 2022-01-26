@@ -1,7 +1,7 @@
 <?php 
     require("./phpmailer/PHPMailerAutoload.php");
 
-    function sendmail($recipent, $subject, $body, $altbody=""){
+    function sendmail($recipent, $subject, $body, $attachement){
         $mail = new PHPMailer;
         //$mail->SMTPDebug = 4;                               // Enable verbose debug output
 
@@ -18,12 +18,13 @@
     
         $mail->addReplyTo(Config::SMTP_EMAIL);
 
-        //$mail->addAttachment('/tmp/image.jpg', 'new.jpg');    // Optional name
+        if(!empty($attachement)){
+            $mail->addAttachment($attachement);    // Optional name
+        }
         $mail->isHTML(true);                                  // Set email format to HTML
 
         $mail->Subject = $subject;
         $mail->Body    = $body;
-        $mail->AltBody = $altbody;
 
         if(!$mail->send()) {
             echo 'Message could not be sent.';

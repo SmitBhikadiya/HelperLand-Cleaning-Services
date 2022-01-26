@@ -13,7 +13,7 @@
     <div class="container mt-3">
         <?php if (isset($_COOKIE["error"])) { ?>
             <div class="alert alert-danger" role="alert">
-                <?= $_COOKIE["error"] ?>
+                <?=$_COOKIE["error"]?>
             </div>
         <?php
         } else {
