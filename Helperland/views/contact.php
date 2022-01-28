@@ -92,7 +92,7 @@ if (isset($_COOKIE["contact_success"])) {
                 <h1>Get in touch with us</h1>
             </div>
             <div class="c-form">
-                <form action="../controllers/ContactUsController.php" method="post" enctype="multipart/form-data">
+                <form action="../controllers/MainController.php" method="post" enctype="multipart/form-data">
                     <div class="modal-body">
                         <?php
                         if (!empty($isSuccess)) {
@@ -106,10 +106,10 @@ if (isset($_COOKIE["contact_success"])) {
                         ?>
                         <div class="row">
                             <div class="col-lg-6 col-md-6 col-sm-6" style="padding-bottom: 10px;">
-                                <input class="form-control" name="firstname" placeholder="Firstname" type="text" required autofocus />
+                                <input class="form-control" id="firstname" name="firstname" placeholder="Firstname" type="text" required autofocus />
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-6" style="padding-bottom: 10px;">
-                                <input class="form-control" name="lastname" placeholder="Lastname" type="text" required />
+                                <input class="form-control" id="lastname" name="lastname" placeholder="Lastname" type="text" required />
                             </div>
                         </div>
                         <div class="row">
@@ -118,17 +118,17 @@ if (isset($_COOKIE["contact_success"])) {
                                     <div class="input-group-prepend">
                                         <div class="input-group-text">+49</div>
                                     </div>
-                                    <input type="number" class="form-control" name="phonenumber" id="inlineFormInputGroup" placeholder="Mobile number">
+                                    <input type="number" class="form-control" name="phonenumber" id="phonenumber" placeholder="Mobile number">
                                 </div>
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-6" style="padding-bottom: 10px;">
-                                <input class="form-control" name="email" placeholder="Email address" type="email" required />
+                                <input class="form-control" id="email" name="email" placeholder="Email address" type="email" required />
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-lg-12 col-md-12 col-sm-12" style="padding-bottom: 10px;">
                                 <div class="form-group">
-                                    <select id="inputState" name="subject" class="form-control">
+                                    <select id="inputState" id="subject" name="subject" class="form-control">
                                         <option value="general">General</option>
                                         <option value="inquiry">Inquiry</option>
                                         <option value="renewal">Renewal</option>
@@ -139,19 +139,19 @@ if (isset($_COOKIE["contact_success"])) {
                         </div>
                         <div class="row">
                             <div class="col-lg-12 col-md-12 col-sm-12">
-                                <textarea style="resize:vertical;" class="form-control" name="message" placeholder="Message..." rows="3" name="comment" required></textarea>
+                                <textarea style="resize:vertical;" id="message" class="form-control" name="message" placeholder="Message..." rows="3" name="comment" required></textarea>
                             </div>
                         </div>
                         <div class="row mt-3">
                             <div class="form-group">
                                 <label for="fileupload">Attachment</label>
-                                <input type="file" name="attachment" class="form-control">
+                                <input type="file" name="attachment" id="attachement" class="form-control">
                             </div>
                         </div>
                         <div class="row">
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" name="policy" id="acceptpolicy" value="policy">
-                                <label class="form-check-label" for="acceptpolicy">
+                                <input class="form-check-input" type="checkbox" name="policy" id="policy" value="policy">
+                                <label class="form-check-label" for="policy">
                                     I hearby agree that my data entered into the contact form will be store electronically
                                 </label>
                             </div>
@@ -159,7 +159,7 @@ if (isset($_COOKIE["contact_success"])) {
 
                     </div>
                     <div class="submit-btn">
-                        <button type="submit" name="contactus" value="contactus">Submit</button>
+                        <button type="submit" name="contactus" id="submit" value="contactus">Submit</button>
                     </div>
                 </form>
             </div>
@@ -175,6 +175,7 @@ if (isset($_COOKIE["contact_success"])) {
 
     <script src="./static/js/header.js"></script>
     <script src="./static/js/footer.js"></script>
+    <script src="./static/js/validation.js"></script>
     <script>
         $(document).ready(function() {
 

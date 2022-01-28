@@ -224,3 +224,8 @@
         margin-top: 84px;
     }
 }
+.error{
+    color: red;
+    margin-top: 2px;
+    font-size: 13px;
+}

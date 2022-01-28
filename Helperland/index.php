@@ -1,6 +1,6 @@
 <?php
 
-$controller = "Users";
+$controller = "Main";
 if(file_exists("controllers/".$controller."Controller.php")){
     header("Location: controllers/".$controller."Controller.php");
 }else{

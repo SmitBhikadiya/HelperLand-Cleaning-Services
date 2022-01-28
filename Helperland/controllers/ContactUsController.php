@@ -11,8 +11,7 @@ class ContactUsController
     {
         $this->data = $post;
     }
-    function insertContactForm()
-    {
+    function insertContactForm(){
         //server side validation
         $validator = new ContactUsValidator($_POST);
         $errors = $validator->isContactUsFormValidate();
@@ -86,8 +85,4 @@ class ContactUsController
         }
         sendmail(Config::ADMIN_EMAIL, $subject, $html, $attachment);
     }
-}
-$contact = new ContactUsController($_POST);
-if (isset($_POST["contactus"])) {
-    $contact->insertContactForm();
 }
