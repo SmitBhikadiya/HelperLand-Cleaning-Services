@@ -19,21 +19,12 @@ class ContactUsModal extends Connection
         $PhoneNumber = $this->data["phonenumber"];
         $Message = $this->data["message"];
         $UploadFileName = $this->data["filename"];
-        $sql = "INSERT INTO contactus (Name, Email, SubjectType, PhoneNumber, Message, UploadFileName) VALUES ('$Name', '$Email', '$SubjectType', '$PhoneNumber', '$Message', '$UploadFileName')";
+        $filelocation = $this->data["filelocation"];
+        $sql = "INSERT INTO contactus (Name, Email, Subject, PhoneNumber, Message, UploadFileName, FileName) VALUES ('$Name', '$Email', '$SubjectType', '$PhoneNumber', '$Message', '$UploadFileName', '$filelocation')";
         
         $result = $this->conn->query($sql);
-        $last_id = $this->conn->insert_id;
         if(!$result){
             $this->addErrors("contactus", "Somthing went wrong with $sql");
-        }else{
-            $filelocation = $this->data["filelocation"];
-            if(!empty($UploadFileName)){
-                $sql = "INSERT INTO contactusattachment (ContactUsId, Name, FileName) VALUES ($last_id, '$UploadFileName', '$filelocation')";
-                $result = $this->conn->query($sql);
-                if(!$result){
-                    $this->addErrors("contactusattachment", "Somthing went wrong with $sql");         
-                }
-            }
         }
         return [$result, $this->errors];
     }

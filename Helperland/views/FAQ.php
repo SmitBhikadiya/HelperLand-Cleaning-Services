@@ -1,6 +1,5 @@
 <?php
 session_start();
-include("../config.php");
 if (isset($_SESSION["userdata"])) {
     $userdata = $_SESSION["userdata"];
     //print_r($userdata);
@@ -16,10 +15,10 @@ if (isset($_SESSION["userdata"])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="./static/css/footer.css">
-    <link rel="stylesheet" href="./static/css/header1.css">
-    <link rel="stylesheet" href="./static/css/modal.css">
-    <link rel="stylesheet" href="./static/css/faqs.css">
+    <link rel="stylesheet" href="static/css/footer.css">
+    <link rel="stylesheet" href="static/css/header1.css">
+    <link rel="stylesheet" href="static/css/modal.css">
+    <link rel="stylesheet" href="static/css/faqs.css">
 
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
@@ -32,9 +31,9 @@ if (isset($_SESSION["userdata"])) {
 <body>
 
 <?php 
-        include("./includes/login-modal.php");
-        include("./includes/forgotpsw-modal.php");
-        include("./includes/header.php")
+        include("includes/login-modal.php");
+        include("includes/forgotpsw-modal.php");
+        include("includes/header.php")
     ?>
 
     <div id="main">
@@ -43,9 +42,9 @@ if (isset($_SESSION["userdata"])) {
             <div class="faqs-header">
                 <h1>FAQs</h1>
                 <div class="h-line">
-                    <img src="./static/images/line.png" alt="" class="line">
-                    <img src="./static/images/star.png" alt="" class="star">
-                    <img src="./static/images/line.png" alt="" class="line">
+                    <img src="static/images/line.png" alt="" class="line">
+                    <img src="static/images/star.png" alt="" class="star">
+                    <img src="static/images/line.png" alt="" class="line">
                 </div>
                 <div class="content">
                     Whether you are Customer or Service provider,<br>
@@ -63,7 +62,7 @@ if (isset($_SESSION["userdata"])) {
                         <div class="faq-quetions">
                             <div class="faq-quetion">
                                 <button type="button" class="btn btn-col" data-toggle="collapse" data-target="#demo1">
-                                    <img src="./static/images/arrow-down.png">
+                                    <img src="static/images/arrow-down.png">
                                     <p>
                                     What's included in a cleaning?</p>
 
@@ -77,7 +76,7 @@ if (isset($_SESSION["userdata"])) {
                         <div class="faq-quetions">
                             <div class="faq-quetion">
                                 <button type="button" class="btn btn-col" data-toggle="collapse" data-target="#demo2">
-                                    <img src="./static/images/arrow-right.png">
+                                    <img src="static/images/arrow-right.png">
                                     <p>
                                     Which Helperland professional will come to my place?</p>
                                 </button>
@@ -89,7 +88,7 @@ if (isset($_SESSION["userdata"])) {
                         <div class="faq-quetions">
                             <div class="faq-quetion">
                                 <button type="button" class="btn btn-col" data-toggle="collapse" data-target="#demo3">
-                                    <img src="./static/images/arrow-right.png">
+                                    <img src="static/images/arrow-right.png">
                                     <p>
                                     Can I skip or reschedule bookings?</p>
 
@@ -102,7 +101,7 @@ if (isset($_SESSION["userdata"])) {
                         <div class="faq-quetions">
                             <div class="faq-quetion">
                                 <button type="button" class="btn btn-col" data-toggle="collapse" data-target="#demo4">
-                                    <img src="./static/images/arrow-right.png">
+                                    <img src="static/images/arrow-right.png">
                                     <p>
                                     Do I need to be home for the booking?</p>
                                 </button>
@@ -117,7 +116,7 @@ if (isset($_SESSION["userdata"])) {
                         <div class="faq-quetions">
                             <div class="faq-quetion">
                                 <button type="button" class="btn btn-col" data-toggle="collapse" data-target="#demo-1">
-                                    <img src="./static/images/arrow-down.png">
+                                    <img src="static/images/arrow-down.png">
                                     <p>How much do service providers earn?</p>
                                 </button>
                             </div>
@@ -128,7 +127,7 @@ if (isset($_SESSION["userdata"])) {
                         <div class="faq-quetions">
                             <div class="faq-quetion">
                                 <button type="button" class="btn btn-col" data-toggle="collapse" data-target="#demo-2">
-                                    <img src="./static/images/arrow-right.png">
+                                    <img src="static/images/arrow-right.png">
                                     <p>
                                     What support do you provide to the service providers?</p>
                                 </button>
@@ -143,10 +142,10 @@ if (isset($_SESSION["userdata"])) {
 
     </div>
 
-   <?php include("./includes/footer.php")?>
+   <?php include("includes/footer.php")?>
 
-    <script src="./static/js/header.js"></script>
-    <script src="./static/js/footer.js"></script>
+    <script src="static/js/header.js"></script>
+    <script src="static/js/footer.js"></script>
     <script>
         $(document).ready(function() {
 
@@ -162,15 +161,15 @@ if (isset($_SESSION["userdata"])) {
 
             // Add down arrow icon for collapse element which is open by default
             $(".collapse.show").each(function() {
-                $(this).prev(".faq-quetion").find("img").attr('src', './static/images/arrow-down.png');
+                $(this).prev(".faq-quetion").find("img").attr('src', 'static/images/arrow-down.png');
             });
 
             // Toggle right and down arrow icon on show hide of collapse element
             $('.btn-col').on('click', function() {
                 if ($(this).parent().parent().find(".collapse.show").length) {
-                    $(this).children('img').attr('src', "./static/images/arrow-right.png");
+                    $(this).children('img').attr('src', "static/images/arrow-right.png");
                 } else {
-                    $(this).children('img').attr('src', "./static/images/arrow-down.png");
+                    $(this).children('img').attr('src', "static/images/arrow-down.png");
                 }
             });
 

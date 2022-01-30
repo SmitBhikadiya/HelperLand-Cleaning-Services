@@ -1,0 +1,21 @@
+<?php
+require("ContactUsController.php");
+
+class DefaultController{
+    function homepage(){
+        include("views/Homepage.php");
+    }
+    function faqs(){
+        include("views/FAQ.php");
+    }
+    function about(){
+        include("views/about.php");
+    }
+    function contact(){
+        include("views/contact.php");
+    }
+    function price(){
+        include("views/Prices.php");
+    }
+}
+?>

@@ -24,5 +24,8 @@ class Config{
     /*-------------- File Upload Validation ----------------*/
     const FILE_MAX_SIZE = 1*1024*1024*4; //(bit*byte*kb*mb) max_size = 4mb
     const FILE_EXTENSION = ['jpg', 'jpeg', 'png', 'docx', 'pdf', 'gif'];
+
+    /*---------------- Application constant --------------------*/
+    const BASE_URL = "http://localhost/Tatvasoft-PSD-TO-HTML/HelperLand/";
 }
 ?>

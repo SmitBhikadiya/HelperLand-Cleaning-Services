@@ -1,6 +1,5 @@
 <?php
 session_start();
-//include("../config.php");
 //if (isset($_SESSION["userdata"])) {
 //    $userdata = $_SESSION["userdata"];
 //    //print_r($userdata);
@@ -23,10 +22,10 @@ if (isset($_COOKIE["contact_success"])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="./static/css/footer.css">
-    <link rel="stylesheet" href="./static/css/header1.css">
-    <link rel="stylesheet" href="./static/css/modal.css">
-    <link rel="stylesheet" href="./static/css/contact.css">
+    <link rel="stylesheet" href="static/css/footer.css">
+    <link rel="stylesheet" href="static/css/header1.css">
+    <link rel="stylesheet" href="static/css/modal.css">
+    <link rel="stylesheet" href="static/css/contact.css">
 
 
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
@@ -39,9 +38,9 @@ if (isset($_COOKIE["contact_success"])) {
 <body>
 
     <?php
-    include("./includes/login-modal.php");
-    include("./includes/forgotpsw-modal.php");
-    include("./includes/header.php")
+    include("includes/login-modal.php");
+    include("includes/forgotpsw-modal.php");
+    include("includes/header.php")
     ?>
 
     <div id="main">
@@ -51,14 +50,14 @@ if (isset($_COOKIE["contact_success"])) {
             <div class="contactus-services">
                 <h1>Contact Us</h1>
                 <div class="h-line">
-                    <img src="./static/images/line.png" alt="" class="line">
-                    <img src="./static/images/star.png" alt="" class="star">
-                    <img src="./static/images/line.png" alt="" class="line">
+                    <img src="static/images/line.png" alt="" class="line">
+                    <img src="static/images/star.png" alt="" class="star">
+                    <img src="static/images/line.png" alt="" class="line">
                 </div>
                 <div class="contact-list row">
                     <div class="c-list col-xl-4 col-md-4">
                         <div class="c-img">
-                            <img src="./static/images/location-pin.png">
+                            <img src="static/images/location-pin.png">
                         </div>
                         <div class="c-title">
                             <p>1111 Lorem ipsum text 100,<br> Lorem ipsum AB</p>
@@ -66,7 +65,7 @@ if (isset($_COOKIE["contact_success"])) {
                     </div>
                     <div class="c-list col-xl-4 col-md-4">
                         <div class="c-img">
-                            <img src="./static/images/phone-call.png" alt="">
+                            <img src="static/images/phone-call.png" alt="">
                         </div>
                         <div class="c-title">
                             <p>+49 (40) 123 56 7890<br>+49 (40) 987 56 0000</p>
@@ -74,7 +73,7 @@ if (isset($_COOKIE["contact_success"])) {
                     </div>
                     <div class="c-list col-xl-4 col-md-4">
                         <div class="c-img">
-                            <img src="./static/images/email.png" alt="">
+                            <img src="static/images/email.png" alt="">
                         </div>
                         <div class="c-title">
                             <p>info@helperland.com</p>
@@ -92,7 +91,7 @@ if (isset($_COOKIE["contact_success"])) {
                 <h1>Get in touch with us</h1>
             </div>
             <div class="c-form">
-                <form action="../controllers/MainController.php" method="post" enctype="multipart/form-data">
+                <form action=".controllers/MainController.php" method="post" enctype="multipart/form-data">
                     <div class="modal-body">
                         <?php
                         if (!empty($isSuccess)) {
@@ -171,11 +170,11 @@ if (isset($_COOKIE["contact_success"])) {
         <iframe allowfullscreen="" frameborder="0" src="https://www.google.com/maps/embed/v1/place?q=place_id:ChIJxzZgCD_hvkcRTC-2Pt6bXt0&amp;key=AIzaSyAag-Mf1I5xbhdVHiJmgvBsPfw7mCqwBKU"></iframe>
     </section>
 
-    <?php include("./includes/footer.php") ?>
+    <?php include("includes/footer.php") ?>
 
-    <script src="./static/js/header.js"></script>
-    <script src="./static/js/footer.js"></script>
-    <script src="./static/js/validation.js"></script>
+    <script src="static/js/header.js"></script>
+    <script src="static/js/footer.js"></script>
+    <script src="static/js/validation.js"></script>
     <script>
         $(document).ready(function() {
 

@@ -31,12 +31,12 @@
                 </div>
                 <div class="footer-nav col-xl-8">
                     <ul>
-                        <li><a href="Homepage.php">HOME</a></li>
-                        <li><a href="about.php">ABOUT</a></li>
+                        <li><a href="<?=$base_url.'?controller=Default&function=homepage'?>">HOME</a></li>
+                        <li><a href="<?=$base_url.'?controller=Default&function=about'?>">ABOUT</a></li>
                         <li><a href="#">TESTIMONIALS</a></li>
-                        <li><a href="FAQ.php">FAQS</a></li>
+                        <li><a href="<?=$base_url.'?controller=Default&function=faqs'?>">FAQS</a></li>
                         <li><a href="#">INSURANCE</a></li>
-                        <li><a href="contact.php">POLICY</a></li>
+                        <li><a href="<?=$base_url.'?controller=Default&function=contact'?>">POLICY</a></li>
                         <li><a href="#">IMPRESSUM</a></li>
                     </ul>
                 </div>

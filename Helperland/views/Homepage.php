@@ -1,6 +1,5 @@
 <?php
 session_start();
-include("../config.php");
 if (isset($_SESSION["userdata"])) {
     $userdata = $_SESSION["userdata"];
     //print_r($userdata);
@@ -15,10 +14,10 @@ if (isset($_SESSION["userdata"])) {
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="./static/css/header1.css">
-    <link rel="stylesheet" href="./static/css/footer.css">
-    <link rel="stylesheet" href="./static/css/modal.css">
-    <link rel="stylesheet" href="./static/css/homepage.css">
+    <link rel="stylesheet" href="static/css/header1.css">
+    <link rel="stylesheet" href="static/css/footer.css">
+    <link rel="stylesheet" href="static/css/modal.css">
+    <link rel="stylesheet" href="static/css/homepage.css">
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
@@ -31,9 +30,9 @@ if (isset($_SESSION["userdata"])) {
 
 <body>
     <?php
-    include("./includes/login-modal.php");
-    include("./includes/forgotpsw-modal.php");
-    include("./includes/header.php");
+    include("includes/login-modal.php");
+    include("includes/forgotpsw-modal.php");
+    include("includes/header.php");
     ?>
 
     <div class="main" id="main">
@@ -59,40 +58,40 @@ if (isset($_SESSION["userdata"])) {
             <div class="all-steps">
                 <div class="step">
                     <div class="step-img">
-                        <img src="./static/images/step1.png" alt="">
+                        <img src="static/images/step1.png" alt="">
                     </div>
                     <div class="step-text">
                         Enter Postal code
                     </div>
                     <div class="step-arrow">
-                        <img src="./static/images/step-down-arrow.png" alt="">
+                        <img src="static/images/step-down-arrow.png" alt="">
                     </div>
                 </div>
                 <div class="step">
                     <div class="step-img">
-                        <img src="./static/images/step2.png" alt="">
+                        <img src="static/images/step2.png" alt="">
                     </div>
                     <div class="step-text">
                         Select desired date
                     </div>
                     <div class="step-arrow">
-                        <img src="./static/images/step-up-arrow.png" alt="">
+                        <img src="static/images/step-up-arrow.png" alt="">
                     </div>
                 </div>
                 <div class="step">
                     <div class="step-img">
-                        <img src="./static/images/step3.png" alt="">
+                        <img src="static/images/step3.png" alt="">
                     </div>
                     <div class="step-text">
                         Secure online payment
                     </div>
                     <div class="step-arrow">
-                        <img src="./static/images/step-down-arrow.png" alt="">
+                        <img src="static/images/step-down-arrow.png" alt="">
                     </div>
                 </div>
                 <div class="step">
                     <div class="step-img">
-                        <img src="./static/images/step1.png" alt="">
+                        <img src="static/images/step1.png" alt="">
                     </div>
                     <div class="step-text">
                         Feel at home
@@ -101,7 +100,7 @@ if (isset($_SESSION["userdata"])) {
             </div>
             <div class="btn-down">
                 <div class="circle">
-                    <img src="./static/images/shape-1.png" alt="">
+                    <img src="static/images/shape-1.png" alt="">
                 </div>
             </div>
         </section>
@@ -113,7 +112,7 @@ if (isset($_SESSION["userdata"])) {
             </div>
             <div class="helpers">
                 <div class="helper">
-                    <div class="helper-image"><img class="image-rounded" src="./static/images/helper1.png" alt=""></div>
+                    <div class="helper-image"><img class="image-rounded" src="static/images/helper1.png" alt=""></div>
                     <div class="helper-title">
                         <h3>Friendly & Certified Helpers</h3>
                     </div>
@@ -122,7 +121,7 @@ if (isset($_SESSION["userdata"])) {
                     </div>
                 </div>
                 <div class="helper">
-                    <div class="helper-image"><img src="./static/images/helper2.png" alt=""></div>
+                    <div class="helper-image"><img src="static/images/helper2.png" alt=""></div>
                     <div class="helper-title">
                         <h3>Transparent and secure Payment</h3>
                     </div>
@@ -131,7 +130,7 @@ if (isset($_SESSION["userdata"])) {
                     </div>
                 </div>
                 <div class="helper">
-                    <div class="helper-image"><img src="./static/images/helper3.png" alt=""></div>
+                    <div class="helper-image"><img src="static/images/helper3.png" alt=""></div>
                     <div class="helper-title">
                         <h3>We're here for you</h3>
                     </div>
@@ -156,7 +155,7 @@ if (isset($_SESSION["userdata"])) {
                     </div>
                 </div>
                 <div class="col-md-12 col-xl-5 helper4">
-                    <img src="./static/images/helper4.png" alt="">
+                    <img src="static/images/helper4.png" alt="">
                 </div>
             </div>
             <!--<div class="sub-blog">
@@ -165,7 +164,7 @@ if (isset($_SESSION["userdata"])) {
                 </div>
                 <div class="helpers">
                     <div class="blog card">
-                        <img class="card-img-top" src="./static/images/blog1.png" alt="Card image cap">
+                        <img class="card-img-top" src="static/images/blog1.png" alt="Card image cap">
                         <div class="card-body">
                             <h5 class="card-title">Lorem ipsum dolor sit amet<br><span class="card-date">January 28,
                                     2019</span></h5>
@@ -180,7 +179,7 @@ if (isset($_SESSION["userdata"])) {
                         </div>
                     </div>
                     <div class="blog card">
-                        <img class="card-img-top" src="./static/images/blog2.png" alt="Card image cap">
+                        <img class="card-img-top" src="static/images/blog2.png" alt="Card image cap">
                         <div class="card-body">
                             <h5 class="card-title">Lorem ipsum dolor sit amet<br><span class="card-date">January 28,
                                     2019</span></h5>
@@ -195,7 +194,7 @@ if (isset($_SESSION["userdata"])) {
                         </div>
                     </div>
                     <div class="blog card">
-                        <img class="card-img-top" src="./static/images/blog3.png" alt="Card image cap">
+                        <img class="card-img-top" src="static/images/blog3.png" alt="Card image cap">
                         <div class="card-body">
                             <h5 class="card-title">Lorem ipsum dolor sit amet<br><span class="card-date">January 28,
                                     2019</span></h5>
@@ -221,7 +220,7 @@ if (isset($_SESSION["userdata"])) {
                 <div class="say">
                     <div class="say-about">
                         <div class="say-profile">
-                            <img src="./static/images/profile1.png" alt="">
+                            <img src="static/images/profile1.png" alt="">
                         </div>
                         <div class="say-name">
                             <div>
@@ -232,7 +231,7 @@ if (isset($_SESSION["userdata"])) {
                             </div>
                         </div>
                         <div class="say-msg">
-                            <img src="./static/images/message.png" alt="">
+                            <img src="static/images/message.png" alt="">
                         </div>
                     </div>
                     <div class="say-content">
@@ -250,7 +249,7 @@ if (isset($_SESSION["userdata"])) {
                 <div class="say">
                     <div class="say-about">
                         <div class="say-profile">
-                            <img src="./static/images/profile2.png" alt="">
+                            <img src="static/images/profile2.png" alt="">
                         </div>
                         <div class="say-name">
                             <div>
@@ -261,7 +260,7 @@ if (isset($_SESSION["userdata"])) {
                             </div>
                         </div>
                         <div class="say-msg">
-                            <img src="./static/images/message.png" alt="">
+                            <img src="static/images/message.png" alt="">
                         </div>
                     </div>
                     <div class="say-content">
@@ -279,7 +278,7 @@ if (isset($_SESSION["userdata"])) {
                 <div class="say">
                     <div class="say-about">
                         <div class="say-profile">
-                            <img src="./static/images/profile3.png" alt="">
+                            <img src="static/images/profile3.png" alt="">
                         </div>
                         <div class="say-name">
                             <div>
@@ -290,7 +289,7 @@ if (isset($_SESSION["userdata"])) {
                             </div>
                         </div>
                         <div class="say-msg">
-                            <img src="./static/images/message.png" alt="">
+                            <img src="static/images/message.png" alt="">
                         </div>
                     </div>
                     <div class="say-content">
@@ -311,7 +310,7 @@ if (isset($_SESSION["userdata"])) {
 
     </div>
 
-    <?php include("./includes/footer.php") ?>
+    <?php include("includes/footer.php") ?>
 
     <script>
         $(document).ready(function() {
@@ -343,8 +342,8 @@ if (isset($_SESSION["userdata"])) {
 
         });
     </script>
-    <script src="./static/js/header.js"></script>
-    <script src="./static/js/footer.js"></script>
+    <script src="static/js/header.js"></script>
+    <script src="static/js/footer.js"></script>
 </body>
 
 </html>
