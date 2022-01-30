@@ -13,10 +13,11 @@ class Config{
 
     /*------------- FOR SMTP --------------*/
     const SMTP_HOST = "smtp.gmail.com";
-    const SMTP_EMAIL = "sbhikadiya892@rku.ac.in";
-    const SMTP_PASS = "Sm70967@94624it";
-    const ADMIN_EMAIL = "sbhikadiya892@rku.ac.in";//"abhidave2000@gmail.com";
-
+    
+    //Enter Email and Password to activate smtp service
+    const SMTP_EMAIL = "";
+    const SMTP_PASS = "";
+    
     /*-------------Contact US ------------*/
     const SUBJECT_TYPE = ['general', 'inquiry', 'renewal', 'revocation'];
     const MESSAGE_MAX_LENGTH = 250; // 250 characters long
@@ -25,7 +26,8 @@ class Config{
     const FILE_MAX_SIZE = 1*1024*1024*4; //(bit*byte*kb*mb) max_size = 4mb
     const FILE_EXTENSION = ['jpg', 'jpeg', 'png', 'docx', 'pdf', 'gif'];
 
-    /*---------------- Application constant --------------------*/
+    /*---------------- Application Leval Constant --------------------*/
+    const ADMIN_EMAIL = "sbhikadiya892@rku.ac.in";
     const BASE_URL = "http://localhost/Tatvasoft-PSD-TO-HTML/HelperLand/";
 }
 ?>
