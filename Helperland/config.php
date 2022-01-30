@@ -14,7 +14,7 @@ class Config{
     /*------------- FOR SMTP --------------*/
     const SMTP_HOST = "smtp.gmail.com";
     const SMTP_EMAIL = "sbhikadiya892@rku.ac.in";
-    const SMTP_PASS = "99041Sm04581it";
+    const SMTP_PASS = "Sm70967@94624it";
     const ADMIN_EMAIL = "sbhikadiya892@rku.ac.in";//"abhidave2000@gmail.com";
 
     /*-------------Contact US ------------*/

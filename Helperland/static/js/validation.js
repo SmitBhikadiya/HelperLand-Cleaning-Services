@@ -5,6 +5,7 @@ $(document).ready(function(){
         var phone = $('#phonenumber').val();
         var email = $('#email').val();
         var msg = $('#message').val();
+        var policy = $('#policy:checked').length;
 
         function validateEmail(email) {
             var emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
@@ -51,6 +52,13 @@ $(document).ready(function(){
         }else{
             $('#message').next().hide();
         }
-       
+
+        if(policy==0){
+            alert("Policy must be accepeted");
+            return false;
+        }else{
+            $('#policylabel').next().hide();
+        }
+
     });
 });

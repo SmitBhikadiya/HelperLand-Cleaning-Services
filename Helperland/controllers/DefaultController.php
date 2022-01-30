@@ -12,6 +12,11 @@ class DefaultController{
         include("views/about.php");
     }
     function contact(){
+        if(isset($_POST["contactus"])){
+            $contact = new ContactUsController($_POST);
+            $contact->insertContactForm();
+            exit();
+        }
         include("views/contact.php");
     }
     function price(){

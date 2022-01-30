@@ -91,7 +91,7 @@ if (isset($_COOKIE["contact_success"])) {
                 <h1>Get in touch with us</h1>
             </div>
             <div class="c-form">
-                <form action=".controllers/MainController.php" method="post" enctype="multipart/form-data">
+                <form action="<?=$base_url.'?controller=Default&function=contact'?>" method="post" enctype="multipart/form-data">
                     <div class="modal-body">
                         <?php
                         if (!empty($isSuccess)) {
@@ -150,7 +150,7 @@ if (isset($_COOKIE["contact_success"])) {
                         <div class="row">
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" name="policy" id="policy" value="policy">
-                                <label class="form-check-label" for="policy">
+                                <label class="form-check-label" for="policy" id="policylabel">
                                     I hearby agree that my data entered into the contact form will be store electronically
                                 </label>
                             </div>

@@ -23,14 +23,14 @@ class ContactUsController
                 $validate_error = $validator->isFileValidate($_FILES);
                 if(!count($validate_error) > 0){
                     $newfilename = $_FILES["attachment"]["name"];
-                    $target_dir = "../assets/attachments/" . $newfilename;
+                    $target_dir = "static/attachments/" . $newfilename;
                     $file_temp_loc = $_FILES["attachment"]["tmp_name"];
                     if (!move_uploaded_file($file_temp_loc, $target_dir)) {
-                        header("Location: ../errors.php?error=file failed to upload!!");
+                        header("Location: ".Config::BASE_URL."controller=default&function=error&parameter=file failed to upload!!");
                         exit();
                     }
                 }else{
-                    header("Location: ../errors.php?error=File is not validate!!");
+                    header("Location: ".Config::BASE_URL."controller=default&function=error&parameter=File is not validate!!");
                     exit();
                 }
             }
@@ -43,13 +43,13 @@ class ContactUsController
                 //send mail to the admin
                 $this->sendEmailToAdmin();
             } else {
-                header("Location: ../errors.php/error=somthing went wrong");
+                header("Location: ".Config::BASE_URL."controller=default&function=error&parameter=somthing went wrong");
                 exit();
             }
             setcookie("contact_success","successfully", time()+3600, '/');
-            header("Location: ../views/contact.php");
+            header("Location: ".Config::BASE_URL."?controller=Default&function=contact");
         }else{
-            header("Location: ../errors.php/error=Form is not validated");
+            header("Location: ".Config::BASE_URL."controller=default&function=error&parameter==Form is not validated");
             exit();
         }
     }
