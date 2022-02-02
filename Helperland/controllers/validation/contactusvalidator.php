@@ -2,28 +2,28 @@
     class ContactUsValidator{
         public $data;
         public $errors = [];
-        private static $contactusfield = ['firstname', 'lastname', 'phonenumber', 'email', 'subject', 'message', 'policy'];
-        private static $filefield = "attachment";
+        private static $contactusfield = ['FirstName', 'LastName', 'Mobile', 'Email', 'Subject', 'Message', 'Policy'];
+        private static $filefield = "Attachment";
         function __construct($data){
             $this->data = $data;
         }
         function isContactUsFormValidate(){
-            if(!isset($this->data["policy"])){
-                $this->data["policy"] = "";
+            if(!isset($this->data["Policy"])){
+                $this->data["Policy"] = "";
             }
             foreach(self::$contactusfield as $field){
                 if(!array_key_exists($field, $this->data)){
-                    header("Location: ../errors.php?error=something went wrong with fieldname");
-                    exit();
+                    $this->addErrors("field","$field is not exists");
+                    return $this->errors;
                 }
             }
-            $this->validateFirstname(trim($this->data["firstname"]));
-            $this->validateLastname(trim($this->data["lastname"]));
-            $this->validateEmail(trim($this->data["email"]));
-            $this->validateMobile(trim($this->data["phonenumber"]));
-            $this->validateSubject(trim($this->data["subject"]));
-            $this->validateMessage(trim($this->data["message"]));
-            $this->validatePolicy(trim($this->data["policy"]));
+            $this->validateFirstname(trim($this->data["FirstName"]));
+            $this->validateLastname(trim($this->data["LastName"]));
+            $this->validateEmail(trim($this->data["Email"]));
+            $this->validateMobile(trim($this->data["Mobile"]));
+            $this->validateSubject(trim($this->data["Subject"]));
+            $this->validateMessage(trim($this->data["Message"]));
+            $this->validatePolicy(trim($this->data["Policy"]));
 
             return $this->errors;
         } 

@@ -7,13 +7,13 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form action="../Controllers/UsersController.php" method="POST">
+                    <form action="<?=Config::BASE_URL."/?controller=Users&function=forgotpassword"?>" method="POST">
                         <div class="mb-3 form-group icon-textbox">
-                            <input type="email" class="form-control" name="email" placeholder="Email">
-                            <img alt="email" src="./static/images/user.png">
+                            <input type="email" class="form-control" id="forgotemail" name="Email" placeholder="Email">
+                            <img alt="email" src="static/images/user.png">
                         </div>
 
-                        <button class="submit-button mb-3" type="submit" name="forgot">Submit</button>
+                        <button class="submit-button mb-3" type="submit" id="forgotpassword" name="forgot">Submit</button>
                         <div class="text-center mb-2"><a href="#" data-bs-toggle="modal" data-bs-target="#exampleModallogin" data-bs-dismiss="modal">Login now</a></div>
                     </form>
                 </div>

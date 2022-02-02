@@ -1,66 +1,71 @@
 <?php
 
-require("./modals/ContactUsModal.php");
-require("phpmailer/mail.php");
 require("validation/contactusvalidator.php");
+require("phpmailer/mail.php");
+require("modals/ContactUsModal.php");
 
 class ContactUsController
 {
     public $data;
-    function __construct($post)
+    public $contactModal;
+    function __construct()
     {
-        $this->data = $post;
+        $this->data = $_POST;
+        $this->contactModal = new ContactUsModal($this->data);
     }
-    function insertContactForm(){
+    function insertContactForm()
+    {
         //server side validation
-        $validator = new ContactUsValidator($_POST);
-        $errors = $validator->isContactUsFormValidate();
-        if (!count($errors) > 0) {
-            //store attachemnet if avaialbel
-            $newfilename = "";
-            $target_dir = "";
-            if (isset($_FILES["attachment"]) && !empty($_FILES["attachment"]["name"])) {
-                $validate_error = $validator->isFileValidate($_FILES);
-                if(!count($validate_error) > 0){
-                    $newfilename = $_FILES["attachment"]["name"];
-                    $target_dir = "static/attachments/" . $newfilename;
-                    $file_temp_loc = $_FILES["attachment"]["tmp_name"];
-                    if (!move_uploaded_file($file_temp_loc, $target_dir)) {
-                        header("Location: ".Config::BASE_URL."controller=default&function=error&parameter=file failed to upload!!");
-                        exit();
+        if (isset($_POST["contactus"])) {
+            $validator = new ContactUsValidator($_POST);
+            $errors = $validator->isContactUsFormValidate();
+            if (!count($errors) > 0) {
+                //store attachemnet if available
+                $newfilename = "";
+                $target_dir = "";
+                if (isset($_FILES["Attachment"]) && !empty($_FILES["Attachment"]["name"])) {
+                    $validate_error = $validator->isFileValidate($_FILES);
+                    if (!count($validate_error) > 0) {
+                        $newfilename = $_FILES["Attachment"]["name"];
+                        $target_dir = "static/attachments/" . $newfilename;
+                        $file_temp_loc = $_FILES["Attachment"]["tmp_name"];
+                        if (!move_uploaded_file($file_temp_loc, $target_dir)) {
+                            $this->showError("file failed to upload!!", [] );
+                        }
+                    } else {
+                        $this->showError("File is not validate", $validate_error );
                     }
-                }else{
-                    header("Location: ".Config::BASE_URL."controller=default&function=error&parameter=File is not validate!!");
-                    exit();
                 }
-            }
-            //insert data into the database
-            $this->data["filename"] = $newfilename;
-            $this->data["filelocation"] = $target_dir;
-            $contactModal = new ContactUsModal($this->data);
-            $data = $contactModal->insertContactData();
-            if (!count($data[1]) > 0) {
-                //send mail to the admin
-                $this->sendEmailToAdmin();
+                //insert data into the database
+                $this->data["FileName"] = $newfilename;
+                $this->data["FileLocation"] = $target_dir;
+                $data = $this->contactModal->insertContactData();
+                if (!count($data[1]) > 0) {
+                    //send mail to the admin
+                    $this->sendEmailToAdmin();
+                } else {
+                    $this->showError("somthing went wrong", $data[1] );
+                }
+                setcookie("contact_success", "successfully", time() + 3600, '/');
+                header("Location: " . Config::BASE_URL . "?controller=Default&function=contact");
             } else {
-                header("Location: ".Config::BASE_URL."controller=default&function=error&parameter=somthing went wrong");
-                exit();
+                $this->showError("Form is not validated", $errors);
             }
-            setcookie("contact_success","successfully", time()+3600, '/');
-            header("Location: ".Config::BASE_URL."?controller=Default&function=contact");
-        }else{
-            header("Location: ".Config::BASE_URL."controller=default&function=error&parameter==Form is not validated");
-            exit();
+        } else {
+            $this->showError("Failed to register!!!", array("Invalid field name!!!"));
         }
     }
-    private function sendEmailToAdmin(){
-        $name = ucwords($this->data["firstname"]." ".$this->data["lastname"]);
+
+    private function sendEmailToAdmin()
+    {
+
+        $name = ucwords($this->data["FirstName"] . " " . $this->data["LastName"]);
         date_default_timezone_set("Asia/Kolkata");
         $current_time = date("Y-m-d h:i:sa");
-        $phonenumber = $this->data["phonenumber"];
-        $email = $this->data["email"];
-        $subject = $this->data["subject"];
-        $message = strtolower($this->data["message"]);
+        $phonenumber = $this->data["Mobile"];
+        $email = $this->data["Email"];
+        $subject = $this->data["Subject"];
+        $message = strtolower($this->data["Message"]);
         $html = "
             <div>
                 <h1 style='border-bottom:1px solid #6e6e6e; font-weight:300;'>Contacer Detailes</h1>
@@ -74,15 +79,24 @@ class ContactUsController
                 <h3 style='color:black;'>\"$message\"</h3>
             </div>
         ";
-        $attachment = ""; 
-        if(!empty($this->data["filename"])){
-            $attachment = $this->data["filelocation"];
-            $html = $html."
+        $attachment = "";
+        if (!empty($this->data["FileName"])) {
+            $attachment = $this->data["FileLocation"];
+            $html = $html . "
                 <div>
                     **You can see my attachment for more clearity**
                 </div>
             ";
         }
         sendmail(Config::ADMIN_EMAIL, $subject, $html, $attachment);
+    }
+
+    /*-------------- Show Error -----------*/
+    public function showError($title, $errors = [])
+    {
+        $_SESSION["error_title"] = $title;
+        $_SESSION["error_array"] = $errors;
+        header("Location: ".Config::BASE_URL."?controller=Default&function=error");
+        exit();
     }
 }

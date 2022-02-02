@@ -95,7 +95,7 @@
         background-color: #000000ed;
         position: fixed;
         display: inline-block;
-        height: fit-content;
+        height: 100vh;
         width: 100vw;
         top: 0;
         left: -110%;
@@ -107,7 +107,7 @@
     }
     .nav-list li{
         display: block;
-        margin: 25px auto;
+        margin: 30px auto;
         text-align: center;
         padding-left: 0px;
     }
@@ -167,4 +167,11 @@
     .seprators{
         margin: 0 auto;
     }
+}
+
+/* ERROR MESSAGE */
+.error{
+    color: red;
+    margin-top: 2px;
+    font-size: 13px;
 }

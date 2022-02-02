@@ -1,7 +1,7 @@
 <?php 
     require("PHPMailerAutoload.php");
 
-    function sendmail($recipent, $subject, $body, $attachement){
+    function sendmail($recipent, $subject, $body, $attachement=""){
         $mail = new PHPMailer;
         //$mail->SMTPDebug = 4;                               // Enable verbose debug output
 

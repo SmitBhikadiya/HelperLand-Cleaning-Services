@@ -13,18 +13,23 @@ class ContactUsModal extends Connection
     }
 
     public function insertContactData(){
-        $Name = $this->data["firstname"]." ".$this->data["lastname"];
-        $Email = $this->data["email"];
-        $SubjectType = $this->data["subject"];
-        $PhoneNumber = $this->data["phonenumber"];
-        $Message = $this->data["message"];
-        $UploadFileName = $this->data["filename"];
-        $filelocation = $this->data["filelocation"];
-        $sql = "INSERT INTO contactus (Name, Email, Subject, PhoneNumber, Message, UploadFileName, FileName) VALUES ('$Name', '$Email', '$SubjectType', '$PhoneNumber', '$Message', '$UploadFileName', '$filelocation')";
+        $Name = $this->data["FirstName"]." ".$this->data["LastName"];
+        $Email = $this->data["Email"];
+        $SubjectType = $this->data["Subject"];
+        $PhoneNumber = $this->data["Mobile"];
+        $Message = $this->data["Message"];
+        $UploadFileName = $this->data["FileName"];
+        $filelocation = $this->data["FielLocation"];
+        if(isset($this->data["UserId"])){
+            $user_id = $this->data["UserId"];
+            $sql = "INSERT INTO contactus (Name, Email, Subject, PhoneNumber, Message, UploadFileName, CreatedOn, CreatedBy,FileName) VALUES ('$Name', '$Email', '$SubjectType', '$PhoneNumber', '$Message', '$UploadFileName', now(), $user_id, '$filelocation')";
+        }else{
+            $sql = "INSERT INTO contactus (Name, Email, Subject, PhoneNumber, Message, UploadFileName, CreatedOn,FileName) VALUES ('$Name', '$Email', '$SubjectType', '$PhoneNumber', '$Message', '$UploadFileName', now(), '$filelocation')";
+        }
         
         $result = $this->conn->query($sql);
         if(!$result){
-            $this->addErrors("contactus", "Somthing went wrong with $sql");
+            $this->addErrors("insert", "Somthing went wrong with $sql");
         }
         return [$result, $this->errors];
     }

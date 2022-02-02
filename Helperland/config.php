@@ -9,14 +9,14 @@ class Config{
     
     /*------------ Users Constant--------------*/
     const SESSION_DESTROY_TIME = 60*60*1; // 1 hour (60sec * 60min * 1hour)
-    const USER_TYPE = ["customer", "servicer", "admin"];
+    const USER_TYPE_IDS = [1, 2, 3]; // ["customer", "servicer", "admin"]
 
     /*------------- FOR SMTP --------------*/
     const SMTP_HOST = "smtp.gmail.com";
     
     //Enter Email and Password to activate smtp service
-    const SMTP_EMAIL = "";
-    const SMTP_PASS = "";
+    const SMTP_EMAIL = "sbhikadiya892@rku.ac.in";
+    const SMTP_PASS = "It94624@70967Sm";
     
     /*-------------Contact US ------------*/
     const SUBJECT_TYPE = ['general', 'inquiry', 'renewal', 'revocation'];
@@ -29,5 +29,6 @@ class Config{
     /*---------------- Application Leval Constant --------------------*/
     const ADMIN_EMAIL = "sbhikadiya892@rku.ac.in";
     const BASE_URL = "http://localhost/Tatvasoft-PSD-TO-HTML/HelperLand/";
+    const RESET_LINK_EXPIRY = 1;
 }
 ?>

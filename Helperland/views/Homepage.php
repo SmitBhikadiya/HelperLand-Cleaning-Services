@@ -2,7 +2,6 @@
 session_start();
 if (isset($_SESSION["userdata"])) {
     $userdata = $_SESSION["userdata"];
-    //print_r($userdata);
 }
 ?>
 
@@ -22,8 +21,6 @@ if (isset($_SESSION["userdata"])) {
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script> -->
-
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <title>Hyperland</title>
 </head>
@@ -308,6 +305,14 @@ if (isset($_SESSION["userdata"])) {
 
         </section>
 
+        <div class="d-none" id="login-modal">
+            <?php 
+                if (isset($_GET["parameter"]) && $_GET["parameter"]=="loginmodal") {
+                    echo "success";
+                } 
+            ?>
+        </div>
+
     </div>
 
     <?php include("includes/footer.php") ?>
@@ -315,11 +320,19 @@ if (isset($_SESSION["userdata"])) {
     <script>
         $(document).ready(function() {
 
-            <?php 
-            if (isset($_GET["login"]) && $_GET["login"] == "m") {
-                echo "openLoginModal()";
-            } ?>
+            // $.ajax({
+            //     url:'http://localhost/Tatvasoft-PSD-TO-HTML/HelperLand/?controller=Default&function=ajaxtest',
+            //     type: "post",
+            //     data:"email="+"jb",
+            //     success: function(result){
+            //         alert(result);
+            //     }
+            // });
 
+            if($.trim($("#login-modal").text())=="success"){
+                openLoginModal();
+            }
+            
             function openLoginModal() {
                 $("#exampleModallogin").modal("show");
                 var uri = window.location.toString();
@@ -342,6 +355,7 @@ if (isset($_SESSION["userdata"])) {
 
         });
     </script>
+    <script src="static/js/validation.js"></script>
     <script src="static/js/header.js"></script>
     <script src="static/js/footer.js"></script>
 </body>

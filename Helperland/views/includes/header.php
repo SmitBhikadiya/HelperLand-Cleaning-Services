@@ -29,7 +29,7 @@ if (isset($_SESSION["usertype"])) {
                         </button>
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
                             <div class="dropdown-item">
-                                Welcome, <br><b><?= $userdata["firstname"] . " " . $userdata["lastname"] ?></b>
+                                Welcome, <br><b><?= $userdata["FirstName"] . " " . $userdata["LastName"] ?></b>
                             </div>
                             <hr style="margin: 5px;">
                             <a class="dropdown-item" href="<?= $usertype_loc ?>">
@@ -38,7 +38,7 @@ if (isset($_SESSION["usertype"])) {
                             <a class="dropdown-item" href="<?= $usertype_loc . '?req=setting' ?>">
                                 My Setting
                             </a>
-                            <a class="dropdown-item" href="./controllers/UsersController.php?lg=logout">
+                            <a class="dropdown-item" href="<?=Config::BASE_URL."/?controller=Users&function=logout"?>">
                                 Logout
                             </a>
                         </div>
@@ -46,8 +46,8 @@ if (isset($_SESSION["usertype"])) {
                 </li><?php
                     } else {
                         ?>
-                <li><a href="Homepage.php?login=m" class="nav-btn">Login</a></li>
-                <li><a href="sp-sign-up.php" class="nav-btn">Become a Helper</a></li>
+                <li><a href="<?=Config::BASE_URL.'?controller=default&function=homepage&parameter=loginmodal'?>" class="nav-btn">Login</a></li>
+                <li><a href="<?=Config::BASE_URL."?controller=default&function=servicer_registration"?>" class="nav-btn">Become a Helper</a></li>
             <?php
                     } ?>
 

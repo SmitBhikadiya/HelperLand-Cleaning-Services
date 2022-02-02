@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -11,16 +14,30 @@
 
 <body>
     <div class="container mt-3">
-        <?php if (isset($_COOKIE["error"])) { ?>
-            <div class="alert alert-danger" role="alert">
-                <?=$_COOKIE["error"]?>
-            </div>
-        <?php
-        } else {
-            echo "<h1>try again!!</h1>";
-        }
-        ?>
-        <a href="views/Homepage.php">Back to the HomePage</a>
+        <div class="alert alert-danger" role="alert">
+            <h2><?= isset($_SESSION["error_title"]) ? $_SESSION["error_title"] : ""?></h2>
+                <?php
+                if (isset($_SESSION["error_array"]) && count($_SESSION["error_array"]) > 0) {
+                    $errors = $_SESSION["error_array"];
+                    unset($_SESSION["error_array"]);
+                    ?>
+                    Reason can be:-
+                    <ul>
+                    <?php
+                        foreach($errors as $key=>$value){
+                            ?>
+                                <li>*<?=$key?>=><?=$value?></li>
+                            <?php
+                        }
+                    ?>
+                    </ul>
+                    <?php
+                    }else{
+                        echo "try again";
+                    }
+                ?>
+        </div>
+    <a href="<?=Config::BASE_URL."?controller=Default&function=homepage"?>">Back to the HomePage</a>
     </div>
 </body>
 

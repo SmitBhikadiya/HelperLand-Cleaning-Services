@@ -9,18 +9,26 @@ class DefaultController{
         include("views/FAQ.php");
     }
     function about(){
-        include("views/about.php");
+        include("views/About.php");
     }
     function contact(){
-        if(isset($_POST["contactus"])){
-            $contact = new ContactUsController($_POST);
-            $contact->insertContactForm();
-            exit();
-        }
-        include("views/contact.php");
+        include("views/Contact.php");
     }
     function price(){
         include("views/Prices.php");
+    }
+    function user_registration(){
+        include("views/UserRegistration.php");
+    }
+    function servicer_registration(){
+        include("views/ServicerRegistration.php");
+    }
+    function error(){
+        include("errors.php");
+    }
+
+    function ajaxtest(){
+        echo "Called";
     }
 }
 ?>
