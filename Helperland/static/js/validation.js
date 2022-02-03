@@ -1,6 +1,7 @@
 $(document).ready(function(){
     
     window.isValid = true;
+    
     /* VALIDATION FOR CONTACT US FORM */
     $('#contactus').click(function(e){
         window.isValid = true;

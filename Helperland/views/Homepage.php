@@ -29,6 +29,7 @@ if (isset($_SESSION["userdata"])) {
     <?php
     include("includes/login-modal.php");
     include("includes/forgotpsw-modal.php");
+    include("includes/logout-modal.php");
     include("includes/header.php");
     ?>
 
@@ -305,11 +306,16 @@ if (isset($_SESSION["userdata"])) {
 
         </section>
 
-        <div class="d-none" id="login-modal">
+        <div class="d-none" id="_modal">
             <?php 
-                if (isset($_GET["parameter"]) && $_GET["parameter"]=="loginmodal") {
-                    echo "success";
-                } 
+                if (isset($_GET["parameter"])){
+                    if($_GET["parameter"]=="loginmodal") {
+                        echo "loginmodal";
+                    }else if($_GET["parameter"]=="logoutmodal"){
+                        echo "logoutmodal";
+                    }
+                }
+    
             ?>
         </div>
 
@@ -328,11 +334,17 @@ if (isset($_SESSION["userdata"])) {
             //         alert(result);
             //     }
             // });
-
-            if($.trim($("#login-modal").text())=="success"){
+            var _modal = $.trim($("#_modal").text());
+            
+            if(_modal=="loginmodal"){
                 openLoginModal();
+            }else if(_modal=="logoutmodal"){
+                openLogoutModal();
             }
             
+            function openLogoutModal() {
+                $("#exampleLogout").modal("show");
+            }
             function openLoginModal() {
                 $("#exampleModallogin").modal("show");
                 var uri = window.location.toString();

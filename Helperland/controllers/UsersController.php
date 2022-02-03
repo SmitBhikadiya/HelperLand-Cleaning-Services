@@ -93,7 +93,7 @@ class UsersController
             unset($_SESSION["expire"]);
             unset($_SESSION["userdata"]);
         }
-        header("Location: " . Config::BASE_URL . "?controller=Default&function=homepage");
+        header("Location: " . Config::BASE_URL . "?controller=Default&function=homepage&parameter=logoutmodal");
         exit();
     }
 
