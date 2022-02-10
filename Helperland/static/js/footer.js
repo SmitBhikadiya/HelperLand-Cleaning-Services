@@ -12,19 +12,19 @@ $(document).ready(function () {
   var check_session;
   function CheckForSession() {
     var str = "chksession=true";
-    jQuery.ajax({
-      type: "POST",
-      url: "/helperland/helperland/chk_session.php",
-      data: str,
-      cache: false,
-      success: function (res) {
-        //alert(res);
-        if (res == "1") {
-          alert("Your session has been expired!");
-          location.reload();
-        }
-      },
-    });
+    // jQuery.ajax({
+    //   type: "POST",
+    //   url: "/helperland/helperland/chk_session.php",
+    //   data: str,
+    //   cache: false,
+    //   success: function (res) {
+    //     //alert(res);
+    //     if (res == "1") {
+    //       alert("Your session has been expired!");
+    //       location.reload();
+    //     }
+    //   },
+    // });
   }
   check_session = setInterval(CheckForSession, 5000);
 });

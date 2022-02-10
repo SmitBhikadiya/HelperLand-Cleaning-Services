@@ -17,6 +17,9 @@ class DefaultController{
     function price(){
         include("views/Prices.php");
     }
+    function booknow(){
+        include("views/Booknow.php");
+    }
     function user_registration(){
         include("views/UserRegistration.php");
     }

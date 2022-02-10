@@ -8,9 +8,12 @@
     margin: 0;
     padding: 0;
 }
-
-#section-bookservice .container {
+#section-bookservice{
+    height: 100%;
+}
+#section-bookservice .custome-container {
     width: 75%;
+    margin: 5px auto;
 }
 
 .book-header {
@@ -119,17 +122,22 @@
     }
 
     .book-header {
-        margin-top: 50px;
+        margin-top: 80px;
+    }
+    .book-header h1{
+        font-size: 22px;
     }
 }
 
 .book {
     padding: 0px;
+    position: relative;
 }
 
 .book-main {
     display: flex;
     flex-direction: column;
+    height: 100%;
 }
 
 /*--- Book Steps ---*/
@@ -153,6 +161,8 @@
     color: #525252;
     border-radius: 0;
     text-align: center;
+    display: flex;
+    pointer-events: none;
 }
 
 .nav-tabs .nav-link:hover {
@@ -168,7 +178,7 @@
 .nav-tabs .nav-link .img-crop{
     position: relative;
     height: 30px;
-    width: 30px;
+    width: 34px;
     float: left;
     overflow: hidden;
     display: flex;
@@ -180,7 +190,7 @@
 }
 .nav-tabs .nav-link>div:not(.img-crop){
     float: left;
-    margin-left: 10px;
+    margin-left: 6px;
     padding-top: 2px;
 }
 .nav-tabs .nav-link .img-crop img{
@@ -241,13 +251,21 @@
 /*Form Setup*/
 .form-setup input {
     margin-right: 5px;
-    width: 35%;
+    width: 275px;
     height: 45px;
+    margin-bottom: 10px;
+}
+.form-setup button{
+    margin-bottom: 10px;
 }
 
 .form-setup input:focus {
     box-shadow: none;
     border-color: #1d7a8c;
+}
+.form-setup .d-flex{
+    align-items: center;
+    flex-wrap: wrap;
 }
 
 /*Form Schedule & Plan*/
@@ -284,6 +302,7 @@
     display: flex;
     justify-content: space-between;
     margin-top: 10px;
+    flex-wrap: wrap;
 }
 
 .schedule-extra .extra-div input[type='checkbox'] {
@@ -314,8 +333,8 @@
     border-radius: 500px;
     margin-bottom: 8px;
     position: relative;
-    width: 110px;
-    height: 110px;
+    width: 100px;
+    height: 100px;
 }
 
 .schedule-extra .extra-round img {
@@ -418,6 +437,12 @@
     margin-top: 10px;
 }
 
+@media screen and (max-width:663px) {
+    #new-address .col-6{
+        width: 100%;
+    }
+}
+
 /*favorite sp*/
 .fav-service-provicer {
     border-bottom: 1px solid #dcdcdc;
@@ -443,6 +468,7 @@
     justify-content: left;
     align-items: center;
     padding-top: 30px;
+    overflow-x: scroll;
 }
 
 .fav-sp-list .form-check {
@@ -477,6 +503,11 @@
     margin-top: 8px;
 }
 
+.user-select.selected{
+    border:2px solid #1d7a8c;
+    color: #1d7a8c;
+}
+
 /*------------- Payment Tab------------*/
 .payment-title {
     font-size: 16px;
@@ -491,14 +522,16 @@
 }
 
 .promocode div input {
-    width: 30%;
-    height: 40px;
-    padding-left: 10px;
+    margin-right: 5px;
+    width: 275px;
+    height: 45px;
+    margin-bottom: 10px;
 }
 
 .promocode div button {
     border-radius: 25px;
     padding: 8px 20px;
+    margin-bottom: 10px;
     border: 1px solid #1d7a8c;
     color: #1d7a8c;
 }
@@ -511,6 +544,7 @@
 .payment-card {
     display: flex;
     justify-content: space-between;
+    flex-wrap: wrap;
     height: 150px;
     align-items: center;
     border-bottom: 1px solid #dcdcdc;
@@ -637,7 +671,9 @@
 .book-quetions {
     margin-top: 20px;
 }
-
+.book-quetions.wizard{
+    display: none;
+}
 .accordion-body {
     padding: 0.3rem 1.9em;
 }
@@ -687,3 +723,116 @@
     color: #1d7a8c;
     font-weight: 500;
 }
+
+
+/* SET PAYMENT SUMMARY FOR SMALL SCREEN */
+.side-payment-bar{
+    background-color: white;
+    transition: all 0.3s ease;
+}
+.payment-side-toggle{
+    display: none;
+    position: absolute;
+    top:0;
+    left: 50%;
+    color: white;
+}
+.payment-side-toggle i{
+    font-size: 32px;
+    transform: rotate(-90deg);
+}
+.payment-side-toggle i.toggle:before{
+    content: "\f100";
+}
+.side-payment-bar.toggle{
+    left: 0;
+}
+
+.payment-summary-button{
+    display: none;
+    width: fit-content;
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 10px 20px;
+    border-top-left-radius: 50%;
+    border-top-right-radius: 50%;
+    background-color: yellowgreen;
+    color: white;
+    cursor: pointer;
+    z-index: 999;
+}
+#examplePaymentSummary{
+    display: none;
+}
+@media screen and (max-width: 1200px){
+    .payment-summary-button{
+        display: block;
+    }
+    .col-4.side-payment-bar{
+        display: none;
+    }
+    .book-main{
+        width: 100%;
+        height: 100%;
+    }
+    .payment-side-toggle{
+        display: block;
+    }
+    .book-quetions.wizard{
+        margin-top: 100px;
+        display: block;
+    }
+    .book-quetions.nwizard{
+        display: none;
+    }
+    .payment-header{
+        width: 100%;
+        padding: 0px 5px;
+    }
+    #examplePaymentSummary .modal-header{
+        background-color: #1d7a8c;
+    }
+    #examplePaymentSummary .modal-content{
+        padding: 0;
+    }
+
+}
+
+@media screen and (max-width: 1010px){
+    .book-steps .nav-link div:not(img-crop){
+        display: none;
+    }
+    .book-steps .nav-link{
+        display: flex;
+        justify-content: center;
+    }
+    #section-bookservice .custome-container {
+        width: 80%;
+    }
+    .total-payment .total {
+        font-size: 30px;
+    }
+}
+
+@media (min-width: 576px){
+    #examplePaymentSummary .modal-dialog {
+        max-width: 400px;
+    }
+}
+@media (max-width: 576px) {
+    #examplePaymentSummary .modal-dialog .modal-content{
+        width: 100%;
+    }
+}
+
+@media screen and (max-width: 425px) {
+    #section-bookservice .custome-container{
+        width: 96%;
+    }
+    .total-payment .total {
+        font-size: 27px;
+    }
+}
+
