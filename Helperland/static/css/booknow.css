@@ -60,7 +60,7 @@
 }
 
 .nav-item {
-    margin-left: 28px;
+    margin-left: 10px;
 }
 
 .nav-list {
@@ -364,6 +364,9 @@
 }
 
 /* detailes-title */
+#new-address input{
+    height: 45px;
+}
 .detailes-title {
     font-size: 16px;
     font-weight: 500;
@@ -373,7 +376,7 @@
 
 .detailes-address .form-check {
     border: 1px solid #80808041;
-    padding: 10px;
+    padding: 5px;
     margin-top: 15px;
     position: relative;
 }
@@ -414,14 +417,20 @@
     color: #1d7a8c;
     font-size: 18px;
 }
-
-.add-address-buttons button {
+.add-address-buttons{
+    display: flex;
+}
+.add-address-buttons button,.add-address-buttons p  {
     padding: 8px 16px;
     border-radius: 25px;
     border: none;
     border: 2px solid #1d7a8c;
     color: #1d7a8c;
     font-size: 18px;
+    width: 110px;
+    height: 46px;
+    margin-right: 5px;
+    text-align: center;
 }
 
 .btn-save {
@@ -492,15 +501,15 @@
 }
 
 .user-name {
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 500;
-    margin-top: 8px;
+    margin-top: 12px;
 }
 
 .user-select {
     border: 1px solid gray;
-    padding: 4px 15px;
-    margin-top: 8px;
+    padding: 4px 12px;
+    margin-top: 10px;
 }
 
 .user-select.selected{

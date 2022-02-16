@@ -18,7 +18,7 @@ if (isset($_SESSION["usertype"])) {
             <?php if (isset($userdata)) { ?>
                 <li class="nav-item notification-icon">
                     <div class="seprators">
-                        <div class="n-counter">12</div>
+                        <!-- <div class="n-counter">12</div> -->
                         <img src="static/images/icon-notification.png" alt="">
                     </div>
                 </li>

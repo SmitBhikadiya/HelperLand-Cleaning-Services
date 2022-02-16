@@ -2,34 +2,78 @@
     class BookNowValidator{
         public $data;
         public $errors = [];
-        private static $booknowfield = ['FirstName', 'LastName', 'Mobile', 'Email', 'Subject', 'Message', 'Policy'];
+        private static $postalcodefeild = ["postalcode"];
+        private static $newaddressfield = ["postalcode", "cityname", "statename","streetname", "housenumber", "phonenumber"];
+        private static $servicerequestfield = ["postalcode", "cleaningstartdate", "cleaningstarttime", "cleaningworkinghour", "address"];
 
         function __construct($data){
             $this->data = $data;
         }
-        function isContactUsFormValidate(){
-            if(!isset($this->data["Policy"])){
-                $this->data["Policy"] = "";
-            }
-            foreach(self::$booknowfield as $field){
+        function isPostalCodeValid(){
+
+            foreach(self::$postalcodefeild as $field){
                 if(!array_key_exists($field, $this->data)){
-                    $this->addErrors("field","$field is not exists");
+                    $this->addErrors("$field","$field is not exists");
                     return $this->errors;
                 }
             }
-            $this->validateFirstname(trim($this->data["FirstName"]));
-            $this->validateMobile(trim($this->data["Mobile"]));
-            $this->validateMessage(trim($this->data["Message"]));
-            $this->validatePolicy(trim($this->data["Policy"]));
-
+            $this->validatePostalCode(trim($this->data["postalcode"]));
             return $this->errors;
         } 
-        public function validateFirstname($fname){
-            if(empty($fname)){
-                $this->addErrors("firstname","field can`t be empty");
+
+        function isNewAddressValidate(){
+            foreach(self::$newaddressfield as $field){
+                if(!array_key_exists($field, $this->data)){
+                    $this->addErrors("$field","$field is not exists");
+                    return $this->errors;
+                }
+            }
+            $this->validatePostalCode(trim($this->data["postalcode"]));
+            $this->validateCityName(trim($this->data["cityname"]));
+            $this->validateStateName(trim($this->data["statename"]));
+            $this->validateStreetName(trim($this->data["streetname"]));
+            $this->validateHouseNumber(trim($this->data["housenumber"]));
+            $this->validateMobile(trim($this->data["phonenumber"]));
+            return $this->errors;
+        }
+
+        function isServiceRequestValidate(){
+            foreach(self::$servicerequestfield as $field){
+                if(!array_key_exists($field, $this->data)){
+                    $this->addErrors("$field","$field is not exists");
+                }
+            }
+            return $this->errors;
+        }
+
+        public function validateCityName($cityname){
+            if(empty($cityname)){
+                $this->addErrors("cityname", "field can`t be empty");
+            }
+        }
+        public function validateStateName($statename){
+            if(empty($statename)){
+                $this->addErrors("statename", "field can`t be empty");
+            }
+        }
+        public function validateStreetName($streetname){
+            if(empty($streetname)){
+                $this->addErrors("streetname", "field can`t be empty");
+            }
+        }
+        public function validateHouseNumber($housenumber){
+            if(empty($housenumber)){
+                $this->addErrors("housenumber", "field can`t be empty");
+            }
+        }
+
+
+        public function validatePostalCode($postalcode){
+            if(empty($postalcode)){
+                $this->addErrors("postalcode","field can`t be empty");
             }else{
-                if(!preg_match("/^[^@$!%*#?&]+$/", $fname)){
-                    $this->addErrors("firstname","special charcater can't be accepted");
+                if(!preg_match("/^[0-9]{5}+$/", $postalcode)){
+                    $this->addErrors("postalcode","Invalid Postal Code!!!");
                 }
             }
         }

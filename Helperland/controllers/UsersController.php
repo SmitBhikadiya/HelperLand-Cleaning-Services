@@ -73,7 +73,16 @@ class UsersController
 
                     // if user check remember me then set the signin credential
                     $this->setCookieForSignin();
-                    header("Location: " . Config::BASE_URL . "?controller=Default&function=$redirect_location");
+                    $redirect_loc = "";
+                    if(isset($_SESSION["redirect_url"])){
+                        $redirect_loc = $_SESSION["redirect_url"];
+                        unset($_SESSION["redirect_url"]);
+                    }
+                    if($redirect_loc==""){
+                        header("Location: " . Config::BASE_URL . "?controller=Default&function=$redirect_location");
+                    }else{
+                        header("Location: ".$redirect_loc);
+                    }
                     exit();
                 } else {
                     $this->showError("Form is not validated!!!", array("Userename or password is incorrect!!"));
