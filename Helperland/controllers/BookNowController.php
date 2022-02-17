@@ -8,7 +8,7 @@ require("modals/BookNowModal.php");
 class BookNowController
 {
     private $data;
-    private $booknowModal, $serviceModal;
+    private $booknowModal;
     private $validator;
     private $errors = [];
     function __construct()
@@ -107,18 +107,17 @@ class BookNowController
 
     public function insertServiceRequest()
     {
-        $result = [[], []];
+        $result = [[],[]];
         if (isset($_SESSION["userdata"])) {
-            $user = $_SESSION["userdata"];
             $errors = $this->validator->isServiceRequestValidate();
             if (count($errors) > 0) {
                 foreach ($errors as $key => $val) {
                     $this->addErrors($key, $val);
                 }
             } else {
-                $service = $this->booknowModal->insertServiceRequest();
-                if(count($service[1]) > 0){
-                    foreach ($service[1] as $key => $val) {
+                $result = $this->booknowModal->insertServiceRequest();
+                if(count($result[1]) > 0){
+                    foreach ($result[1] as $key => $val) {
                         $this->addErrors($key, $val);
                     }
                 }
@@ -127,7 +126,7 @@ class BookNowController
         } else {
             $this->addErrors("User", "User is not signin!!");
         }
-        echo json_encode(["result" => $service[0], "errors" => $this->errors]);
+        echo json_encode(["result" => ['serviceid' => $result[0]], "errors" => $this->errors]);
     }
 
     public function isServiceAvailable(){

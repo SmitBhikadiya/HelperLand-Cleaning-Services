@@ -64,7 +64,7 @@ class BookNowModal extends Connection
 
     public function getFavoriteSP($userid, $workwithpet)
     {
-        $sql = "SELECT favoriteandblocked.*, user.UserProfilePicture, concat(user.FirstName, ' ', user.LastName) AS FullName FROM favoriteandblocked JOIN user ON user.UserId = favoriteandblocked.TargetUserId WHERE user.UserId IN (SELECT favoriteandblocked.TargetUserId FROM favoriteandblocked JOIN user ON user.UserId = favoriteandblocked.UserId WHERE user.UserId = '$userid' AND user.UserTypeId = 1) AND user.IsApproved = 1 AND user.IsDeleted = 0 AND user.WorksWithPets >= $workwithpet";
+        $sql = "SELECT favoriteandblocked.*, user.UserProfilePicture, concat(user.FirstName, ' ', user.LastName) AS FullName FROM favoriteandblocked JOIN user ON user.UserId = favoriteandblocked.TargetUserId WHERE user.UserId IN (SELECT favoriteandblocked.TargetUserId FROM favoriteandblocked JOIN user ON user.UserId = favoriteandblocked.UserId WHERE user.UserId = '$userid' AND user.UserTypeId = 1) AND user.IsApproved = 1 AND user.IsDeleted = 0 AND favoriteandblocked.IsFavorite = 1 AND user.WorksWithPets >= $workwithpet";
 
         $result = $this->conn->query($sql);
         $rows = array();
@@ -118,7 +118,7 @@ class BookNowModal extends Connection
             $city = $address[0]["City"];
             $state = $address[0]["State"];
             $postalcode = $address[0]["PostalCode"];
-            $sql = "SELECT DATE_FORMAT(servicerequest.ServiceStartDate, '%Y-%m-%d') as ServiceStartDate, servicerequest.Status FROM servicerequest JOIN servicerequestaddress ON servicerequestaddress.ServiceRequestId = servicerequest.ServiceRequestId WHERE servicerequest.UserId = $userid AND servicerequestaddress.AddressLine1='$addressline' AND servicerequestaddress.City='$city' AND servicerequestaddress.State='$state' AND servicerequestaddress.PostalCode = $postalcode;";
+            $sql = "SELECT DATE_FORMAT(servicerequest.ServiceStartDate, '%Y-%m-%d') as ServiceStartDate, servicerequest.Status FROM servicerequest JOIN servicerequestaddress ON servicerequestaddress.ServiceRequestId = servicerequest.ServiceRequestId WHERE servicerequest.UserId = $userid AND servicerequestaddress.AddressLine1='$addressline' AND servicerequestaddress.City='$city' AND servicerequestaddress.State='$state' AND servicerequestaddress.PostalCode = $postalcode  AND DATE_FORMAT(servicerequest.ServiceStartDate, '%Y-%m-%d') = '$ondate'";
             $result = $this->conn->query($sql);
             if ($result->num_rows > 0) {
                 $result = $result->fetch_assoc();
@@ -193,6 +193,7 @@ class BookNowModal extends Connection
         $servicehourlyrate = Config::SERVICE_HOURLY_RATE;
         $subtotal = $cleaningworkinghour * $servicehourlyrate;
         $totalpayment = $subtotal - $discount;
+        $last_id = 0;
 
         $result = $this->isServiceAvailable($addressid, $startdate, $userid);
         if (count($result[1]) < 1) {
@@ -226,7 +227,7 @@ class BookNowModal extends Connection
                 $this->addErrors($key, $val);
             }
         }
-        return [$success, $this->errors];
+        return [[$last_id], $this->errors];
     }
 
 

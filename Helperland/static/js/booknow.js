@@ -167,7 +167,7 @@ $(document).ready(function () {
             for (const [key, val] of Object.entries(obj.errors)) {
                 errorlist+=`<li>${val}</li>`
             }
-            $("#new-address .card").prepend('<div class="alert alert-danger alert-dismissible fade show" role="alert"><ul>'+errorlist+'<ul><button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>');  
+            $("#new-address .card").prepend('<div class="alert alert-danger alert-dismissible fade show" role="alert"><ul class="errorlist">'+errorlist+'<ul class="errorlist"><button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>');  
           } 
           clearNewAddressForm();
         }
@@ -279,7 +279,7 @@ $(document).ready(function () {
             for (const [key, val] of Object.entries(obj.errors)) {
                 errorlist+=`<li>${val}</li>`
             }
-            $(".form-detailes").prepend('<div class="alert alert-danger alert-dismissible fade show" role="alert"><ul>'+errorlist+'</ul><button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>');
+            $(".form-detailes").prepend('<div class="alert alert-danger alert-dismissible fade show" role="alert"><ul class="errorlist">'+errorlist+'</ul><button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>');
           }
         }
       });
@@ -298,7 +298,6 @@ $(document).ready(function () {
     if ($("#booknowpolicy").is(":checked")) {
       var allconstdata = $("#form-setup").serialize()+"&"+$("#scheduleform").serialize()+"&"+window.address+"&"+window.favsp;
       console.log(allconstdata);
-
       var action = $("#paymentform").prop("action");
       $.ajax({
         type: "POST",
@@ -308,7 +307,22 @@ $(document).ready(function () {
         success: function (data) {
           console.log(data);
           const obj = JSON.parse(data);
-          alert(obj.errors.length);
+          if(obj.errors.length == 0){
+            $("#servicerequest .img-wrapper").css("background-color","#67b644");
+            $("#servicerequest .img-wrapper img").prop("src","static/images/correct-white-medium.png");
+            var serviceid = ("000"+obj.result.serviceid).slice(-4);
+            $("#servicerequest .success-msg").html("<h4>Booking has been successfully submitted</h4><br> service Request Id "+serviceid);
+            $("#servicerequest").modal("show");
+          }else{
+            var errorlist = "";
+            for (const [key, val] of Object.entries(obj.errors)) {
+                errorlist+=`<li>${val}</li>`
+            }
+            $("#servicerequest .img-wrapper").css("background-color","#dd4f4f");
+            $("#servicerequest .img-wrapper img").prop("src", "static/images/wrong-white-medium.png");
+            $("#servicerequest .success-msg").html("<h4>Somthing Went Worng!!</h4><br> <ul class='errorlist'>"+errorlist+"</ul>");
+            $("#servicerequest").modal("show");
+          }
         }
       });
 

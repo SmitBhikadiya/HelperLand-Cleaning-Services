@@ -4,13 +4,18 @@ $base_url = Config::BASE_URL;
 if (isset($_SESSION["usertype"])) {
     $usertype_loc = $_SESSION["usertype"][1];
 }
+
+$usertypeid = "";
+if(isset($_SESSION["userdata"])){
+    $usertypeid = $_SESSION["userdata"]["UserTypeId"]; 
+}
 ?>
 <header class="header">
     <nav class="navbar">
         <a class="navbar-brand" href="<?=$base_url.'?controller=Default&function=homepage'?>"><img src="static/images/nav-logo.png" alt=""></a>
         <ul class="nav-list">
-            <li><a href="<?=$base_url.'?controller=Default&function=booknow'?> " class="nav-btn">Book a Cleaner</a></li>
-            <li><a href="<?=$base_url.'?controller=Default&function=price'?>">Prices</a></li>
+            <?php if($usertypeid!=2){?><li><a href="<?=$base_url.'?controller=Default&function=booknow'?> " class="nav-btn">Book a Cleaner</a></li><?php }?>
+            <li><a href="<?=$base_url.'?controller=Default&function=price'?>">Prices & Services</a></li>
             <li><a href="#">Warranty</a></li>
             <li><a href="#">Blog</a></li>
             <li><a href="<?=$base_url.'?controller=Default&function=contact'?>">Contact Us</a></li>
