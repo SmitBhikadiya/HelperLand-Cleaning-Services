@@ -939,3 +939,9 @@
     border: none;
     padding: 7px 18px;
 }
+
+@media screen and (max-width: 1200px){
+    .nav-list{
+        padding-top: 33px;
+    }
+}

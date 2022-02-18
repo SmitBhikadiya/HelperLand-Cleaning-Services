@@ -10,6 +10,10 @@ if(isset($_SESSION["userdata"])){
     $usertypeid = $_SESSION["userdata"]["UserTypeId"]; 
 }
 ?>
+<div class="ajax-loader">
+  <img src="static/images/loader.gif" class="img-responsive" />
+</div>
+
 <header class="header">
     <nav class="navbar">
         <a class="navbar-brand" href="<?=$base_url.'?controller=Default&function=homepage'?>"><img src="static/images/nav-logo.png" alt=""></a>

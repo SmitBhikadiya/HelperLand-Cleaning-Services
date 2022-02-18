@@ -54,7 +54,7 @@ if (isset($_SESSION["userdata"])) {
                 </div>
             </div>
             <div class="modal-footer" style="padding-top: 0;">
-                <button data-bs-dismiss="modal">Ok</button>
+                <button data-bs-dismiss="modal" onclick="window.location = '<?=Config::BASE_URL.'controller=Default&function=Homepage'?>'">Ok</button>
             </div>
         </div>
     </div>

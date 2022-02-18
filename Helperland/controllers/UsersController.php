@@ -151,7 +151,7 @@ class UsersController
                     $reciepent = $user["Email"];
                     $subject = "Helperland (Forgot Password)";
                     $body = "<div><h1><a href=" . Config::BASE_URL . "?controller=Users&function=changepassword&parameter=openform" . ">Reset Password</a></h1></div><div style='color:red'>( one time password reset link )</div>";
-                    sendmail($reciepent, $subject, $body);
+                    $mail = sendmail([$reciepent], $subject, $body);
 
                     $expFormat = mktime(date("H")+1, date("i"), date("s"), date("m") ,date("d"), date("Y"));
                     $_SESSION["changeuser"] = array("exp_date"=>date("Y-m-d H:i:s", $expFormat), "Email"=>$reciepent);

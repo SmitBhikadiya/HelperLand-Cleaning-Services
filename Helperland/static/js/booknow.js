@@ -310,7 +310,7 @@ $(document).ready(function () {
           if(obj.errors.length == 0){
             $("#servicerequest .img-wrapper").css("background-color","#67b644");
             $("#servicerequest .img-wrapper img").prop("src","static/images/correct-white-medium.png");
-            var serviceid = ("000"+obj.result.serviceid).slice(-4);
+            var serviceid = ("000"+obj.result.service.ServiceRequestId).slice(-4);
             $("#servicerequest .success-msg").html("<h4>Booking has been successfully submitted</h4><br> service Request Id "+serviceid);
             $("#servicerequest").modal("show");
           }else{
@@ -430,7 +430,8 @@ $(document).ready(function () {
       window.form2error = 1;
     } else {
       $(".duration-time").text( $("#service-time option[value='" + time + "']").text() );
-      $(".duration-basic .total").text( $("#service-hour option[value='" + window.hour + "']").text() );
+      //alert($("#service-hour").val());
+      $(".duration-basic .total").text( ($("#service-hour").val()-window.extratime).toFixed(1)+" Hrs.");
     }
 
     // update total service time, per cleaning and total payment
@@ -528,7 +529,7 @@ $(document).ready(function () {
     $("." + to1 + ".active").attr("aria-selected", "true");
     $("#" + to2).addClass("show active");
   }
-});
+
 
 function getAndSetAddress(result){
 
@@ -593,3 +594,16 @@ function setDataOnDetailesForm(result, favlist){
   getAndSetFavoriteSP(favlist);
   clearNewAddressForm();
 }
+
+$('#servicerequest').modal({
+  backdrop: 'static',
+  keyboard: false
+});
+
+$('.ajax-loader').bind('ajaxStart', function(){
+  $(this).show();
+}).bind('ajaxStop', function(){
+  $(this).hide();
+});
+
+});

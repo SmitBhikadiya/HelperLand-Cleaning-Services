@@ -227,7 +227,30 @@ class BookNowModal extends Connection
                 $this->addErrors($key, $val);
             }
         }
-        return [[$last_id], $this->errors];
+        return [["ServiceRequestId"=>$last_id, "FavoriteServicerId"=>$spid, "workwitpets"=>$workwitpets], $this->errors];
+    }
+
+    public function getServicerByServiceRequestId($serviceid, $workwitpets){
+        $sql = "SELECT * FROM user JOIN servicerequest ON servicerequest.ServiceProviderId = user.UserId WHERE servicerequest.ServiceRequestId = $serviceid AND user.WorksWithPets >= $workwitpets";
+        $servicer = $this->conn->query($sql);
+        if($servicer->num_rows > 0){
+            $result = $servicer->fetch_assoc();
+        }else{
+            $result = [];
+        }
+        return $result;
+    }
+
+    public function getAllServicer($workwithpets){
+        $sql = "SELECT * FROM user WHERE UserTypeId=2 AND IsApproved=1 AND IsDeleted=0 AND WorksWithPets >= $workwithpets";
+        $result = $this->conn->query($sql);
+        $servicers = [];
+        if($result->num_rows > 0){
+            while($row = $result->fetch_assoc()){
+                array_push($servicers, $row);
+            }
+        }
+        return $servicers;
     }
 
 
