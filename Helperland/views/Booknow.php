@@ -29,6 +29,7 @@ if (isset($_SESSION["userdata"])) {
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/gasparesganga-jquery-loading-overlay@2.1.7/dist/loadingoverlay.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <title>Book Now | Helperland</title>
 </head>
@@ -107,7 +108,7 @@ if (isset($_SESSION["userdata"])) {
                                         <label for="postalcode">Enter your Postal Code</label>
                                         <div class="d-flex" style="height: 46px;">
                                             <input type="text" name="postalcode" id="postalcode" class="form-control">
-                                            <button class="form-submit" id="step1_submit">Check Availablity</button>
+                                            <button class="form-submit" id="step1_submit" onClick="showLoader()">Check Availablity</button>
                                         </div>
                                     </div>
                                 </form>
@@ -238,7 +239,7 @@ if (isset($_SESSION["userdata"])) {
                                         </div>
                                     </div>
                                     <div class="schedule-submit">
-                                        <button class="form-submit" id="step2_submit">Continue</button>
+                                        <button class="form-submit" id="step2_submit" onClick="showLoader()">Continue</button>
                                     </div>
                                 </form>
                             </div>
@@ -301,7 +302,7 @@ if (isset($_SESSION["userdata"])) {
                                                     </div>
                                                 </div>
                                                 <div class="add-address-buttons">
-                                                    <button class="btn-save" id="savenewaddress" name="saveaddress" type="submit" value="saveaddress">Save</button>
+                                                    <button class="btn-save" id="savenewaddress" name="saveaddress" type="submit" value="saveaddress" onClick="showLoader()">Save</button>
                                                     <p class="btn-cancel" id="cancelnewaddress" data-bs-toggle="collapse" data-bs-target="#new-address">Cancel</p>
                                                 </div>
                                             </form>
@@ -316,7 +317,7 @@ if (isset($_SESSION["userdata"])) {
                                     </div>
                                 </div>
                                 <div class="schedule-submit">
-                                    <button class="form-submit" id="step3_submit">Continue</button>
+                                    <button class="form-submit" id="step3_submit" onClick="showLoader()">Continue</button>
                                 </div>
                             </div>
                             <div class="form-payment tab-pane" id="nav-payment" role="tabpanel" aria-labelledby="nav-payment-tab">
@@ -354,7 +355,7 @@ if (isset($_SESSION["userdata"])) {
                                     </div>
                                 </div>
                                 <div class="schedule-submit">
-                                    <button class="form-submit" id="step4_submit" type="submit">Complete Booking</button>
+                                    <button class="form-submit" id="step4_submit" type="submit" onClick="showLoader()">Complete Booking</button>
                                 </div>
                             </form>
                         </div>

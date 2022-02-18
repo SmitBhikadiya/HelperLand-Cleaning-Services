@@ -1,4 +1,11 @@
+function showLoader(){
+  $.LoadingOverlay("show",{
+    background  : "rgba(0, 0, 0, 0.7)"
+  });
+}
+
 $(document).ready(function () {
+
   window.today = getTodayDate();
 
   //remove sticky class
@@ -156,6 +163,7 @@ $(document).ready(function () {
         datatype: "json",
         data: $("#addform").serialize(),
         success: function (data) {
+          $.LoadingOverlay("hide");
           //console.log(data);
           obj = JSON.parse(data);
           //console.log(obj);
@@ -190,6 +198,7 @@ $(document).ready(function () {
         datatype: "json",
         data: $("#form-setup").serialize(),
         success: function (data) {
+          $.LoadingOverlay("hide");
           console.log(data);
           const obj = JSON.parse(data);
           if (obj.errors.length == 0) {
@@ -229,6 +238,7 @@ $(document).ready(function () {
         data: dataarray,
         url: "http://localhost/Tatvasoft-PSD-TO-HTML/HelperLand/?controller=BookNow&function=UserDetailes",
         success: function (data) {
+          $.LoadingOverlay("hide");
           console.log(data);
           const obj = JSON.parse(data);
           if (obj.errors.length == 0) {
@@ -268,6 +278,7 @@ $(document).ready(function () {
         data: {"adid":address, "selecteddate":date},
         url: "http://localhost/Tatvasoft-PSD-TO-HTML/HelperLand/?controller=BookNow&function=isServiceAvailable",
         success: function (data) {
+          $.LoadingOverlay("hide");
           console.log(data);
           const obj = JSON.parse(data);
           if(obj.errors.length==0){
@@ -305,6 +316,7 @@ $(document).ready(function () {
         data: allconstdata,
         url: action,
         success: function (data) {
+          $.LoadingOverlay("hide");
           console.log(data);
           const obj = JSON.parse(data);
           if(obj.errors.length == 0){
@@ -600,10 +612,5 @@ $('#servicerequest').modal({
   keyboard: false
 });
 
-$('.ajax-loader').bind('ajaxStart', function(){
-  $(this).show();
-}).bind('ajaxStop', function(){
-  $(this).hide();
-});
 
 });
