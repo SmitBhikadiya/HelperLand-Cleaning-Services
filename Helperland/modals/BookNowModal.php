@@ -227,7 +227,23 @@ class BookNowModal extends Connection
                 $this->addErrors($key, $val);
             }
         }
-        return [["ServiceRequestId"=>$last_id, "FavoriteServicerId"=>$spid, "workwitpets"=>$workwitpets], $this->errors];
+
+        $result["ServiceRequestId"] = $last_id;
+        $result["FavoriteServicerId"] = $spid;
+        $result["workwitpets"] = $workwitpets;
+
+        return [$result, $this->errors];
+    }
+
+    public function getServiceRequestById($serviceid){
+        $sql = "SELECT * FROM servicerequest JOIN servicerequestaddress ON servicerequestaddress.ServiceRequestId = servicerequest.ServiceRequestId WHERE servicerequest.ServiceRequestId = $serviceid";
+        $service = $this->conn->query($sql);
+        if($service->num_rows > 0){
+            $result = $service->fetch_assoc();
+        }else{
+            $result = [];
+        }
+        return $result;
     }
 
     public function getServicerByServiceRequestId($serviceid, $workwitpets){
