@@ -7,8 +7,8 @@
 > Tatvasoft-PSD-To_HTML/Helperland
 
 ### URLs 
-> Base Url: [Click ME](http://localhost/Tatvasoft-PSD-TO-HTML/HelperLand/){:target="_blank"}  
-> Database File: [Click ME](https://github.com/SmitBhikadiya/Tatvasoft-PSD-TO-HTML/blob/main/Database/new-helperland.sql){:target="_blank"}
+> [Base URL to Run a project](http://localhost/Tatvasoft-PSD-TO-HTML/HelperLand/)  
+> [Database File Location](https://github.com/SmitBhikadiya/Tatvasoft-PSD-TO-HTML/blob/main/Database/new-helperland.sql)
 
 ### SMTP configuration (config.php) (if you want ot enable mailing system)
 >set const SMTP_EMAIL = "";
