@@ -88,7 +88,7 @@ class ContactUsController
                 </div>
             ";
         }
-        sendmail(Config::ADMIN_EMAIL, $subject, $html, $attachment);
+        sendmail([Config::ADMIN_EMAIL], $subject, $html, $attachment);
     }
 
     /*-------------- Show Error -----------*/
