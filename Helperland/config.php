@@ -15,7 +15,7 @@ class Config{
     const SMTP_HOST = "smtp.gmail.com";
     
     //Enter Email and Password to activate smtp service
-    const SMTP_EMAIL = "";
+    const SMTP_EMAIL = "sbhikadiya892@rku.ac.in";
     const SMTP_PASS = "";
     
     /*-------------Contact US ------------*/
@@ -36,6 +36,6 @@ class Config{
     const SERVICE_HOURLY_RATE = 18; // per hour
     const EXTRA_PER_SERVICE_RATE = self::SERVICE_HOURLY_RATE/2;
     const EXTRA_PER_SERVICE_TIME = 30; // in minute
-    const SERVICE_STATUS = ["new", "assigned", "accepted", "reschedule", "completed", "cancled"];
+    const SERVICE_STATUS = ["new", "assigned", "accepted", "reschedule", "completed", "cancelled"];
 }
 ?>

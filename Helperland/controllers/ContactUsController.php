@@ -39,7 +39,7 @@ class ContactUsController
                 //insert data into the database
                 $this->data["FileName"] = $newfilename;
                 $this->data["FileLocation"] = $target_dir;
-                $data = $this->contactModal->insertContactData();
+                $data = $this->contactModal->insertContactData($newfilename, $target_dir);
                 if (!count($data[1]) > 0) {
                     //send mail to the admin
                     $this->sendEmailToAdmin();

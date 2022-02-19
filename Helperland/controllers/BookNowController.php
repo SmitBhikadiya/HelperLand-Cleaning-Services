@@ -173,12 +173,15 @@ class BookNowController
 
     public function getBodyToSendMailToSPs($serviceid)
     {
-        $result = $this->booknowModal->getServiceRequestById($serviceid); 
-        $serviceid = substr("000".$result["ServiceRequestId"], -4);
+        $result = $this->booknowModal->getServiceRequestById($serviceid);
+        $serviceid = substr("000" . $result["ServiceRequestId"], -4);
         $startdate = $result["ServiceStartDate"];
         $status = $result["Status"];
-        if($status==0){ $status = "New Request"; }
-        else if($status==1) { $status = "Assigned To You"; }
+        if ($status == 0) {
+            $status = "New Request";
+        } else if ($status == 1) {
+            $status = "Assigned To You";
+        }
         $servicehourlyrate = $result["ServiceHourlyRate"];
         $totalhour = $result["ServiceHours"];
         $extrahour = $result["ExtraHours"];
@@ -187,6 +190,8 @@ class BookNowController
         $addressline = $result["AddressLine1"];
         $city = $result["City"];
         $postalcode = $result["PostalCode"];
+        $haspats = $result["HasPets"];
+        $haspats = ($haspats == 0) ? "NO" : "YES";
         /*
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
@@ -198,70 +203,100 @@ class BookNowController
             <meta http-equiv="X-UA-Compatible" content="IE=edge">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <style rel="stylesheet">
-                *{
-                    font-family: "Roboto", sans-serif;
-                }
-                .cnt{
-                    margin: 5px;
-                    padding: 12px;
-                    background-color:aliceblue;
-                }
-                .row{
-                    margin-bottom: 16px;
-                    align-items: center;
-                }
-               h4{
-                   font-weight: 300;
-               }
-               span{
-                   font-weight: 400;
-               }
-               .address div{
-                   background-color:tomato;
-                   color: white;
-                   padding: 10px 12px;
-               }
-               .button, .title{
-                   text-align: center;
-               }
+            *{
+                font-family: "Roboto", sans-serif;
+            }
+            .cnt{
+                margin: 5px;
+                padding: 12px;
+                background-color:aliceblue;
+            }
+            .row{
+                margin-bottom: 16px;
+                align-items: center;
+            }
+            .row .col{
+                font-size: 20px;
+                font-style: italic;
+            }
+            .row .col-12{
+                padding-top: 5px;
+            }
+           h4{
+               font-weight: 300;
+               margin-top: 2px;
+           }
+           span{
+               font-weight: 400;
+           }
+           .address{
+               padding: 5px 0px;
+               background-color:#790000ec;
+               text-align: center;
+           }
+           .address div{
+               
+               color: white;
+               padding: 0px 14px;
+           }
+           .title,.button{
+                text-align: center;
+                margin-top: 27px;
+           }
+           .totalhour{
+                font-size: 1.5rem;
+           }
+            .button a{
+                text-decoration: none;
+                background-color: #1d7a8c;
+                color: white;
+                padding: 15px 20px;
+            }
+            .display-6{
+                font-size: 1.6rem;
+                font-weight: 300;
+            }
             </style>
         </head>
         <body>
             <div class="cnt">
-                <div class="row mt-3 title">
+                <div class="row title">
                     <div class="col-12 display-6" style="color:#1d7a8c;">Service Request Id : <span>0001</span></div>
                 </div><hr style="margin-top: 0px;">
                 <div class="row">
                     <div class="col-12">Service Status:- </div>
-                    <div class="col"><h4><span>'.$status.'<span></h4></div>
+                    <div class="col"><h4><span>' . $status . '<span></h4></div>
                 </div>
                 <div class="row">
                     <div class="col-12">Starting Date:- </div>
-                    <div class="col"><h4><span>'.$startdate.'<span></h4></div>
+                    <div class="col"><h4><span>' . $startdate . '<span></h4></div>
                 </div>
                 <div class="row">
-                    <div class="col-12"><h4>'.$basichour.' (basic) + '.$extrahour.' (extra) = <span class="totalhour">'.$totalhour.' Hrs. (total)</span></h4></div>
+                    <div class="col-12"><h4>' . $basichour . ' (basic) + ' . $extrahour . ' (extra) = <span class="totalhour">' . $totalhour . ' Hrs. (total)</span></h4></div>
                 </div>
                 <div class="row">
-                    <div class="col-12">Total Bill ('.$servicehourlyrate.'€ per cleaning)</div>
-                    <div class="col"><h4><span class="totalbill">'.$totalcost.'€<span></h4></div>
+                    <div class="col-12">Total Bill (' . $servicehourlyrate . '€ per cleaning)</div>
+                    <div class="col"><h4><span class="totalbill">' . $totalcost . '€<span></h4></div>
+                </div>
+                <div class="row">
+                    <div class="col-12">HasPets</div>
+                    <div class="col"><h4><span>' . $haspats . '</span><h4></div>
                 </div>
                 <div class="row address">
-                    <div class="col-12">
-                        Address: '.$addressline.', '.$city.', <span>'.$postalcode.'</span>
-                    </div>
+                    <div class="col-12">Address</div>
+                    <div class="col"><span>' . $addressline . ', ' . $city . ', <span>' . $postalcode . '</span></div>
                 </div>
                 <div class="row button">
                     <div class="col-12">
-                        <a href="'.Config::BASE_URL."controller=Default&function=ServicerDashboard".'" class="btn btn-lg btn-primary">Go To Dashboard</a>
+                        <a href="' . Config::BASE_URL . "controller=Default&function=ServicerDashboard" . '" class="btn btn-lg btn-primary">Go To Dashboard</a>
                     </div>
                 </div>
             </div>
         </body>
     </html>
+    ';
+    }
 
-    ';}
-        
     /*------------- Set error ------------*/
     private function addErrors($key, $val)
     {

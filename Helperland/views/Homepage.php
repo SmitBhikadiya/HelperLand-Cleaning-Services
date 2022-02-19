@@ -50,7 +50,7 @@ if (isset($_SESSION["userdata"])) {
             </div>
             <div class="btn-lets">
                 <div>
-                    <button class="btn btn-outline-light text-light">Book a helper!</button>
+                    <?php if($usertypeid!=2){?><button onclick="window.location = '<?= Config::BASE_URL.'?controller=Default&function=booknow' ?>'" class="btn btn-outline-light text-light">Book a helper!</button><?php }?>
                 </div>
             </div>
             <div class="all-steps">

@@ -4,6 +4,7 @@ if (isset($_SESSION["userdata"])) {
     $userdata = $_SESSION["userdata"];
     if ($userdata["UserTypeId"] == 2) {
         $_SESSION["error"] = array($userdata["Email"], "Only customers can access this part of the system");
+        unset($_SESSION["userdata"]);
         header("Location: " . Config::BASE_URL . '?controller=default&function=homepage&parameter=loginmodal');
     }
 } else {
