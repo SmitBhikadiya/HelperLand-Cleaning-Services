@@ -10,7 +10,7 @@
 > [Base URL to Run a project](http://localhost/Tatvasoft-PSD-TO-HTML/HelperLand/)  
 > [Database File Location](https://github.com/SmitBhikadiya/Tatvasoft-PSD-TO-HTML/blob/main/Database/new-helperland.sql)
 
-### SMTP configuration (config.php) (if you want ot enable mailing system)
+### SMTP configuration (config.php) (if you want to enable mailing system)
 >set const SMTP_EMAIL = "";
 >set const SMTP_PASS = ""; 
 
