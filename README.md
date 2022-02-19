@@ -7,7 +7,7 @@
 > Tatvasoft-PSD-To_HTML/Helperland
 
 ### URLs 
-> Base Url:- http://localhost/Tatvasoft-PSD-TO-HTML/HelperLand/
+> Base Url:- http://localhost/Tatvasoft-PSD-TO-HTML/HelperLand/  
 > Database File:- https://github.com/SmitBhikadiya/Tatvasoft-PSD-TO-HTML/blob/main/Database/new-helperland.sql
 
 ### SMTP configuration (config.php) (if you want ot enable mailing system)
