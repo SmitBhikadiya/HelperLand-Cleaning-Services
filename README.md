@@ -26,6 +26,7 @@
  - Validate All the forms at the server and client-side by showing the proper error message
  - Store Hashing value of the password
  - Forgot password link sent to the user via mail so user can set a new password before the link expired
+ - added session tracking : after 60 min of login user will automatically logout (with popup session has been expired)
 
 
 #### 3rd Submission
