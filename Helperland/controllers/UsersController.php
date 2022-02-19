@@ -202,4 +202,16 @@ class UsersController
         header("Location: " . Config::BASE_URL . "?controller=Default&function=error");
         exit();
     }
+
+    /*-------------- Check Session is exprired or not -----------*/
+    public function CheckSession(){
+        $current_time = time();
+        if (isset($_SESSION["expire"]) && ($current_time - $_SESSION["expire"]) > Config::SESSION_DESTROY_TIME) {
+            unset($_SESSION["expire"]);
+            unset($_SESSION["userdata"]);
+            echo "1";
+        }else{
+            echo "0";
+        }
+    }
 }

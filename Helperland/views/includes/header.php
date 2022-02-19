@@ -10,11 +10,10 @@ if(isset($_SESSION["userdata"])){
     $usertypeid = $_SESSION["userdata"]["UserTypeId"]; 
 }
 ?>
-<div class="ajax-loader">
-  <img src="static/images/loader.gif" class="img-responsive" />
-</div>
+
 
 <header class="header">
+    <input type="hidden" id="isLogin" value=<?=($usertypeid=="" ? "0": "1")?>>
     <nav class="navbar">
         <a class="navbar-brand" href="<?=$base_url.'?controller=Default&function=homepage'?>"><img src="static/images/nav-logo.png" alt=""></a>
         <ul class="nav-list">
@@ -66,3 +65,5 @@ if(isset($_SESSION["userdata"])){
         </div>
     </nav>
 </header>
+
+<?php include("views/includes/session-expired-modal.php"); ?>

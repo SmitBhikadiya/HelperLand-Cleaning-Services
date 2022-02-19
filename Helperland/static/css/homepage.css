@@ -466,43 +466,6 @@ h2 {
     padding-left: 10px;
 }
 
-/* Modal Logout */
-#exampleLogout .modal-content{
-    padding: 0;
-}
-.success-icon .img-wrapper{
-    background-color: #67b644;
-    display: flex;
-    width: 75px;
-    justify-content: center;
-    align-items: center;
-    height: 75px;
-    border-radius: 50px;
-    margin: 10px auto;
-}
-.success-icon .img-wrapper img{
-    width: 28px;
-}
-.success-msg{
-    margin: 0 0 20px;
-    font-size: 22px;
-    line-height: 26px;
-    font-weight: 400;
-    margin-top: 42px;
-    text-align: center;
-    color: #686867;
-}
-#exampleLogout .modal-footer{
-    justify-content: center;
-}
-#exampleLogout .modal-footer button{
-    background-color: #1d7a8c;
-    color: white;
-    border-radius: 25px;
-    border: none;
-    padding: 7px 18px;
-}
-
 
 
 
