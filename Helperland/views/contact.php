@@ -166,7 +166,7 @@ if (isset($_COOKIE["contact_success"])) {
 
                     </div>
                     <div class="submit-btn">
-                        <button type="submit" name="contactus" id="contactus" value="contactus">Submit</button>
+                        <button type="submit" name="contactus" id="contactus" value="contactus" onClick="showLoader()">Submit</button>
                     </div>
                 </form>
             </div>

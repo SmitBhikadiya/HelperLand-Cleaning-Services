@@ -26,12 +26,24 @@ class DefaultController{
     function servicer_registration(){
         include("views/ServicerRegistration.php");
     }
+
+    function customer_dashboard($parameter=""){
+        include("views/dashboards/CustomerDashboard.php");
+    }
+
+    function servicer_dashboard(){
+        echo "Comming Soon";
+        //include("views/Dashboards/ServicerDashboard.php");
+    }
+
+    function admin_dashboard(){
+        echo "Comming Soon";
+        //include("views/Dashboards/AdminDashboard.php");
+    }
+
     function error(){
         include("errors.php");
     }
 
-    function ajaxtest(){
-        echo "Called";
-    }
 }
 ?>

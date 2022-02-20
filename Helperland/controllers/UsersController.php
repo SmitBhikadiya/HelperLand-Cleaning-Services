@@ -59,16 +59,17 @@ class UsersController
 
                     // get redirect location according the usertype
                     if ($usertypeid == Config::USER_TYPE_IDS[0]) {
-                        $redirect_location = "customer-dashboard";
+                        $redirect_location = "customer_dashboard";
                     } else if ($usertypeid == Config::USER_TYPE_IDS[1]) {
-                        $redirect_location = "servicer-dashboard";
+                        $redirect_location = "servicer_dashboard";
                     } else if ($usertypeid == Config::USER_TYPE_IDS[2]) {
-                        $redirect_location = "admin-dashboard";
+                        $redirect_location = "admin_dashboard";
                     } else {
                         echo "Somthing went wrong";
                         exit();
                     }
                     $_SESSION["userdata"] = $result[0];
+                    $_SESSION["userdata"]["redirect"] = $redirect_location;
                     $_SESSION["expire"] = time();
 
                     // if user check remember me then set the signin credential

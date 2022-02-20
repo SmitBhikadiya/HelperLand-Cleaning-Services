@@ -1,13 +1,11 @@
 <?php
 $usertype_loc = "#";
 $base_url = Config::BASE_URL;
-if (isset($_SESSION["usertype"])) {
-    $usertype_loc = $_SESSION["usertype"][1];
-}
 
 $usertypeid = "";
 if(isset($_SESSION["userdata"])){
     $usertypeid = $_SESSION["userdata"]["UserTypeId"]; 
+    $usertype_loc = $_SESSION["userdata"]["redirect"];
 }
 ?>
 
@@ -40,10 +38,10 @@ if(isset($_SESSION["userdata"])){
                                 Welcome, <br><b><?= $userdata["FirstName"] . " " . $userdata["LastName"] ?></b>
                             </div>
                             <hr style="margin: 5px;">
-                            <a class="dropdown-item" href="<?= $usertype_loc ?>">
+                            <a class="dropdown-item" href="<?=Config::BASE_URL."?controller=Default&function=".$usertype_loc?>">
                                 My Dashboard
                             </a>
-                            <a class="dropdown-item" href="<?= $usertype_loc . '?req=setting' ?>">
+                            <a class="dropdown-item" href="<?= Config::BASE_URL."?controller=Default&function=".$usertype_loc."&parameter=setting"?>">
                                 My Setting
                             </a>
                             <a class="dropdown-item" href="<?=Config::BASE_URL."/?controller=Users&function=logout"?>">
