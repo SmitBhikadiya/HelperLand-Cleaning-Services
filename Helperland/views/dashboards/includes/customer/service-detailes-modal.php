@@ -12,34 +12,33 @@
                             <div class="col-7 modal-section-body">
                                 <div class="row">
                                     <p class="m-head">Service Details</p>
-                                    <p class="m-time">07/10/2021 08:00 -11:00 </p>
-                                    <p>Duration: 3 Hrs </p>
+                                    <p class="m-time"></p>
+                                    <p>Duration: <span class='total-duration'></span> Hrs </p>
                                 </div>
                                 <hr>
                                 <div class="row">
-                                    <p class="m-head">Service Id: 8488.</p>
-                                    <p>Extras:</p>
-                                    <p>Total Payment: <span class="m-currency">56,25 €</p>
+                                    <p class="m-head">Service Id: <span class="sid"></span>.</p>
+                                    <p>Extras: <span class='extraslist'></p>
+                                    <p>Total Payment: <span class="m-currency"></p>
                                 </div>
                                 <hr>
                                 <div class="row">
                                     <!-- <p class="m-head">Customer Name: Gaurang Patel.</p> -->
-                                    <p>Service Address: Koenigstrasse 112,99897 Tambach-Dietharz</p>
+                                    <p>Service Address: <span class='saddress'></span></p>
                                     <p>Billing Address: Same as cleaning address</p>
-                                    <p>Phone: +49 9955648797</p>
-                                    <p>patel2128@gmail.com</p>
+                                    <p>Phone: +49 <span class="smobile"></span></p>
+                                    <p class="semail"></p>
                                 </div>
                                 <hr>
                                 <div class="row">
                                     <p class="m-head">Comments</p>
-                                    <p><span class="fa fa-times-circle-o"></span> I dont't have pets at home</p>
+                                    <p class="haspets"><span class="fa fa-times-circle-o"></span> I dont't have pets at home</p>
                                 </div>
                                 <hr>
                                 <div class="row modal-button">
                                     <div class="col">
-                                        
-                                    <button class="modal-button-complete">Reschedule</button>
-                                        <button class="modal-button-cancel">Cancel</button>    
+                                        <button class="modal-button-complete sreschedule" data-bs-toggle="modal" data-bs-target="#exampleModalServiceReschedule" data-bs-dismiss="modal">Reschedule</button>
+                                        <button class="modal-button-cancel scancel" data-bs-toggle="modal" data-bs-target="#exampleModalServiceCancel" data-bs-dismiss="modal">Cancel</button>    
                                     </div>
                                 </div>
                             </div>

@@ -8,6 +8,7 @@
                 </div>
                 <div class="modal-body">
                     <form action="#" method="POST">
+                        <input type='hidden' name='serviceid'>
                         <div class="mb-3 form-group">
                             <label for="">Select New Date & Time</label>
                             <div class="row">

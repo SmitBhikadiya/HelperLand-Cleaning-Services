@@ -1,5 +1,5 @@
 <?php
-    class BookNowValidator{
+    class ServiceValidator{
         public $data;
         public $errors = [];
         private static $postalcodefeild = ["postalcode"];

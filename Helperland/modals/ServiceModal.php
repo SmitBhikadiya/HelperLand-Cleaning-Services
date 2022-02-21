@@ -1,7 +1,7 @@
 <?php
 require("db_connection.php");
 
-class BookNowModal extends Connection
+class ServiceModal extends Connection
 {
     public $data;
     public $conn;
@@ -11,6 +11,49 @@ class BookNowModal extends Connection
     {
         $this->data = $data;
         $this->conn = $this->connect();
+    }
+
+    public function TotalRequest($userid){
+        $sql = "SELECT COUNT(*) as TotalRequest FROM servicerequest WHERE UserId = $userid";
+        $result = $this->conn->query($sql);
+        if($result->num_rows > 0){
+            $result = $result->fetch_assoc();
+        }else{
+            $result = [];
+            $result["TotalRequest"] = 0;
+        }
+        return [$result, $this->errors];
+    }
+    public function getAllServiceRequestByUserId($offset, $limit, $userid){
+        $sql = "SELECT sr.ServiceRequestId, sr.ServiceStartDate, sr.ServiceHourlyRate, sr.ServiceHours, sr.ExtraHours, sr.SubTotal, sr.Discount,sr.TotalCost, sr.ServiceProviderId, sr.SPAcceptedDate, sr.HasPets, sr.Status, sr.HasIssue, sr.PaymentDone, sra.AddressLine1, sra.City, sra.State, sra.PostalCode, sra.Mobile, sra.Email, sre.ServiceExtraId FROM servicerequest AS sr JOIN servicerequestaddress AS sra ON sra.ServiceRequestId = sr.ServiceRequestId LEFT JOIN servicerequestextra AS sre ON sre.ServiceRequestId = sr.ServiceRequestId WHERE sr.UserId = $userid LIMIT $offset, $limit";
+        $result = $this->conn->query($sql);
+        $services = [];
+        if($result->num_rows > 0){
+            while($row = $result->fetch_assoc()){
+                if(!is_null($row["ServiceProviderId"])){
+                    $spid = $row["ServiceProviderId"];
+                    $spratings = $this->getSPDetailesBySPId($spid);    
+                    if(count($spratings) > 0){
+                        $row = $row+$spratings;
+                    }
+                }
+                array_push($services, $row);
+            }
+        }else{
+            $services = [];
+        }
+        return [$services, $this->errors];
+    }
+
+    public function getSPDetailesBySPId($spid){
+        $sql = "SELECT COUNT(*) as TotalRating, AVG(rating.Ratings) as AverageRating, CONCAT(user.FirstName,' ',user.LastName) as Fullname, user.UserProfilePicture FROM rating JOIN user ON user.UserId = rating.RatingTo WHERE rating.RatingTo = $spid";    
+        $result = $this->conn->query($sql);
+        if($result->num_rows > 0){
+            $result = $result->fetch_assoc();
+        }else{
+            $result = [];
+        }
+        return $result;
     }
 
     public function getPostalCode()

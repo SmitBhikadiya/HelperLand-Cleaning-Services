@@ -1,5 +1,5 @@
 <?php
-
+    include("config.php");
     $controller = "Default";
     $function = "homepage";
     $parameter = '';

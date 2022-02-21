@@ -1,9 +1,3 @@
-function showLoader(){
-  $.LoadingOverlay("show",{
-    background  : "rgba(0, 0, 0, 0.7)"
-  });
-}
-
 $(document).ready(function () {
 
   window.today = getTodayDate();
@@ -180,6 +174,8 @@ $(document).ready(function () {
           clearNewAddressForm();
         }
       });
+    }else{
+      $.LoadingOverlay("hide");
     }
     e.preventDefault();
   });
@@ -295,6 +291,7 @@ $(document).ready(function () {
         }
       });
     } else {
+      $.LoadingOverlay("hide");
       if(address!=''){
         $(".form-detailes").prepend('<div class="alert alert-warning alert-dismissible fade show" role="alert">Add new address first!<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>');
       }else{
@@ -339,6 +336,7 @@ $(document).ready(function () {
       });
 
     } else {
+      $.LoadingOverlay("hide");
       $("#booknowpolicy").parent().after("<p class='error'>* Accept the policy first!!!</p>");
     }
     e.preventDefault();
@@ -428,6 +426,7 @@ $(document).ready(function () {
       $("#service-date").val(window.today);
       var date = today.getFullYear() + "-" + ("0" + (today.getMonth() + 1)).slice(-2) + "-" + ("0" + today.getDate()).slice(-2);
       $(".duration-date").text(date);
+      $.LoadingOverlay("hide");
       alert("Your input must be equal or bigger than today's date");
       window.form2error = 1;
     }
@@ -438,6 +437,7 @@ $(document).ready(function () {
     $(".error").remove();
     window.hour = +$("#service-hour").val();
     if (time + window.hour > 21) {
+      $.LoadingOverlay("hide");
       $(".schedule-timing").after( "<p class='error'>Could not completed the service request, because service booking request is must be completed within 21:00 time</p>" );
       window.form2error = 1;
     } else {
@@ -516,6 +516,7 @@ $(document).ready(function () {
       $("#postalcode")
         .parent()
         .after("<span class='error'>Field can`t be empty</span>");
+        $.LoadingOverlay("hide");
       return false;
     } else if (len != 5) {
       $("#postalcode")
@@ -523,6 +524,7 @@ $(document).ready(function () {
         .after(
           "<span class='error'>Postal code must be 5 characters long</span>"
         );
+        $.LoadingOverlay("hide");
       return false;
     } else {
       return true;

@@ -17,37 +17,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td scope="row" style="line-height: 50px;cursor:pointer;" data-bs-toggle="modal" data-bs-target="#exampleModalServiceDetailes" data-bs-dismiss="modal">323436</td>
-                    <td>
-                        <div class="td-date"><img src="./static/images/icon-calculator.png" alt=""><b>09/04/2018</b></div>
-                        <div class="td-time"><img src="./static/images/icon-time.png" alt="">12:00-18:00</div>
-                    </td>
-                    <td>
-                        <div class="td-rating">
-                            <div class="rating-user"><img src="./static/images/icon-cap.png" alt="">
-                            </div>
-                            <div class="rating-info">
-                                <div class="info-name">Lyum Watson</div>
-                                <div class="info-ratings">
-                                    <span class="fa fa-star"></span>
-                                    <span class="fa fa-star"></span>
-                                    <span class="fa fa-star"></span>
-                                    <span class="fa fa-star"></span>
-                                    <span class="fa fa-star-o"></span>
-                                    4
-                                </div>
-                            </div>
-                        </div>
-                    </td>
-                    <td style="line-height: 50px;">
-                        <div class="td-currn">€<span>65</span></div>
-                    </td>
-                    <td class="btn-dashboard">
-                        <button data-bs-toggle="modal" class="btn-reschedule" data-bs-toggle="modal" data-bs-target="#exampleModalServiceReschedule" data-bs-dismiss="modal">Reschedule</button>
-                        <button data-bs-toggle="modal" class="btn-cancel" data-bs-toggle="modal" data-bs-target="#exampleModalServiceCancel" data-bs-dismiss="modal">Cancel</button>
-                    </td>
-                </tr>
+                
             </tbody>
         </table>
     </div>
@@ -60,7 +30,7 @@
                 <option value="50">50</option>
                 <option value="100">100</option>
             </select>
-            entries Total Record : 7
+            entries Total Record : <span class="totalrecords">50<span>
         </div>
         <div class="paginations">
             <div class="jump-left"><img src="./static/images/jump-left.png" alt=""></div>

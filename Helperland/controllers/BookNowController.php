@@ -1,9 +1,9 @@
 <?php
 
 session_start();
-require("validation/booknowvalidator.php");
+require("validation/servicevalidator.php");
 require("phpmailer/mail.php");
-require("modals/BookNowModal.php");
+require("modals/ServiceModal.php");
 
 class BookNowController
 {
@@ -14,8 +14,8 @@ class BookNowController
     function __construct()
     {
         $this->data = $_POST;
-        $this->booknowModal = new BookNowModal($this->data);
-        $this->validator = new BookNowValidator($this->data);
+        $this->booknowModal = new ServiceModal($this->data);
+        $this->validator = new ServiceValidator($this->data);
     }
 
     function CheckPostalCode()

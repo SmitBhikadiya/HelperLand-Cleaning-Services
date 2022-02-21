@@ -159,8 +159,12 @@ table tbody {
 .td-rating .rating-user {
     border: 1px solid gray;
     border-radius: 50%;
-    padding: 12px 5px 12px 10px;
     text-align: center;
+}
+.td-rating .rating-user img{
+    width: 48px;
+    height: 48px;
+    margin-right: 0;
 }
 
 .td-rating .rating-info {

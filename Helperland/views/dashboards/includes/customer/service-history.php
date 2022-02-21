@@ -187,7 +187,7 @@
                 <option value="15">15</option>
                 <option value="30">30</option>
             </select>
-            entries Total Record : 7
+            entries Total Record : <span class="totalrecords">50<span>
         </div>
         <div class="paginations">
             <div class="jump-left"><img src="./static/images/jump-left.png" alt=""></div>

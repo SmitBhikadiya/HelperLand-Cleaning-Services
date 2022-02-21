@@ -8,6 +8,7 @@
                 </div>
                 <div class="modal-body">
                     <form action="../Helperland/users.php" method="POST">
+                    <input type='hidden' name='serviceid'>
                         <div class="mb-3 form-group icon-textbox">
                             <label for="">Why you want to cancel this service?</label>
                             <textarea class="form-control" name="whyyouwant" id="" rows="3"></textarea>
