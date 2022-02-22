@@ -190,7 +190,9 @@
     margin-top: 2px;
     font-size: 13px;
 }
-
+.alert{
+    padding-left: 5px;
+}
 .alert ul, .errorlist{
     margin-top: 0px;
     margin-bottom: 0px;
@@ -199,4 +201,7 @@
     padding-left: 10px;
     font-size: 14px;
     color: red;
+}
+.alert .success{
+    color:#007E33;
 }

@@ -1,7 +1,7 @@
 <div class="div-content table-responsive">
     <div class="shistory-title">
         <p>Current Service Requests</p>
-        <button>Add New Service Requests</button>
+        <button onclick="window.location='<?=$base_url.'?controller=Default&function=booknow'?>'">Add New Service Requests</button>
     </div>
     <div>
         <table class="table">

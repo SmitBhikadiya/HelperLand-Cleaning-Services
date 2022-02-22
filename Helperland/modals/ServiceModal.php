@@ -13,44 +13,95 @@ class ServiceModal extends Connection
         $this->conn = $this->connect();
     }
 
-    public function TotalRequest($userid){
-        $sql = "SELECT COUNT(*) as TotalRequest FROM servicerequest WHERE UserId = $userid";
-        $result = $this->conn->query($sql);
-        if($result->num_rows > 0){
-            $result = $result->fetch_assoc();
-        }else{
-            $result = [];
-            $result["TotalRequest"] = 0;
-        }
-        return [$result, $this->errors];
-    }
-    public function getAllServiceRequestByUserId($offset, $limit, $userid){
-        $sql = "SELECT sr.ServiceRequestId, sr.ServiceStartDate, sr.ServiceHourlyRate, sr.ServiceHours, sr.ExtraHours, sr.SubTotal, sr.Discount,sr.TotalCost, sr.ServiceProviderId, sr.SPAcceptedDate, sr.HasPets, sr.Status, sr.HasIssue, sr.PaymentDone, sra.AddressLine1, sra.City, sra.State, sra.PostalCode, sra.Mobile, sra.Email, sre.ServiceExtraId FROM servicerequest AS sr JOIN servicerequestaddress AS sra ON sra.ServiceRequestId = sr.ServiceRequestId LEFT JOIN servicerequestextra AS sre ON sre.ServiceRequestId = sr.ServiceRequestId WHERE sr.UserId = $userid LIMIT $offset, $limit";
-        $result = $this->conn->query($sql);
-        $services = [];
-        if($result->num_rows > 0){
-            while($row = $result->fetch_assoc()){
-                if(!is_null($row["ServiceProviderId"])){
-                    $spid = $row["ServiceProviderId"];
-                    $spratings = $this->getSPDetailesBySPId($spid);    
-                    if(count($spratings) > 0){
-                        $row = $row+$spratings;
-                    }
-                }
-                array_push($services, $row);
-            }
+    // update service time slot
+    public function IsUpdateServiceSchedulePossibleOnDate($favsp, $startdate){
+        // if service is already assign to service provider then check 
+        // slot will be available on selected slot
+        if(!is_null($favsp)){
+            $services = $this->getServiceByStartDateAndSP($favsp, $startdate);
         }else{
             $services = [];
         }
         return [$services, $this->errors];
     }
 
-    public function getSPDetailesBySPId($spid){
-        $sql = "SELECT COUNT(*) as TotalRating, AVG(rating.Ratings) as AverageRating, CONCAT(user.FirstName,' ',user.LastName) as Fullname, user.UserProfilePicture FROM rating JOIN user ON user.UserId = rating.RatingTo WHERE rating.RatingTo = $spid";    
+    public function UpdateSerivceScheduleById($startdate, $starttime, $serviceId, $modifiedby){
+        
+        // for fromatting datetime
+        $date = new DateTime($startdate);
+        $date->setTime(floor($starttime), floor($starttime) == $starttime ? "00" : (("0." . substr($starttime, -1) * 60) * 100));
+        $datetime = $date->format('Y-m-d H:i:s');
+        
+        $sql = "UPDATE servicerequest SET ServiceStartDate='$datetime', ModifiedBy=$modifiedby, ModifiedDate=now() WHERE ServiceRequestId=$serviceId";
         $result = $this->conn->query($sql);
-        if($result->num_rows > 0){
-            $result = $result->fetch_assoc();
+        if($result){
+            return 1;
         }else{
+            return 0;
+        }
+    }
+
+    public function getServiceByStartDateAndSP($favsp, $startdate){
+        $sql = "SELECT ServiceRequestId, DATE_FORMAT(ServiceStartDate, '%H:%i') as ServiceStartTime, ServiceHours, Status FROM servicerequest WHERE ServiceProviderId = $favsp AND ServiceStartDate LIKE '%$startdate%';";
+        $services = $this->conn->query($sql);
+        $rows = [];
+        if($services->num_rows > 0){
+            // check any slot time with selected time
+            while($row = $services->fetch_assoc()){
+                 array_push($rows,$row);
+            }
+        }
+        return $rows;
+    }
+
+    // get total service request by user id
+    public function TotalRequestByUserId($userid)
+    {
+        $sql = "SELECT COUNT(*) as TotalRequest FROM servicerequest WHERE UserId = $userid";
+        $result = $this->conn->query($sql);
+        if ($result->num_rows > 0) {
+            $result = $result->fetch_assoc();
+        } else {
+            $result = [];
+            $result["TotalRequest"] = 0;
+        }
+        return [$result, $this->errors];
+    }
+
+    // get all the service by service request id
+    public function getAllServiceRequestByUserId($offset, $limit, $userid, $status = "")
+    {
+        if ($status != "") {
+            $sql = "SELECT sr.ServiceRequestId, sr.ServiceStartDate, sr.ServiceHourlyRate, sr.ServiceHours, sr.ExtraHours, sr.SubTotal, sr.Discount,sr.TotalCost, sr.ServiceProviderId, sr.SPAcceptedDate, sr.HasPets, sr.Status, sr.HasIssue, sr.PaymentDone, sra.AddressLine1, sra.City, sra.State, sra.PostalCode, sra.Mobile, sra.Email, sre.ServiceExtraId FROM servicerequest AS sr JOIN servicerequestaddress AS sra ON sra.ServiceRequestId = sr.ServiceRequestId LEFT JOIN servicerequestextra AS sre ON sre.ServiceRequestId = sr.ServiceRequestId WHERE sr.UserId = $userid AND sr.Status IN $status LIMIT $offset, $limit";
+            $result = $this->conn->query($sql);
+            $services = [];
+            if ($result->num_rows > 0) {
+                while ($row = $result->fetch_assoc()) {
+                    if (!is_null($row["ServiceProviderId"])) {
+                        $spid = $row["ServiceProviderId"];
+                        $spratings = $this->getSPDetailesBySPId($spid);
+                        if (count($spratings) > 0) {
+                            $row = $row + $spratings;
+                        }
+                    }
+                    array_push($services, $row);
+                }
+            } else {
+                $services = [];
+            }
+        }else{
+            $this->addErrors("missing", "Paramter missing!!");
+        }
+        return [$services, $this->errors];
+    }
+
+    public function getSPDetailesBySPId($spid)
+    {
+        $sql = "SELECT COUNT(*) as TotalRating, AVG(rating.Ratings) as AverageRating, CONCAT(user.FirstName,' ',user.LastName) as Fullname, user.UserProfilePicture FROM rating JOIN user ON user.UserId = rating.RatingTo WHERE rating.RatingTo = $spid";
+        $result = $this->conn->query($sql);
+        if ($result->num_rows > 0) {
+            $result = $result->fetch_assoc();
+        } else {
             $result = [];
         }
         return $result;
@@ -208,7 +259,7 @@ class ServiceModal extends Connection
 
         // set data format 
         $date = new DateTime($startdate);
-        $date->setTime(floor($cleaningstarttime), floor($cleaningstarttime)==$cleaningstarttime ? "00": (("0." . substr($cleaningstarttime, -1) * 60) * 100));
+        $date->setTime(floor($cleaningstarttime), floor($cleaningstarttime) == $cleaningstarttime ? "00" : (("0." . substr($cleaningstarttime, -1) * 60) * 100));
         $cleaningstartdate = $date->format('Y-m-d H:i:s');
 
         $cleaningworkinghour = $this->data["cleaningworkinghour"];
@@ -264,7 +315,7 @@ class ServiceModal extends Connection
                     }
                 }
             }
-        }else{
+        } else {
             array_push($success, false);
             foreach ($result[1] as $key => $val) {
                 $this->addErrors($key, $val);
@@ -278,34 +329,37 @@ class ServiceModal extends Connection
         return [$result, $this->errors];
     }
 
-    public function getServiceRequestById($serviceid){
+    public function getServiceRequestById($serviceid)
+    {
         $sql = "SELECT * FROM servicerequest JOIN servicerequestaddress ON servicerequestaddress.ServiceRequestId = servicerequest.ServiceRequestId WHERE servicerequest.ServiceRequestId = $serviceid";
         $service = $this->conn->query($sql);
-        if($service->num_rows > 0){
+        if ($service->num_rows > 0) {
             $result = $service->fetch_assoc();
-        }else{
+        } else {
             $result = [];
         }
         return $result;
     }
 
-    public function getServicerByServiceRequestId($serviceid, $workwitpets){
+    public function getServicerByServiceRequestId($serviceid, $workwitpets)
+    {
         $sql = "SELECT * FROM user JOIN servicerequest ON servicerequest.ServiceProviderId = user.UserId WHERE servicerequest.ServiceRequestId = $serviceid AND user.WorksWithPets >= $workwitpets";
         $servicer = $this->conn->query($sql);
-        if($servicer->num_rows > 0){
+        if ($servicer->num_rows > 0) {
             $result = $servicer->fetch_assoc();
-        }else{
+        } else {
             $result = [];
         }
         return $result;
     }
 
-    public function getAllServicer($workwithpets){
+    public function getAllServicer($workwithpets)
+    {
         $sql = "SELECT * FROM user WHERE UserTypeId=2 AND IsApproved=1 AND IsDeleted=0 AND WorksWithPets >= $workwithpets";
         $result = $this->conn->query($sql);
         $servicers = [];
-        if($result->num_rows > 0){
-            while($row = $result->fetch_assoc()){
+        if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
                 array_push($servicers, $row);
             }
         }
