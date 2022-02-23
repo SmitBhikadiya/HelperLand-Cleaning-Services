@@ -56,7 +56,8 @@ if (isset($_SESSION["userdata"])) {
                 </div>
             </div>
             <div class="modal-footer" style="padding-top: 0;">
-                <button data-bs-dismiss="modal" onclick="window.location = '<?=Config::BASE_URL.'controller=Default&function=Homepage'?>'">Ok</button>
+                <button data-bs-dismiss="modal" onclick="window.location = ' <?= (isset($_SESSION['redirect_url'])) ? $_SESSION['redirect_url'] : Config::BASE_URL.'controller=Default&function=Homepage' ?>'">Ok</button>
+                <?php unset($_SESSION["redirect_url"])?>
             </div>
         </div>
     </div>

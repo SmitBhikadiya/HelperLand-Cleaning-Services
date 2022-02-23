@@ -30,7 +30,7 @@
                 <option value="50">50</option>
                 <option value="100">100</option>
             </select>
-            entries Total Record : <span class="totalrecords">50<span>
+            entries Total Record : <span class="totalrecords"><span>
         </div>
         <div class="paginations">
             <div class="jump-left"><img src="./static/images/jump-left.png" alt=""></div>

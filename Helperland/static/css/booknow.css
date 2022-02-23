@@ -945,3 +945,11 @@
         padding-top: 33px;
     }
 }
+
+/* modal */
+#sessionexpired .success-msg{
+    margin: 0;
+}
+#sessionexpired .modal-footer{
+    justify-content: center;
+}

@@ -1,10 +1,11 @@
 <?php
 session_start();
 $userdata = [];
-if (isset($_SESSION["userdata"]) && $_SESSION["userdata"]["UserTypeId"]==Config::USER_TYPE_IDS[0]) {
+$_SESSION["redirect_url"] = "http://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+if (isset($_SESSION["userdata"]) && $_SESSION["userdata"]["UserTypeId"] == Config::USER_TYPE_IDS[0]) {
     $userdata = $_SESSION["userdata"];
-}else{
-    header("Location: ".Config::BASE_URL."?controller=default&function=homepage");
+} else {
+    header("Location: " . Config::BASE_URL . "?controller=default&function=homepage");
     exit();
 }
 ?>
@@ -35,21 +36,42 @@ if (isset($_SESSION["userdata"]) && $_SESSION["userdata"]["UserTypeId"]==Config:
 <body>
 
     <?php
-        include("includes/customer/sprating-modal.php");
-        include("includes/customer/service-detailes-modal.php");
-        include("includes/customer/service-reschedule-modal.php");
-        include("includes/customer/service-cancel-modal.php");
-        include("includes/customer/edit-address-modal.php");
-        include("views/includes/header.php");
+    include("includes/customer/sprating-modal.php");
+    include("includes/customer/service-detailes-modal.php");
+    include("includes/customer/service-reschedule-modal.php");
+    include("includes/customer/service-cancel-modal.php");
+    include("includes/customer/edit-address-modal.php");
+    include("views/includes/header.php");
     ?>
-    <div class="header-image">Welcome, <?=$userdata["FirstName"]?>!</div>
+
+    <div class="modal fade" id="servicerequest" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="success-icon">
+                        <div class="img-wrapper">
+                            <img src="static/images/correct-white-medium.png" alt="">
+                        </div>
+                    </div>
+                    <div class="success-msg">
+                        
+                    </div>
+                </div>
+                <div class="modal-footer" style="padding-top: 0;">
+                    <button data-bs-dismiss="modal">Ok</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-image">Welcome, <?= $userdata["FirstName"] ?>!</div>
     <div class="main">
         <section id="section-cdashboard">
             <div class="div-main container-fluid">
                 <?php include("includes/customer/sidebar.php") ?>
                 <?php
-                if ($parameter!="") {
-                    $req =$parameter;
+                if ($parameter != "") {
+                    $req = $parameter;
                     switch ($req) {
                         case "dashboard":
                             include("includes/customer/dashboard.php");
@@ -71,7 +93,7 @@ if (isset($_SESSION["userdata"]) && $_SESSION["userdata"]["UserTypeId"]==Config:
                     include("includes/customer/dashboard.php");
                 }
 
-                echo "<input type='hidden' id='req' name='req' value=".$req."></input>";
+                echo "<input type='hidden' id='req' name='req' value=" . $req . "></input>";
                 ?>
             </div>
         </section>

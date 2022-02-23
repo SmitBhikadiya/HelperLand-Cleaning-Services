@@ -117,12 +117,26 @@ class CDashboardController
         echo json_encode(["result" => $result[0], "errors" => $this->errors]);
     }
 
-    public function TotalRequest()
-    {
+    public function TotalRequest($request='')
+    {   
+        switch ($request) {
+            case "service-history":
+                $status = '(3,4)';
+                break;
+            case "favorite-pros":
+                break;
+            case "setting":
+                break;
+            case "dashboard":
+                $status = '(0,1)';
+                break;
+            default:
+                $status = '(0,1)';
+        }
         if (isset($_SESSION["userdata"])) {
             $user = $_SESSION["userdata"];
             $userid = $user["UserId"];
-            $result = $this->servicemodal->TotalRequestByUserId($userid);
+            $result = $this->servicemodal->TotalRequestByUserId($userid, $status);
             if (count($result[1]) > 0) {
                 foreach ($result[1] as $key => $val) {
                     $this->addErrors($key, $val);
@@ -133,6 +147,21 @@ class CDashboardController
         }
 
         echo json_encode(["result" => $result[0], "errors" => $this->errors]);
+    }
+
+    public function CancelService(){
+        $result = 0;
+        if(isset($_SESSION["userdata"])){
+            $user = $_SESSION["userdata"];
+            $userid = $user["UserId"];
+            $serviceid = $this->data["serviceid"];
+            $comment = $this->data["comment"];
+            $result = $this->servicemodal->CancelServiceById($userid, $serviceid, $comment);
+        } else {
+            $this->addErrors("login", "User is not login!!!");
+        }
+
+        echo json_encode(["result" => $result, "errors" => $this->errors]);
     }
 
     /*------------ Convert time(10:30) format to num(10.5) -------------*/

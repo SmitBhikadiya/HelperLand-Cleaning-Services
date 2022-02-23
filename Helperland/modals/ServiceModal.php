@@ -55,9 +55,9 @@ class ServiceModal extends Connection
     }
 
     // get total service request by user id
-    public function TotalRequestByUserId($userid)
+    public function TotalRequestByUserId($userid, $status)
     {
-        $sql = "SELECT COUNT(*) as TotalRequest FROM servicerequest WHERE UserId = $userid";
+        $sql = "SELECT COUNT(*) as TotalRequest FROM servicerequest WHERE UserId = $userid AND Status IN $status";
         $result = $this->conn->query($sql);
         if ($result->num_rows > 0) {
             $result = $result->fetch_assoc();
@@ -66,6 +66,18 @@ class ServiceModal extends Connection
             $result["TotalRequest"] = 0;
         }
         return [$result, $this->errors];
+    }
+
+    // cancel service request  by servcie id and userid
+    public function CancelServiceById($userId, $serviceId, $comment=''){
+        $status = 3;
+        $sql = "UPDATE servicerequest SET Comments='$comment', Status=$status, HasIssue=1, ModifiedDate=now(), ModifiedBy=$userId WHERE UserId=$userId AND ServiceRequestId=$serviceId";
+        $result = $this->conn->query($sql);
+        if($result){
+            return 1;
+        }else{
+            return 0;
+        }
     }
 
     // get all the service by service request id

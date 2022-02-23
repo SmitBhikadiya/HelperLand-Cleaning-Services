@@ -2,22 +2,30 @@ $(document).ready(function () {
 
   // daclare today date
   var today = new Date();
+  var req = $("#req").val();
   today.setDate(today.getDate()+1);
   var tommorrow = today.getFullYear() + "-" + ("0" + (today.getMonth() + 1)).slice(-2) + "-" + ("0" + today.getDate()).slice(-2);
-  
   var currentpage = 1; // current page number
   var showrecords = $(".show-apge select").val(); // total records shown in select input
-  var totalrecords = getDefaultRecords();
-  var totalpage = Math.ceil(totalrecords / showrecords);
+  getDefaultRecords();
+  var totalpage = 1;
   var records = [];
-  totalpage = totalpage == 0 ? 1 : totalpage;
-  getAjaxDataByReq();
+  var totalrecords = 0;
+  setTimeout(testing, 100);
+
+  function testing(){
+    totalrecords = $(".show-apge .totalrecords").text();
+    totalpage = Math.ceil(totalrecords / showrecords);
+    totalpage = totalpage == 0 ? 1 : totalpage;
+    getAjaxDataByReq();
+  }
 
   $(document).on("change", ".show-apge select", function () {
     showrecords = $(this).val();
     totalpage = Math.ceil(totalrecords / showrecords);
     totalpage = totalpage == 0 ? 1 : totalpage;
     updatePageNumber(currentpage);
+    getAjaxDataByReq();
   });
 
   $(document).on("click", ".paginations div", function () {
@@ -82,6 +90,39 @@ $(document).ready(function () {
         $.LoadingOverlay("hide");
       },
     });
+  });
+
+  $(document).on('click', '#btn_service_cancel', function(e){
+    e.preventDefault();
+    $(".error").remove();
+    if($("#cancel-comment").val().length > 0){
+      showLoader();
+      var action = $('#form-service-cancel').prop("action");
+      jQuery.ajax({
+        type: "POST",
+        url: action,
+        datatype: "json",
+        data: $("#form-service-cancel").serialize(),
+        success: function (data) {
+          var obj = JSON.parse(data);
+          console.log(obj.result);
+          var serviceid = ("000"+$("#form-service-cancel input[type=hidden]").val()).slice(-4);
+          if(obj.result==1){
+            $("#exampleModalServiceCancel").modal("hide");
+            getAjaxDataByReq();
+            $("#servicerequest .success-msg").html("<h4>Your service request canceled successfully</h4><br> cancelled Request Id "+serviceid);
+            $("#servicerequest").modal("show");
+          }else{
+            alert("Somthing went wrong with service request "+serviceid);
+          }
+        },
+        complete: function (data) {
+          $.LoadingOverlay("hide");
+        },
+      });
+    }else{
+      $("#cancel-comment").after("<p class='error'>* Comment can't be empty!!!</p>");
+    }
   });
 
   $(document).on("click", ".btn-cancel", function () {
@@ -158,29 +199,20 @@ $(document).ready(function () {
   });
 
   function getDefaultRecords() {
-    showLoader();
     $.ajax({
       type: "POST",
-      url:
-        "http://localhost/Tatvasoft-PSD-TO-HTML/HelperLand/?controller=CDashboard&function=TotalRequest&parameter=" +
-        req,
+      url: "http://localhost/Tatvasoft-PSD-TO-HTML/HelperLand/?controller=CDashboard&function=TotalRequest&parameter="+req,
       datatype: "json",
       success: function (data) {
-        //console.log(data);
+        console.log(data);
         var obj = JSON.parse(data);
-        var _records = obj.result.TotalRequest;
-        $(".show-apge .totalrecords").text(_records);
-        return _records;
-      },
-      complete: function (data) {
-        $.LoadingOverlay("hide");
+        var totalrequest = obj.result.TotalRequest;
+        $(".show-apge .totalrecords").text(totalrequest);
       },
     });
-    return 0;
   }
   function getAjaxDataByReq() {
     showLoader();
-    var req = $("#req").val();
     $.ajax({
       type: "POST",
       url:
