@@ -1,4 +1,5 @@
 <?php
+    session_start();
     include("config.php");
     $controller = "Default";
     $function = "homepage";

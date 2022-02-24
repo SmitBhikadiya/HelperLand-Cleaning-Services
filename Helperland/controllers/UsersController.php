@@ -1,8 +1,8 @@
 <?php
-session_start();
-require("validation/usersvalidator.php");
-require("./modals/UsersModal.php");
-require("phpmailer/mail.php");
+
+require_once("validation/usersvalidator.php");
+require_once("./modals/UsersModal.php");
+require_once("phpmailer/mail.php");
 
 class UsersController
 {

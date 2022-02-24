@@ -1,3 +1,4 @@
+
 <div class="div-content">
     <nav>
         <div class="nav nav-tabs" id="nav-tab" role="tablist">
@@ -14,19 +15,19 @@
                         <div class="col-4">
                             <div class="form-group">
                                 <label for="firstname">First Name</label>
-                                <input class="form-control" type="text" name="firstname" value="Gaurang">
+                                <input class="form-control" type="text" name="firstname" value="<?=$userdata['FirstName']?>">
                             </div>
                         </div>
                         <div class="col-4">
                             <div class="form-group">
                                 <label for="lastname">Last Name</label>
-                                <input class="form-control" type="text" name="lastname" value="Patel">
+                                <input class="form-control" type="text" name="lastname" value="<?=$userdata['LastName']?>">
                             </div>
                         </div>
                         <div class="col-4">
                             <div class="form-group">
                                 <label for="firstname">Email Address</label>
-                                <input class="form-control" type="email" name="email" value="patel@123.com">
+                                <input class="form-control" type="email" name="email" value="<?=$userdata['Email']?>">
                             </div>
                         </div>
                         <div class="col-4">
@@ -36,7 +37,7 @@
                                     <div class="input-group-prepend">
                                         <div class="input-group-text">+49</div>
                                     </div>
-                                    <input type="number" name="mobile" class="form-control" id="inlineFormInputGroup" placeholder="Phone number">
+                                    <input type="number" name="mobile" class="form-control" id="inlineFormInputGroup" placeholder="Phone number" value="<?=$userdata['Mobile']?>">
                                 </div>
                             </div>
                         </div>
@@ -170,7 +171,7 @@
                         <div class="col-3">
                             <div class="form-group">
                                 <label for="langauge">My Preferred Language</label>
-                                <select name="langauge" id="" class="form-select">
+                                <select name="langauge" class="form-select">
                                     <option value="en">English</option>
                                 </select>
                             </div>
@@ -191,6 +192,10 @@
                         </tr>
                     </thead>
                     <tbody>
+                        <?php
+                        include("controllers/CDashboardController.php");
+                            $obj = new CDashboardController($_POST);
+                        ?>
                         <tr>
                             <td>1</td>
                             <td>
@@ -202,28 +207,7 @@
                                 <a href="#"><img src="./static/images/delete-icon.png" alt=""></a>
                             </td>
                         </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>
-                                <div>Address: <span>Street 54, 53844 Troisdorf</span></div>
-                                <div>Phone number: <span>9988556644</span></div>
-                            </td>
-                            <td>
-                                <a href="#" data-bs-toggle="modal" data-bs-target="#exampleModalEditAddress" data-bs-dismiss="modal"><img src="./static/images/edit-icon.png" alt=""></a>
-                                <a href="#"><img src="./static/images/delete-icon.png" alt=""></a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>3</td>
-                            <td>
-                                <div>Address: <span>Street 54, 53844 Troisdorf</span></div>
-                                <div>Phone number: <span>9988556644</span></div>
-                            </td>
-                            <td>
-                                <a href="#" data-bs-toggle="modal" data-bs-target="#exampleModalEditAddress" data-bs-dismiss="modal"><img src="./static/images/edit-icon.png" alt=""></a>
-                                <a href="#"><img src="./static/images/delete-icon.png" alt=""></a>
-                            </td>
-                        </tr>
+                        
                     </tbody>
                 </table>
                 <button class="btn-newaddress">Add New Address</button>

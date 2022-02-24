@@ -1,8 +1,8 @@
 <?php
 
-require("validation/contactusvalidator.php");
-require("phpmailer/mail.php");
-require("modals/ContactUsModal.php");
+require_once("validation/contactusvalidator.php");
+require_once("phpmailer/mail.php");
+require_once("modals/ContactUsModal.php");
 
 class ContactUsController
 {

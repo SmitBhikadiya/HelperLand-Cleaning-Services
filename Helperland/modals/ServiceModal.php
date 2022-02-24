@@ -1,5 +1,5 @@
 <?php
-require("db_connection.php");
+require_once("db_connection.php");
 
 class ServiceModal extends Connection
 {
@@ -23,6 +23,27 @@ class ServiceModal extends Connection
             $services = [];
         }
         return [$services, $this->errors];
+    }
+
+
+    //
+    public function UpdateFavouriteUser($f_id, $set){
+        $sql = "UPDATE favoriteandblocked SET IsFavorite=$set WHERE Id=$f_id;";
+        $result = $this->conn->query($sql);
+        if($result){
+            return $set;
+        }
+    }
+    public function UpdateBlockUser($b_id, $set){
+        if($set==1){
+            $sql = "UPDATE favoriteandblocked SET IsBlocked=$set, IsFavorite=0 WHERE Id=$b_id;";
+        }else{
+            $sql = "UPDATE favoriteandblocked SET IsBlocked=$set WHERE Id=$b_id;";
+        }
+        $result = $this->conn->query($sql);
+        if($result){
+            return $set;
+        }
     }
 
     public function UpdateSerivceScheduleById($startdate, $starttime, $serviceId, $modifiedby){
@@ -54,16 +75,42 @@ class ServiceModal extends Connection
         return $rows;
     }
 
+    public function getFavoriteAndBlockedList($userid){
+        $sql = "SELECT fb.*, CONCAT(user.FirstName,' ', user.LastName) as FullName, user.UserProfilePicture FROM favoriteandblocked as fb JOIN user ON user.UserId = fb.TargetUserId WHERE fb.UserId=$userid AND fb.TargetUserId IN (SELECT UserId FROM favoriteandblocked WHERE TargetUserId=$userid AND IsBlocked=0);";
+        $result = $this->conn->query($sql);
+        $rows = [];
+        if($result->num_rows > 0){
+            while($row = $result->fetch_assoc()){
+                $spid = $row["TargetUserId"];
+                $sprating = $this->getSPDetailesBySPId($spid);
+                array_push($rows,$row+$sprating);
+            }
+        }
+        return [$rows, $this->errors];
+    }
+
     // get total service request by user id
     public function TotalRequestByUserId($userid, $status)
     {
-        $sql = "SELECT COUNT(*) as TotalRequest FROM servicerequest WHERE UserId = $userid AND Status IN $status";
+        $sql = "SELECT COUNT(*) as Total FROM servicerequest WHERE UserId = $userid AND Status IN $status";
         $result = $this->conn->query($sql);
         if ($result->num_rows > 0) {
             $result = $result->fetch_assoc();
         } else {
             $result = [];
-            $result["TotalRequest"] = 0;
+            $result["Total"] = 0;
+        }
+        return [$result, $this->errors];
+    }
+
+    public function TotalFavoriteAndBlockByUserId($userid){
+        $sql = "SELECT COUNT(*) as Total FROM favoriteandblocked WHERE UserId = $userid";
+        $result = $this->conn->query($sql);
+        if ($result->num_rows > 0) {
+            $result = $result->fetch_assoc();
+        } else {
+            $result = [];
+            $result["Total"] = 0;
         }
         return [$result, $this->errors];
     }
@@ -92,9 +139,7 @@ class ServiceModal extends Connection
                     if (!is_null($row["ServiceProviderId"])) {
                         $spid = $row["ServiceProviderId"];
                         $spratings = $this->getSPDetailesBySPId($spid);
-                        if (count($spratings) > 0) {
-                            $row = $row + $spratings;
-                        }
+                        $row = $row + $spratings;
                     }
                     array_push($services, $row);
                 }
@@ -170,7 +215,7 @@ class ServiceModal extends Connection
 
     public function getFavoriteSP($userid, $workwithpet)
     {
-        $sql = "SELECT favoriteandblocked.*, user.UserProfilePicture, concat(user.FirstName, ' ', user.LastName) AS FullName FROM favoriteandblocked JOIN user ON user.UserId = favoriteandblocked.TargetUserId WHERE user.UserId IN (SELECT favoriteandblocked.TargetUserId FROM favoriteandblocked JOIN user ON user.UserId = favoriteandblocked.UserId WHERE user.UserId = '$userid' AND user.UserTypeId = 1) AND user.IsApproved = 1 AND user.IsDeleted = 0 AND favoriteandblocked.IsFavorite = 1 AND user.WorksWithPets >= $workwithpet";
+        $sql = "SELECT favoriteandblocked.*, user.UserProfilePicture, concat(user.FirstName, ' ', user.LastName) AS FullName FROM favoriteandblocked JOIN user ON user.UserId = favoriteandblocked.TargetUserId WHERE user.UserId IN (SELECT favoriteandblocked.TargetUserId FROM favoriteandblocked JOIN user ON user.UserId = favoriteandblocked.UserId WHERE user.UserId = '$userid' AND user.UserTypeId = 1) AND user.IsApproved = 1 AND user.IsDeleted = 0 AND favoriteandblocked.IsFavorite = 1 AND favoriteandblocked.IsBlocked = 0 AND user.WorksWithPets >= $workwithpet";
 
         $result = $this->conn->query($sql);
         $rows = array();

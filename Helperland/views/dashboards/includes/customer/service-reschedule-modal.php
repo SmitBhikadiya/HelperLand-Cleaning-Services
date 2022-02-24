@@ -9,7 +9,6 @@
             <div class="modal-body">
                 <form id="form-reschedule" action="<?= Config::BASE_URL . "?controller=CDashboard&function=UpdateServiceSchedule" ?>" method="POST">
                     <input type='hidden' name='serviceid' class="reschedule_sid">
-                    <input type='hidden' name='servicehour' class="reschedule_servicehour">
                     <div class="mb-3 form-group">
                         <label for="">Select New Date & Time</label>
                         <div class="row">

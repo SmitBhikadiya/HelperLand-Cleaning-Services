@@ -1,6 +1,6 @@
 
 <?php
-session_start();
+
 if (isset($_SESSION["userdata"])) {
     $userdata = $_SESSION["userdata"];
     //print_r($userdata);

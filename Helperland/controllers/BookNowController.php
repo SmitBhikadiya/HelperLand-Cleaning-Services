@@ -1,9 +1,8 @@
 <?php
 
-session_start();
-require("validation/servicevalidator.php");
-require("phpmailer/mail.php");
-require("modals/ServiceModal.php");
+require_once("validation/servicevalidator.php");
+require_once("phpmailer/mail.php");
+require_once("modals/ServiceModal.php");
 
 class BookNowController
 {

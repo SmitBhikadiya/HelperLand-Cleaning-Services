@@ -1,5 +1,4 @@
 <?php
-session_start();
 if (isset($_SESSION["userdata"])) {
     $userdata = $_SESSION["userdata"];
     if ($userdata["UserTypeId"] == 2) {

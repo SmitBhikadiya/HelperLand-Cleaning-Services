@@ -1,5 +1,5 @@
 <?php
-session_start();
+
 if (isset($_SESSION["userdata"])) {
     header("Location: ".Config::BASE_URL."/?controller=Default&function=Homepage");
     exit();

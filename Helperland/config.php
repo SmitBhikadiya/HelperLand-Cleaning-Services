@@ -8,7 +8,7 @@ class Config{
     const DB_NAME = "helperland";
     
     /*------------ Users Constant--------------*/
-    const SESSION_DESTROY_TIME = 60*60; // 1 hour (60sec * 60min * 1hour)
+    const SESSION_DESTROY_TIME = 60*60*12; // 1 hour (60sec * 60min * 1hour)
     const USER_TYPE_IDS = [1, 2, 3]; // ["customer", "servicer", "admin"]
 
     /*------------- FOR SMTP --------------*/

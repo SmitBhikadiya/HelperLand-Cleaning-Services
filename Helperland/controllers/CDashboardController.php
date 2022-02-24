@@ -1,11 +1,6 @@
 <?php
 
-use LDAP\Result;
-
-session_start();
-//require("validation/booknowvalidator.php");
-//require("phpmailer/mail.php");
-require("modals/ServiceModal.php");
+require_once("modals/ServiceModal.php");
 
 class CDashboardController
 {
@@ -35,15 +30,14 @@ class CDashboardController
                     $result = $this->servicemodal->getAllServiceRequestByUserId($offset, $limit, $userid, $status);
                     break;
                 case "favorite-pros":
-                    break;
-                case "setting":
+                    $result = $this->servicemodal->getFavoriteAndBlockedList($userid);
                     break;
                 case "dashboard":
-                    $status = '(0,1)';
+                    $status = '(0,1,2)';
                     $result = $this->servicemodal->getAllServiceRequestByUserId($offset, $limit, $userid, $status);
                     break;
                 default:
-                    $status = '(0,1)';
+                    $status = '(0,1,2)';
                     $result = $this->servicemodal->getAllServiceRequestByUserId($offset, $limit, $userid, $status);
             }
             if (count($result[1]) > 0) {
@@ -82,6 +76,7 @@ class CDashboardController
                         if ($select_starttime + $select_totalhour > 21.0) {
                             $this->addErrors("Invalid", "Could not completed the service request, because service booking request is must be completed within 21:00 time");
                         } else {
+                            $emails = [];
                             for ($i = 0; $i < count($results[0]); $i++) {
                                 $res = $results[0][$i];
                                 if($res["ServiceRequestId"]==$serviceid){
@@ -101,6 +96,8 @@ class CDashboardController
                             $update = $this->servicemodal->UpdateSerivceScheduleById($startdate, $select_starttime, $serviceid, $userid);
                             if(!$update){
                                 $this->addErrors("Wrong", "Somthing went wrong with the update");
+                            }else{
+
                             }
                         }
                     }
@@ -117,33 +114,83 @@ class CDashboardController
         echo json_encode(["result" => $result[0], "errors" => $this->errors]);
     }
 
-    public function TotalRequest($request='')
-    {   
-        switch ($request) {
-            case "service-history":
-                $status = '(3,4)';
-                break;
-            case "favorite-pros":
-                break;
-            case "setting":
-                break;
-            case "dashboard":
-                $status = '(0,1)';
-                break;
-            default:
-                $status = '(0,1)';
-        }
+    public function UpdateFavouriteUser(){
+        $result = [[],[]];
         if (isset($_SESSION["userdata"])) {
             $user = $_SESSION["userdata"];
             $userid = $user["UserId"];
-            $result = $this->servicemodal->TotalRequestByUserId($userid, $status);
-            if (count($result[1]) > 0) {
-                foreach ($result[1] as $key => $val) {
-                    $this->addErrors($key, $val);
+            if(isset($this->data["f_id"]) && isset($this->data["f_is"])){
+                $id = $this->data["f_id"];
+                $is = strtolower($this->data["f_is"]);
+                if(in_array($is, ["favourite", "unfavourite"])){
+                    $set = ($is=='favourite') ? 1 : 0;
+                    $result[0] = $this->servicemodal->UpdateFavouriteUser($id, $set);
+                }else{
+                    $this->addErrors("Invalid", "Data is not valid!!");
                 }
+            } else{
+                $this->addErrors("Invalid", "Somthing went wrong with the data!!!");
             }
-        } else {
+        }else {
             $this->addErrors("login", "User is not login!!!");
+        }
+
+        echo json_encode(["result" => $result[0], "errors" => $this->errors]);   
+    }
+    public function UpdateBlockUser(){
+        $result = [[],[]];
+        if (isset($_SESSION["userdata"])) {
+            $user = $_SESSION["userdata"];
+            $userid = $user["UserId"];
+            if(isset($this->data["b_id"]) && isset($this->data["b_is"])){
+                $id = $this->data["b_id"];
+                $is = strtolower($this->data["b_is"]);
+                if(in_array($is, ["block", "unblock"])){
+                    $set = ($is=="block") ? 1 : 0;
+                    $result[0] = $this->servicemodal->UpdateBlockUser($id, $set);
+                }else{
+                    $this->addErrors("Invalid", "Data is not valid!!");
+                }
+            } else{
+                $this->addErrors("Invalid", "Somthing went wrong with the data!!!");
+            }
+        }else {
+            $this->addErrors("login", "User is not login!!!");
+        }
+
+        echo json_encode(["result" => $result[0], "errors" => $this->errors]);
+    }
+
+    public function TotalRequest($request='')
+    {   
+        $result = [[],[]];
+        if (isset($_SESSION["userdata"])) {
+            $user = $_SESSION["userdata"];
+            $userid = $user["UserId"];
+            switch ($request) {
+                case "service-history":
+                    $status = '(3,4)';
+                    $result = $this->servicemodal->TotalRequestByUserId($userid, $status);
+                    break;
+                case "favorite-pros":
+                    $result = $this->servicemodal->TotalFavoriteAndBlockByUserId($userid);
+                    break;
+                case "dashboard":
+                    $status = '(0,1,2)';
+                    $result = $this->servicemodal->TotalRequestByUserId($userid, $status);
+                    break;
+                default:
+                    $status = '(0,1,2)';
+                    $result = $this->servicemodal->TotalRequestByUserId($userid, $status);
+            }
+        }else {
+            $this->addErrors("login", "User is not login!!!");
+        }
+            
+        if (count($result[1]) > 0) {
+            foreach ($result[1] as $key => $val) {
+                $this->addErrors($key, $val);
+            }
         }
 
         echo json_encode(["result" => $result[0], "errors" => $this->errors]);

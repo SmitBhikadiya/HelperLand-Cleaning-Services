@@ -1,5 +1,4 @@
 <?php
-require("ContactUsController.php");
 
 class DefaultController{
     function homepage(){

@@ -1,25 +1,74 @@
 $(document).ready(function () {
 
-  // daclare today date
+  // Declare some global variable 
   var today = new Date();
   var req = $("#req").val();
   today.setDate(today.getDate()+1);
   var tommorrow = today.getFullYear() + "-" + ("0" + (today.getMonth() + 1)).slice(-2) + "-" + ("0" + today.getDate()).slice(-2);
   var currentpage = 1; // current page number
   var showrecords = $(".show-apge select").val(); // total records shown in select input
-  getDefaultRecords();
   var totalpage = 1;
   var records = [];
   var totalrecords = 0;
-  setTimeout(testing, 100);
 
-  function testing(){
+  switch (req) {
+    case "service-history":
+      getDefaultRecords(); 
+      setTimeout(setDefault, 100);
+      break;
+    case "favorite-pros":
+      getDefaultRecords(); 
+      setTimeout(setDefault, 100);
+      break;
+    case "setting":
+        break;
+    case "dashboard":
+      getDefaultRecords(); 
+      setTimeout(setDefault, 100);
+      break;
+    default:
+      getDefaultRecords(); 
+      setTimeout(setDefault, 100);
+  }
+
+  // this is function to set default thinks or call by timeout vecause of late ajax responce 
+  function setDefault(){
     totalrecords = $(".show-apge .totalrecords").text();
     totalpage = Math.ceil(totalrecords / showrecords);
     totalpage = totalpage == 0 ? 1 : totalpage;
     getAjaxDataByReq();
   }
 
+  // when click on the favourite and button 
+  $(document).on("click",".favourite_btn",function(){
+    var id = $(this).parent().find(".favourite").text();
+    var is = $(this).text();
+    jQuery.ajax({
+      type: "POST",
+      url: "http://localhost/Tatvasoft-PSD-TO-HTML/HelperLand/?controller=CDashboard&function=UpdateFavouriteUser",
+      datatype: "json",
+      data: {f_id:id, f_is:is},
+      success: function (data) {
+        getAjaxDataByReq();
+      }
+    });
+  });
+
+  $(document).on("click",".block_btn",function(){
+    var id = $(this).parent().find(".favourite").text();
+    var is = $(this).text();
+    jQuery.ajax({
+      type: "POST",
+      url: "http://localhost/Tatvasoft-PSD-TO-HTML/HelperLand/?controller=CDashboard&function=UpdateBlockUser",
+      datatype: "json",
+      data: {b_id:id, b_is:is},
+      success: function (data) {
+        getAjaxDataByReq();
+      }
+    });
+  });
+
+  // thhi is a function to update pagination when somebody change show records dropdown
   $(document).on("change", ".show-apge select", function () {
     showrecords = $(this).val();
     totalpage = Math.ceil(totalrecords / showrecords);
@@ -28,6 +77,8 @@ $(document).ready(function () {
     getAjaxDataByReq();
   });
 
+
+  // this pagination logic to increase or decrease a page number
   $(document).on("click", ".paginations div", function () {
     var actionclass = $(this).prop("class");
     switch (actionclass) {
@@ -52,16 +103,8 @@ $(document).ready(function () {
     getAjaxDataByReq();
   });
 
-  $(document).on("click", ".btn-reschedule", function () {
-    $(".alert").remove();
-    var index = $(this).parent().parent().prop("id").split("_")[1];
-    var result = records[index];
-    $("#exampleModalServiceReschedule .modal-body .reschedule_sid").val(result.ServiceRequestId);
-    $("#exampleModalServiceReschedule .modal-body .reschedule_servicehour").val(result.ServiceHours);
-    $("#exampleModalServiceReschedule .modal-body input[type=date]").val(tommorrow);
-    $("#exampleModalServiceReschedule .modal-body input[type=date]").prop("min",tommorrow);
-  });
 
+  // when user wants to reschedule servicie
   $(document).on('click',"#reschedule_update", function(e){
     showLoader();
     e.preventDefault();
@@ -92,6 +135,8 @@ $(document).ready(function () {
     });
   });
 
+
+  // when user wants to cancel service request
   $(document).on('click', '#btn_service_cancel', function(e){
     e.preventDefault();
     $(".error").remove();
@@ -125,30 +170,36 @@ $(document).ready(function () {
     }
   });
 
+  // when direct click from
   $(document).on("click", ".btn-cancel", function () {
     var serviceid = +$(this).parent().parent().find(".serviceid").text();
-    $("#exampleModalServiceCancel .modal-body input[type=hidden]").val(
-      serviceid
-    );
+    $("#exampleModalServiceCancel .modal-body input[type=hidden]").val(serviceid);
+  });
+  $(document).on("click", ".btn-reschedule", function () {
+    $(".alert").remove();
+    var index = $(this).parent().parent().prop("id").split("_")[1];
+    var result = records[index];
+    $("#exampleModalServiceReschedule .modal-body .reschedule_sid").val(result.ServiceRequestId);
+    $("#exampleModalServiceReschedule .modal-body input[type=date]").val(tommorrow);
+    $("#exampleModalServiceReschedule .modal-body input[type=date]").prop("min",tommorrow);
   });
 
+  // when click from detailes modal
+  $(document).on("click", ".scancel", function (e) {
+    e.preventDefault();
+    var serviceid = +$(this).parent().parent().parent().find(".sid").text();
+    $("#exampleModalServiceCancel .modal-body input[type=hidden]").val(serviceid);
+  });
   $(document).on("click", ".sreschedule", function (e) {
     $(".alert").remove();
     e.preventDefault();
     var serviceid = +$(this).parent().parent().parent().find(".sid").text();
-    $("#exampleModalServiceReschedule .modal-body input[type=hidden]").val(
-      serviceid
-    );
+    $("#exampleModalServiceReschedule .modal-body input[type=hidden]").val(serviceid);
+    $("#exampleModalServiceReschedule .modal-body input[type=date]").val(tommorrow);
+    $("#exampleModalServiceReschedule .modal-body input[type=date]").prop("min",tommorrow);
   });
 
-  $(document).on("click", ".scancel", function (e) {
-    e.preventDefault();
-    var serviceid = +$(this).parent().parent().parent().find(".sid").text();
-    $("#exampleModalServiceCancel .modal-body input[type=hidden]").val(
-      serviceid
-    );
-  });
-
+  // this is update detailes modal content according to clicked row
   $(document).on("click", ".show_detailes", function () {
     var index = $(this).parent().prop("id").split("_")[1];
     var result = records[index];
@@ -198,6 +249,8 @@ $(document).ready(function () {
     );
   });
 
+
+  // this is a function get total records from database
   function getDefaultRecords() {
     $.ajax({
       type: "POST",
@@ -206,11 +259,13 @@ $(document).ready(function () {
       success: function (data) {
         console.log(data);
         var obj = JSON.parse(data);
-        var totalrequest = obj.result.TotalRequest;
+        var totalrequest = obj.result.Total;
         $(".show-apge .totalrecords").text(totalrequest);
       },
     });
   }
+
+  // this is a function to get service data according to currentpage, showrecords and apge request
   function getAjaxDataByReq() {
     showLoader();
     $.ajax({
@@ -221,7 +276,8 @@ $(document).ready(function () {
       datatype: "json",
       data: { pagenumber: currentpage, limit: showrecords },
       success: function (data) {
-        //console.log(data);
+        console.log(data);
+        //alert(data);
         obj = JSON.parse(data);
         $("table tbody").html("");
         if (obj.errors.length == 0) {
@@ -231,6 +287,7 @@ $(document).ready(function () {
                 setDashboardTabRows(obj.result);
                 break;
             case "favorite-pros":
+                setFavoriteProsTabs(obj.result);
                 break;
             case "setting":
                 break;
@@ -248,6 +305,8 @@ $(document).ready(function () {
     });
   }
 
+
+  // this is logic to making star html for sp rating
   function getStarHTMLByRating(avgrating) {
     spstar = "";
     var i = 0;
@@ -266,6 +325,41 @@ $(document).ready(function () {
     return spstar;
   }
 
+
+  // this is function for updating content of favorite pros table
+  function setFavoriteProsTabs(results){
+    $("#pros").html("");
+    var html = '';
+    results.forEach((result) => {
+      console.log(result);
+      var avatar = result.UserProfilePicture == null ? "avatar-hat.png" : result.UserProfilePicture;
+      var avgrating = result.AverageRating == null ? 0 : +result.AverageRating;
+      var spstar = getStarHTMLByRating(avgrating);   
+      var favourite = result.IsFavorite == 0 ? "Favourite" : "UnFavourite";
+      var block = result.IsBlocked == 0 ? "Block" : "UnBlock"; 
+      html+=`
+      <div class="pro">
+                <div class="pro-avtar">
+                  <img src="./static/images/avtar/${avatar}">
+                </div>
+                <div class="pro-name">${result.Fullname}</div>
+                <div class="info-ratings">
+                                ${spstar}
+                                (${avgrating})
+                </div>
+                <div class="pro-cleanings">${result.TotalRating} Cleanings</div>
+                <div class="pro-button">
+                    <p class="favourite" style="display:none;">${result.Id}</p>
+                    <button class="button-remove favourite_btn">${favourite}</button>
+                    <button class="button-block block_btn">${block}</button>
+                </div>
+      </div>
+      `;
+    });
+    $("#pros").html(html);
+  }
+
+  // this is function for updating content of table body by getting rows from ajax as services
   function setDashboardTabRows(results) {
     var html = "";
     var i = 0;
@@ -275,18 +369,15 @@ $(document).ready(function () {
       var status = result.Status;
       var stshtml = "";
       if (["3", "4"].includes(status)) {
-        stshtml =
-          status == "4"
-            ? '<td class="btn-status completed"><button>Completed</button></td>'
-            : '<td class="btn-status cancelled"><button>Cancelled</button></td>';
-        stshtml +=
-          '<td class="btn-ratesp"><button data-bs-toggle="modal" data-bs-target="#exampleModalRateSP" data-bs-dismiss="modal">RateSP</button></td>';
+        stshtml = (status == "4") ? '<td class="btn-status completed"><button>Completed</button></td>' : '<td class="btn-status cancelled"><button>Cancelled</button></td>';
+        if(status==3){
+          stshtml +='<td class="btn-ratesp"><button class="disabled" disabled>RateSP</button></td>';
+        }else{
+          stshtml +='<td class="btn-ratesp"><button data-bs-toggle="modal" data-bs-target="#exampleModalRateSP" data-bs-dismiss="modal">RateSP</button></td>';
+        }
       }
       if (result.ServiceProviderId != null) {
-        var avatar =
-          result.UserProfilePicture == null
-            ? "avatar-hat.png"
-            : result.UserProfilePicture;
+        var avatar = result.UserProfilePicture == null ? "avatar-hat.png" : result.UserProfilePicture;
         var avgrating = result.AverageRating;
         var spstar = getStarHTMLByRating(avgrating);
         sphtml = `
