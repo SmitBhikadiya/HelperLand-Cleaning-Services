@@ -555,7 +555,7 @@ function getAndSetAddress(result){
     <div class="form-check">
       <input class="form-check-input" type="radio" name="useraddress[]" id="exampleRadios${i}" value="${result[i].AddressId}" ${select}>
       <label class="form-check-label" for="exampleRadios${i}">
-          <div class="address-detailes">Address: <span>${result[i].AddressLine1}</span></div>
+          <div class="address-detailes">Address: <span>${result[i].AddressLine1} ${result[i].AddressLine2}</span></div>
           <div class="address-phone">Phone number: <span>${result[i].Mobile}</span></div>
       </label>
     </div>

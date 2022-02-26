@@ -704,7 +704,7 @@ table tbody {
     right: 20px;
     top: 20px;
 }
-#exampleModalEditAddress .modal-dialog .modal-content{
+#exampleModalAddress .modal-dialog .modal-content{
     width: 500px;
 }
 #exampleModalRateSP .modal-dialog{

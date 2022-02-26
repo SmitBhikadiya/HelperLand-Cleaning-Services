@@ -24,6 +24,56 @@ $(document).ready(function(){
         }
     });
 
+    $("#btn_address").click(function(e){
+        window.isValid = true;
+        $('.error').remove();
+        $('.alert').remove();
+        var mobile = $("#add-mobile").val();
+        var postal = $("#add-postal").val();
+        var city = $("add-city").val();
+        isFieldEmpty("Street name", "#add-street");
+        isFieldEmpty("House name", "#add-house");
+        validateCityOption("#add-city");
+        validatePhoneNumber(mobile, "#add-mobile");
+        isValidPostalCode(postal, "#add-postal");
+        if(!window.isValid){
+            e.preventDefault();
+        }
+    });
+
+    $("#btn-saveuser").click(function(e){
+        window.isValid = true;
+        $('.error').remove();
+        $('.alert').remove();
+        var firstname = $('#firstname').val();
+        var lastname = $('#lastname').val();
+        var phonenumber = $('#phonenumber').val();
+        var email = $('#email').val();
+        var birthdate = $('#birthdate').val();
+        validateFirstName(firstname);
+        validateLastName(lastname);
+        validatePhoneNumber(phonenumber);
+        validateEmail("#email",email);
+        validateBirthDate(birthdate);
+        if(!window.isValid){
+            e.preventDefault();
+        }
+    });
+
+    $("#btn-updatepassword").click(function(e){
+        window.isValid = true;
+        $('.error').remove();
+        $('.alert').remove();
+        var oldpassword = $('#oldpsw').val();
+        var password = $("#password").val();
+        var repassword = $("#repassword").val();
+        validatePassword("#oldpsw", oldpassword);
+        passwordMatched(password, repassword);
+        if(!window.isValid){
+            e.preventDefault();
+        }
+    });
+
     /* VALIDATION FOR SIGNIN FORM */
     $("#signin").click(function(e){
         window.isValid = true;
@@ -86,6 +136,14 @@ $(document).ready(function(){
         }
     });
 
+    function isFieldEmpty(fieldname, id){
+        var val = $(id).val();
+        if(val.length < 1){
+            $(id).after("<span class='error'>*Enter the "+fieldname+"</span>");
+            window.isValid = false;
+            return;
+        }
+    }
     function validateFirstName(firstname){
         if(firstname.length < 1){
             $('#firstname').after("<span class='error'>*Enter the first name</span>");
@@ -101,14 +159,14 @@ $(document).ready(function(){
             return;
         }
     }
-    function validatePhoneNumber(phonenumber){
+    function validatePhoneNumber(phonenumber, id="#phonenumber"){
         var reg = /^[\d]{10}$/;
         if(phonenumber.length < 1){
-            $('#phonenumber').parent().after("<span class='error'>*Enter the mobile number</span>");
+            $(id).parent().after("<span class='error'>*Enter the mobile number</span>");
             window.isValid = false;
             return;
         }else if(!reg.test(phonenumber)){
-            $('#phonenumber').parent().after("<span class='error'>*Mobile must be 10 charcters long</span>");
+            $(id).parent().after("<span class='error'>*Mobile must be 10 charcters long</span>");
             window.isValid = false;
             return;
         }
@@ -125,9 +183,23 @@ $(document).ready(function(){
             return;
         }
     }
-    function validateMessage(message){
+
+    function isValidPostalCode(val, id="#postalcode") {
+        var len = val.length;
+        if (len <= 0) {
+            $(id).after("<span class='error'>Field can`t be empty</span>");
+            window.isValid = false;
+            return;
+        } else if (len != 5) {
+            $(id).after("<span class='error'>Postal code must be 5 characters long</span>");
+            window.isValid = false;
+            return;
+        } 
+      }
+
+    function validateMessage(message, id="#message"){
         if(message.length < 1){
-            $('#message').after("<span class='error'>*Message can't be empty</span>");
+            $(id).after("<span class='error'>*Message can't be empty</span>");
             window.isValid = false;
             return;
         }
@@ -139,7 +211,13 @@ $(document).ready(function(){
             return;
         }
     }
-
+    function validateCityOption(id){
+        if(!$(id).find("option").is(':selected')){
+            $(id).after("<span class='error'>*Select the city first</span>");
+            window.isValid = false;
+            return;
+        }
+    }
     function validatePassword(id, password){
         var reg = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*#?&])[a-zA-Z\d@$!%*#?&]{6,14}$/;
         if(password.length < 1){
@@ -162,6 +240,17 @@ $(document).ready(function(){
         validatePassword("#repassword",repass);
         if(window.passwordValid && pass!=repass){
             $("#password").after("<span class='error'>*password and repassword must be matched</span>");
+            window.isValid = false;
+            return;
+        }
+    }
+
+    function validateBirthDate(birthdate, id="#birthdate"){
+        var selectdate = new Date(birthdate);
+        var cmpryear = new Date();
+        cmpryear.setFullYear(cmpryear.getFullYear()-18);
+        if(cmpryear.getTime() < selectdate.getTime()){
+            $(id).parent().after("<span class='error'>*Below 18 cannot be customer</span>");
             window.isValid = false;
             return;
         }

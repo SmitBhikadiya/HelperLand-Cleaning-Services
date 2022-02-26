@@ -45,7 +45,6 @@ class UsersValidator{
     }
 
     /*--------------- Signup form validation ------------- */
-
     public function isSignupFormValidate(){
         foreach(self::$signup_fields as $field){
             if(!array_key_exists($field, $this->data)){

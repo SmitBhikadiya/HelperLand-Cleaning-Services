@@ -8,6 +8,7 @@ class UsersController
 {
     public $validate;
     public $usermodal;
+    public $errors = [];
 
     public function __construct()
     {
@@ -44,7 +45,7 @@ class UsersController
         if (isset($_POST["signin"])) {
             $errors = $this->validate->isSigninFormValidate();
             if (!count($errors) > 0) {
-                $result = $this->usermodal->getUserDetailes();
+                $result = $this->usermodal->getUserDetailes($_POST["UserName"], $_POST["Password"]);
                 if (!count($result[1]) > 0) {
                     $redirect_location = "";
                     $usertypeid = $result[0]["UserTypeId"];
@@ -69,20 +70,20 @@ class UsersController
                         exit();
                     }
                     $_SESSION["userdata"] = $result[0];
-                    $_SESSION["userdata"]["redirect"] = $redirect_location;
+                    $_SESSION["redirect"] = $redirect_location;
                     $_SESSION["expire"] = time();
 
                     // if user check remember me then set the signin credential
                     $this->setCookieForSignin();
                     $redirect_loc = "";
-                    if(isset($_SESSION["redirect_url"])){
+                    if (isset($_SESSION["redirect_url"])) {
                         $redirect_loc = $_SESSION["redirect_url"];
                         unset($_SESSION["redirect_url"]);
                     }
-                    if($redirect_loc==""){
+                    if ($redirect_loc == "") {
                         header("Location: " . Config::BASE_URL . "?controller=Default&function=$redirect_location");
-                    }else{
-                        header("Location: ".$redirect_loc);
+                    } else {
+                        header("Location: " . $redirect_loc);
                     }
                     exit();
                 } else {
@@ -125,7 +126,7 @@ class UsersController
                             exit();
                         }
                     } else {
-                        $this->showError("Form is not validate",$this->validate->errors);
+                        $this->showError("Form is not validate", $this->validate->errors);
                     }
                 } else {
                     $this->showError("Somthing went wrong", array("Invalid field name!!!"));
@@ -154,17 +155,16 @@ class UsersController
                     $body = "<div><h1><a href=" . Config::BASE_URL . "?controller=Users&function=changepassword&parameter=openform" . ">Reset Password</a></h1></div><div style='color:red'>( one time password reset link )</div>";
                     $mail = sendmail([$reciepent], $subject, $body);
 
-                    $expFormat = mktime(date("H")+1, date("i"), date("s"), date("m") ,date("d"), date("Y"));
-                    $_SESSION["changeuser"] = array("exp_date"=>date("Y-m-d H:i:s", $expFormat), "Email"=>$reciepent);
+                    $expFormat = mktime(date("H") + 1, date("i"), date("s"), date("m"), date("d"), date("Y"));
+                    $_SESSION["changeuser"] = array("exp_date" => date("Y-m-d H:i:s", $expFormat), "Email" => $reciepent);
 
                     // redirect to the homepage with the success message
                     $this->unsetCookieSignin();
                     $_SESSION["success"] = array($user["Email"], "Reset link sent to the " . $user['Email']);
                     header("Location: " . Config::BASE_URL . "?controller=Default&function=homepage&parameter=loginmodal");
                     exit();
-
                 } else {
-                    $_SESSION["error"] = array("","User( ".$_POST['Email'].") isn`t exits!!");
+                    $_SESSION["error"] = array("", "User( " . $_POST['Email'] . ") isn`t exits!!");
                     header("Location: " . Config::BASE_URL . "?controller=Default&function=homepage&parameter=loginmodal");
                     exit();
                 }
@@ -172,6 +172,169 @@ class UsersController
         } else {
             $this->showError("Failed to forgot password!!!", array("Invalid field name!!!"));
         }
+    }
+
+    /*------------- Update User Detailes ------------*/
+    public function UpdateUserDetailes()
+    {
+        $result = [];
+        if (isset($_SESSION["userdata"])) {
+            $result = $this->usermodal->UpdateUserDetailes();
+            if ($result == 1) {
+                $result = $this->usermodal->getUserByEmail($_POST["Email"]);
+                if (count($result) > 0) {
+                    $_SESSION["userdata"] = $result;
+                } else {
+                    $this->addErrors('user', 'User is not found');
+                }
+            } else {
+                $this->addErrors("update", "Update Failed!!!");
+            }
+        } else {
+            $this->addErrors("login", "User is not login!!");
+        }
+
+        echo json_encode(["result" => $result, "errors" => $this->errors]);
+    }
+
+    /*----------- Changed Password if Old validate -----------*/
+    public function ChangedPassword()
+    {
+        $result = [];
+        if (isset($_SESSION["userdata"])) {
+            $user = $_SESSION["userdata"];
+            $email = $user["Email"];
+            if (isset($_POST["oldpassword"]) && isset($_POST["userid"])) {
+                $result = $this->usermodal->getUserByUserId($_POST["userid"]);
+                if (count($result) > 0) {
+                    if (!password_verify($_POST["oldpassword"], $result["Password"])) {
+                        $this->addErrors("password", "You entered a wrong password!!!");
+                    } else {
+                        if (isset($_POST["newpassword"]) && isset($_POST["repassword"])) {
+                            $psw = $_POST["newpassword"];
+                            $repsw = $_POST["repassword"];
+                            $this->validate->passwordMatching($psw, $repsw);
+                            if (empty($this->validate->errors)) {
+                                $result = $this->usermodal->changePassword($email, $psw);
+                            } else {
+                                foreach ($this->validate->errors as $key => $val) {
+                                    $this->addErrors($key, $val);
+                                }
+                            }
+                        } else {
+                            $this->addErrors("invalid", "Invalid field name!!");
+                        }
+                    }
+                } else {
+                    $this->addErrors("User", "User is not found!!!");
+                }
+            } else {
+                $this->addErrors("invalid", "Invalid field name!!!".$_POST["userid"]);
+            }
+        } else {
+            $this->addErrors("login", "User is not login!!");
+        }
+
+        echo json_encode(["result" => $result, "errors" => $this->errors]);
+    }
+
+    /* get user address by user address id */
+    public function getUserAddress(){
+        $result = [];
+        if(isset($_SESSION["userdata"])){
+            if(isset($_POST["addid"])){
+                $addid = $_POST["addid"];
+                $result = $this->usermodal->getUserAddressById($addid); 
+                if(count($result) <= 0){
+                    $this->addErrors("NotFound", "Somthing went wrong with the sql!!");
+                }  
+            }else{
+                $this->addErrors("Invalid", "Somthing went wrong with the field name!!");
+            }
+        } else {
+            $this->addErrors("login", "User is not login!!");
+        }
+
+        echo json_encode(["result" => $result, "errors" => $this->errors]);
+    }
+
+    /*-------------- Get city by postal code --------------*/
+    public function getCityByPostal(){
+        $result = [];
+        if(isset($_POST["postalcode"])){
+            $postal = $_POST["postalcode"];
+            $result = $this->usermodal->getCityByPostal($postal);
+            if(count($result) <= 0){
+                $this->addErrors("Invalid", "invalid postal code!!");
+            }
+        }
+        echo json_encode(["result" => $result, "errors" => $this->errors]);
+    }
+
+    /*------------- Insert New User Address -------------*/
+    public function InsertUserAddress(){
+        $result = [];
+        if(isset($_SESSION["userdata"])){
+            $user = $_SESSION["userdata"];
+            $userid = $user["UserId"];
+            $email = $user["Email"];
+            $result = $this->usermodal->InsertUserAddress($userid, $email);
+            if($result){
+                $result = $this->usermodal->getUserDetailesByUserId($userid)[0];
+            }else{
+                $result = [];
+            }
+        } else {
+            $this->addErrors("login", "User is not login!!");
+        }
+
+        echo json_encode(["result" => $result, "errors" => $this->errors]);
+    }
+
+    /*------------- Update User Address By Address Id ------------*/
+    public function UpdateUserAddress(){
+        $result = [];
+        if(isset($_SESSION["userdata"])){
+            $user = $_SESSION["userdata"];
+            $userid = $user["UserId"];
+            $addid = isset($_POST["addid"]) ? $_POST["addid"] : 0;
+            if(count($this->usermodal->isExistsUserAddress($userid, $addid)) > 0){
+                $result = $this->usermodal->UpdateUserAddress($userid, $addid);
+                if($result[0] && count($result[1]) <= 1){
+                    $result = $this->usermodal->getAllUserAddressByUserId($userid)[0];
+                }else{
+                    $result = [];
+                }
+            }
+        } else {
+            $this->addErrors("login", "User is not login!!");
+        }
+
+        echo json_encode(["result" => $result, "errors" => $this->errors]);
+    }
+
+    /*-------------- Delete User address by Addressid -----------*/
+    public function DeleteUserAddress(){
+        $result = [];
+        if(isset($_SESSION["userdata"])){
+            $user = $_SESSION["userdata"];
+            $userid = $user["UserId"];
+            if(isset($_POST["addid"])){
+                $addid = $_POST["addid"];
+                $result = $this->usermodal->DeleteUserAddress($userid, $addid);
+                if($result){
+                    $result = $this->usermodal->getAllUserAddressByUserId($userid)[0];
+                }else{
+                    $result = [];
+                }
+            }else{
+                $this->addErrors("Invalid", "Somthing went wrong with the field name!!");
+            }
+        }else {
+            $this->addErrors("login", "User is not login!!");
+        }
+
+        echo json_encode(["result" => $result, "errors" => $this->errors]);
     }
 
     /*-------------- setcookie -------------*/
@@ -204,14 +367,21 @@ class UsersController
         exit();
     }
 
+    /*------------- Set error ------------*/
+    private function addErrors($key, $val)
+    {
+        $this->errors[$key] = $val;
+    }
+
     /*-------------- Check Session is exprired or not -----------*/
-    public function CheckSession(){
+    public function CheckSession()
+    {
         $current_time = time();
         if (isset($_SESSION["expire"]) && ($current_time - $_SESSION["expire"]) > Config::SESSION_DESTROY_TIME) {
             unset($_SESSION["expire"]);
             unset($_SESSION["userdata"]);
             echo "1";
-        }else{
+        } else {
             echo "0";
         }
     }

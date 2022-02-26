@@ -186,7 +186,7 @@ class BookNowController
         $extrahour = $result["ExtraHours"];
         $basichour = $totalhour - $extrahour;
         $totalcost = $result["TotalCost"];
-        $addressline = $result["AddressLine1"];
+        $addressline = $result["AddressLine1"].' '.$result["AddressLine2"];
         $city = $result["City"];
         $postalcode = $result["PostalCode"];
         $haspats = $result["HasPets"];

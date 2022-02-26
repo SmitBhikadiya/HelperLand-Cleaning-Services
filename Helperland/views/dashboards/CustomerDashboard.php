@@ -41,7 +41,7 @@ if (isset($_SESSION["userdata"]) && $_SESSION["userdata"]["UserTypeId"] == Confi
     include("includes/customer/service-detailes-modal.php");
     include("includes/customer/service-reschedule-modal.php");
     include("includes/customer/service-cancel-modal.php");
-    include("includes/customer/edit-address-modal.php");
+    include("includes/customer/address-modal.php");
     include("views/includes/header.php");
     ?>
 
@@ -65,7 +65,7 @@ if (isset($_SESSION["userdata"]) && $_SESSION["userdata"]["UserTypeId"] == Confi
         </div>
     </div>
 
-    <div class="header-image">Welcome, <?= $userdata["FirstName"] ?>!</div>
+    <div class="header-image">Welcome, <span><?= $userdata["FirstName"] ?></span></div>
 
     <div class="main">
         <section id="section-cdashboard">
@@ -105,6 +105,7 @@ if (isset($_SESSION["userdata"]) && $_SESSION["userdata"]["UserTypeId"] == Confi
 
     <script src="static/js/header.js"></script>
     <script src="static/js/footer.js"></script>
+    <script src="static/js/validation.js"></script>
     <script src="static/js/cdashboard.js"></script>
     <script>
         $(document).ready(function() {

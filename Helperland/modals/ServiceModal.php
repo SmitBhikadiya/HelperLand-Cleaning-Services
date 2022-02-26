@@ -131,7 +131,7 @@ class ServiceModal extends Connection
     public function getAllServiceRequestByUserId($offset, $limit, $userid, $status = "")
     {
         if ($status != "") {
-            $sql = "SELECT sr.ServiceRequestId, sr.ServiceStartDate, sr.ServiceHourlyRate, sr.ServiceHours, sr.ExtraHours, sr.SubTotal, sr.Discount,sr.TotalCost, sr.ServiceProviderId, sr.SPAcceptedDate, sr.HasPets, sr.Status, sr.HasIssue, sr.PaymentDone, sra.AddressLine1, sra.City, sra.State, sra.PostalCode, sra.Mobile, sra.Email, sre.ServiceExtraId FROM servicerequest AS sr JOIN servicerequestaddress AS sra ON sra.ServiceRequestId = sr.ServiceRequestId LEFT JOIN servicerequestextra AS sre ON sre.ServiceRequestId = sr.ServiceRequestId WHERE sr.UserId = $userid AND sr.Status IN $status LIMIT $offset, $limit";
+            $sql = "SELECT sr.ServiceRequestId, sr.ServiceStartDate, sr.ServiceHourlyRate, sr.ServiceHours, sr.ExtraHours, sr.SubTotal, sr.Discount,sr.TotalCost, sr.ServiceProviderId, sr.SPAcceptedDate, sr.HasPets, sr.Status, sr.HasIssue, sr.PaymentDone, sra.AddressLine1, sra.AddressLine2, sra.City, sra.State, sra.PostalCode, sra.Mobile, sra.Email, sre.ServiceExtraId FROM servicerequest AS sr JOIN servicerequestaddress AS sra ON sra.ServiceRequestId = sr.ServiceRequestId LEFT JOIN servicerequestextra AS sre ON sre.ServiceRequestId = sr.ServiceRequestId WHERE sr.UserId = $userid AND sr.Status IN $status LIMIT $offset, $limit";
             $result = $this->conn->query($sql);
             $services = [];
             if ($result->num_rows > 0) {
@@ -168,7 +168,7 @@ class ServiceModal extends Connection
     {
         $zipcode = $this->data["postalcode"];
         //$sql = "SELECT zipcode.Id, city.Id, state.Id,zipcode.ZipcodeValue,city.CityName,state.StateName FROM zipcode JOIN city ON city.Id = zipcode.CityId JOIN state ON state.Id=city.StateId WHERE zipcode.ZipcodeValue = '$zipcode' ";
-        $sql = "SELECT zipcode.Id, city.Id, state.Id,zipcode.ZipcodeValue,city.CityName,state.StateName FROM zipcode JOIN city ON city.Id = zipcode.CityId JOIN state ON state.Id=city.StateId JOIN useraddress ON zipcode.ZipcodeValue = useraddress.PostalCode JOIN user ON useraddress.UserId = user.UserId WHERE user.UserTypeId=2 AND useraddress.PostalCode = '$zipcode' ";
+        $sql = "SELECT zipcode.Id, city.Id, state.Id, zipcode.ZipcodeValue,city.CityName,state.StateName FROM zipcode JOIN city ON city.Id = zipcode.CityId JOIN state ON state.Id = city.StateId JOIN useraddress ON zipcode.ZipcodeValue = useraddress.PostalCode JOIN user ON useraddress.UserId = user.UserId WHERE user.UserTypeId=2 AND useraddress.PostalCode = '$zipcode' AND useraddress.IsDeleted=0";
         $result = $this->conn->query($sql);
         if ($result->num_rows > 0) {
             $result = $result->fetch_assoc();
@@ -196,6 +196,21 @@ class ServiceModal extends Connection
         return [$result, $this->errors];
     }
 
+    public function getUserAllAddressByUserId($userid){
+        $sql = "SELECT * FROM useraddress WHERE UserId=$userid AND IsDeleted=0";
+
+        $result = $this->conn->query($sql);
+        $rows = array();
+        if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                array_push($rows, $row);
+            }
+            $result = $rows;
+        } else {
+            $result = [];
+        }
+        return $result;
+    }
     public function getUserAddressById($addressid)
     {
         $sql = "SELECT * FROM useraddress WHERE AddressId=$addressid AND IsDeleted=0";
@@ -232,12 +247,13 @@ class ServiceModal extends Connection
 
     public function insertUserAddress($userid, $email)
     {
-        $address = $this->data["housenumber"] . ", " . $this->data["streetname"];
-        $cityname = $this->data["cityname"];
+        $addline1 = trim($this->data["housenumber"]);
+        $addline2 = trim($this->data["streetname"]);
+        $cityname = trim($this->data["cityname"]);
         $statename = $this->data["statename"];
         $postalcode = $this->data["postalcode"];
         $mobile = $this->data["phonenumber"];
-        $sql = "INSERT INTO useraddress (UserId, AddressLine1, City, State, PostalCode, Mobile, Email) VALUES ($userid, '$address', '$cityname', '$statename', '$postalcode', '$mobile', '$email') ";
+        $sql = "INSERT INTO useraddress (UserId, AddressLine1, AddressLine2, City, State, PostalCode, Mobile, Email) VALUES ($userid, '$addline1', '$addline2', '$cityname', '$statename', '$postalcode', '$mobile', '$email') ";
         $result = $this->conn->query($sql);
         if (!$result) {
             $result = [];
@@ -265,11 +281,12 @@ class ServiceModal extends Connection
                 $this->addErrors($key, $val);
             }
         } else {
-            $addressline = $address[0]["AddressLine1"];
+            $addline1 = $address[0]["AddressLine1"];
+            $addline2 = $address[0]["AddressLine2"];
             $city = $address[0]["City"];
             $state = $address[0]["State"];
             $postalcode = $address[0]["PostalCode"];
-            $sql = "SELECT DATE_FORMAT(servicerequest.ServiceStartDate, '%Y-%m-%d') as ServiceStartDate, servicerequest.Status FROM servicerequest JOIN servicerequestaddress ON servicerequestaddress.ServiceRequestId = servicerequest.ServiceRequestId WHERE servicerequest.UserId = $userid AND servicerequestaddress.AddressLine1='$addressline' AND servicerequestaddress.City='$city' AND servicerequestaddress.State='$state' AND servicerequestaddress.PostalCode = $postalcode  AND DATE_FORMAT(servicerequest.ServiceStartDate, '%Y-%m-%d') = '$ondate'";
+            $sql = "SELECT DATE_FORMAT(servicerequest.ServiceStartDate, '%Y-%m-%d') as ServiceStartDate, servicerequest.Status FROM servicerequest JOIN servicerequestaddress ON servicerequestaddress.ServiceRequestId = servicerequest.ServiceRequestId WHERE servicerequest.UserId = $userid AND servicerequestaddress.AddressLine1='$addline1' AND servicerequestaddress.AddressLine2='$addline2' AND servicerequestaddress.City='$city' AND servicerequestaddress.State='$state' AND servicerequestaddress.PostalCode = $postalcode  AND DATE_FORMAT(servicerequest.ServiceStartDate, '%Y-%m-%d') = '$ondate'";
             $result = $this->conn->query($sql);
             if ($result->num_rows > 0) {
                 $result = $result->fetch_assoc();
@@ -297,7 +314,7 @@ class ServiceModal extends Connection
 
     public function insertServiceRequestAddress($servicerequestid, $addressid)
     {
-        $sql = "INSERT INTO servicerequestaddress (ServiceRequestId, AddressLine1, City, State, PostalCode, Mobile, Email) SELECT $servicerequestid, AddressLine1, City, State, PostalCode, Mobile, Email FROM useraddress WHERE useraddress.AddressId=$addressid";
+        $sql = "INSERT INTO servicerequestaddress (ServiceRequestId, AddressLine1, AddressLine2, City, State, PostalCode, Mobile, Email) SELECT $servicerequestid, AddressLine1, AddressLine2, City, State, PostalCode, Mobile, Email FROM useraddress WHERE useraddress.AddressId=$addressid AND useraddress.IsDeleted=0";
         $result = $this->conn->query($sql);
         if (!$result) {
             $this->addErrors("SQL", "Somthing went wrong with the $sql");
@@ -422,7 +439,6 @@ class ServiceModal extends Connection
         }
         return $servicers;
     }
-
 
     private function addErrors($key, $val)
     {

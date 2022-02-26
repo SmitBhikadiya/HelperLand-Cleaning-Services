@@ -4,8 +4,8 @@ $base_url = Config::BASE_URL;
 
 $usertypeid = "";
 if(isset($_SESSION["userdata"])){
-    $usertypeid = $_SESSION["userdata"]["UserTypeId"]; 
-    $usertype_loc = $_SESSION["userdata"]["redirect"];
+    $usertypeid = $_SESSION["userdata"]["UserTypeId"];
+    $usertype_loc = $_SESSION["redirect"];
 }
 ?>
 
