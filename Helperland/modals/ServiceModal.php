@@ -135,11 +135,13 @@ class ServiceModal extends Connection
             $result = $this->conn->query($sql);
             $services = [];
             if ($result->num_rows > 0) {
-                while ($row = $result->fetch_assoc()) {
+                while ($row = $result->fetch_assoc()) {                    
                     if (!is_null($row["ServiceProviderId"])) {
                         $spid = $row["ServiceProviderId"];
+                        $serviceid = $row["ServiceRequestId"];
+                        $rating = $this->getRatingByIds($serviceid);
                         $spratings = $this->getSPDetailesBySPId($spid);
-                        $row = $row + $spratings;
+                        $row = $row + $spratings + $rating;
                     }
                     array_push($services, $row);
                 }
@@ -150,6 +152,17 @@ class ServiceModal extends Connection
             $this->addErrors("missing", "Paramter missing!!");
         }
         return [$services, $this->errors];
+    }
+
+    public function getRatingByIds($serviceid){
+        $sql = "SELECT rating.* FROM rating JOIN servicerequest ON servicerequest.ServiceRequestId=rating.ServiceRequestId WHERE servicerequest.ServiceRequestId=$serviceid";
+        $result = $this->conn->query($sql);
+        if ($result->num_rows > 0) {
+            $result = $result->fetch_assoc();
+        } else {
+            $result = [];
+        }
+        return $result;
     }
 
     public function getSPDetailesBySPId($spid)

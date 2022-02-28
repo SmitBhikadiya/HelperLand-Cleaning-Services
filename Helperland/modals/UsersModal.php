@@ -205,8 +205,7 @@ class UsersModal extends Connection
             $result = [];
         }
         return [$result, $this->errors];
-    }
-    
+    }    
 
     public function UpdateUserDetailes(){
         $userid = $this->data["userid"];
@@ -228,6 +227,34 @@ class UsersModal extends Connection
     public function DeleteUserAddress($userid, $addid){
         $sql = "UPDATE useraddress SET IsDeleted=1 WHERE UserId=$userid AND AddressId=$addid";
         $result = $this->conn->query($sql);
+        return $result;
+    }
+
+    public function InsertRating($userid, $serviceid, $ontime, $friendly, $quality, $feedback){
+        $avgrating = ($ontime+$friendly+$quality)/3;
+        $sql = "INSERT INTO rating (ServiceRequestId, RatingFrom, RatingTo, Ratings, Comments, RatingDate, OnTimeArrival, Friendly, QualityOfService) SELECT $serviceid, $userid, ServiceProviderId, $avgrating, '$feedback', now(), $ontime, $friendly, $quality FROM servicerequest WHERE ServiceRequestId=$serviceid";
+        $result = $this->conn->query($sql);
+        $ratingid = $this->conn->insert_id;
+        $result = ($result) ? $this->getUserRatingByIds($ratingid) : [];
+        return $result;
+    }
+
+    public function UpdateRating($ratingid, $ontime, $friendly, $quality, $feedback){
+        $avgrating = ($ontime+$friendly+$quality)/3;
+        $sql = "UPDATE rating SET Ratings=$avgrating, Comments='$feedback', RatingDate=now(), OnTimeArrival=$ontime, Friendly=$friendly, QualityOfService=$quality WHERE RatingId=$ratingid;";
+        $result = $this->conn->query($sql);
+        $result = ($result) ? $this->getUserRatingByIds($ratingid) : [];
+        return $result;
+    }
+
+    public function getUserRatingByIds($ratingid){
+        $sql = "SELECT * FROM rating WHERE RatingId=$ratingid";
+        $result = $this->conn->query($sql);
+        if($result->num_rows > 0){
+            $result = $result->fetch_assoc();
+        }else{
+            $result = [];
+        }
         return $result;
     }
 

@@ -48,7 +48,7 @@
                                 <div class="row">
                                     <div class="col">
                                         <?php $birthdate = is_null($userdata["DateOfBirth"]) ? "":date('Y-m-d',strtotime($userdata["DateOfBirth"])) ?>
-                                        <input type="date" name="BirthDate" id="birthdate" style="padding: 10px;" value="<?=$birthdate?>">
+                                        <input type="date" name="BirthDate" id="birthdate" style="padding: 10px; width: 100%;" value="<?=$birthdate?>">
                                     </div>
                                 </div>
                             </div>

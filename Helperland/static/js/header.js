@@ -1,7 +1,6 @@
-
-function showLoader(){
-  $.LoadingOverlay("show",{
-    background  : "rgba(0, 0, 0, 0.7)"
+function showLoader() {
+  $.LoadingOverlay("show", {
+    background: "rgba(0, 0, 0, 0.7)",
   });
 }
 
@@ -40,24 +39,53 @@ $(document).ready(function () {
         data: $("#addform").serialize(),
         success: function (data) {
           if (data == 1) {
-            if(!$("#sessionexpired").hasClass('show')){
+            if (!$("#sessionexpired").hasClass("show")) {
               $("#sessionexpired").modal("show");
             }
           }
         },
-        complete:function(data){
-            setTimeout(toCheckSession, 1000);
-        }
-      });    
+        complete: function (data) {
+          setTimeout(toCheckSession, 1000);
+        },
+      });
     }
   }
 
-  $("#sessionexpired .modal-footer button").on("click", function(){
+  $("#sessionexpired .modal-footer button").on("click", function () {
     location.reload();
   });
 
-  $('#sessionexpired').modal({
-    backdrop: 'static',
-    keyboard: false
+  $("#sessionexpired").modal({
+    backdrop: "static",
+    keyboard: false,
+  });
+
+  // rating to service provider
+  $("#stars li").on("mouseover", function () {
+      var onStar = parseInt($(this).data("value"), 10);
+      $(this).parent().children("li.star").each(function (e) {
+          if (e < onStar) {
+            $(this).addClass("hover");
+          } else {
+            $(this).removeClass("hover");
+          }
+        });
+    })
+    .on("mouseout", function () {
+      $(this).parent().children("li.star").each(function (e) {
+          $(this).removeClass("hover");
+        });
+    });
+  $("#stars li").on("click", function () {
+    var onStar = parseInt($(this).data("value"), 10);
+    var stars = $(this).parent().children("li.star");
+    for (i = 0; i < stars.length; i++) {
+      $(stars[i]).removeClass("selected");
+    }
+    for (i = 0; i < onStar; i++) {
+      $(stars[i]).addClass("selected");
+    }
+    var ratingValue = parseInt(
+      $("#stars li.selected").last().data("value"),10);
   });
 });

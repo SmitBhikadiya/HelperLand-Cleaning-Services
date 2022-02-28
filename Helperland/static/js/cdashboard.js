@@ -39,10 +39,94 @@ $(document).ready(function () {
     getAjaxDataByReq();
   }
 
+  //
+  $(document).on("click", "#ratesp", function(e){
+    e.preventDefault();
+    var sprat  = $(this).parent().parent().find(".td-rating").html();
+    $("#Ratesp").find(".td-rating").html(sprat);
+    var serviceid = +$(this).parent().parent().find(".serviceid").text();
+    var index = $(this).parent().parent().prop("id").split("_")[1];
+    var result = records[index];
+    $("#serviceid").val(serviceid);
+    $(".rating-index").text(index);
+    UpdateRatingForm(result);
+    if(result.RatingId==undefined){
+      $("#btn_ratesp").text("Submit");
+    }else{
+      $("#btn_ratesp").text("Update"); 
+    }
+  });
+
+  function UpdateRatingForm(result){
+    $("#Ratesp .rate .star").removeClass("selected");
+    $("#rate_feedback").val("");
+    $("#ratingid").val("");
+    if(result.RatingId!=undefined){
+      var ontimearrival = result.OnTimeArrival;
+      var friendly = result.Friendly;
+      var quality = result.QualityOfService;
+      selectTheStar(".ontimearrival", ontimearrival);
+      selectTheStar(".friendly", friendly);
+      selectTheStar(".quality", quality);
+      $("#rate_feedback").val((result.Comments==null) ? "" : result.Comments);
+      $("#ratingid").val(result.RatingId);
+    }
+  }
+  function selectTheStar(cls, val){
+    var clslist = document.querySelectorAll(cls+" .star");
+    //alert(clslist.length);
+    for(var i=0;i<val;i++){
+      clslist[i].classList.add("selected");
+    }
+  }
+
+  $(document).on("click", "#btn_ratesp", function(e){
+    e.preventDefault();
+    $(".alert").remove();
+    $(".error").remove();
+    var ontimearrival = $(".ontimearrival li.selected").last().data("value");
+    var friendly = $(".friendly li.selected").last().data("value");
+    var quality = $(".quality li.selected").last().data("value");
+    ontimearrival = (ontimearrival==undefined) ? 0:ontimearrival;
+    friendly = (friendly==undefined) ? 0:friendly;
+    quality = (quality==undefined) ? 0:quality;
+    var func = ($(this).text().toLowerCase()=="submit") ? "InsertRating" : "UpdateRating";
+    var data = $("#form_ratesp").serializeArray();
+    data.push({name:"ontimearrival", value:ontimearrival});
+    data.push({name:"friendly", value:friendly});
+    data.push({name:"quality", value:quality});
+    jQuery.ajax({
+      type: "POST",
+      url: "http://localhost/Tatvasoft-PSD-TO-HTML/HelperLand/?controller=Users&function="+func,
+      datatype: "json",
+      data: data,
+      success: function (data) {
+        console.log(data);
+        var obj = JSON.parse(data);
+        if(obj.errors.length==0){
+          getAjaxDataByReq();
+          $("#btn_ratesp").text("Update");
+          $("#Ratesp").modal("hide");
+          $(".shistory-title").after('<div class="alert alert-success mt-3 alert-dismissible fade show" role="alert">Your rating saved successfully!!<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>');
+        }else{
+          var errorlist = "";
+            for (const [key, val] of Object.entries(obj.errors)) {
+              errorlist += `<li>${val}</li>`;
+            }
+            $(".shistory-title").after('<div class="alert alert-danger alert-dismissible fade show" role="alert"><ul class="errorlist">' +errorlist +'</ul><button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>');
+        }
+
+      }
+      
+    });
+
+  });
+
   // when user want to edit address 
   $(document).on("click",".edit-address", function(e){
     e.preventDefault();
     $('.error').remove();
+    $(".alert").remove();
     var id = $(this).parent().prop("id").split("_")[1];
     $("#addid").val(id);
     jQuery.ajax({
@@ -75,6 +159,7 @@ $(document).ready(function () {
   // when user want to add address
   $(document).on("click", ".btn-newaddress", function(){
     $('.error').remove();
+    $(".alert").remove();
     $("#form_address").trigger("reset");
     $("#add-city").html("");
     $(".add-title").text("Add");
@@ -321,6 +406,7 @@ $(document).ready(function () {
     showrecords = $(this).val();
     totalpage = Math.ceil(totalrecords / showrecords);
     totalpage = totalpage == 0 ? 1 : totalpage;
+    currentpage = 1;
     updatePageNumber(currentpage);
     getAjaxDataByReq();
   });
@@ -681,7 +767,7 @@ $(document).ready(function () {
             '<td class="btn-ratesp"><button class="disabled" disabled>RateSP</button></td>';
         } else {
           stshtml +=
-            '<td class="btn-ratesp"><button data-bs-toggle="modal" data-bs-target="#exampleModalRateSP" data-bs-dismiss="modal">RateSP</button></td>';
+            '<td class="btn-ratesp"><button data-bs-toggle="modal" data-bs-target="#Ratesp" data-bs-dismiss="modal" id="ratesp">RateSP</button></td>';
         }
       }
       if (result.ServiceProviderId != null) {
@@ -697,7 +783,7 @@ $(document).ready(function () {
                             <div class="rating-info">
                                 <div class="info-name">${result.Fullname}</div>
                                 <div class="info-ratings">${spstar}
-                                    (${result.TotalRating})
+                                    (${+result.AverageRating})
                                 </div>
                             </div>
             `;
@@ -717,7 +803,7 @@ $(document).ready(function () {
                         }-${date.endtime}</div>
                     </td>
                     <td>
-                        <div class="td-rating">
+                        <div class="td-rating rating_${i}">
                             ${sphtml}
                         </div>
                     </td>

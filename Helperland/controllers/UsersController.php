@@ -337,6 +337,72 @@ class UsersController
         echo json_encode(["result" => $result, "errors" => $this->errors]);
     }
 
+    /*--------------- Get User Rating ---------------*/
+    public function GetUserRating(){
+        $result = [];
+        if(isset($_SESSION["userdata"])){
+            if(isset($_POST["ratingid"])){
+                $ratingid =  $_POST["ratingid"];
+                $result = $this->usermodal->getUserRatingByIds($ratingid);
+                if(count($result) < 1){
+                    $this->addErrors("DatabaseError","Somthing went wrong with SQL!!!");
+                }
+            }else{
+                $this->addErrors("FieldName","Invalid field name!!!");
+            }
+        }else {
+            $this->addErrors("login", "User is not login!!");
+        }
+
+        echo json_encode(["result" => $result, "errors" => $this->errors]);
+    }
+
+    /*-------------- Insert User Rating -------------*/
+    public function InsertRating(){
+        $result = [];
+        if(isset($_SESSION["userdata"])){
+            $user = $_SESSION["userdata"];
+            $userid = $user["UserId"];
+            $ontime = $_POST["ontimearrival"];
+            $friendly = $_POST["friendly"];
+            $quality = $_POST["quality"];
+            $feedback = $_POST["rateing_feed"];
+            $serviceid =  $_POST["serviceid"];
+            $result = $this->usermodal->InsertRating($userid, $serviceid, $ontime, $friendly, $quality, $feedback);
+            if(count($result) < 1){
+                $this->addErrors("DatabaseError","Somthing went wrong with the error!!");
+            }
+        } else {
+            $this->addErrors("login", "User is not login!!");
+        }
+
+        echo json_encode(["result" => $result, "errors" => $this->errors]);
+    }
+
+    /*-------------- Update User Rating -------------*/
+    public function UpdateRating(){
+        $result = [];
+        if(isset($_SESSION["userdata"])){
+            $ontime = $_POST["ontimearrival"];
+            $friendly = $_POST["friendly"];
+            $quality = $_POST["quality"];
+            $feedback = $_POST["rateing_feed"];
+            if(isset($_POST["ratingid"])){
+                $ratingid =  $_POST["ratingid"];
+                $result = $this->usermodal->UpdateRating($ratingid, $ontime, $friendly, $quality, $feedback);
+                if(count($result) < 1){
+                    $this->addErrors("DatabaseError","Somthing went wrong with SQL!!!");
+                }
+            }else{
+                $this->addErrors("FieldName","Invalid field name!!!");
+            }
+        }else {
+            $this->addErrors("login", "User is not login!!");
+        }
+
+        echo json_encode(["result" => $result, "errors" => $this->errors]);
+    }
+
     /*-------------- setcookie -------------*/
     public function setCookieForSignin()
     {
