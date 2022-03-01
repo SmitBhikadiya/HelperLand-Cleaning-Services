@@ -1,20 +1,20 @@
 <div class="div-content table-responsive">
     <div class="shistory-title">
         <p>Serivce History</p>
-        <button>Export</button>
+        <button class="export">Export</button>
     </div>
     <div id="servicehistory">
         <table class="table">
             <thead>
                 <tr>
-                    <th>Service Id  <img src="./static/images/icon-sort.png" alt=""</th>
-                    <th scope="col">Service Detailes <img src="./static/images/icon-sort.png" alt="">
+                    <th data-column=1 data-order="desc">Service Id  <img class="sorting-icon" src="./static/images/icon-sort.png" alt=""</th>
+                    <th data-column=2 data-order="desc">Service Detailes <img class="sorting-icon" src="./static/images/icon-sort.png" alt="">
                     </th>
-                    <th scope="col">Service Provider <img src="./static/images/icon-sort.png" alt="">
+                    <th data-column=3 data-order="desc">Service Provider <img class="sorting-icon" src="./static/images/icon-sort.png" alt="">
                     </th>
-                    <th scope="col">Payment <img src="./static/images/icon-sort.png" alt=""></th>
-                    <th scope="col">Status <img src="./static/images/icon-sort.png" alt=""></th>
-                    <th scope="col">Rate SP</th>
+                    <th data-column=4 data-order="desc">Payment <img class="sorting-icon" src="./static/images/icon-sort.png" alt=""></th>
+                    <th data-column=5 data-order="desc">Status <img class="sorting-icon" src="./static/images/icon-sort.png" alt=""></th>
+                    <th>Rate SP</th>
                 </tr>
             </thead>
             <tbody>

@@ -727,3 +727,15 @@ table tbody {
 #servicerequest .modal-footer{
     justify-content: center;
 }
+
+/* by default th sorting-icon display none */
+.sorting-icon{
+    opacity: 0;
+}
+
+.table th{
+    cursor: pointer;
+}
+.table th:hover .sorting-icon{
+    opacity: 1;
+}

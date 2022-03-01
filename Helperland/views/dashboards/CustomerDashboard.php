@@ -26,6 +26,7 @@ if (isset($_SESSION["userdata"]) && $_SESSION["userdata"]["UserTypeId"] == Confi
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
 
     <!-- script and link for loader -->
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/gasparesganga-jquery-loading-overlay@2.1.7/dist/loadingoverlay.min.js"></script>
@@ -107,6 +108,7 @@ if (isset($_SESSION["userdata"]) && $_SESSION["userdata"]["UserTypeId"] == Confi
     <script src="static/js/footer.js"></script>
     <script src="static/js/validation.js"></script>
     <script src="static/js/cdashboard.js"></script>
+    <script src="static/js/export.js"></script>
     <script>
         $(document).ready(function() {
 

@@ -14,11 +14,11 @@ class ServiceModal extends Connection
     }
 
     // update service time slot
-    public function IsUpdateServiceSchedulePossibleOnDate($favsp, $startdate){
+    public function IsUpdateServiceSchedulePossibleOnDate($favsp, $startdate, $status){
         // if service is already assign to service provider then check 
         // slot will be available on selected slot
         if(!is_null($favsp)){
-            $services = $this->getServiceByStartDateAndSP($favsp, $startdate);
+            $services = $this->getServiceByStartDateSPAndStatus($favsp, $startdate, $status);
         }else{
             $services = [];
         }
@@ -28,7 +28,11 @@ class ServiceModal extends Connection
 
     //
     public function UpdateFavouriteUser($f_id, $set){
-        $sql = "UPDATE favoriteandblocked SET IsFavorite=$set WHERE Id=$f_id;";
+        if($set==1){
+            $sql = "UPDATE favoriteandblocked SET IsFavorite=$set, IsBlocked=0 WHERE Id=$f_id;";
+        }else{
+            $sql = "UPDATE favoriteandblocked SET IsFavorite=$set WHERE Id=$f_id;";
+        }
         $result = $this->conn->query($sql);
         if($result){
             return $set;
@@ -36,7 +40,7 @@ class ServiceModal extends Connection
     }
     public function UpdateBlockUser($b_id, $set){
         if($set==1){
-            $sql = "UPDATE favoriteandblocked SET IsBlocked=$set, IsFavorite=0 WHERE Id=$b_id;";
+            $sql = "UPDATE favoriteandblocked SET IsBlocked=$set, IsFavorite=0   WHERE Id=$b_id;";
         }else{
             $sql = "UPDATE favoriteandblocked SET IsBlocked=$set WHERE Id=$b_id;";
         }
@@ -62,8 +66,8 @@ class ServiceModal extends Connection
         }
     }
 
-    public function getServiceByStartDateAndSP($favsp, $startdate){
-        $sql = "SELECT ServiceRequestId, DATE_FORMAT(ServiceStartDate, '%H:%i') as ServiceStartTime, ServiceHours, Status FROM servicerequest WHERE ServiceProviderId = $favsp AND ServiceStartDate LIKE '%$startdate%';";
+    public function getServiceByStartDateSPAndStatus($favsp, $startdate, $status){
+        $sql = "SELECT sr.ServiceRequestId, DATE_FORMAT(sr.ServiceStartDate, '%H:%i') as ServiceStartTime, sr.ServiceHours, sr.Status, user.Email FROM servicerequest AS sr JOIN user ON user.UserId = sr.ServiceProviderId WHERE sr.ServiceProviderId = $favsp AND sr.Status IN $status AND sr.ServiceStartDate LIKE '%$startdate%';";
         $services = $this->conn->query($sql);
         $rows = [];
         if($services->num_rows > 0){
@@ -243,8 +247,8 @@ class ServiceModal extends Connection
 
     public function getFavoriteSP($userid, $workwithpet)
     {
-        $sql = "SELECT favoriteandblocked.*, user.UserProfilePicture, concat(user.FirstName, ' ', user.LastName) AS FullName FROM favoriteandblocked JOIN user ON user.UserId = favoriteandblocked.TargetUserId WHERE user.UserId IN (SELECT favoriteandblocked.TargetUserId FROM favoriteandblocked JOIN user ON user.UserId = favoriteandblocked.UserId WHERE user.UserId = '$userid' AND user.UserTypeId = 1) AND user.IsApproved = 1 AND user.IsDeleted = 0 AND favoriteandblocked.IsFavorite = 1 AND favoriteandblocked.IsBlocked = 0 AND user.WorksWithPets >= $workwithpet";
-
+        //$sql = "SELECT favoriteandblocked.*, user.UserProfilePicture, concat(user.FirstName, ' ', user.LastName) AS FullName FROM favoriteandblocked JOIN user ON user.UserId = favoriteandblocked.TargetUserId WHERE user.UserId IN (SELECT favoriteandblocked.TargetUserId FROM favoriteandblocked JOIN user ON user.UserId = favoriteandblocked.UserId WHERE user.UserId = '$userid' AND user.UserTypeId = 1) AND user.IsApproved = 1 AND user.IsDeleted = 0 AND favoriteandblocked.IsFavorite = 1 AND favoriteandblocked.IsBlocked = 0 AND user.WorksWithPets >= $workwithpet";
+        $sql = "SELECT favoriteandblocked.*, user.UserProfilePicture, concat(user.FirstName, ' ', user.LastName) AS FullName FROM favoriteandblocked JOIN user ON user.UserId = favoriteandblocked.TargetUserId WHERE favoriteandblocked.TargetUserId IN (SELECT favoriteandblocked.TargetUserId FROM favoriteandblocked JOIN user ON user.UserId = favoriteandblocked.UserId WHERE user.UserId = $userid AND user.UserTypeId = 1) AND favoriteandblocked.UserId=$userid AND user.IsApproved = 1 AND user.IsDeleted = 0 AND favoriteandblocked.IsFavorite = 1 AND favoriteandblocked.IsBlocked = 0 AND user.WorksWithPets >= 0";
         $result = $this->conn->query($sql);
         $rows = array();
         if ($result->num_rows > 0) {
@@ -418,7 +422,7 @@ class ServiceModal extends Connection
 
     public function getServiceRequestById($serviceid)
     {
-        $sql = "SELECT * FROM servicerequest JOIN servicerequestaddress ON servicerequestaddress.ServiceRequestId = servicerequest.ServiceRequestId WHERE servicerequest.ServiceRequestId = $serviceid";
+        $sql = "SELECT sr.*, sra.*, user.Email as SPEmail FROM servicerequest as sr JOIN servicerequestaddress as sra ON sra.ServiceRequestId = sr.ServiceRequestId LEFT JOIN user ON user.UserId=sr.ServiceProviderId WHERE sr.ServiceRequestId = $serviceid";
         $service = $this->conn->query($sql);
         if ($service->num_rows > 0) {
             $result = $service->fetch_assoc();

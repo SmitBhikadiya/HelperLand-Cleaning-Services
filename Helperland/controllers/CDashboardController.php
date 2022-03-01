@@ -1,6 +1,7 @@
 <?php
 
 require_once("modals/ServiceModal.php");
+require_once("phpmailer/mail.php");
 
 class CDashboardController
 {
@@ -64,7 +65,8 @@ class CDashboardController
                 if (count($service) > 0) {
                     $startdate = date('Y-m-d', strtotime($this->data["date"]));
                     $spid = $service["ServiceProviderId"];
-                    $results = $this->servicemodal->IsUpdateServiceSchedulePossibleOnDate($spid, $startdate);
+                    $check_status = '(0,1,2)';
+                    $results = $this->servicemodal->IsUpdateServiceSchedulePossibleOnDate($spid, $startdate, $check_status);
                     if (count($results[1]) > 0) {
                         foreach ($result[1] as $key => $val) {
                             $this->addErrors($key, $val);
@@ -76,7 +78,6 @@ class CDashboardController
                         if ($select_starttime + $select_totalhour > 21.0) {
                             $this->addErrors("Invalid", "Could not completed the service request, because service booking request is must be completed within 21:00 time");
                         } else {
-                            $emails = [];
                             for ($i = 0; $i < count($results[0]); $i++) {
                                 $res = $results[0][$i];
                                 if($res["ServiceRequestId"]==$serviceid){
@@ -89,15 +90,19 @@ class CDashboardController
                                     $this->addErrors("Invalid", "Another service request has been assigned to the service provider on $startdate from ".$this->convertStrToTime($service_starttime)." to ".$this->convertStrToTime($service_endtime).". Either choose another date or pick up a different time slot");
                                     break;
                                 }
-                            }  
+                            } 
                         }
-                        // if no errors then update date and time 
+                        // if no errors then update date and time
+                        $mailmsg = ""; 
                         if(!(count($this->errors) > 0)){
                             $update = $this->servicemodal->UpdateSerivceScheduleById($startdate, $select_starttime, $serviceid, $userid);
                             if(!$update){
                                 $this->addErrors("Wrong", "Somthing went wrong with the update");
                             }else{
-
+                                if(!is_null($service["SPEmail"])){
+                                    $body = "<h1>Service Request <b>".$service["ServiceRequestId"]."</h1></b> has been rescheduled by customer. New date and time are <b>$startdate ".$this->convertStrToTime($select_starttime)."</b>";
+                                    $mailmsg = sendmail([$service["SPEmail"]], "Service Reschedule", $body);
+                                }
                             }
                         }
                     }
@@ -111,7 +116,7 @@ class CDashboardController
             $this->addErrors("login", "User is not login!!!");
         }
 
-        echo json_encode(["result" => $result[0], "errors" => $this->errors]);
+        echo json_encode(["result" => $result[0], "errors" => $this->errors, "mail" => $mailmsg]);
     }
 
     public function UpdateFavouriteUser(){
@@ -198,17 +203,25 @@ class CDashboardController
 
     public function CancelService(){
         $result = 0;
+        $mailmsg = "";
         if(isset($_SESSION["userdata"])){
             $user = $_SESSION["userdata"];
             $userid = $user["UserId"];
             $serviceid = $this->data["serviceid"];
             $comment = $this->data["comment"];
             $result = $this->servicemodal->CancelServiceById($userid, $serviceid, $comment);
+            if($result==1){
+                $service = $this->servicemodal->getServiceRequestById($serviceid);
+                if(count($service) > 0){
+                    $body = "<h1>Service Request <b>".$service["ServiceRequestId"]."</h1></b> has been <kbd style='color:red;'><b>cancelled</b></kbd> by the customer.";
+                    $mailmsg = sendmail([$service["SPEmail"]], "Service Cancelled", $body);
+                }
+            }
         } else {
             $this->addErrors("login", "User is not login!!!");
         }
 
-        echo json_encode(["result" => $result, "errors" => $this->errors]);
+        echo json_encode(["result" => $result, "errors" => $this->errors, "mail"=>$mailmsg]);
     }
 
     /*------------ Convert time(10:30) format to num(10.5) -------------*/

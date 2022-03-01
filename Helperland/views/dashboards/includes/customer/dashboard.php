@@ -7,13 +7,13 @@
         <table class="table">
             <thead>
                 <tr>
-                    <th scope="col">Service Id <img src="./static/images/icon-sort.png" alt="">
+                    <th data-column=1 data-order="desc">Service Id <img class="sorting-icon" src="./static/images/icon-sort.png" alt="">
                     </th>
-                    <th scope="col">Service Date <img src="./static/images/icon-sort.png" alt="">
+                    <th data-column=2 data-order="desc">Service Date <img class="sorting-icon" src="./static/images/icon-sort.png" alt="">
                     </th>
-                    <th scope="col">Service Provider <img src="./static/images/icon-sort.png" alt=""></th>
-                    <th scope="col">Payment <img src="./static/images/icon-sort.png" alt=""></th>
-                    <th scope="col">Action</th>
+                    <th data-column=3 data-order="desc">Service Provider <img class="sorting-icon" src="./static/images/icon-sort.png" alt=""></th>
+                    <th data-column=4 data-order="desc">Payment <img class="sorting-icon" src="./static/images/icon-sort.png" alt=""></th>
+                    <th data-column=5 data-order="desc">Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -25,10 +25,10 @@
         <div class="show-apge">
             show
             <select class="form-select" aria-label="Default select example">
-                <option selected>10</option>
-                <option value="20">20</option>
+                <option selected>3</option>
+                <option value="6">6</option>
+                <option value="12">12</option>
                 <option value="50">50</option>
-                <option value="100">100</option>
             </select>
             entries Total Record : <span class="totalrecords"><span>
         </div>

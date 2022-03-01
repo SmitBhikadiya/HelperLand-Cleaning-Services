@@ -67,6 +67,7 @@ class BookNowController
                     $workwitpets = 0;
                 }
                 $fav_list = $this->booknowModal->getFavoriteSP($userid, $workwitpets);
+                
             } else {
                 $this->addErrors("Fieldname", "Work with pet field name is not verified!!");
             }
@@ -173,7 +174,7 @@ class BookNowController
     public function getBodyToSendMailToSPs($serviceid)
     {
         $result = $this->booknowModal->getServiceRequestById($serviceid);
-        $serviceid = substr("000" . $result["ServiceRequestId"], -4);
+        $serviceid = substr("000$serviceid", -4);
         $startdate = $result["ServiceStartDate"];
         $status = $result["Status"];
         if ($status == 0) {
@@ -260,7 +261,7 @@ class BookNowController
         <body>
             <div class="cnt">
                 <div class="row title">
-                    <div class="col-12 display-6" style="color:#1d7a8c;">Service Request Id : <span>0001</span></div>
+                    <div class="col-12 display-6" style="color:#1d7a8c;">Service Request Id : <span>'.$serviceid.'</span></div>
                 </div><hr style="margin-top: 0px;">
                 <div class="row">
                     <div class="col-12">Service Status:- </div>

@@ -1,5 +1,20 @@
 $(document).ready(function () {
 
+
+  // logic for sorting
+  $("th").click(function(){
+    var index = $(this).data("column");
+    var order = $(this).data("order");
+    if(index!=undefined){
+      // $("table.table").DataTable({
+      //   paging: false,
+      //   searching: false,
+      //   'order': [[index, order]],
+      // });
+      $(this).data("order",(order=='desc') ? "asc" : "desc");
+    }
+  });
+
   // Declare some global variable
   var today = new Date();
   var req = $("#req").val();
@@ -488,9 +503,7 @@ $(document).ready(function () {
         success: function (data) {
           var obj = JSON.parse(data);
           console.log(obj.result);
-          var serviceid = (
-            "000" + $("#form-service-cancel input[type=hidden]").val()
-          ).slice(-4);
+          var serviceid = ("000" + $("#form-service-cancel input[type=hidden]").val()).slice(-4);
           if (obj.result == 1) {
             $("#exampleModalServiceCancel").modal("hide");
             getAjaxDataByReq();
