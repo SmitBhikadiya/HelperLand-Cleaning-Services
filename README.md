@@ -41,4 +41,23 @@
   - Servicer can't book a service
   - service total hours + service time can't be greater than 21 hours because the service booking request is must be completed within 21:00 time
   - once service is booked user can not book a service at the same address on a same date
- 
+
+
+### 4th Submission
+> you can check the below functionality with the validation for the customer dashboard
+  - Setting:
+    1) User can update its basic details.
+    2) Added, Delete and Update user addresses
+    3) change the password by entering the old password
+  - Dashboard tabs:
+    1) User can reschedule service 
+    2) User can cancel the service request
+    3) see the service details by clicking on column data 
+    4) You can check pagination by entering more requests in all tabs 
+  - Service-History tabs:
+    1) User can see the status of service cancel, refunded, or completed
+    2) If Service is canceled then the user can rate sp or edit the rating
+    3) Users can download history data in excel format
+  - Favorite Pros
+    Users can block/unblock service provider and favorite/unfavorite
+
