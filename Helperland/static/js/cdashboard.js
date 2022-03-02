@@ -1,30 +1,15 @@
 $(document).ready(function () {
 
-
-  // logic for sorting
-  $("th").click(function(){
-    var index = $(this).data("column");
-    var order = $(this).data("order");
-    if(index!=undefined){
-      // $("table.table").DataTable({
-      //   paging: false,
-      //   searching: false,
-      //   'order': [[index, order]],
-      // });
-      $(this).data("order",(order=='desc') ? "asc" : "desc");
-    }
-  });
-
   // logic for export 
   $('#export').click(function(){
-    let data = document.getElementById('history');
+    let data = document.getElementById('table');
     var fp = XLSX.utils.table_to_book(data,{sheet:'History'});
     XLSX.write(fp,{
       bookType:'xlsx',
       type:'base64'
     });
     XLSX.writeFile(fp, 'service-history.xlsx');
-});
+  });
 
   // Declare some global variable
   var today = new Date();
@@ -545,6 +530,7 @@ $(document).ready(function () {
       serviceid
     );
   });
+
   $(document).on("click", ".btn-reschedule", function () {
     $(".alert").remove();
     var index = $(this).parent().parent().prop("id").split("_")[1];
@@ -569,6 +555,7 @@ $(document).ready(function () {
       serviceid
     );
   });
+
   $(document).on("click", ".sreschedule", function (e) {
     $(".alert").remove();
     e.preventDefault();
@@ -820,12 +807,8 @@ $(document).ready(function () {
                       "000" + result.ServiceRequestId
                     ).slice(-4)}</td>
                     <td style='cursor:pointer;' data-bs-toggle="modal" data-bs-target="#exampleModalServiceDetailes" data-bs-dismiss="modal" class='show_detailes'>
-                        <div class="td-date"><img src="./static/images/icon-calculator.png" alt=""><b>${
-                          date.startdate
-                        }</b></div>
-                        <div class="td-time"><img src="./static/images/icon-time.png" alt="">${
-                          date.starttime
-                        }-${date.endtime}</div>
+                        <div class="td-date"><img src="./static/images/icon-calculator.png" alt=""><b>${date.startdate}</b></div>
+                        <div class="td-time"><img src="./static/images/icon-time.png" alt="">${date.starttime}-${date.endtime}</div>
                     </td>
                     <td>
                         <div class="td-rating rating_${i}">
@@ -870,7 +853,7 @@ $(document).ready(function () {
   function getTimeAndDate(sdate, stime) {
     //alert(sdate, stime);
     var dateobj = new Date(sdate);
-    var startdate = dateobj.toLocaleDateString("en-US");
+    var startdate = dateobj.toLocaleDateString("en-AU");
     var starttime =
       ("0" + dateobj.getHours()).slice(-2) +
       ":" +
@@ -887,4 +870,47 @@ $(document).ready(function () {
     var endtime = ("0" + endhour).slice(-2) + ":" + ("0" + endmin).slice(-2);
     return { startdate: startdate, starttime: starttime, endtime: endtime };
   }
+
 });
+
+function sortTable(n){
+  var table;
+  table = document.getElementById('table');
+  var rows,i,x,y,count = 0;
+  var switching = true;
+  var direction = "asc";
+
+  while(switching){
+      switching = false;
+      rows = table.rows;
+
+      for(i=1;i<(rows.length - 1);i++){
+          var Switch = false;
+          x = rows[i].getElementsByTagName("TD")[n];
+          y = rows[i + 1].getElementsByTagName("TD")[n];
+
+          if(direction == "asc"){
+              if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()){
+                  Switch = true;
+                  break;
+              }
+          }
+          else if(direction == "desc"){
+              if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()){
+                  Switch = true;
+                      break;
+              }
+          }
+      }
+      if (Switch) {
+          rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+          switching = true;
+          count++;
+      }else{
+          if(count == 0 && direction == "asc"){
+              direction = "desc";
+              switching = true;
+          }
+      }
+  }
+}

@@ -4,16 +4,14 @@
         <button id="export">Export</button>
     </div>
     <div id="servicehistory">
-        <table class="table" id="history">
+        <table class="table" id="table">
             <thead>
                 <tr>
-                    <th data-column=1 data-order="desc">Service Id  <img class="sorting-icon" src="./static/images/icon-sort.png" alt=""</th>
-                    <th data-column=2 data-order="desc">Service Detailes <img class="sorting-icon" src="./static/images/icon-sort.png" alt="">
-                    </th>
-                    <th data-column=3 data-order="desc">Service Provider <img class="sorting-icon" src="./static/images/icon-sort.png" alt="">
-                    </th>
-                    <th data-column=4 data-order="desc">Payment <img class="sorting-icon" src="./static/images/icon-sort.png" alt=""></th>
-                    <th data-column=5 data-order="desc">Status <img class="sorting-icon" src="./static/images/icon-sort.png" alt=""></th>
+                    <th onclick="sortTable(0)">Service Id  <img class="sorting-icon" src="./static/images/icon-sort.png" alt=""></th>
+                    <th onclick="sortTable(1)">Service Detailes <img class="sorting-icon" src="./static/images/icon-sort.png" alt=""></th>
+                    <th onclick="sortTable(2)">Service Provider <img class="sorting-icon" src="./static/images/icon-sort.png" alt=""></th>
+                    <th onclick="sortTable(3)">Payment <img class="sorting-icon" src="./static/images/icon-sort.png" alt=""></th>
+                    <th onclick="sortTable(4)">Status <img class="sorting-icon" src="./static/images/icon-sort.png" alt=""></th>
                     <th>Rate SP</th>
                 </tr>
             </thead>
