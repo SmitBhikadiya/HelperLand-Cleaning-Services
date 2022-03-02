@@ -49,7 +49,7 @@
   - Added, Delete and Update user addresses
   - change the password by entering the old password
 > Dashboard tabs:
-  - User can reschedule service
+  - User can reschedule service
   - User can cancel the service request
   - see the service details by clicking on column data 
   - You can check pagination by entering more requests in all tabs 
@@ -59,5 +59,5 @@
   - Users can download history data in excel format
   - You can sort the tables data by clicking on column head 
 > Favorite Pros
-  - Users can block/unblock service provider and favorite/unfavorite
+  - Users can block/unblock service provider and favorite/unfavorite
 
