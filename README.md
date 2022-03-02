@@ -44,21 +44,20 @@
 
 
 ### 4th Submission
-> you can check the below functionality with the validation for the customer dashboard
-  - Setting:
-    1) User can update its basic details.
-    2) Added, Delete and Update user addresses
-    3) change the password by entering the old password
-  - Dashboard tabs:
-    1) User can reschedule service 
-    2) User can cancel the service request
-    3) see the service details by clicking on column data 
-    4) You can check pagination by entering more requests in all tabs 
-  - Service-History tabs:
-    1) User can see the status of service cancel, refunded, or completed
-    2) If Service is canceled then the user can rate sp or edit the rating
-    3) Users can download history data in excel format
-    4) You can sort the tables data by clicking on column head 
-  - Favorite Pros
-    1) Users can block/unblock service provider and favorite/unfavorite
+> Setting:
+  - User can update its basic details.
+  - Added, Delete and Update user addresses
+  - change the password by entering the old password
+> Dashboard tabs:
+  - User can reschedule service
+  - User can cancel the service request
+  - see the service details by clicking on column data 
+  - You can check pagination by entering more requests in all tabs 
+> Service-History tabs:
+  - User can see the status of service cancel, refunded, or completed
+  - If Service is canceled then the user can rate sp or edit the rating
+  - Users can download history data in excel format
+  - You can sort the tables data by clicking on column head 
+> Favorite Pros
+  - Users can block/unblock service provider and favorite/unfavorite
 
