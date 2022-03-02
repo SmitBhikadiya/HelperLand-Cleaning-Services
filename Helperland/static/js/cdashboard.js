@@ -15,6 +15,17 @@ $(document).ready(function () {
     }
   });
 
+  // logic for export 
+  $('#export').click(function(){
+    let data = document.getElementById('history');
+    var fp = XLSX.utils.table_to_book(data,{sheet:'History'});
+    XLSX.write(fp,{
+      bookType:'xlsx',
+      type:'base64'
+    });
+    XLSX.writeFile(fp, 'service-history.xlsx');
+});
+
   // Declare some global variable
   var today = new Date();
   var req = $("#req").val();
@@ -770,6 +781,7 @@ $(document).ready(function () {
       var sphtml = "";
       var status = result.Status;
       var stshtml = "";
+      var record_veresion = result.RecordVersion;
       if (["3", "4"].includes(status)) {
         stshtml =
           status == "4"
@@ -827,11 +839,16 @@ $(document).ready(function () {
                     </td>
                     `;
       if (stshtml == "") {
-        html += `<td class="btn-dashboard">
+        if(record_veresion!=1){
+          html += `<td class="btn-dashboard">
               <button class="btn-reschedule" data-bs-toggle="modal" data-bs-target="#exampleModalServiceReschedule" data-bs-dismiss="modal">Reschedule</button>
               <button class="btn-cancel" data-bs-toggle="modal" data-bs-target="#exampleModalServiceCancel" data-bs-dismiss="modal">Cancel</button>
-          </td>
-      </tr>`;
+            </td>
+          </tr>`;
+        }else{
+          html += `<td class="btn-dashboard"><p class='rescheduled-msg'>You have rescheduled service request. Your SP will accept it soon</p>
+          </tr>`;
+        }
       } else {
         html += stshtml + "</tr>";
       }

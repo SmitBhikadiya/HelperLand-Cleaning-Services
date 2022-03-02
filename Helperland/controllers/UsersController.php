@@ -208,7 +208,7 @@ class UsersController
                 $result = $this->usermodal->getUserByUserId($_POST["userid"]);
                 if (count($result) > 0) {
                     if (!password_verify($_POST["oldpassword"], $result["Password"])) {
-                        $this->addErrors("password", "You entered a wrong password!!!");
+                        $this->addErrors("password", "Old password is wrong!!!");
                     } else {
                         if (isset($_POST["newpassword"]) && isset($_POST["repassword"])) {
                             $psw = $_POST["newpassword"];

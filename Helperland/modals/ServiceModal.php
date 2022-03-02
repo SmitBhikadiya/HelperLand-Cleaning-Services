@@ -50,14 +50,14 @@ class ServiceModal extends Connection
         }
     }
 
-    public function UpdateSerivceScheduleById($startdate, $starttime, $serviceId, $modifiedby){
+    public function UpdateSerivceScheduleById($startdate, $starttime, $serviceId, $modifiedby, $status, $record_version){
         
         // for fromatting datetime
         $date = new DateTime($startdate);
         $date->setTime(floor($starttime), floor($starttime) == $starttime ? "00" : (("0." . substr($starttime, -1) * 60) * 100));
         $datetime = $date->format('Y-m-d H:i:s');
         
-        $sql = "UPDATE servicerequest SET ServiceStartDate='$datetime', ModifiedBy=$modifiedby, ModifiedDate=now() WHERE ServiceRequestId=$serviceId";
+        $sql = "UPDATE servicerequest SET ServiceStartDate='$datetime', ModifiedBy=$modifiedby, ModifiedDate=now(), Status=$status, RecordVersion=$record_version WHERE ServiceRequestId=$serviceId";
         $result = $this->conn->query($sql);
         if($result){
             return 1;
@@ -135,7 +135,7 @@ class ServiceModal extends Connection
     public function getAllServiceRequestByUserId($offset, $limit, $userid, $status = "")
     {
         if ($status != "") {
-            $sql = "SELECT sr.ServiceRequestId, sr.ServiceStartDate, sr.ServiceHourlyRate, sr.ServiceHours, sr.ExtraHours, sr.SubTotal, sr.Discount,sr.TotalCost, sr.ServiceProviderId, sr.SPAcceptedDate, sr.HasPets, sr.Status, sr.HasIssue, sr.PaymentDone, sra.AddressLine1, sra.AddressLine2, sra.City, sra.State, sra.PostalCode, sra.Mobile, sra.Email, sre.ServiceExtraId FROM servicerequest AS sr JOIN servicerequestaddress AS sra ON sra.ServiceRequestId = sr.ServiceRequestId LEFT JOIN servicerequestextra AS sre ON sre.ServiceRequestId = sr.ServiceRequestId WHERE sr.UserId = $userid AND sr.Status IN $status LIMIT $offset, $limit";
+            $sql = "SELECT sr.ServiceRequestId, sr.ServiceStartDate, sr.ServiceHourlyRate, sr.ServiceHours, sr.ExtraHours, sr.SubTotal, sr.Discount,sr.TotalCost, sr.ServiceProviderId, sr.SPAcceptedDate, sr.HasPets, sr.Status, sr.HasIssue, sr.PaymentDone, sr.RecordVersion, sra.AddressLine1, sra.AddressLine2, sra.City, sra.State, sra.PostalCode, sra.Mobile, sra.Email, sre.ServiceExtraId FROM servicerequest AS sr JOIN servicerequestaddress AS sra ON sra.ServiceRequestId = sr.ServiceRequestId LEFT JOIN servicerequestextra AS sre ON sre.ServiceRequestId = sr.ServiceRequestId WHERE sr.UserId = $userid AND sr.Status IN $status LIMIT $offset, $limit";
             $result = $this->conn->query($sql);
             $services = [];
             if ($result->num_rows > 0) {

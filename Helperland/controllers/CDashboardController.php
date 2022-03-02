@@ -68,7 +68,7 @@ class CDashboardController
                     $check_status = '(0,1,2)';
                     $results = $this->servicemodal->IsUpdateServiceSchedulePossibleOnDate($spid, $startdate, $check_status);
                     if (count($results[1]) > 0) {
-                        foreach ($result[1] as $key => $val) {
+                        foreach ($results[1] as $key => $val) {
                             $this->addErrors($key, $val);
                         }
                     } else {
@@ -92,10 +92,21 @@ class CDashboardController
                                 }
                             } 
                         }
+
+                        // check user is laready request to reschude service
+                        $record_version = 0;
+                        $status = $service["Status"];
+                        if($service["Status"]==2 && (is_null($service["RecordVersion"]) || $service["RecordVersion"]==0)){
+                            $record_version = 1;
+                            $status = 1;
+                        }else if($service["Status"]==1 && $service["RecordVersion"]==1){
+                            $this->addErrors("Service", "You can't rescheduled service request.untill Your SP will accept it");
+                        }
+
                         // if no errors then update date and time
                         $mailmsg = ""; 
                         if(!(count($this->errors) > 0)){
-                            $update = $this->servicemodal->UpdateSerivceScheduleById($startdate, $select_starttime, $serviceid, $userid);
+                            $update = $this->servicemodal->UpdateSerivceScheduleById($startdate, $select_starttime, $serviceid, $userid, $status, $record_version);
                             if(!$update){
                                 $this->addErrors("Wrong", "Somthing went wrong with the update");
                             }else{

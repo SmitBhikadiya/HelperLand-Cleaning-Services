@@ -739,3 +739,10 @@ table tbody {
 .table th:hover .sorting-icon{
     opacity: 1;
 }
+
+.rescheduled-msg{
+    width: 150px;
+    font-size: 14px;
+    line-height: 20px;
+    color: #67b644;
+}

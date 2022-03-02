@@ -1,10 +1,10 @@
 <div class="div-content table-responsive">
     <div class="shistory-title">
         <p>Serivce History</p>
-        <button class="export">Export</button>
+        <button id="export">Export</button>
     </div>
     <div id="servicehistory">
-        <table class="table">
+        <table class="table" id="history">
             <thead>
                 <tr>
                     <th data-column=1 data-order="desc">Service Id  <img class="sorting-icon" src="./static/images/icon-sort.png" alt=""</th>
