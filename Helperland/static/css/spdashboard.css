@@ -662,3 +662,47 @@ display: flex;
 #exampleModalServiceCancel .modal-dialog, #exampleModalServiceAccept .modal-dialog{
     max-width: 1000px;
 }
+
+@media screen and (max-width:664px) {
+    #exampleModalServiceCancel .row{
+        display: flex;
+        flex-direction: column;
+    }
+    #exampleModalServiceCancel .row .col-7, #exampleModalServiceCancel .row .col-5{
+        margin-bottom: 15px;
+        width: 100%;
+        height: 100%;
+    }
+    #exampleModalServiceCancel .modal-button .col{
+        display: flex;
+        flex-wrap: wrap;
+    }
+    #exampleModalServiceCancel .modal-button .col button{
+        font-size: 14px;
+        margin-top: 5px;
+        margin-right: 5px;
+    }
+    table{
+       border-collapse: separate;
+       border-spacing: 20px;
+    }
+    #upcomingservice table thead{
+        height: 0;
+    }
+    thead tr{
+        display: none;
+    }
+    tbody tr{
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 15px;
+        box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.514);
+    }
+    tbody tr td{
+        padding-left: 8px;
+    }
+    .div-main{
+        padding:0;
+    }
+}
+

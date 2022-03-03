@@ -8,7 +8,7 @@
                     </div>
                 </div>
                 <div class="success-msg">
-                    The session has expired
+                    The session has been expired
                 </div>
             </div>
             <div class="modal-footer">

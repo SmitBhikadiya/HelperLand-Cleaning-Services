@@ -32,16 +32,17 @@ $(document).ready(function () {
 
   function toCheckSession() {
     if ($("#isLogin").val() != 0) {
-      $.ajax({
+      jQuery.ajax({
         type: "POST",
         url: "http://localhost/Tatvasoft-PSD-TO-HTML/HelperLand/?controller=Users&function=CheckSession",
         datatype: "json",
         data: $("#addform").serialize(),
         success: function (data) {
           if (data == 1) {
-            if (!$("#sessionexpired").hasClass("show")) {
-              $("#sessionexpired").modal("show");
-            }
+            window.location.href = "http://localhost/Tatvasoft-PSD-TO-HTML/HelperLand/?controller=Default&function=homepage&parameter=sessionmodal";
+            // if (!$("#sessionexpired").hasClass("show")) {
+            //   $("#sessionexpired").modal("show");
+            // }
           }
         },
         complete: function (data) {

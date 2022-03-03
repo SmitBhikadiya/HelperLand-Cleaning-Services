@@ -309,13 +309,8 @@ if (isset($_SESSION["userdata"])) {
         <div class="d-none" id="_modal">
             <?php 
                 if (isset($_GET["parameter"])){
-                    if($_GET["parameter"]=="loginmodal") {
-                        echo "loginmodal";
-                    }else if($_GET["parameter"]=="logoutmodal"){
-                        echo "logoutmodal";
-                    }
+                  echo $_GET["parameter"];
                 }
-    
             ?>
         </div>
 
@@ -326,20 +321,14 @@ if (isset($_SESSION["userdata"])) {
     <script>
         $(document).ready(function() {
 
-            // $.ajax({
-            //     url:'http://localhost/Tatvasoft-PSD-TO-HTML/HelperLand/?controller=Default&function=ajaxtest',
-            //     type: "post",
-            //     data:"email="+"jb",
-            //     success: function(result){
-            //         alert(result);
-            //     }
-            // });
             var _modal = $.trim($("#_modal").text());
             
             if(_modal=="loginmodal"){
                 openLoginModal();
             }else if(_modal=="logoutmodal"){
                 openLogoutModal();
+            }else if(_modal=="sessionmodal"){
+                openSessionModal();
             }
             
             function openLogoutModal() {
@@ -349,6 +338,10 @@ if (isset($_SESSION["userdata"])) {
             function openLoginModal() {
                 removeParameterFromURI();
                 $("#exampleModallogin").modal("show");
+            }
+            function openSessionModal() {
+                removeParameterFromURI();
+                $("#sessionexpired").modal("show");
             }
             function removeParameterFromURI(){
                 var uri = window.location.toString();

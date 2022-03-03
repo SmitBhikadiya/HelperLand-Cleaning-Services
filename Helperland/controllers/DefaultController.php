@@ -30,9 +30,8 @@ class DefaultController{
         include("views/dashboards/CustomerDashboard.php");
     }
 
-    function servicer_dashboard(){
-        echo "Comming Soon";
-        //include("views/Dashboards/ServicerDashboard.php");
+    function servicer_dashboard($parameter=""){
+        include("views/Dashboards/ServicerDashboard.php");
     }
 
     function admin_dashboard(){
