@@ -179,23 +179,47 @@ class UsersController
     public function UpdateUserDetailes()
     {
         $result = [];
+        $res = [];
+        $addid = 0;
         if (isset($_SESSION["userdata"])) {
-            $result = $this->usermodal->UpdateUserDetailes();
-            if ($result == 1) {
-                $result = $this->usermodal->getUserByEmail($_POST["Email"]);
-                if (count($result) > 0) {
-                    $_SESSION["userdata"] = $result;
+            $user = $_SESSION["userdata"];
+            $usertype = $user["UserTypeId"];
+            $userid = $user["UserId"];
+            $email = $user["Email"];
+            if ($usertype == 2) {
+                if (isset($_POST["addid"]) && !empty($_POST["addid"])) {
+                    $addid = $_POST["addid"];
+                    $res = $this->usermodal->updateUserAddress($userid, $addid);
+                    if(count($res[1]) > 0){
+                        foreach ($res[1] as $key => $val) {
+                            $this->addErrors($key, $val);
+                        }
+                    }
                 } else {
-                    $this->addErrors('user', 'User is not found');
+                    $addid =$this->usermodal->insertUserAddress($userid, $email);
+                    if($addid==0){
+                        $this->addErrors("Insert", "Failed to insert User address!!!");
+                    }
                 }
-            } else {
-                $this->addErrors("update", "Update Failed!!!");
+            }
+            if(count($this->errors) < 1){
+                $result = $this->usermodal->UpdateUserDetailes($userid);
+                if ($result == 1) {
+                    $result = $this->usermodal->getUserByEmail($_POST["Email"]);
+                    if (count($result) > 0) {
+                        $_SESSION["userdata"] = $result;
+                    } else {
+                        $this->addErrors('user', 'User is not found');
+                    }
+                } else {
+                    $this->addErrors("Update", "Update Failed!!!");
+                }
             }
         } else {
             $this->addErrors("login", "User is not login!!");
         }
 
-        echo json_encode(["result" => $result, "errors" => $this->errors]);
+        echo json_encode(["result" => $result, "errors" => $this->errors, "addid"=>$addid]);
     }
 
     /*----------- Changed Password if Old validate -----------*/
@@ -230,7 +254,7 @@ class UsersController
                     $this->addErrors("User", "User is not found!!!");
                 }
             } else {
-                $this->addErrors("invalid", "Invalid field name!!!".$_POST["userid"]);
+                $this->addErrors("invalid", "Invalid field name!!!" . $_POST["userid"]);
             }
         } else {
             $this->addErrors("login", "User is not login!!");
@@ -240,16 +264,17 @@ class UsersController
     }
 
     /* get user address by user address id */
-    public function getUserAddress(){
+    public function getUserAddress()
+    {
         $result = [];
-        if(isset($_SESSION["userdata"])){
-            if(isset($_POST["addid"])){
+        if (isset($_SESSION["userdata"])) {
+            if (isset($_POST["addid"])) {
                 $addid = $_POST["addid"];
-                $result = $this->usermodal->getUserAddressById($addid); 
-                if(count($result) <= 0){
+                $result = $this->usermodal->getUserAddressById($addid);
+                if (count($result) <= 0) {
                     $this->addErrors("NotFound", "Somthing went wrong with the sql!!");
-                }  
-            }else{
+                }
+            } else {
                 $this->addErrors("Invalid", "Somthing went wrong with the field name!!");
             }
         } else {
@@ -260,12 +285,13 @@ class UsersController
     }
 
     /*-------------- Get city by postal code --------------*/
-    public function getCityByPostal(){
+    public function getCityByPostal()
+    {
         $result = [];
-        if(isset($_POST["postalcode"])){
+        if (isset($_POST["postalcode"])) {
             $postal = $_POST["postalcode"];
             $result = $this->usermodal->getCityByPostal($postal);
-            if(count($result) <= 0){
+            if (count($result) <= 0) {
                 $this->addErrors("Invalid", "invalid postal code!!");
             }
         }
@@ -273,17 +299,18 @@ class UsersController
     }
 
     /*------------- Insert New User Address -------------*/
-    public function InsertUserAddress(){
+    public function InsertUserAddress()
+    {
         $result = [];
-        if(isset($_SESSION["userdata"])){
+        if (isset($_SESSION["userdata"])) {
             $user = $_SESSION["userdata"];
             $userid = $user["UserId"];
             $email = $user["Email"];
             $result = $this->usermodal->InsertUserAddress($userid, $email);
-            if($result){
-                $result = $this->usermodal->getUserDetailesByUserId($userid)[0];
-            }else{
-                $result = [];
+            if ($result!=0) {
+                $result = $this->usermodal->getAllUserAddressByUserId($userid)[0];
+            } else {
+                $result = ["addid"=>$result];
             }
         } else {
             $this->addErrors("login", "User is not login!!");
@@ -293,17 +320,18 @@ class UsersController
     }
 
     /*------------- Update User Address By Address Id ------------*/
-    public function UpdateUserAddress(){
+    public function UpdateUserAddress()
+    {
         $result = [];
-        if(isset($_SESSION["userdata"])){
+        if (isset($_SESSION["userdata"])) {
             $user = $_SESSION["userdata"];
             $userid = $user["UserId"];
             $addid = isset($_POST["addid"]) ? $_POST["addid"] : 0;
-            if(count($this->usermodal->isExistsUserAddress($userid, $addid)) > 0){
+            if (count($this->usermodal->isExistsUserAddress($userid, $addid)) > 0) {
                 $result = $this->usermodal->UpdateUserAddress($userid, $addid);
-                if($result[0] && count($result[1]) <= 1){
+                if ($result[0] && count($result[1]) <= 1) {
                     $result = $this->usermodal->getAllUserAddressByUserId($userid)[0];
-                }else{
+                } else {
                     $result = [];
                 }
             }
@@ -315,23 +343,24 @@ class UsersController
     }
 
     /*-------------- Delete User address by Addressid -----------*/
-    public function DeleteUserAddress(){
+    public function DeleteUserAddress()
+    {
         $result = [];
-        if(isset($_SESSION["userdata"])){
+        if (isset($_SESSION["userdata"])) {
             $user = $_SESSION["userdata"];
             $userid = $user["UserId"];
-            if(isset($_POST["addid"])){
+            if (isset($_POST["addid"])) {
                 $addid = $_POST["addid"];
                 $result = $this->usermodal->DeleteUserAddress($userid, $addid);
-                if($result){
+                if ($result) {
                     $result = $this->usermodal->getAllUserAddressByUserId($userid)[0];
-                }else{
+                } else {
                     $result = [];
                 }
-            }else{
+            } else {
                 $this->addErrors("Invalid", "Somthing went wrong with the field name!!");
             }
-        }else {
+        } else {
             $this->addErrors("login", "User is not login!!");
         }
 
@@ -339,19 +368,20 @@ class UsersController
     }
 
     /*--------------- Get User Rating ---------------*/
-    public function GetUserRating(){
+    public function GetUserRating()
+    {
         $result = [];
-        if(isset($_SESSION["userdata"])){
-            if(isset($_POST["ratingid"])){
+        if (isset($_SESSION["userdata"])) {
+            if (isset($_POST["ratingid"])) {
                 $ratingid =  $_POST["ratingid"];
                 $result = $this->usermodal->getUserRatingByIds($ratingid);
-                if(count($result) < 1){
-                    $this->addErrors("DatabaseError","Somthing went wrong with SQL!!!");
+                if (count($result) < 1) {
+                    $this->addErrors("DatabaseError", "Somthing went wrong with SQL!!!");
                 }
-            }else{
-                $this->addErrors("FieldName","Invalid field name!!!");
+            } else {
+                $this->addErrors("FieldName", "Invalid field name!!!");
             }
-        }else {
+        } else {
             $this->addErrors("login", "User is not login!!");
         }
 
@@ -359,9 +389,10 @@ class UsersController
     }
 
     /*-------------- Insert User Rating -------------*/
-    public function InsertRating(){
+    public function InsertRating()
+    {
         $result = [];
-        if(isset($_SESSION["userdata"])){
+        if (isset($_SESSION["userdata"])) {
             $user = $_SESSION["userdata"];
             $userid = $user["UserId"];
             $ontime = $_POST["ontimearrival"];
@@ -370,8 +401,8 @@ class UsersController
             $feedback = $_POST["rateing_feed"];
             $serviceid =  $_POST["serviceid"];
             $result = $this->usermodal->InsertRating($userid, $serviceid, $ontime, $friendly, $quality, $feedback);
-            if(count($result) < 1){
-                $this->addErrors("DatabaseError","Somthing went wrong with the error!!");
+            if (count($result) < 1) {
+                $this->addErrors("DatabaseError", "Somthing went wrong with the error!!");
             }
         } else {
             $this->addErrors("login", "User is not login!!");
@@ -381,23 +412,24 @@ class UsersController
     }
 
     /*-------------- Update User Rating -------------*/
-    public function UpdateRating(){
+    public function UpdateRating()
+    {
         $result = [];
-        if(isset($_SESSION["userdata"])){
+        if (isset($_SESSION["userdata"])) {
             $ontime = $_POST["ontimearrival"];
             $friendly = $_POST["friendly"];
             $quality = $_POST["quality"];
             $feedback = $_POST["rateing_feed"];
-            if(isset($_POST["ratingid"])){
+            if (isset($_POST["ratingid"])) {
                 $ratingid =  $_POST["ratingid"];
                 $result = $this->usermodal->UpdateRating($ratingid, $ontime, $friendly, $quality, $feedback);
-                if(count($result) < 1){
-                    $this->addErrors("DatabaseError","Somthing went wrong with SQL!!!");
+                if (count($result) < 1) {
+                    $this->addErrors("DatabaseError", "Somthing went wrong with SQL!!!");
                 }
-            }else{
-                $this->addErrors("FieldName","Invalid field name!!!");
+            } else {
+                $this->addErrors("FieldName", "Invalid field name!!!");
             }
-        }else {
+        } else {
             $this->addErrors("login", "User is not login!!");
         }
 

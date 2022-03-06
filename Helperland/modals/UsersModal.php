@@ -146,8 +146,15 @@ class UsersModal extends Connection
         if(count($result) > 0){
             $city = $result["CityName"];
             $state = $result["StateName"];
-            $sql = "UPDATE useraddress SET AddressLine1='$addline1', AddressLine2='$addline2', City='$city', State='$state', PostalCode='$postalcode', Mobile='$mobile' WHERE UserId=$userid AND AddressId=$addid AND IsDeleted=0";
-            $result = $this->conn->query($sql);
+            if(count($this->isExistsUserAddress($userid,$addid)) > 0){
+                $sql = "UPDATE useraddress SET AddressLine1='$addline1', AddressLine2='$addline2', City='$city', State='$state', PostalCode='$postalcode', Mobile='$mobile' WHERE UserId=$userid AND AddressId=$addid AND IsDeleted=0";
+                $result = $this->conn->query($sql);
+                if(!$result){
+                    $this->addErrors("SQLError", "Somthing went wrong with the $sql!!!");            
+                }
+            }else{
+                $this->addErrors("NotFound", "Address is not exits!!!");            
+            }
         }else{
             $this->addErrors("NotFound", "City or State is not found!!!");            
         }
@@ -173,7 +180,12 @@ class UsersModal extends Connection
         $mobile = $this->data["mobile"];
         $sql = "INSERT INTO useraddress (UserId, AddressLine1, AddressLine2, PostalCode, Mobile, Email, City, State) SELECT $userid, '$addline1', '$addline2', '$postalcode', '$mobile', '$email', city.CityName, state.StateName FROM  city JOIN zipcode ON city.Id = zipcode.CityId JOIN state ON state.Id = city.StateId  WHERE zipcode.ZipcodeValue = $postalcode";
         $result = $this->conn->query($sql);
-        return $result;
+        if($result){
+            $last_id = $this->conn->insert_id;
+        }else{
+            $last_id = 0;
+        }
+        return $last_id;
     }
 
     public function getAllUserAddressByUserId($userid)
@@ -191,11 +203,10 @@ class UsersModal extends Connection
         }
         return [$result, $this->errors];
     }
+    
+    public function getUserAllAddressByUserId($userid){
+        $sql = "SELECT * FROM useraddress WHERE UserId=$userid AND IsDeleted=0";
 
-    public function getUserDetailesByUserId($userid)
-    {
-        $postalcode = $this->data["postalcode"];
-        $sql = "SELECT user.UserTypeId, useraddress.* FROM user JOIN useraddress ON user.UserId = useraddress.UserId WHERE  useraddress.PostalCode='$postalcode' AND useraddress.IsDeleted=0  AND user.UserTypeId = 1 AND user.UserId = '$userid'";
         $result = $this->conn->query($sql);
         $rows = array();
         if ($result->num_rows > 0) {
@@ -206,18 +217,19 @@ class UsersModal extends Connection
         } else {
             $result = [];
         }
-        return [$result, $this->errors];
-    }    
+        return $result;
+    }
 
-    public function UpdateUserDetailes(){
-        $userid = $this->data["userid"];
+    public function UpdateUserDetailes($userid){
         $email = $this->data["Email"];
         $firstname = $this->data["FirstName"];
         $lastname = $this->data["LastName"];
         $phonenumber = $this->data["PhoneNumber"];
+        $profilepicture = isset($this->data["profilepicture"]) ? $this->data["profilepicture"] : "NULL";
+        $gender = isset($this->data["gender"]) ? $this->data["gender"] : "NULL";
         $date = new DateTime($this->data["BirthDate"]);
         $dob = empty($this->data["BirthDate"]) ? "NULL" : $date->format('Y-m-d H:i:s');;
-        $sql = "UPDATE user SET FirstName='$firstname', LastName='$lastname', Mobile='$phonenumber', DateOfBirth='$dob' WHERE UserId=$userid AND Email='$email'";
+        $sql = "UPDATE user SET FirstName='$firstname', LastName='$lastname', Mobile='$phonenumber', DateOfBirth='$dob', UserProfilePicture='$profilepicture', Gender='$gender' WHERE UserId=$userid AND Email='$email'";
         $result = $this->conn->query($sql);
         if($result){
             return 1;

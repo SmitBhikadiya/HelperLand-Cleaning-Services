@@ -11,28 +11,31 @@
                 <div class="account-status">
                     Account Status: <span>Active</span>
                 </div>
-                <form action="#">
+                <form action="<?= Config::BASE_URL . "?controller=Users&function=UpdateUserDetailes" ?>" id="form-usersave" method="POST">
+                    <input type="hidden" name="userid" value="<?= $userdata["UserId"] ?>">
+                    <input type="hidden" name="Email" value="<?= $userdata["Email"] ?>">
                     <div class="account-header">
                         <div class="account-title">Basic details</div>
-                        <div><img src="./static/images/avtar/avtar1.png" alt=""></div>
+                        <?php $profile_ = is_null($userdata["UserProfilePicture"]) ? Config::PROFILE_PICTURES[0] : $userdata["UserProfilePicture"];?>
+                        <div><img src="./static/images/avtar/<?=$profile_?>.png" alt="<?=$profile_?>"></div>
                     </div>
                     <div class="row">
                         <div class="col-4">
                             <div class="form-group">
                                 <label for="firstname">First Name</label>
-                                <input class="form-control" type="text" name="firstname" value="Gaurang">
+                                <input class="form-control" type="text" name="FirstName" id="firstname" value="<?= $userdata['FirstName'] ?>">
                             </div>
                         </div>
                         <div class="col-4">
                             <div class="form-group">
                                 <label for="lastname">Last Name</label>
-                                <input class="form-control" type="text" name="lastname" value="Patel">
+                                <input class="form-control" type="text" name="LastName" id="lastname" value="<?= $userdata['LastName'] ?>">
                             </div>
                         </div>
                         <div class="col-4">
                             <div class="form-group">
                                 <label for="firstname">Email Address</label>
-                                <input class="form-control" type="email" name="email" value="patel@123.com">
+                                <input class="form-control" type="email" id="email" value="<?= $userdata['Email'] ?>" disabled>
                             </div>
                         </div>
                         <div class="col-4">
@@ -42,7 +45,7 @@
                                     <div class="input-group-prepend">
                                         <div class="input-group-text">+46</div>
                                     </div>
-                                    <input type="number" name="mobile" class="form-control" id="inlineFormInputGroup" placeholder="Phone number">
+                                    <input type="number" name="PhoneNumber" id="phonenumber" class="form-control" id="inlineFormInputGroup" placeholder="Phone number" value="<?= $userdata['Mobile'] ?>">
                                 </div>
                             </div>
                         </div>
@@ -51,122 +54,8 @@
                                 <label for="Date of Birth">Date of Birth</label>
                                 <div class="row">
                                     <div class="col">
-                                        <select class="form-select" name="day" id="">
-                                            <option value="01">1</option>
-                                            <option value="02">2</option>
-                                            <option value="03">3</option>
-                                            <option value="04">4</option>
-                                            <option value="05">5</option>
-                                            <option value="06">6</option>
-                                            <option value="07">7</option>
-                                            <option value="08">8</option>
-                                            <option value="09">9</option>
-                                            <option value="10">10</option>
-                                            <option value="11">11</option>
-                                            <option value="12">12</option>
-                                            <option value="13">13</option>
-                                            <option value="14">14</option>
-                                            <option value="15">15</option>
-                                            <option value="16">16</option>
-                                            <option value="17">17</option>
-                                            <option value="18">18</option>
-                                            <option value="19">19</option>
-                                            <option value="20">20</option>
-                                            <option value="21">21</option>
-                                            <option value="22">22</option>
-                                            <option value="23">23</option>
-                                            <option value="24">24</option>
-                                            <option value="25">25</option>
-                                            <option value="26">26</option>
-                                            <option value="27">27</option>
-                                            <option value="28">28</option>
-                                            <option value="29">29</option>
-                                            <option value="30">30</option>
-                                            <option value="31">31</option>
-                                        </select>
-                                    </div>
-                                    <div class="col">
-                                        <select class="form-select" name="month" id="">
-                                            <option selected value='1'>Janaury</option>
-                                            <option value='2'>February</option>
-                                            <option value='3'>March</option>
-                                            <option value='4'>April</option>
-                                            <option value='5'>May</option>
-                                            <option value='6'>June</option>
-                                            <option value='7'>July</option>
-                                            <option value='8'>August</option>
-                                            <option value='9'>September</option>
-                                            <option value='10'>October</option>
-                                            <option value='11'>November</option>
-                                            <option value='12'>December</option>
-                                        </select>
-                                    </div>
-                                    <div class="col">
-                                        <select class="form-select" name="year" id="">
-                                            <option value="2022">2022</option>
-                                            <option value="2021">2021</option>
-                                            <option value="2020">2020</option>
-                                            <option value="2019">2019</option>
-                                            <option value="2018">2018</option>
-                                            <option value="2017">2017</option>
-                                            <option value="2016">2016</option>
-                                            <option value="2015">2015</option>
-                                            <option value="2014">2014</option>
-                                            <option value="2013">2013</option>
-                                            <option value="2012">2012</option>
-                                            <option value="2011">2011</option>
-                                            <option value="2010">2010</option>
-                                            <option value="2009">2009</option>
-                                            <option value="2008">2008</option>
-                                            <option value="2007">2007</option>
-                                            <option value="2006">2006</option>
-                                            <option value="2005">2005</option>
-                                            <option value="2004">2004</option>
-                                            <option value="2003">2003</option>
-                                            <option value="2002">2002</option>
-                                            <option value="2001">2001</option>
-                                            <option value="2000">2000</option>
-                                            <option value="1999">1999</option>
-                                            <option value="1998">1998</option>
-                                            <option value="1997">1997</option>
-                                            <option value="1996">1996</option>
-                                            <option value="1995">1995</option>
-                                            <option value="1994">1994</option>
-                                            <option value="1993">1993</option>
-                                            <option value="1992">1992</option>
-                                            <option value="1991">1991</option>
-                                            <option value="1990">1990</option>
-                                            <option value="1989">1989</option>
-                                            <option value="1988">1988</option>
-                                            <option value="1987">1987</option>
-                                            <option value="1986">1986</option>
-                                            <option value="1985">1985</option>
-                                            <option value="1984">1984</option>
-                                            <option value="1983">1983</option>
-                                            <option value="1982">1982</option>
-                                            <option value="1981">1981</option>
-                                            <option value="1980">1980</option>
-                                            <option value="1979">1979</option>
-                                            <option value="1978">1978</option>
-                                            <option value="1977">1977</option>
-                                            <option value="1976">1976</option>
-                                            <option value="1975">1975</option>
-                                            <option value="1974">1974</option>
-                                            <option value="1973">1973</option>
-                                            <option value="1972">1972</option>
-                                            <option value="1971">1971</option>
-                                            <option value="1970">1970</option>
-                                            <option value="1969">1969</option>
-                                            <option value="1968">1968</option>
-                                            <option value="1967">1967</option>
-                                            <option value="1966">1966</option>
-                                            <option value="1965">1965</option>
-                                            <option value="1964">1964</option>
-                                            <option value="1963">1963</option>
-                                            <option value="1962">1962</option>
-                                            <option value="1961">1961</option>
-                                            <option value="1960">1960</option>
-                                        </select>
+                                        <?php $birthdate = is_null($userdata["DateOfBirth"]) ? "" : date('Y-m-d', strtotime($userdata["DateOfBirth"])) ?>
+                                        <input type="date" name="BirthDate" id="birthdate" style="padding: 10px; width: 100%;" value="<?= $birthdate ?>">
                                     </div>
                                 </div>
                             </div>
@@ -175,7 +64,7 @@
                             <div class="form-group">
                                 <label for="Nationality">Nationality</label>
                                 <select name="nationality" class="form-select" id="">
-                                    <option value="german">German</option>
+                                    <?php echo is_null($userdata["NationalityId"]) ? '<option value="german">German</option>' : '<option></option>' ?>
                                 </select>
                             </div>
                         </div>
@@ -184,16 +73,16 @@
                                 <label for="gender" class="mb-2">Gender</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">
-                                <label class="form-check-label" for="inlineRadio1">Male</label>
+                                <input class="form-check-input" type="radio" name="gender" id="male" value="1" <?php if(!is_null($userdata["Gender"]) && $userdata["Gender"]==1){ echo "checked"; }?>>
+                                <label class="form-check-label" for="male">Male</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">
-                                <label class="form-check-label" for="inlineRadio2">Female</label>
+                                <input class="form-check-input" type="radio" name="gender" id="female" value="2" <?php if(!is_null($userdata["Gender"]) && $userdata["Gender"]==2){ echo "checked"; }?> >
+                                <label class="form-check-label" for="female">Female</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option2">
-                                <label class="form-check-label" for="inlineRadio3">Rather not to say</label>
+                                <input class="form-check-input" type="radio" name="gender" id="nottosay" value="3" <?php if(is_null($userdata["Gender"]) || $userdata["Gender"]==3){ echo "checked"; }?> >
+                                <label class="form-check-label" for="nottosay">Rather not to say</label>
                             </div>
                         </div>
                     </div>
@@ -201,45 +90,72 @@
                         <div class="col">
                             <div class="row form-group">
                                 <label for="langauge">Select Avtar</label>
-                                <div class="col">
-                                    <img src="./static/images/avtar/avtar1.png" class="selected" alt="">
-                                    <img src="./static/images/avtar/avtar2.png" alt="">
-                                    <img src="./static/images/avtar/avtar3.png" alt="">
-                                    <img src="./static/images/avtar/avtar4.png" alt="">
+                                <div class="col" id="avatars">
+                                    <?php
+                                        foreach(Config::PROFILE_PICTURES as $profile){
+                                            $is_selected = "";
+                                            if($profile==$profile_){
+                                                $is_selected = "selected";
+                                            }
+                                            echo "<img src='static/images/avtar/$profile.png' class='$is_selected' alt='$profile'>";
+                                        }
+                                    ?>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="row address">
+                        <?php
+                            include("controllers/SDashboardController.php");
+                            $obj = new ServiceModal($_POST);
+                            $result = $obj->getUserAddressByUserId($userdata["UserId"]);
+                            $streetname = "";
+                            $houcenumber = "";
+                            $postalcode = "";
+                            $city = "";
+                            $mobile = "";
+                            $addressid = "";
+                            if(count($result[0]) > 0){
+                                $result = $result[0];
+                                $streetname = $result["AddressLine2"];
+                                $houcenumber = $result["AddressLine1"];
+                                $postalcode = $result["PostalCode"];
+                                $city = $result["City"];
+                                $mobile = $result["Mobile"];
+                                $addressid = $result["AddressId"];
+                            }
+                        ?>
+                        <input type="hidden" name="addid" value="<?=$addressid?>" id="addid">
+                        <input type="hidden" name="mobile" value="<?=$userdata["Mobile"]?>">
                         <div class="title">My Address</div>
                         <div class="col-4">
                             <div class="form-group">
                                 <label for="streetname">Street name</label>
-                                <input class="form-control" type="text" name="streetname" value="test street">
+                                <input class="form-control" type="text" name="streetname" id="streetname" value="<?=$streetname?>">
                             </div>
                         </div>
                         <div class="col-4">
                             <div class="form-group">
                                 <label for="housenumber">House number</label>
-                                <input class="form-control" type="text" name="housenumber" value="17">
+                                <input class="form-control" type="text" name="housenumber" id="housenumber" value="<?=$houcenumber?>">
                             </div>
                         </div>
                         <div class="col-4">
                             <div class="form-group">
                                 <label for="postalcode">Postal code</label>
-                                <input class="form-control" type="text" name="postalcode" value="53844">
+                                <input class="form-control" type="text" name="postalcode" id="postalcode" value="<?=$postalcode?>">
                             </div>
                         </div>
                         <div class="col-4">
                             <div class="form-group">
                                 <label for="city">City</label>
-                                <select name="city" class="form-select" id="">
-                                    <option value="troisdrof">Troisdrof</option>
+                                <select name="city" id="city" class="form-select" id="">
+                                    <option value="<?=$city?>"><?=$city?></option>
                                 </select>
                             </div>
                         </div>
                     </div>
-                    <button class="btn-detailes" type="submit" name="saveuser">Save</button>
+                    <button class="btn-detailes" type="submit" name="saveuser" id="usersave">Save</button>
                 </form>
             </div>
         </div>

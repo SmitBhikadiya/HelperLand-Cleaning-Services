@@ -109,6 +109,7 @@ class BookNowController
     {
         $result = [[], []];
         $mail = "";
+        $emails = [];
         if (isset($_SESSION["userdata"])) {
             $errors = $this->validator->isServiceRequestValidate();
             if (count($errors) > 0) {

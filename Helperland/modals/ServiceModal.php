@@ -228,19 +228,29 @@ class ServiceModal extends Connection
         }
         return $result;
     }
+
+    public function getUserAddressByUserId($userid)
+    {
+        $sql = "SELECT * FROM useraddress WHERE UserId=$userid AND IsDeleted=0";
+        $result = $this->conn->query($sql);
+        if ($result->num_rows < 1) {
+            $result = [];
+            $this->addErrors("Address", "User address (id:$userid) is not exits or deleted ");
+        } else {
+            $result = $result->fetch_assoc();
+        }
+        return [$result, $this->errors];
+    }
+
     public function getUserAddressById($addressid)
     {
         $sql = "SELECT * FROM useraddress WHERE AddressId=$addressid AND IsDeleted=0";
         $result = $this->conn->query($sql);
-        if ($result) {
-            if ($result->num_rows < 1) {
-                $result = [];
-                $this->addErrors("Address", "User address (id:$addressid) is not exits or deleted ");
-            } else {
-                $result = $result->fetch_assoc();
-            }
+        if ($result->num_rows < 1) {
+            $result = [];
+            $this->addErrors("Address", "User address (id:$addressid) is not exits or deleted ");
         } else {
-            $this->addErrors("SqlError", "SQL error : check $sql");
+            $result = $result->fetch_assoc();
         }
         return [$result, $this->errors];
     }

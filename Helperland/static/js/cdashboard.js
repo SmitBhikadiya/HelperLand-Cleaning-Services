@@ -225,6 +225,7 @@ $(document).ready(function () {
         data: {addid:id},
         success: function (data) {
           var obj = JSON.parse(data);
+          console.log(obj);
           if(obj.errors.length==0){
             var html = setUserAddress(obj.result);
             $(".my-addresses table tbody").html(html);
@@ -732,7 +733,7 @@ $(document).ready(function () {
       var avatar =
         result.UserProfilePicture == null
           ? "avatar-hat.png"
-          : result.UserProfilePicture;
+          : result.UserProfilePicture+".png";
       var avgrating = result.AverageRating == null ? 0 : +result.AverageRating;
       var spstar = getStarHTMLByRating(avgrating);
       var favourite = result.IsFavorite == 0 ? "Favourite" : "UnFavourite";
@@ -786,7 +787,7 @@ $(document).ready(function () {
         var avatar =
           result.UserProfilePicture == null
             ? "avatar-hat.png"
-            : result.UserProfilePicture;
+            : result.UserProfilePicture+".png";
         var avgrating = result.AverageRating;
         var spstar = getStarHTMLByRating(avgrating);
         sphtml = `

@@ -29,6 +29,7 @@ class Config{
     /*---------------- Application Leval Constant --------------------*/
     const ADMIN_EMAIL = "sbhikadiya892@rku.ac.in";
     const BASE_URL = "http://localhost/Tatvasoft-PSD-TO-HTML/HelperLand/";
+    const PROFILE_PICTURES = ['avatar-hat','avatar-female','avatar-male','avatar-car','avatar-iron','avatar-ship'];
     const RESET_LINK_EXPIRY = 1;
     const EXTRA_SERVICES = ["Inside cabinet", "Inside fridge", "Inside Oven", "Laundry wash & dry", "Interior windows"];
 
@@ -37,5 +38,6 @@ class Config{
     const EXTRA_PER_SERVICE_RATE = self::SERVICE_HOURLY_RATE/2;
     const EXTRA_PER_SERVICE_TIME = 30; // in minute
     const SERVICE_STATUS = ["new", "assigned", "accepted", "reschedule", "completed", "cancelled"];
+
 }
 ?>

@@ -578,7 +578,7 @@ function getAndSetFavoriteSP(favlist) {
       <label class="form-check-label favspradio" for="favsp${i}">
           <div class="fav-sp">
               <div class="user-avtar">
-                  <img src="static/images/avtar/${avtar}" alt="${avtar}">
+                  <img src="static/images/avtar/${avtar}.png" alt="${avtar}">
               </div>
               <div class="user-name">
                   ${favlist[i].FullName}
