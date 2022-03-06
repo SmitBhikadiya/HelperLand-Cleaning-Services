@@ -241,7 +241,7 @@ h2 {
 
 /*############### SECTION BLOG ##############*/
 #section-blog {
-    height: 100vh;
+    height: 100%;
     position: relative;
     margin-top: 156px;
     padding: 75px 10px;
@@ -268,7 +268,7 @@ h2 {
 .col1 .content {
     width: 630px;
 }
-/*
+
 .sub-blog {
     margin-top: 47px;
 }
@@ -301,7 +301,7 @@ h2 {
     color: grey;
     font-size: 12px;
 }
-*/
+
 
 @media screen and (max-width:1500px) {
     #section-blog {

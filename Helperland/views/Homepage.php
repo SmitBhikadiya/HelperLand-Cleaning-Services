@@ -21,7 +21,11 @@ if (isset($_SESSION["userdata"])) {
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    
+    <!-- script and link for loader -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/gasparesganga-jquery-loading-overlay@2.1.7/dist/loadingoverlay.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    
     <title>Hyperland</title>
 </head>
 
@@ -156,7 +160,7 @@ if (isset($_SESSION["userdata"])) {
                     <img src="static/images/helper4.png" alt="">
                 </div>
             </div>
-            <!--<div class="sub-blog">
+            <div class="sub-blog">
                 <div class="blog-title text-center">
                     <h2>Our Blog</h2>
                 </div>
@@ -207,7 +211,7 @@ if (isset($_SESSION["userdata"])) {
                         </div>
                     </div>
                 </div>
-            </div>-->
+            </div>
         </section>
 
         <section id="section-customer">

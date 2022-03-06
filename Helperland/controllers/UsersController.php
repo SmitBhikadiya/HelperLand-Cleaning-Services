@@ -58,7 +58,6 @@ class UsersController
                         exit();
                     }
 
-                    // get redirect location according the usertype
                     if ($usertypeid == Config::USER_TYPE_IDS[0]) {
                         $redirect_location = "customer_dashboard";
                     } else if ($usertypeid == Config::USER_TYPE_IDS[1]) {
@@ -80,6 +79,7 @@ class UsersController
                         $redirect_loc = $_SESSION["redirect_url"];
                         unset($_SESSION["redirect_url"]);
                     }
+
                     if ($redirect_loc == "") {
                         header("Location: " . Config::BASE_URL . "?controller=Default&function=$redirect_location");
                     } else {
@@ -121,6 +121,7 @@ class UsersController
                         $email = $_SESSION["changeuser"]["Email"];
                         if ($this->usermodal->changePassword($email, $psw)) {
                             $this->unsetCookieSignin();
+                            unset($_SESSION["changeuser"]);
                             $_SESSION["success"] = array($email, "password reset successfully");
                             header("Location: " . Config::BASE_URL . "?controller=Default&function=homepage&parameter=loginmodal");
                             exit();

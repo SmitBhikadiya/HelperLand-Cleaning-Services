@@ -10,7 +10,7 @@ if (isset($_SESSION["changeuser"])) {
         </div>
 <?php }
 } else {
-    $_SESSION["error"] = array("", "Somthing went wrong with reset link");
+    $_SESSION["error"] = array("", "Reset Password link has been expired!!");
     header("Location: " . Config::BASE_URL . "?controller=Default&function=homepage&parameter=loginmodal");
     exit();
 }

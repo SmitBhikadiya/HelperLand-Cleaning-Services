@@ -1,7 +1,7 @@
 <?php
 
 if (isset($_SESSION["userdata"])) {
-    header("Location: ".Config::BASE_URL."/?controller=Default&function=Homepage");
+    header("Location: " . Config::BASE_URL . "/?controller=Default&function=Homepage");
     exit();
 }
 $error = "";
@@ -33,14 +33,19 @@ if (isset($_SESSION["success"])) {
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- script and link for loader -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/gasparesganga-jquery-loading-overlay@2.1.7/dist/loadingoverlay.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
     <title>User Registration</title>
 </head>
 
 <body>
 
-<?php 
-        include("includes/header.php")
+    <?php
+    include("includes/header.php")
     ?>
 
     <div id="main">
@@ -56,7 +61,7 @@ if (isset($_SESSION["success"])) {
                 </div>
             </div>
             <div class="form">
-            <?php
+                <?php
                 $msg = "";
                 if (!empty($success)) {
                     $class = "alert-success";
@@ -64,15 +69,15 @@ if (isset($_SESSION["success"])) {
                 } else if (!empty($error)) {
                     $class = "alert-danger";
                     $msg = $error;
-                } 
-                
-                if(!empty($msg)){
+                }
+
+                if (!empty($msg)) {
                 ?>
-                    <div class="alert <?=$class?>" style="font-size:small" role="alert">
-                        <?=$msg?>
+                    <div class="alert <?= $class ?>" style="font-size:small" role="alert">
+                        <?= $msg ?>
                     </div>
                 <?php } ?>
-                <form action="<?=Config::BASE_URL."/?controller=Users&function=signup"?>" method="POST">
+                <form action="<?= Config::BASE_URL . "/?controller=Users&function=signup" ?>" method="POST">
                     <input type="hidden" name="UserTypeId" value=1>
                     <div class="row">
                         <div class="col-lg-6 col-md-6 col-sm-6" style="padding-bottom: 15px;">
@@ -91,8 +96,7 @@ if (isset($_SESSION["success"])) {
                                 <div class="input-group-prepend">
                                     <div class="input-group-text">+49</div>
                                 </div>
-                                <input type="number" class="form-control" name="Mobile" id="phonenumber"
-                                    placeholder="Mobile number">
+                                <input type="number" class="form-control" name="Mobile" id="phonenumber" placeholder="Mobile number">
                             </div>
                         </div>
                     </div>
@@ -105,14 +109,14 @@ if (isset($_SESSION["success"])) {
                         </div>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" name="Policy" type="checkbox" id="policy"require>
+                        <input class="form-check-input" name="Policy" type="checkbox" id="policy" required>
                         <label class="form-check-label" for="policy">
                             I have read the <a href="#">privacy policy </a>
                         </label>
                     </div>
                     <div class="submit text-center">
-                        <button type="submit" id="register" name="signup">Register</button>
-                        <p>Already registered? <a href="<?=Config::BASE_URL."/?controller=Default&function=Homepage&parameter=loginmodal"?>">Login now</a></p>
+                        <button type="submit" id="register" name="signup" onclick="showLoader()">Register</button>
+                        <p>Already registered? <a href="<?= Config::BASE_URL . "/?controller=Default&function=Homepage&parameter=loginmodal" ?>">Login now</a></p>
                     </div>
                 </form>
             </div>
@@ -121,7 +125,6 @@ if (isset($_SESSION["success"])) {
     </div>
 
     <?php include("includes/footer.php") ?>
-
     <script src="static/js/validation.js"></script>
     <script src="static/js/header.js"></script>
     <script src="static/js/footer.js"></script>

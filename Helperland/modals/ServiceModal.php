@@ -432,7 +432,7 @@ class ServiceModal extends Connection
         return $result;
     }
 
-    public function getServicerByServiceRequestId($serviceid, $workwitpets)
+    public function getServicerByServiceRequestId($serviceid, $workwitpets=0)
     {
         $sql = "SELECT * FROM user JOIN servicerequest ON servicerequest.ServiceProviderId = user.UserId WHERE servicerequest.ServiceRequestId = $serviceid AND user.WorksWithPets >= $workwitpets";
         $servicer = $this->conn->query($sql);
@@ -444,7 +444,7 @@ class ServiceModal extends Connection
         return $result;
     }
 
-    public function getAllServicer($workwithpets)
+    public function getAllServicer($workwithpets=0)
     {
         $sql = "SELECT * FROM user WHERE UserTypeId=2 AND IsApproved=1 AND IsDeleted=0 AND WorksWithPets >= $workwithpets";
         $result = $this->conn->query($sql);

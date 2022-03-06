@@ -19,10 +19,12 @@ class UsersModal extends Connection
         $result = $this->getUserByEmail($user);
         if(count($result) <= 0){
             $_SESSION["error"] = array($user, "User is not exits!! create a new account");
+            $this->unsetCookieSignin();
             header("Location: " . Config::BASE_URL . "?controller=Default&function=homepage&parameter=loginmodal");
             exit();
         }
         else if(!password_verify($pass, $result["Password"])) {
+            $this->unsetCookieSignin();
             $_SESSION["error"] = array($user, "Username or Password is incorrect!!!");
             header("Location: " . Config::BASE_URL . "?controller=Default&function=homepage&parameter=loginmodal");
             exit();
@@ -256,6 +258,14 @@ class UsersModal extends Connection
             $result = [];
         }
         return $result;
+    }
+
+    public function unsetCookieSignin()
+    {
+        $unsettime = time() - 3600;
+        setcookie("username", "", $unsettime, '/');
+        setcookie("password", "", $unsettime, '/');
+        setcookie("rememberme", "", $unsettime, '/');
     }
 
     private function addErrors($key, $val)

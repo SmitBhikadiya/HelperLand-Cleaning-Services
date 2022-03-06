@@ -1,6 +1,6 @@
 <?php
 $userdata = [];
-$_SESSION["redirect_url"] = "http://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+//$_SESSION["redirect_url"] = "http://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 if (isset($_SESSION["userdata"]) && $_SESSION["userdata"]["UserTypeId"] == Config::USER_TYPE_IDS[0]) {
     $userdata = $_SESSION["userdata"];
 } else {

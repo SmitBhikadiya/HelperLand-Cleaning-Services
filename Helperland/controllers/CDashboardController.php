@@ -56,6 +56,7 @@ class CDashboardController
     public function UpdateServiceSchedule()
     {
         $result = [[], []];
+        $mailmsg = "";
         if (isset($_SESSION["userdata"])) {
             $user = $_SESSION["userdata"];
             $userid = $user["UserId"];

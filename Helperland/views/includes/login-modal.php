@@ -67,7 +67,7 @@ if (isset($_SESSION["success"])) {
                             Remember Me
                         </label>
                     </div>
-                    <button class="submit-button mb-3" type="submit" id="signin" name="signin">Login</button>
+                    <button class="submit-button mb-3" type="submit" id="signin" name="signin" onclick="showLoader()">Login</button>
                     <div class="text-center mb-2"><a href="#" data-bs-toggle="modal" data-bs-target="#exampleModalfpwd" data-bs-dismiss="modal">Forgot Password</a></div>
                     <div class="text-center">Don't have an account? <a href="<?= Config::BASE_URL . "/?controller=Default&function=user_registration" ?>">Create an
                             account</a></div>

@@ -13,7 +13,7 @@
                             <img alt="email" src="static/images/user.png">
                         </div>
 
-                        <button class="submit-button mb-3" type="submit" id="forgotpassword" name="forgot">Submit</button>
+                        <button class="submit-button mb-3" type="submit" id="forgotpassword" name="forgot" onclick="showLoader()">Submit</button>
                         <div class="text-center mb-2"><a href="#" data-bs-toggle="modal" data-bs-target="#exampleModallogin" data-bs-dismiss="modal">Login now</a></div>
                     </form>
                 </div>

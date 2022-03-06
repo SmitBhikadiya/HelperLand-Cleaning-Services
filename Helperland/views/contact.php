@@ -32,7 +32,12 @@ if (isset($_COOKIE["contact_success"])) {
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    
+    <!-- script and link for loader -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/gasparesganga-jquery-loading-overlay@2.1.7/dist/loadingoverlay.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
     <title>Contact Us</title>
 </head>
 
@@ -166,7 +171,7 @@ if (isset($_COOKIE["contact_success"])) {
 
                     </div>
                     <div class="submit-btn">
-                        <button type="submit" name="contactus" id="contactus" value="contactus" onClick="showLoader()">Submit</button>
+                        <button type="submit" name="contactus" id="contactus" value="contactus" onclick="showLoader()">Submit</button>
                     </div>
                 </form>
             </div>

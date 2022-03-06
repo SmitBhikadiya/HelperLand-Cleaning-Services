@@ -108,6 +108,7 @@ class BookNowController
     public function insertServiceRequest()
     {
         $result = [[], []];
+        $mail = "";
         if (isset($_SESSION["userdata"])) {
             $errors = $this->validator->isServiceRequestValidate();
             if (count($errors) > 0) {
@@ -122,10 +123,9 @@ class BookNowController
                         $this->addErrors($key, $val);
                     }
                 } else {
-                    $emails = [];
                     $body = $this->getBodyToSendMailToSPs($result[0]["ServiceRequestId"]);
                     if ($result[0]["FavoriteServicerId"] == "NULL") {
-                        $servicers = $this->booknowModal->getAllServicer($result[0]["workwitpets"]);
+                        $servicers = $this->booknowModal->getAllServicer();
                         if (count($servicers) > 0) {
                             foreach ($servicers as $servicer) {
                                 array_push($emails, $servicer["Email"]);
@@ -133,19 +133,18 @@ class BookNowController
                             $mail = sendmail($emails, "New Request Arrived", "$body");
                         }
                     } else if ($result[0]["ServiceRequestId"] != 0) {
-                        $servicer = $this->booknowModal->getServicerByServiceRequestId($result[0]["ServiceRequestId"], $result[0]["workwitpets"]);
+                        $servicer = $this->booknowModal->getServicerByServiceRequestId($result[0]["ServiceRequestId"]);
                         if (count($servicer) > 0) {
                             array_push($emails, $servicer["Email"]);
                             $mail = sendmail($emails, "Request is Assigned To YOU", "$body");
                         }
                     }
                 }
-                // [$postalcode, $cleaningstartdate, $cleaningstarttime, $cleaningworkinghour, $totalpayment, $extrahour, $workwitpets, $spid, $status, $paymentdone, $userid]
             }
         } else {
             $this->addErrors("User", "User is not signin!!");
         }
-        echo json_encode(["result" => ['service' => $result[0]], "errors" => $this->errors, "mail" => $result[0]["ServiceRequestId"]]);
+        echo json_encode(["result" => ['service' => $result[0]], "errors" => $this->errors, "mail" => $mail]); //, "emails"=>$emails, "servicers"=>$servicers, "servicer"=>$servicer]);
     }
 
     public function isServiceAvailable()
@@ -288,7 +287,7 @@ class BookNowController
                 </div>
                 <div class="row button">
                     <div class="col-12">
-                        <a href="' . Config::BASE_URL . "controller=Default&function=ServicerDashboard" . '" class="btn btn-lg btn-primary">Go To Dashboard</a>
+                        <a href="'.Config::BASE_URL . "?controller=Default&function=servicer_dashboard" . '" class="btn btn-lg btn-primary">Go To Dashboard</a>
                     </div>
                 </div>
             </div>

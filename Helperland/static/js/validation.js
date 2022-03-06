@@ -20,6 +20,7 @@ $(document).ready(function(){
         validateMessage(message);
         validatePolicy(policy);
         if(!window.isValid){
+            $.LoadingOverlay("hide");
             e.preventDefault();
         }
     });
@@ -37,6 +38,7 @@ $(document).ready(function(){
         validatePhoneNumber(mobile, "#add-mobile");
         isValidPostalCode(postal, "#add-postal");
         if(!window.isValid){
+            $.LoadingOverlay("hide");
             e.preventDefault();
         }
     });
@@ -56,6 +58,7 @@ $(document).ready(function(){
         validateEmail("#email",email);
         validateBirthDate(birthdate);
         if(!window.isValid){
+            $.LoadingOverlay("hide");
             e.preventDefault();
         }
     });
@@ -70,6 +73,7 @@ $(document).ready(function(){
         validatePassword("#oldpsw", oldpassword);
         passwordMatched(password, repassword);
         if(!window.isValid){
+            $.LoadingOverlay("hide");
             e.preventDefault();
         }
     });
@@ -84,6 +88,7 @@ $(document).ready(function(){
         validateEmail("#signinemail",email);
         validatePassword("#password", password);
         if(!window.isValid){
+            $.LoadingOverlay("hide");
             e.preventDefault();
         }
     });
@@ -108,6 +113,7 @@ $(document).ready(function(){
         validatePolicy(policy);
         if(!window.isValid){
             e.preventDefault();
+            $.LoadingOverlay("hide");
         }
     });
 
@@ -119,6 +125,7 @@ $(document).ready(function(){
         var email = $('#forgotemail').val();
         validateEmail("#forgotemail",email);
         if(!window.isValid){
+            $.LoadingOverlay("hide");
             e.preventDefault();
         }
     });
@@ -132,6 +139,7 @@ $(document).ready(function(){
         var repassword = $('#repassword').val();
         passwordMatched(password, repassword);
         if(!window.isValid){
+            $.LoadingOverlay("hide");
             e.preventDefault();
         }
     });

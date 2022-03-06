@@ -16,7 +16,7 @@ class Config{
     
     //Enter Email and Password to activate smtp service
     const SMTP_EMAIL = "sbhikadiya892@rku.ac.in";
-    const SMTP_PASS = "";
+    const SMTP_PASS = "Sm70967@98244it";
     
     /*-------------Contact US ------------*/
     const SUBJECT_TYPE = ['general', 'inquiry', 'renewal', 'revocation'];
