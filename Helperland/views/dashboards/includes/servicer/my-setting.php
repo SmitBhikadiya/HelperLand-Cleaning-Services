@@ -126,24 +126,24 @@
                             }
                         ?>
                         <input type="hidden" name="addid" value="<?=$addressid?>" id="addid">
-                        <input type="hidden" name="mobile" value="<?=$userdata["Mobile"]?>">
+                        <input type="hidden" name="mobile" id="add-mobile" value="<?=$userdata["Mobile"]?>">
                         <div class="title">My Address</div>
                         <div class="col-4">
                             <div class="form-group">
                                 <label for="streetname">Street name</label>
-                                <input class="form-control" type="text" name="streetname" id="streetname" value="<?=$streetname?>">
+                                <input class="form-control" type="text" name="streetname" id="add-street" value="<?=$streetname?>">
                             </div>
                         </div>
                         <div class="col-4">
                             <div class="form-group">
                                 <label for="housenumber">House number</label>
-                                <input class="form-control" type="text" name="housenumber" id="housenumber" value="<?=$houcenumber?>">
+                                <input class="form-control" type="text" name="housenumber" id="add-house" value="<?=$houcenumber?>">
                             </div>
                         </div>
                         <div class="col-4">
                             <div class="form-group">
                                 <label for="postalcode">Postal code</label>
-                                <input class="form-control" type="text" name="postalcode" id="postalcode" value="<?=$postalcode?>">
+                                <input class="form-control" type="text" name="postalcode" id="add-postal" value="<?=$postalcode?>">
                             </div>
                         </div>
                         <div class="col-4">
@@ -155,33 +155,34 @@
                             </div>
                         </div>
                     </div>
-                    <button class="btn-detailes" type="submit" name="saveuser" id="usersave">Save</button>
+                    <button class="btn-detailes" type="submit" name="saveuser" id="servicersave">Save</button>
                 </form>
             </div>
         </div>
         <div class="tab-pane" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
             <div class="change-password">
-                <form action="#">
+            <form action="<?= Config::BASE_URL."?controller=Users&function=ChangedPassword" ?>" id="form-changepassword">
                     <div class="row">
                         <div class="col-4 form-group">
                             <label for="Old Password">Old Password</label>
+                            <input type="hidden" name="userid" value="<?=$userdata["UserId"]?>">
                             <input type="password" class="form-control" name="oldpassword" id="oldpsw" placeholder="Current Password">
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-4 form-group">
                             <label for="New Password">New Password</label>
-                            <input type="password" class="form-control" name="newpassword" id="newpsw" placeholder="Password">
+                            <input type="password" class="form-control" name="newpassword" id="password" placeholder="Password">
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-4 form-group">
                             <label for="Confirm Password">Confirm Password</label>
-                            <input type="password" class="form-control" name="repassword" id="repsw" placeholder="Confirm Password">
+                            <input type="password" class="form-control" name="repassword" id="repassword" placeholder="Confirm Password">
                         </div>
                     </div>
                     <div class="btn-changepsw">
-                        <button type="submit" name="change" value="changepassword">Save</button>
+                        <button type="submit" name="change" value="changepassword" id="btn-updatepassword">Save</button>
                     </div>
                 </form>
             </div>

@@ -63,6 +63,31 @@ $(document).ready(function(){
         }
     });
 
+    $("#servicersave").click(function(e){
+        window.isValid = true;
+        $('.error').remove();
+        $('.alert').remove();
+        var firstname = $('#firstname').val();
+        var lastname = $('#lastname').val();
+        var phonenumber = $('#phonenumber').val();
+        var email = $('#email').val();
+        var birthdate = $('#birthdate').val();
+        var postal = $("#add-postal").val();
+        isFieldEmpty("Street name", "#add-street");
+        isFieldEmpty("House name", "#add-house");
+        validateCityOption("#city");
+        isValidPostalCode(postal, "#add-postal");
+        validateFirstName(firstname);
+        validateLastName(lastname);
+        validatePhoneNumber(phonenumber);
+        validateEmail("#email",email);
+        validateBirthDate(birthdate);
+        if(!window.isValid){
+            e.preventDefault();
+            $.LoadingOverlay("hide");
+        }
+    });
+
     $("#btn-updatepassword").click(function(e){
         window.isValid = true;
         $('.error').remove();
