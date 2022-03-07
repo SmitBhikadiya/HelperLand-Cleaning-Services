@@ -20,7 +20,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
+                <!-- <tr>
                     <td scope="row" style="line-height: 50px;">323436</td>
                     <td>
                         <div class="td-date"><img src="./static/images/icon-calculator.png" alt=""><b>09/04/2018</b></div>
@@ -30,23 +30,22 @@
                     <td>
                         <div class="td-name">David Bough</div>
                         <div class="td-address"><img src="./static/images/icon-address.png" alt="">Musterstrabe 5,12345 Bonn</div>
-                    </td>
-                    
-                </tr>
+                    </td> 
+                </tr> -->
                 
             </tbody>
         </table>
     </div>
     <div class="shistory-pagination">
-        <div class="show-apge">
+    <div class="show-apge">
             show
             <select class="form-select" aria-label="Default select example">
-                <option selected>10</option>
-                <option value="20">20</option>
-                <option value="50">50</option>
-                <option value="100">100</option>
+                <option value="5" selected>5</option>
+                <option value="10">10</option>
+                <option value="15">15</option>
+                <option value="30">30</option>
             </select>
-            entries Total Record : 7
+            entries Total Record : <span class="totalrecords"><span>
         </div>
         <div class="paginations">
             <div class="jump-left"><img src="./static/images/jump-left.png" alt=""></div>

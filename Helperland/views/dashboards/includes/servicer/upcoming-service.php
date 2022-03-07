@@ -12,7 +12,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
+                <!-- <tr>
                     <td scope="row" style="line-height: 50px;">323436</td>
                     <td>
                         <div class="td-date"><img src="./static/images/icon-calculator.png" alt=""><b>09/04/2018</b></div>
@@ -95,20 +95,20 @@
                     </td>
                     <td style="line-height: 50px;">15 km</td>
                     <td class="btn-cancel"><button data-bs-toggle="modal" data-bs-target="#exampleModalServiceCancel" data-bs-dismiss="modal">Cancel</button></td>
-                </tr>
+                </tr> -->
             </tbody>
         </table>
     </div>
     <div class="shistory-pagination">
-        <div class="show-apge">
+    <div class="show-apge">
             show
             <select class="form-select" aria-label="Default select example">
-                <option selected>10</option>
-                <option value="20">20</option>
-                <option value="50">50</option>
-                <option value="100">100</option>
+                <option value="5" selected>5</option>
+                <option value="10">10</option>
+                <option value="15">15</option>
+                <option value="30">30</option>
             </select>
-            entries Total Record : 7
+            entries Total Record : <span class="totalrecords"><span>
         </div>
         <div class="paginations">
             <div class="jump-left"><img src="./static/images/jump-left.png" alt=""></div>

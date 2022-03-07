@@ -23,19 +23,7 @@ $(document).ready(function () {
   var totalrecords = 0;
 
   switch (req) {
-    case "service-history":
-      getDefaultRecords();
-      setTimeout(setDefault, 100);
-      break;
-    case "favorite-pros":
-      getDefaultRecords();
-      setTimeout(setDefault, 100);
-      break;
     case "setting":
-      break;
-    case "dashboard":
-      getDefaultRecords();
-      setTimeout(setDefault, 100);
       break;
     default:
       getDefaultRecords();
@@ -126,11 +114,8 @@ $(document).ready(function () {
             }
             $(".shistory-title").after('<div class="alert alert-danger alert-dismissible fade show" role="alert"><ul class="errorlist">' +errorlist +'</ul><button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>');
         }
-
       }
-      
     });
-
   });
 
   // when user want to edit address 

@@ -1,7 +1,7 @@
 <div class="div-content">
     <div class="container-fluid">
         <div class="pros">
-            <div class="pro">
+            <!-- <div class="pro">
                 <div class="pro-avtar">
                     <img src="./static/images/avtar/avtar1.png">
                 </div>
@@ -18,19 +18,19 @@
                 <div class="pro-button">
                     <button class="button-block">Block</button>
                 </div>
-            </div>
+            </div> -->
         </div>
     </div>
     <div class="shistory-pagination">
-        <div class="show-apge">
+    <div class="show-apge">
             show
             <select class="form-select" aria-label="Default select example">
-                <option selected>10</option>
-                <option value="20">20</option>
-                <option value="50">50</option>
-                <option value="100">100</option>
+                <option value="5" selected>5</option>
+                <option value="10">10</option>
+                <option value="15">15</option>
+                <option value="30">30</option>
             </select>
-            entries Total Record : 7
+            entries Total Record : <span class="totalrecords"><span>
         </div>
         <div class="paginations">
             <div class="jump-left"><img src="./static/images/jump-left.png" alt=""></div>

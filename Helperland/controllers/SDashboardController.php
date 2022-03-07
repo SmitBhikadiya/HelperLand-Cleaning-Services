@@ -3,7 +3,7 @@
 require_once("modals/ServiceModal.php");
 require_once("phpmailer/mail.php");
 
-class CDashboardController
+class SDashboardController
 {
     public $validate;
     public $servicemodal;
@@ -20,26 +20,35 @@ class CDashboardController
     {
         if (isset($_SESSION["userdata"])) {
             $result = [[], []];
-            $currentpage = $this->data["pagenumber"];
-            $limit = $this->data["limit"];
+            $currentpage = isset($this->data["pagenumber"]) ? $this->data["pagenumber"] : 1;
+            $limit = isset($this->data["limit"]) ? $this->data["limit"] : 1;
             $offset = ($currentpage - 1) * $limit;
             $user = $_SESSION["userdata"];
             $userid = $user["UserId"];
             switch ($request) {
-                case "service-history":
-                    $status = '(3,4,5)';
-                    $result = $this->servicemodal->getAllServiceRequestByUserId($offset, $limit, $userid, $status);
-                    break;
-                case "favorite-pros":
-                    $result = $this->servicemodal->getFavoriteAndBlockedList($userid);
-                    break;
                 case "dashboard":
-                    $status = '(0,1,2)';
-                    $result = $this->servicemodal->getAllServiceRequestByUserId($offset, $limit, $userid, $status);
+                    $newservice = $this->servicemodal->TotalServiceRequestBySPId("(0,1)", $userid)[0];
+                    $upcoming = $this->servicemodal->TotalServiceRequestBySPId("(2)", $userid)[0];
+                    $paymentdue = 0;
+                    $result[0] = ["new"=>$newservice["Total"], "upcoming"=>$upcoming["Total"], "paymentdue"=>$paymentdue];
                     break;
-                default:
-                    $status = '(0,1,2)';
-                    $result = $this->servicemodal->getAllServiceRequestByUserId($offset, $limit, $userid, $status);
+                case "newservice":
+                    $result = $this->servicemodal->getAllServiceRequstBySPId($offset, $limit, "(0,1)", $userid);
+                    break;
+                case "upcoming":
+                    $result = $this->servicemodal->getAllServiceRequstBySPId($offset, $limit, "(2)", $userid);
+                    break;
+                case "schedule":
+                    break;
+                case "history":
+                    $result = $this->servicemodal->getAllServiceRequstBySPId($offset, $limit, "(3,4,5)", $userid);
+                    break;
+                case "ratings":
+                    $result = $this->servicemodal->getAllRatingBySPId($offset, $limit, $userid);
+                    break;
+                case "block":
+                    $result = $this->servicemodal->getAllFavBlockBySPId($offset, $limit, $userid);
+                    break;       
             }
             if (count($result[1]) > 0) {
                 foreach ($result[1] as $key => $val) {
@@ -51,30 +60,6 @@ class CDashboardController
         }
 
         echo json_encode(["result" => $result[0], "errors" => $this->errors]);
-    }
-
-    public function UpdateFavouriteUser(){
-        $result = [[],[]];
-        if (isset($_SESSION["userdata"])) {
-            $user = $_SESSION["userdata"];
-            $userid = $user["UserId"];
-            if(isset($this->data["f_id"]) && isset($this->data["f_is"])){
-                $id = $this->data["f_id"];
-                $is = strtolower($this->data["f_is"]);
-                if(in_array($is, ["favourite", "unfavourite"])){
-                    $set = ($is=='favourite') ? 1 : 0;
-                    $result[0] = $this->servicemodal->UpdateFavouriteUser($id, $set);
-                }else{
-                    $this->addErrors("Invalid", "Data is not valid!!");
-                }
-            } else{
-                $this->addErrors("Invalid", "Somthing went wrong with the data!!!");
-            }
-        }else {
-            $this->addErrors("login", "User is not login!!!");
-        }
-
-        echo json_encode(["result" => $result[0], "errors" => $this->errors]);   
     }
 
     public function UpdateBlockUser(){
@@ -108,20 +93,23 @@ class CDashboardController
             $user = $_SESSION["userdata"];
             $userid = $user["UserId"];
             switch ($request) {
-                case "service-history":
-                    $status = '(3,4)';
-                    $result = $this->servicemodal->TotalRequestByUserId($userid, $status);
+                case "newservice":
+                    $result = $this->servicemodal->TotalServiceRequestBySPId("(0,1)", $userid);
                     break;
-                case "favorite-pros":
-                    $result = $this->servicemodal->TotalFavoriteAndBlockByUserId($userid);
+                case "upcoming":
+                    $result = $this->servicemodal->TotalServiceRequestBySPId("(2)", $userid);
                     break;
-                case "dashboard":
-                    $status = '(0,1,2)';
-                    $result = $this->servicemodal->TotalRequestByUserId($userid, $status);
+                case "history":
+                    $result = $this->servicemodal->TotalServiceRequestBySPId("(3,4)", $userid);
                     break;
-                default:
-                    $status = '(0,1,2)';
-                    $result = $this->servicemodal->TotalRequestByUserId($userid, $status);
+                case "ratings":
+                    $result = $this->servicemodal->getTotalRatingBySPId($userid);
+                    break;
+                case "block":
+                    $result = $this->servicemodal->TotalFavoriteAndBlockBySPId($userid);
+                    break;
+                case "setting":
+                    break;    
             }
         }else {
             $this->addErrors("login", "User is not login!!!");
