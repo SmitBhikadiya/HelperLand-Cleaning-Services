@@ -13,6 +13,18 @@ class ServiceModal extends Connection
         $this->conn = $this->connect();
     }
 
+    // check service is accepted by any servicer provider
+    public function IsAcceptedByAnySP($serviceid){
+        $sql = "SELECT * FROM servicerequest WHERE ServiceRequestId=$serviceid AND Status=2";
+        $result = $this->conn->query($sql);
+        if($result->num_rows > 0){
+            $result = $result->fetch_assoc();
+        }else{
+            $result = [];
+        }
+        return $result;
+    }
+
     // update service time slot
     public function IsUpdateServiceSchedulePossibleOnDate($favsp, $startdate, $status){
         // if service is already assign to service provider then check 
@@ -25,6 +37,13 @@ class ServiceModal extends Connection
         return [$services, $this->errors];
     }
 
+    // accept the service request
+    public function AcceptServiceRequest($serviceid, $spid){
+        $record_version = 0;
+        $sql = "UPDATE servicerequest SET ServiceProviderId=$spid, SPAcceptedDate=now(), RecordVersion=$record_version, Status=2 WHERE ServiceRequestId=$serviceid"; 
+        //echo $sql;
+        return $this->conn->query($sql);
+    }
 
     //
     public function UpdateFavouriteUser($f_id, $set){
@@ -79,12 +98,19 @@ class ServiceModal extends Connection
         return $rows;
     }
 
-    public function getAllServiceRequstBySPId($offset, $limit, $status, $spid){
-        if($status=="(0,1)"){
-            $sql = "SELECT sr.ServiceRequestId, sr.ServiceStartDate, sr.ServiceHourlyRate, sr.ServiceHours, sr.ExtraHours, sr.SubTotal, sr.Discount,sr.TotalCost, sr.ServiceProviderId, sr.SPAcceptedDate, sr.HasPets, sr.Status, sr.HasIssue, sr.PaymentDone, sr.RecordVersion, sra.AddressLine1, sra.AddressLine2, sra.City, sra.State, sra.PostalCode, sra.Mobile, sra.Email, sre.ServiceExtraId, user.FirstName, user.LastName FROM servicerequest AS sr JOIN servicerequestaddress AS sra ON sra.ServiceRequestId = sr.ServiceRequestId LEFT JOIN servicerequestextra AS sre ON sre.ServiceRequestId = sr.ServiceRequestId JOIN user ON user.UserId=sr.UserId WHERE sr.ServiceProviderId IS NULL OR (sr.Status IN $status AND sr.ServiceProviderId=$spid) LIMIT $offset, $limit";    
+    public function getAllServiceRequstBySPId($offset, $limit, $status, $spid, $haspets=""){
+        if($haspets!="" && $haspets==0){
+            $haspets = "(0)";
         }else{
-            $sql = "SELECT sr.ServiceRequestId, sr.ServiceStartDate, sr.ServiceHourlyRate, sr.ServiceHours, sr.ExtraHours, sr.SubTotal, sr.Discount,sr.TotalCost, sr.ServiceProviderId, sr.SPAcceptedDate, sr.HasPets, sr.Status, sr.HasIssue, sr.PaymentDone, sr.RecordVersion, sra.AddressLine1, sra.AddressLine2, sra.City, sra.State, sra.PostalCode, sra.Mobile, sra.Email, sre.ServiceExtraId, user.FirstName, user.LastName FROM servicerequest AS sr JOIN servicerequestaddress AS sra ON sra.ServiceRequestId = sr.ServiceRequestId LEFT JOIN servicerequestextra AS sre ON sre.ServiceRequestId = sr.ServiceRequestId JOIN user ON user.UserId=sr.UserId WHERE sr.ServiceProviderId = $spid AND sr.Status IN $status LIMIT $offset, $limit";
+            $haspets = "(0,1)";
         }
+        //echo $haspets;
+        if($status=="(0,1)"){
+            $sql = "SELECT sr.ServiceRequestId, sr.ServiceStartDate, sr.ServiceHourlyRate, sr.ServiceHours, sr.ExtraHours, sr.SubTotal, sr.Discount,sr.TotalCost, sr.ServiceProviderId, sr.SPAcceptedDate, sr.HasPets, sr.Status, sr.HasIssue, sr.PaymentDone, sr.RecordVersion, sra.AddressLine1, sra.AddressLine2, sra.City, sra.State, sra.PostalCode, sra.Mobile, sra.Email, sre.ServiceExtraId, user.FirstName, user.LastName FROM servicerequest AS sr JOIN servicerequestaddress AS sra ON sra.ServiceRequestId = sr.ServiceRequestId LEFT JOIN servicerequestextra AS sre ON sre.ServiceRequestId = sr.ServiceRequestId JOIN user ON user.UserId=sr.UserId WHERE sr.HasPets IN $haspets AND (sr.ServiceProviderId IS NULL OR (sr.Status IN $status AND sr.ServiceProviderId=$spid)) ORDER BY sr.ServiceRequestId DESC LIMIT $offset, $limit";    
+        }else{
+            $sql = "SELECT sr.ServiceRequestId, sr.ServiceStartDate, sr.ServiceHourlyRate, sr.ServiceHours, sr.ExtraHours, sr.SubTotal, sr.Discount,sr.TotalCost, sr.ServiceProviderId, sr.SPAcceptedDate, sr.HasPets, sr.Status, sr.HasIssue, sr.PaymentDone, sr.RecordVersion, sra.AddressLine1, sra.AddressLine2, sra.City, sra.State, sra.PostalCode, sra.Mobile, sra.Email, sre.ServiceExtraId, user.FirstName, user.LastName FROM servicerequest AS sr JOIN servicerequestaddress AS sra ON sra.ServiceRequestId = sr.ServiceRequestId LEFT JOIN servicerequestextra AS sre ON sre.ServiceRequestId = sr.ServiceRequestId JOIN user ON user.UserId=sr.UserId WHERE sr.HasPets IN $haspets AND (sr.ServiceProviderId = $spid AND sr.Status IN $status) ORDER BY sr.ServiceRequestId DESC LIMIT $offset, $limit";
+        }
+        //echo $sql;
         $result = $this->conn->query($sql);
         $services = [];
         if ($result->num_rows > 0) {
@@ -172,12 +198,17 @@ class ServiceModal extends Connection
     }
 
     // get servicer request by sp id 
-    public function TotalServiceRequestBySPId($status, $spid)
+    public function TotalServiceRequestBySPId($status, $spid, $haspets="")
     {
-        if($status=="(0,1)"){
-            $sql = "SELECT COUNT(*) as Total FROM servicerequest WHERE ServiceProviderId IS NULL OR (ServiceProviderId=$spid AND Status IN $status)";
+        if($haspets!="" && $haspets==0){
+            $haspets = "(0)";
         }else{
-            $sql = "SELECT COUNT(*) as Total FROM servicerequest WHERE ServiceProviderId=$spid AND Status IN $status";
+            $haspets = "(0,1)";
+        }
+        if($status=="(0,1)"){
+            $sql = "SELECT COUNT(*) as Total FROM servicerequest WHERE HasPets IN $haspets AND (ServiceProviderId IS NULL OR (ServiceProviderId=$spid AND Status IN $status))";
+        }else{
+            $sql = "SELECT COUNT(*) as Total FROM servicerequest WHERE HasPets IN $haspets AND (ServiceProviderId=$spid AND Status IN $status)";
         }
         $result = $this->conn->query($sql);
         if ($result->num_rows > 0) {

@@ -521,16 +521,9 @@ $(document).ready(function () {
     $(".alert").remove();
     var index = $(this).parent().parent().prop("id").split("_")[1];
     var result = records[index];
-    $("#exampleModalServiceReschedule .modal-body .reschedule_sid").val(
-      result.ServiceRequestId
-    );
-    $("#exampleModalServiceReschedule .modal-body input[type=date]").val(
-      tommorrow
-    );
-    $("#exampleModalServiceReschedule .modal-body input[type=date]").prop(
-      "min",
-      tommorrow
-    );
+    $("#exampleModalServiceReschedule .modal-body .reschedule_sid").val(result.ServiceRequestId);
+    $("#exampleModalServiceReschedule .modal-body input[type=date]").val(tommorrow);
+    $("#exampleModalServiceReschedule .modal-body input[type=date]").prop("min",tommorrow);
   });
 
   // when click from detailes modal
@@ -546,16 +539,9 @@ $(document).ready(function () {
     $(".alert").remove();
     e.preventDefault();
     var serviceid = +$(this).parent().parent().parent().find(".sid").text();
-    $("#exampleModalServiceReschedule .modal-body input[type=hidden]").val(
-      serviceid
-    );
-    $("#exampleModalServiceReschedule .modal-body input[type=date]").val(
-      tommorrow
-    );
-    $("#exampleModalServiceReschedule .modal-body input[type=date]").prop(
-      "min",
-      tommorrow
-    );
+    $("#exampleModalServiceReschedule .modal-body input[type=hidden]").val(serviceid);
+    $("#exampleModalServiceReschedule .modal-body input[type=date]").val(tommorrow);
+    $("#exampleModalServiceReschedule .modal-body input[type=date]").prop("min",tommorrow);
   });
 
   // this is update detailes modal content according to clicked row
@@ -573,13 +559,7 @@ $(document).ready(function () {
     }
     var extraid = result.ServiceExtraId;
     extraid = extraid == null ? 0 : extraid;
-    const extra = [
-      "Inside cabinet",
-      "Inside fridge",
-      "Inside Oven",
-      "Laundry wash & dry",
-      "Interior windows",
-    ];
+    const extra = ["Inside cabinet","Inside fridge","Inside Oven","Laundry wash & dry","Interior windows",];
     var extrahtml = "";
     if (extraid != 0) {
       extraid.split("").forEach((id) => {

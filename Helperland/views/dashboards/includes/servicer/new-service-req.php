@@ -17,7 +17,7 @@
         </div>
     </div>
     <div id="upcomingservice">
-        <table class="table">
+        <table class="table" id="table-newrequest">
             <thead>
                 <tr>
                     <th scope="col">Service ID <img src="./static/images/icon-sort.png" alt=""></th>

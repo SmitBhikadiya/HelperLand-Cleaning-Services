@@ -48,7 +48,7 @@ if (isset($_SESSION["userdata"]) && $_SESSION["userdata"]["UserTypeId"] == Confi
     ?>
 
     <div class="modal fade" id="servicerequest" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
-        <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-dialog modal-dialog-centered modal-dialog modal-dialog-centered justify-content-center">
             <div class="modal-content">
                 <div class="modal-body">
                     <div class="success-icon">
@@ -60,7 +60,7 @@ if (isset($_SESSION["userdata"]) && $_SESSION["userdata"]["UserTypeId"] == Confi
 
                     </div>
                 </div>
-                <div class="modal-footer" style="padding-top: 0;">
+                <div class="modal-footer" style="justify-content:center;padding-top:10px;">
                     <button data-bs-dismiss="modal">Ok</button>
                 </div>
             </div>
@@ -109,6 +109,7 @@ if (isset($_SESSION["userdata"]) && $_SESSION["userdata"]["UserTypeId"] == Confi
                 }
 
                 echo "<input type='hidden' id='req' name='req' value=" . $req . "></input>";
+                echo "<input type='hidden' id='spid' name='spid' value=" . $userdata["UserId"] . "></input>";
                 ?>
             </div>
         </section>

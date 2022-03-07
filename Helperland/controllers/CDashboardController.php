@@ -87,7 +87,10 @@ class CDashboardController
                                 $service_starttime = $this->convertTimeToStr($res["ServiceStartTime"]);
                                 $service_hour = $res["ServiceHours"][0];
                                 $service_endtime = $service_starttime + $service_hour;
-                                if ($select_starttime == $service_starttime || $select_endtime == $service_endtime || $select_starttime == $service_endtime || ($select_starttime < $service_starttime && $select_endtime > $service_starttime) || ($select_starttime > $service_starttime && $select_starttime < $service_endtime)) {
+                                //if ($select_starttime == $service_starttime || $select_endtime == $service_endtime || $select_starttime == $service_endtime || $select_endtime == $service_starttime || ($select_starttime < $service_starttime && $select_endtime > $service_starttime) || ($select_starttime > $service_starttime && $select_starttime < $service_endtime)) {
+                                if($select_starttime == $service_starttime || $select_endtime == $service_endtime || $select_starttime == $service_endtime || $select_endtime == $service_starttime ||
+                                   ($select_starttime < $service_starttime && $select_endtime > $service_starttime) || ($service_starttime-$select_endtime) < 1 ||
+                                   ($select_starttime > $service_starttime && $select_starttime < $service_endtime) || ($select_starttime-$service_endtime) < 1){
                                     $this->addErrors("Invalid", "Another service request has been assigned to the service provider on $startdate from ".$this->convertStrToTime($service_starttime)." to ".$this->convertStrToTime($service_endtime).". Either choose another date or pick up a different time slot");
                                     break;
                                 }

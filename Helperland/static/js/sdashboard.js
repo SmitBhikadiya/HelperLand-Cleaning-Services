@@ -21,6 +21,7 @@ $(document).ready(function () {
   var totalpage = 1;
   var records = [];
   var totalrecords = 0;
+  var haspets;
 
   switch (req) {
     case "setting":
@@ -55,15 +56,23 @@ $(document).ready(function () {
     getAjaxDataByReq();
   });
 
+  // is pet checked or not
+  $(document).on("click", "#hasapets", function(){
+    haspets = ($(this).is(":checked")==true) ? 1:0;
+    currentpage = 1;
+    //alert(haspets);
+    updatePageNumber(currentpage);
+    getAjaxDataByReq();
+    getDefaultRecords();
+    setTimeout(setDefault, 100);
+  });
+
   // for avtar selection
   $(document).on("click", "#avatars img", function (e) {
     $("#avatars img").removeClass("selected");
     $(this).addClass("selected");
     var imgname = $(this).prop("alt");
-    $(".account-header img").prop(
-      "src",
-      "./static/images/avtar/" + imgname + ".png"
-    );
+    $(".account-header img").prop("src","./static/images/avtar/" + imgname + ".png");
     $(".account-header img").prop("alt", imgname);
   });
 
@@ -73,10 +82,81 @@ $(document).ready(function () {
     $("#add-mobile").val(mobile);
   });
 
+  // when somebody click on the row of new request table
+  $(document).on("click", "#table-newrequest tr", function(){
+    var index = $(this).prop("id").split("_")[1];
+    var result = records[index];
+    var date = getTimeAndDate(result.ServiceStartDate, result.ServiceHours);
+    $("#exampleModalServiceAccept .m-time").text(date.startdate+" "+date.starttime+"-"+date.endtime);
+    $("#exampleModalServiceAccept .m-duration").text(result.ServiceHours);
+    $("#exampleModalServiceAccept .m-id span").text(("000" + result.ServiceRequestId).slice(-4));
+    var extraid = result.ServiceExtraId;
+    extraid = extraid == null ? 0 : extraid;
+    const extra = ["Inside cabinet","Inside fridge","Inside Oven","Laundry wash & dry","Interior windows",];
+    var extrahtml = "";
+    if (extraid != 0) {
+      extraid.split("").forEach((id) => {
+        extrahtml += extra[+id - 1] + ", ";
+      });
+    }
+    $("#exampleModalServiceAccept .m-extras span").text(extrahtml);
+    $("#exampleModalServiceAccept .m-currency").text(result.TotalCost+" €");
+    $("#exampleModalServiceAccept .m-name span").text(result.FirstName+" "+result.LastName);
+    $("#exampleModalServiceAccept .m-address span").text(result.AddressLine2+" "+result.AddressLine1+", "+result.PostalCode+" "+result.City);
+    $("#exampleModalServiceAccept .m-distance span").text("-");
+    $("#exampleModalServiceAccept .m-comments").text(result.Comments);
+    $("#exampleModalServiceAccept .m-pets").html((result.HasPets == 0) ? '<span class="fa fa-times-circle-o"></span> I dont`t have pets at home': '<span class="fa fa-check" style="color:#0f7a2b"></span> I have pets at home');
+    $("#accept_request").prop("index",index);
+    $("#exampleModalServiceAccept").modal("show");
+  });
+
+  $(document).on("click", "#accept_request", function(e){
+    e.preventDefault();
+    showLoader();
+    var serviceid = +$(this).parent().parent().parent().find(".m-id span").text();
+    var action = "http://localhost/Tatvasoft-PSD-TO-HTML/HelperLand/?controller=SDashboard&function=AcceptServiceRequest";
+    var spid = $("#spid").val();
+    var index = $(this).prop("index");
+    jQuery.ajax({
+      type: "POST",
+      url: action,
+      datatype: "json",
+      data: {serviceid:serviceid, spid:spid},
+      success: function (data) {
+        console.log(data);
+        var obj = JSON.parse(data);
+        if (obj.errors.length == 0) {
+          $("#servicerequest .img-wrapper").css("background-color","#67b644");
+          $("#servicerequest .img-wrapper img").prop("src","static/images/correct-white-medium.png");
+          $("#servicerequest .success-msg").text("Service Accepted Successfully");
+          $("#exampleModalServiceAccept").modal("hide");
+          $("#servicerequest").modal("show"); 
+        }else{
+          var errorlist = "";
+          for (const [key, val] of Object.entries(obj.errors)) {
+            errorlist += `<li>${val}</li>`;
+          }
+          $("#servicerequest .img-wrapper").css("background-color","#f84545");
+            $("#servicerequest .img-wrapper img").prop("src", "static/images/wrong-white-medium.png");
+          $("#servicerequest .success-msg").html("<ul style='list-style: none;font-size: 17px;color: red;padding: 0px;'>"+errorlist+"</ul>");
+          $("#servicerequest").modal("show"); 
+        }
+        updatePageNumber(currentpage);
+        getAjaxDataByReq();
+        getDefaultRecords();
+        setTimeout(setDefault, 100);
+      },
+      complete: function (data) {
+        $.LoadingOverlay("hide");
+      },
+    });
+  });
+
   // save setting tab user detailes
   $(document).on("click", "#servicersave", function (e) {
     e.preventDefault();
     if($(this).parent().find('.error').length==0){
+      showLoader();
       var action = $(this).parent().prop("action");
       var avtar = $("#avatars img.selected").prop("alt");
       var data = $(this).parent().serialize() + "&profilepicture=" + avtar;
@@ -203,10 +283,9 @@ $(document).ready(function () {
   function getDefaultRecords() {
     $.ajax({
       type: "POST",
-      url:
-        "http://localhost/Tatvasoft-PSD-TO-HTML/HelperLand/?controller=SDashboard&function=TotalRequest&parameter=" +
-        req,
+      url:"http://localhost/Tatvasoft-PSD-TO-HTML/HelperLand/?controller=SDashboard&function=TotalRequest&parameter="+req,
       datatype: "json",
+      data: {haspets:haspets},
       success: function (data) {
         console.log(data);
         var obj = JSON.parse(data);
@@ -221,11 +300,9 @@ $(document).ready(function () {
     showLoader();
     $.ajax({
       type: "POST",
-      url:
-        "http://localhost/Tatvasoft-PSD-TO-HTML/HelperLand/?controller=SDashboard&function=ServiceRequest&parameter=" +
-        req,
+      url: "http://localhost/Tatvasoft-PSD-TO-HTML/HelperLand/?controller=SDashboard&function=ServiceRequest&parameter=" + req,
       datatype: "json",
-      data: { pagenumber: currentpage, limit: showrecords },
+      data: { pagenumber: currentpage, limit: showrecords, haspets:haspets },
       success: function (data) {
         console.log(data);
         //alert(data);
@@ -351,7 +428,7 @@ $(document).ready(function () {
     results.forEach((result) => {
       var date = getTimeAndDate(result.ServiceStartDate, result.ServiceHours);
       html+=`
-      <tr id='data_${i}'>
+      <tr id='data_${i++}'>
         <td scope="row" style="line-height: 50px;">${("000" + result.ServiceRequestId).slice(-4)}</td>
         <td>
             <div class="td-date"><img src="static/images/icon-calculator.png" alt=""><b>${date.startdate}</b></div>
@@ -375,7 +452,7 @@ $(document).ready(function () {
     results.forEach((result) => {
       var date = getTimeAndDate(result.ServiceStartDate, result.ServiceHours);
       html+=`
-      <tr id='data_${i}'>
+      <tr id='data_${i++}'>
         <td scope="row" style="line-height: 50px;">${("000" + result.ServiceRequestId).slice(-4)}</td>
         <td>
             <div class="td-date"><img src="static/images/icon-calculator.png" alt=""><b>${date.startdate}</b></div>
@@ -398,7 +475,7 @@ $(document).ready(function () {
     results.forEach((result) => {
       var date = getTimeAndDate(result.ServiceStartDate, result.ServiceHours);
       html+=`
-      <tr id='data_${i}'>
+      <tr id='data_${i++}'>
         <td scope="row" style="line-height: 50px;">${("000" + result.ServiceRequestId).slice(-4)}</td>
         <td>
             <div class="td-date"><img src="static/images/icon-calculator.png" alt=""><b>${date.startdate}</b></div>
@@ -422,7 +499,7 @@ $(document).ready(function () {
       var spstar = getStarHTMLByRating(+result.Ratings);
       var starstatus = getRatingStatus(+result.Ratings);
       html+=`
-      <div class="row" id='data_${i}'>
+      <div class="row" id='data_${i++}'>
             <div class="col-3 row-col">
                 <div>${("000" + result.ServiceRequestId).slice(-4)}</div>
                 <div class="td-name">${result.FirstName} ${result.LastName}</div>
@@ -452,7 +529,7 @@ $(document).ready(function () {
     var i=0;
     results.forEach((result) => {
       html+=`
-      <div class="pro" id='data_${i}'>
+      <div class="pro" id='data_${i++}'>
                 <div class="pro-avtar">
                     <img src="./static/images/avtar/avtar1.png">
                 </div>
