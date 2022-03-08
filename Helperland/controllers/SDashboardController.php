@@ -44,7 +44,16 @@ class SDashboardController
                 case "schedule":
                     break;
                 case "history":
-                    $result = $this->servicemodal->getAllServiceRequstBySPId($offset, $limit, "(3,4,5)", $userid);
+                    $status = "(3,4,5)";
+                    if(isset($this->data["payment"])){
+                        switch($this->data["payment"]){
+                            case "cancelled": $status = "(3)"; break;
+                            case "completed": $status = "(4)"; break;
+                            case "refund": $status = "(5)"; break;
+                            default: $status = "(3,4,5)"; 
+                        }
+                    }
+                    $result = $this->servicemodal->getAllServiceRequstBySPId($offset, $limit, $status, $userid);
                     break;
                 case "ratings":
                     $result = $this->servicemodal->getAllRatingBySPId($offset, $limit, $userid);
@@ -105,7 +114,16 @@ class SDashboardController
                     $result = $this->servicemodal->TotalServiceRequestBySPId("(2)", $userid);
                     break;
                 case "history":
-                    $result = $this->servicemodal->TotalServiceRequestBySPId("(3,4)", $userid);
+                    $status = "(3,4,5)";
+                    if(isset($this->data["payment"])){
+                        switch($this->data["payment"]){
+                            case "cancelled": $status = "(3)"; break;
+                            case "completed": $status = "(4)"; break;
+                            case "refund": $status = "(5)"; break;
+                            default: $status = "(3,4,5)"; 
+                        }
+                    }
+                    $result = $this->servicemodal->TotalServiceRequestBySPId($status, $userid);
                     break;
                 case "ratings":
                     $result = $this->servicemodal->getTotalRatingBySPId($userid);

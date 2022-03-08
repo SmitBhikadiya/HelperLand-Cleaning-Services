@@ -22,6 +22,7 @@ $(document).ready(function () {
   var records = [];
   var totalrecords = 0;
   var haspets;
+  var payment = $(".shistory-title select").val();
 
   switch (req) {
     case "setting":
@@ -336,6 +337,14 @@ $(document).ready(function () {
       },100);
   });
 
+  // when someone want to get data according to payment status
+  $(document).on("change", ".shistory-title select", function(){
+    payment = $(this).val();
+    updatePageNumber(currentpage);
+    getAjaxDataByReq();
+    getDefaultRecords();
+    setTimeout(setDefault, 100);
+  });
   // update city select option according to postal code
   $(document).on("keyup", "#add-postal", function (e) {
     var postal = $(this).val();
@@ -415,7 +424,7 @@ $(document).ready(function () {
       type: "POST",
       url:"http://localhost/Tatvasoft-PSD-TO-HTML/HelperLand/?controller=SDashboard&function=TotalRequest&parameter="+req,
       datatype: "json",
-      data: {haspets:haspets},
+      data: {haspets:haspets, payment:payment},
       success: function (data) {
         console.log(data);
         var obj = JSON.parse(data);
@@ -432,7 +441,7 @@ $(document).ready(function () {
       type: "POST",
       url: "http://localhost/Tatvasoft-PSD-TO-HTML/HelperLand/?controller=SDashboard&function=ServiceRequest&parameter=" + req,
       datatype: "json",
-      data: { pagenumber: currentpage, limit: showrecords, haspets:haspets },
+      data: { pagenumber: currentpage, limit: showrecords, haspets:haspets, payment:payment },
       success: function (data) {
         console.log(data);
         //alert(data);
@@ -616,6 +625,15 @@ $(document).ready(function () {
     var i=0;
     results.forEach((result) => {
       var date = getTimeAndDate(result.ServiceStartDate, result.ServiceHours);
+
+      var status = (result.Status==3) ? "cancelled" : "completed";
+      var bywhom = "";
+      if(result.Status==4 || (result.Status==3 && result.RecordVersion==1 && result.ModifiedBy==result.ServiceProviderId)){
+        bywhom = "You";
+      }else{
+        bywhom = ("000"+result.ModifiedBy).split(-4);
+      }
+
       html+=`
       <tr id='data_${i++}'>
         <td scope="row" style="line-height: 50px;">${("000" + result.ServiceRequestId).slice(-4)}</td>
@@ -624,9 +642,10 @@ $(document).ready(function () {
             <div class="td-time"><img src="static/images/icon-time.png" alt="">${date.starttime}-${date.endtime}</div>
         </td>
         <td>
-            <div class="td-name" style='padding-left: 26px;'>${result.FirstName} ${result.LastName}</div>
+            <div class="td-name" style='padding-left: 26px;'>${result.FirstName} ${result.LastName} (${("00"+result.UserId).split(-3)})</div>
             <div class="td-address"><img src="./static/images/icon-address.png" style='margin-bottom: 8px;'>${result.AddressLine1} ${result.AddressLine2}, ${result.PostalCode} ${result.City}</div>
         </td>
+        <td><button class='${status}' title='${status} by ${bywhom}'>${status}</button></td>
       </tr>
       `;
     });

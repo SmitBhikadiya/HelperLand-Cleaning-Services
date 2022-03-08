@@ -194,6 +194,18 @@
 .button-block{
     background-color: #ff6b6b;
 }
+.completed, .cancelled{
+    border: none;
+    padding: 2px 5px;
+    border: 1px solid black;
+    background-color: white;
+}
+.completed{
+    color: #2cc82c;
+}
+.cancelled{
+    color: red;
+}
 
 /*----------Footer----------*/
 .message-icon {
