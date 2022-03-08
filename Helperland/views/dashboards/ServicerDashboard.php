@@ -44,6 +44,7 @@ if (isset($_SESSION["userdata"]) && $_SESSION["userdata"]["UserTypeId"] == Confi
     <?php
     include("includes/servicer/cancel-modal.php");
     include("includes/servicer/accept-modal.php");
+    include("includes/servicer/service-cancel-modal.php");
     include("views/includes/header.php")
     ?>
 

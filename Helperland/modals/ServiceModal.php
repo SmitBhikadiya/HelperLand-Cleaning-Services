@@ -45,6 +45,13 @@ class ServiceModal extends Connection
         return $this->conn->query($sql);
     }
 
+    // complete the service request
+    public function CompleteServiceRequestBySPId($serviceid, $spid){
+        $sql = "UPDATE servicerequest SET Status=4 WHERE ServiceRequestId=$serviceid AND ServiceProviderId=$spid"; 
+        //echo $sql;
+        return $this->conn->query($sql);
+    }
+
     //
     public function UpdateFavouriteUser($f_id, $set){
         if($set==1){
@@ -104,13 +111,11 @@ class ServiceModal extends Connection
         }else{
             $haspets = "(0,1)";
         }
-        //echo $haspets;
         if($status=="(0,1)"){
             $sql = "SELECT sr.ServiceRequestId, sr.ServiceStartDate, sr.ServiceHourlyRate, sr.ServiceHours, sr.ExtraHours, sr.SubTotal, sr.Discount,sr.TotalCost, sr.ServiceProviderId, sr.SPAcceptedDate, sr.HasPets, sr.Status, sr.HasIssue, sr.PaymentDone, sr.RecordVersion, sra.AddressLine1, sra.AddressLine2, sra.City, sra.State, sra.PostalCode, sra.Mobile, sra.Email, sre.ServiceExtraId, user.FirstName, user.LastName FROM servicerequest AS sr JOIN servicerequestaddress AS sra ON sra.ServiceRequestId = sr.ServiceRequestId LEFT JOIN servicerequestextra AS sre ON sre.ServiceRequestId = sr.ServiceRequestId JOIN user ON user.UserId=sr.UserId WHERE sr.HasPets IN $haspets AND (sr.ServiceProviderId IS NULL OR sr.ServiceProviderId=$spid) AND sr.Status IN $status ORDER BY sr.ServiceRequestId DESC LIMIT $offset, $limit";    
         }else{
             $sql = "SELECT sr.ServiceRequestId, sr.ServiceStartDate, sr.ServiceHourlyRate, sr.ServiceHours, sr.ExtraHours, sr.SubTotal, sr.Discount,sr.TotalCost, sr.ServiceProviderId, sr.SPAcceptedDate, sr.HasPets, sr.Status, sr.HasIssue, sr.PaymentDone, sr.RecordVersion, sra.AddressLine1, sra.AddressLine2, sra.City, sra.State, sra.PostalCode, sra.Mobile, sra.Email, sre.ServiceExtraId, user.FirstName, user.LastName FROM servicerequest AS sr JOIN servicerequestaddress AS sra ON sra.ServiceRequestId = sr.ServiceRequestId LEFT JOIN servicerequestextra AS sre ON sre.ServiceRequestId = sr.ServiceRequestId JOIN user ON user.UserId=sr.UserId WHERE sr.HasPets IN $haspets AND (sr.ServiceProviderId = $spid AND sr.Status IN $status) ORDER BY sr.ServiceRequestId DESC LIMIT $offset, $limit";
         }
-        //echo $sql;
         $result = $this->conn->query($sql);
         $services = [];
         if ($result->num_rows > 0) {
@@ -274,9 +279,22 @@ class ServiceModal extends Connection
     }
 
     // cancel service request  by servcie id and userid
-    public function CancelServiceById($userId, $serviceId, $comment='', $spid=''){
+    public function CancelServiceById($userId, $serviceid, $comment=''){
         $status = 3;
-        $sql = "UPDATE servicerequest SET Comments='$comment', Status=$status, HasIssue=1, ModifiedDate=now(), ModifiedBy=$userId WHERE UserId=$userId AND ServiceRequestId=$serviceId";
+        $sql = "UPDATE servicerequest SET Comments='$comment', Status=$status, HasIssue=1, ModifiedDate=now(), ModifiedBy=$userId WHERE UserId=$userId AND ServiceRequestId=$serviceid";
+        $result = $this->conn->query($sql);
+        if($result){
+            return 1;
+        }else{
+            return 0;
+        }
+    }
+
+    // cancel service request  by servcie id and userid
+    public function CancelServiceBySPId($spid, $serviceid, $comment=''){
+        $status = 3;
+        $record_version = 1;
+        $sql = "UPDATE servicerequest SET Comments='$comment', Status=$status, HasIssue=1, ModifiedDate=now(), ModifiedBy=$spid, RecordVersion=$record_version WHERE ServiceProviderId=$spid AND ServiceRequestId=$serviceid";
         $result = $this->conn->query($sql);
         if($result){
             return 1;

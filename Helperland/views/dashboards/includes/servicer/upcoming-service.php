@@ -1,6 +1,6 @@
 <div class="div-content table-responsive">
     <div id="upcomingservice">
-        <table class="table">
+        <table class="table" id="table_upcomingservice">
             <thead>
                 <tr>
                     <th scope="col">Service ID <img src="./static/images/icon-sort.png" alt=""></th>

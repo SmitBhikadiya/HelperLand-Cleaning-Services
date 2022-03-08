@@ -1,18 +1,20 @@
 <?php
 
 require_once("modals/ServiceModal.php");
+require_once("modals/UsersModal.php");
 require_once("phpmailer/mail.php");
 
 class SDashboardController
 {
     public $validate;
-    public $servicemodal;
+    public $servicemodal, $usermodal;
     public $errors = [];
 
     public function __construct()
     {
         $this->data = $_POST;
         $this->servicemodal = new ServiceModal($this->data);
+        $this->usermodal = new UsersModal($this->data);
     }
 
 
@@ -127,22 +129,59 @@ class SDashboardController
         echo json_encode(["result" => $result[0], "errors" => $this->errors]);
     }
 
-    public function CancelService()
-    {
+    public function CompleteServiceRequest(){
+        $result = 0;
+        $mailmsg = "..";
+        if (isset($_SESSION["userdata"])) {
+            $mailmsg = "...";
+            $user = $_SESSION["userdata"];
+            $userid = $user["UserId"];
+            $serviceid = $this->data["serviceid"];
+            $spid = $this->data["spid"];
+            $service = $this->servicemodal->getServiceRequestById($serviceid);
+            if (count($service) > 0 && $spid==$userid) {
+                if (!$this->servicemodal->CompleteServiceRequestBySPId($serviceid, $userid)) {
+                    $this->addErrors("SQLError", "Something went wrong with the SQL!!!");
+                }
+            }else{
+                $this->addErrors("Invalid", "Service is not found!!!");
+            }
+        } else {
+            $this->addErrors("login", "User is not login!!!");
+        }
+
+        echo json_encode(["result" => $result, "errors" => $this->errors, "mail" => $mailmsg]);
+    }
+
+    public function CancelService(){
         $result = 0;
         $mailmsg = "";
         if (isset($_SESSION["userdata"])) {
             $user = $_SESSION["userdata"];
             $userid = $user["UserId"];
             $serviceid = $this->data["serviceid"];
+            $spid = $this->data["spid"];
             $comment = $this->data["comment"];
-            $result = $this->servicemodal->CancelServiceById($userid, $serviceid, $comment);
-            if ($result == 1) {
-                $service = $this->servicemodal->getServiceRequestById($serviceid);
-                if (count($service) > 0) {
-                    $body = "<h1>Service Request <b>" . $service["ServiceRequestId"] . "</h1></b> has been <kbd style='color:red;'><b>cancelled</b></kbd> by the customer.";
-                    $mailmsg = sendmail([$service["SPEmail"]], "Service Cancelled", $body);
+            $service = $this->servicemodal->getServiceRequestById($serviceid);
+            if (count($service) > 0 && $spid==$userid) {
+                if($service["Status"]==3){
+                    $modifiedby = $service["ModifiedBy"];
+                    $modifydate = date("d-m-Y H:i",strtotime($service["ModifiedDate"]));
+                    $user_r = $this->usermodal->getUserByUserId($modifiedby);
+                    if(count($user_r) > 0){
+                        $this->addErrors("login", "Service Request is Cancelled by the ".$user_r['FirstName']." ".$user_r["LastName"]." at $modifydate!!!");
+                    }else{
+                        $this->addErrors("Invalid", "Service Request is cancelled by someone!!!");
+                    }
+                }else{
+                    $result = $this->servicemodal->CancelServiceBySPId($userid, $serviceid, $comment);
+                    if ($result == 1) {
+                        $body = "<h1>Service Request <b>" . $service["ServiceRequestId"] . "</h1></b> has been <kbd style='color:red;'><b>cancelled</b></kbd> by the User( $userid ).";
+                        $mailmsg = sendmail([$service["SPEmail"], Config::ADMIN_EMAIL], "Service Cancelled", $body);
+                    }
                 }
+            }else{
+                $this->addErrors("Invalid", "Service is not found!!!");
             }
         } else {
             $this->addErrors("login", "User is not login!!!");

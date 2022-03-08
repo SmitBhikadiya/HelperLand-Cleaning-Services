@@ -82,14 +82,18 @@ $(document).ready(function () {
     $("#add-mobile").val(mobile);
   });
 
-  // when somebody click on the row of new request table
-  $(document).on("click", "#table-newrequest tr", function(){
+  // when somebody click on the row of upcoming table
+  $(document).on("click", "#table_upcomingservice tr", function(){
     var index = $(this).prop("id").split("_")[1];
     var result = records[index];
     var date = getTimeAndDate(result.ServiceStartDate, result.ServiceHours);
-    $("#exampleModalServiceAccept .m-time").text(date.startdate+" "+date.starttime+"-"+date.endtime);
-    $("#exampleModalServiceAccept .m-duration").text(result.ServiceHours);
-    $("#exampleModalServiceAccept .m-id span").text(("000" + result.ServiceRequestId).slice(-4));
+    if(checkTimeForCompleteBtn(date.startdate, date.endtime)){
+      $(".modal-button-complete").prop("id","");
+      $(".modal-button-complete").hide();
+    }else{
+      $(".modal-button-complete").prop("id","complete_request");
+      $(".modal-button-complete").show();
+    }
     var extraid = result.ServiceExtraId;
     extraid = extraid == null ? 0 : extraid;
     const extra = ["Inside cabinet","Inside fridge","Inside Oven","Laundry wash & dry","Interior windows",];
@@ -99,6 +103,36 @@ $(document).ready(function () {
         extrahtml += extra[+id - 1] + ", ";
       });
     }
+    $("#exampleModalServiceCancel .m-time").text(date.startdate+" "+date.starttime+"-"+date.endtime);
+    $("#exampleModalServiceCancel .m-duration").text(result.ServiceHours);
+    $("#exampleModalServiceCancel .m-id span").text(("000" + result.ServiceRequestId).slice(-4));
+    $("#exampleModalServiceCancel .m-extras span").text(extrahtml);
+    $("#exampleModalServiceCancel .m-currency").text(result.TotalCost+" €");
+    $("#exampleModalServiceCancel .m-name span").text(result.FirstName+" "+result.LastName);
+    $("#exampleModalServiceCancel .m-address span").text(result.AddressLine2+" "+result.AddressLine1+", "+result.PostalCode+" "+result.City);
+    $("#exampleModalServiceCancel .m-distance span").text("-");
+    $("#exampleModalServiceCancel .m-comments").text(result.Comments);
+    $("#exampleModalServiceCancel .m-pets").html((result.HasPets == 0) ? '<span class="fa fa-times-circle-o"></span> I dont`t have pets at home': '<span class="fa fa-check" style="color:#0f7a2b"></span> I have pets at home');
+    $("#exampleModalServiceCancel").modal("show");
+  });
+
+  // when somebody click on the row of new request table
+  $(document).on("click", "#table-newrequest tr", function(){
+    var index = $(this).prop("id").split("_")[1];
+    var result = records[index];
+    var date = getTimeAndDate(result.ServiceStartDate, result.ServiceHours);
+    var extraid = result.ServiceExtraId;
+    extraid = extraid == null ? 0 : extraid;
+    const extra = ["Inside cabinet","Inside fridge","Inside Oven","Laundry wash & dry","Interior windows",];
+    var extrahtml = "";
+    if (extraid != 0) {
+      extraid.split("").forEach((id) => {
+        extrahtml += extra[+id - 1] + ", ";
+      });
+    }
+    $("#exampleModalServiceAccept .m-time").text(date.startdate+" "+date.starttime+"-"+date.endtime);
+    $("#exampleModalServiceAccept .m-duration").text(result.ServiceHours);
+    $("#exampleModalServiceAccept .m-id span").text(("000" + result.ServiceRequestId).slice(-4));
     $("#exampleModalServiceAccept .m-extras span").text(extrahtml);
     $("#exampleModalServiceAccept .m-currency").text(result.TotalCost+" €");
     $("#exampleModalServiceAccept .m-name span").text(result.FirstName+" "+result.LastName);
@@ -106,7 +140,6 @@ $(document).ready(function () {
     $("#exampleModalServiceAccept .m-distance span").text("-");
     $("#exampleModalServiceAccept .m-comments").text(result.Comments);
     $("#exampleModalServiceAccept .m-pets").html((result.HasPets == 0) ? '<span class="fa fa-times-circle-o"></span> I dont`t have pets at home': '<span class="fa fa-check" style="color:#0f7a2b"></span> I have pets at home');
-    $("#accept_request").prop("index",index);
     $("#exampleModalServiceAccept").modal("show");
   });
 
@@ -116,7 +149,6 @@ $(document).ready(function () {
     var serviceid = +$(this).parent().parent().parent().find(".m-id span").text();
     var action = "http://localhost/Tatvasoft-PSD-TO-HTML/HelperLand/?controller=SDashboard&function=AcceptServiceRequest";
     var spid = $("#spid").val();
-    var index = $(this).prop("index");
     jQuery.ajax({
       type: "POST",
       url: action,
@@ -125,11 +157,11 @@ $(document).ready(function () {
       success: function (data) {
         console.log(data);
         var obj = JSON.parse(data);
+        $(".modal").modal("hide");
         if (obj.errors.length == 0) {
           $("#servicerequest .img-wrapper").css("background-color","#67b644");
           $("#servicerequest .img-wrapper img").prop("src","static/images/correct-white-medium.png");
           $("#servicerequest .success-msg").text("Service Accepted Successfully");
-          $("#exampleModalServiceAccept").modal("hide");
           $("#servicerequest").modal("show"); 
         }else{
           var errorlist = "";
@@ -137,7 +169,7 @@ $(document).ready(function () {
             errorlist += `<li>${val}</li>`;
           }
           $("#servicerequest .img-wrapper").css("background-color","#f84545");
-            $("#servicerequest .img-wrapper img").prop("src", "static/images/wrong-white-medium.png");
+          $("#servicerequest .img-wrapper img").prop("src", "static/images/wrong-white-medium.png");
           $("#servicerequest .success-msg").html("<ul style='list-style: none;font-size: 17px;color: red;padding: 0px;'>"+errorlist+"</ul>");
           $("#servicerequest").modal("show"); 
         }
@@ -151,6 +183,104 @@ $(document).ready(function () {
       },
     });
   });
+
+  // when user wants to cancel service request
+  $(document).on("click", "#btn_service_cancel", function (e) {
+    e.preventDefault();
+    $(".error").remove();
+    if ($("#cancel-comment").val().length > 0) {
+      showLoader();
+      var action = $("#form-service-cancel").prop("action");
+      jQuery.ajax({
+        type: "POST",
+        url: action,
+        datatype: "json",
+        data: $("#form-service-cancel").serialize(),
+        success: function (data) {
+          var obj = JSON.parse(data);
+          console.log(obj.result);
+          var serviceid = ("000" + $("#form-service-cancel input[type=hidden]").val()).slice(-4);
+          $(".modal").modal("hide");
+          if (obj.result == 1) {
+            $("#servicerequest .img-wrapper").css("background-color","#67b644");
+            $("#servicerequest .img-wrapper img").prop("src","static/images/correct-white-medium.png");
+            $("#servicerequest .success-msg").text("Service "+serviceid+" Cancelled Successfully!!");
+            $("#servicerequest").modal("show"); 
+          } else {
+            var errorlist = "";
+            for (const [key, val] of Object.entries(obj.errors)) {
+              errorlist += `<li>${val}</li>`;
+            }
+            $("#servicerequest .img-wrapper").css("background-color","#f84545");
+            $("#servicerequest .img-wrapper img").prop("src", "static/images/wrong-white-medium.png");
+            $("#servicerequest .success-msg").html("<ul style='list-style: none;font-size: 17px;color: red;padding: 0px;'>"+errorlist+"</ul>");
+            $("#servicerequest").modal("show"); 
+          }
+          updatePageNumber(currentpage);
+          getAjaxDataByReq();
+          getDefaultRecords();
+          setTimeout(setDefault, 100);
+        },
+        complete: function (data) {
+          $.LoadingOverlay("hide");
+        },
+      });
+    } else {
+      $("#cancel-comment").after(
+        "<p class='error'>* Comment can't be empty!!!</p>"
+      );
+    }
+  });
+
+
+  $(document).on("click", "#cancel_request", function(e){
+    e.preventDefault();
+    var serviceid = +$(this).parent().parent().parent().find(".m-id span").text();
+    $("#ServiceCancel input[type=hidden]").val(serviceid);
+    $("#ServiceCancel textarea").val();
+    $(".modal").modal("hide");
+    $("#ServiceCancel").modal("show");
+  });
+
+  $(document).on("click", "#complete_request", function(e){
+    e.preventDefault();
+    showLoader();
+    var serviceid = +$(this).parent().parent().parent().find(".m-id span").text();
+    var action = "http://localhost/Tatvasoft-PSD-TO-HTML/HelperLand/?controller=SDashboard&function=CompleteServiceRequest";
+    var spid = $("#spid").val();
+    jQuery.ajax({
+      type: "POST",
+      url: action,
+      datatype: "json",
+      data: {serviceid:serviceid, spid:spid},
+      success: function (data) {
+        console.log(data);
+        var obj = JSON.parse(data);
+        $(".modal").modal("hide");
+        if (obj.errors.length == 0) {
+          $("#servicerequest .img-wrapper").css("background-color","#67b644");
+          $("#servicerequest .img-wrapper img").prop("src","static/images/correct-white-medium.png");
+          $("#servicerequest .success-msg").html("<div>Service Completed Successfully</div><div>>>>Check Your History<<<</div>");
+          $("#servicerequest").modal("show"); 
+        }else{
+          var errorlist = "";
+          for (const [key, val] of Object.entries(obj.errors)) {
+            errorlist += `<li>${val}</li>`;
+          }
+          $("#servicerequest .img-wrapper").css("background-color","#f84545");
+            $("#servicerequest .img-wrapper img").prop("src", "static/images/wrong-white-medium.png");
+          $("#servicerequest .success-msg").html("<ul style='list-style: none;font-size: 17px;color: red;padding: 0px;'>"+errorlist+"</ul>");
+          $("#servicerequest").modal("show"); 
+        }
+        updatePageNumber(currentpage);
+        getAjaxDataByReq();
+      },
+      complete: function (data) {
+        $.LoadingOverlay("hide");
+      },
+    });
+  });
+
 
   // save setting tab user detailes
   $(document).on("click", "#servicersave", function (e) {
@@ -360,6 +490,18 @@ $(document).ready(function () {
     updatePageNumber(currentpage);
     getAjaxDataByReq();
   });
+
+  // compare time to set complete button
+  function checkTimeForCompleteBtn(service_date, service_endtime){
+    var d = service_date.split("/");
+    var day = d[0];
+    var month = d[1];
+    var year = d[2];
+    var service_date = `${month}/${day}/${year}`;
+    var d1 = new Date(service_date+" "+service_endtime);
+    var d2 = new Date();
+    return (d2.getTime() > d1.getTime());
+  }
 
    // get time and date in required format
    function getTimeAndDate(sdate, stime) {
