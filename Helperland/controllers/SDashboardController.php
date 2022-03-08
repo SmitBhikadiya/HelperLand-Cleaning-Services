@@ -162,43 +162,49 @@ class SDashboardController
             if (count($this->servicemodal->IsAcceptedByAnySP($serviceid)) < 1) {
                 $service = $this->servicemodal->getServiceRequestById($serviceid);
                 if (count($service) > 0) {
-                    $startdate = date('Y-m-d', strtotime($service["ServiceStartDate"]));
-                    $starttime = date('H:i', strtotime($service["ServiceStartDate"]));
-                    $check_status = '(2)';
-                    $results = $this->servicemodal->IsUpdateServiceSchedulePossibleOnDate($userid, $startdate, $check_status);
-                    //print_r($results);
-                    if (count($results[1]) > 0) {
-                        foreach ($results[1] as $key => $val) {
-                            $this->addErrors($key, $val);
-                        }
-                    } else {
-                        $select_starttime = $this->convertTimeToStr($starttime);
-                        $select_totalhour = $service["ServiceHours"][0];
-                        $select_endtime =  $select_starttime + $select_totalhour;
-                        if ($select_starttime + $select_totalhour > 21.0) {
-                            $this->addErrors("Invalid", "Could not completed the service request, because service booking request is must be completed within 21:00 time");
+                    if (in_array($service["Status"], [0, 1])) {
+                        $startdate = date('Y-m-d', strtotime($service["ServiceStartDate"]));
+                        $starttime = date('H:i', strtotime($service["ServiceStartDate"]));
+                        $check_status = '(2)';
+                        $results = $this->servicemodal->IsUpdateServiceSchedulePossibleOnDate($userid, $startdate, $check_status);
+                        //print_r($results);
+                        if (count($results[1]) > 0) {
+                            foreach ($results[1] as $key => $val) {
+                                $this->addErrors($key, $val);
+                            }
                         } else {
-                            for ($i = 0; $i < count($results[0]); $i++) {
-                                $res = $results[0][$i];
-                                if ($res["ServiceRequestId"] == $serviceid) {
-                                    continue;
-                                }
-                                $service_starttime = $this->convertTimeToStr($res["ServiceStartTime"]);
-                                $service_hour = $res["ServiceHours"][0];
-                                $service_endtime = $service_starttime + $service_hour;
-                                if ($select_starttime == $service_starttime || $select_endtime == $service_endtime || $select_starttime == $service_endtime || $select_endtime == $service_starttime ||
-                                    ($select_starttime < $service_starttime && $select_endtime > $service_starttime) || ($service_starttime-$select_endtime) < 1 ||
-                                    ($select_starttime > $service_starttime && $select_starttime < $service_endtime) || ($select_starttime-$service_endtime) < 1) {
-                                    $this->addErrors("Invalid", "Another service request ".substr("000".$res["ServiceRequestId"], -4)." has already been assigned which has time overlap with this service request. You can’t pick this one!");
-                                    break;
+                            $select_starttime = $this->convertTimeToStr($starttime);
+                            $select_totalhour = $service["ServiceHours"][0];
+                            $select_endtime =  $select_starttime + $select_totalhour;
+                            if ($select_starttime + $select_totalhour > 21.0) {
+                                $this->addErrors("Invalid", "Could not completed the service request, because service booking request is must be completed within 21:00 time");
+                            } else {
+                                for ($i = 0; $i < count($results[0]); $i++) {
+                                    $res = $results[0][$i];
+                                    if ($res["ServiceRequestId"] == $serviceid) {
+                                        continue;
+                                    }
+                                    $service_starttime = $this->convertTimeToStr($res["ServiceStartTime"]);
+                                    $service_hour = $res["ServiceHours"][0];
+                                    $service_endtime = $service_starttime + $service_hour;
+                                    if (
+                                        $select_starttime == $service_starttime || $select_endtime == $service_endtime || $select_starttime == $service_endtime || $select_endtime == $service_starttime ||
+                                        ($select_starttime < $service_starttime && $select_endtime > $service_starttime) || ($service_starttime - $select_endtime) < 1 ||
+                                        ($select_starttime > $service_starttime && $select_starttime < $service_endtime) || ($select_starttime - $service_endtime) < 1
+                                    ) {
+                                        $this->addErrors("Invalid", "Another service request " . substr("000" . $res["ServiceRequestId"], -4) . " has already been assigned which has time overlap with this service request. You can’t pick this one!");
+                                        break;
+                                    }
                                 }
                             }
                         }
-                    }
-                    if(count($this->errors) < 1){
-                        if(!$this->servicemodal->AcceptServiceRequest($serviceid, $userid)){
-                            $this->addErrors("SQLError", "Somthing went wrong with the sql!!!");
+                        if (count($this->errors) < 1) {
+                            if (!$this->servicemodal->AcceptServiceRequest($serviceid, $userid)) {
+                                $this->addErrors("SQLError", "Somthing went wrong with the sql!!!");
+                            }
                         }
+                    }else{
+                        $this->addErrors("NotFound", "Service is not longer available!!!");
                     }
                 } else {
                     $this->addErrors("NotFound", "Service is not found!!!");
@@ -212,6 +218,8 @@ class SDashboardController
 
         echo json_encode(["result" => $result[0], "errors" => $this->errors, "mail" => $mailmsg]);
     }
+
+    /*---------------- Cancel The reque ----------------*/
 
     /*------------ Convert time(10:30) format to num(10.5) -------------*/
     private function convertTimeToStr($time)
