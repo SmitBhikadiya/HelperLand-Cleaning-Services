@@ -91,7 +91,8 @@ class SDashboardController
         if (isset($_SESSION["userdata"])) {
             $user = $_SESSION["userdata"];
             $userid = $user["UserId"];
-            if (isset($this->data["b_id"]) && isset($this->data["b_is"])) {
+            $spid = $this->data["spid"];
+            if (isset($this->data["b_id"]) && isset($this->data["b_is"]) && $userid==$spid) {
                 $id = $this->data["b_id"];
                 $is = strtolower($this->data["b_is"]);
                 if (in_array($is, ["block", "unblock"])) {
@@ -181,7 +182,12 @@ class SDashboardController
             $service = $this->servicemodal->getServiceRequestById($serviceid);
             if (count($service) > 0 && $spid==$userid) {
                 if (!$this->servicemodal->CompleteServiceRequestBySPId($serviceid, $userid)) {
-                    $this->addErrors("SQLError", "Something went wrong with the SQL!!!");
+                    $this->addErrors("SQLError", "Something went wrong with the SQL!!");
+                }else{
+                    $res=$this->servicemodal->InsertFavoriteAndBlocked($service["UserId"], $spid);
+                    if(!$res){
+                        $this->addErrors("SQLError", "Something went wrong with the SQL!!!");
+                    }
                 }
             }else{
                 $this->addErrors("Invalid", "Service is not found!!!");

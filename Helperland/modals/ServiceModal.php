@@ -429,6 +429,36 @@ class ServiceModal extends Connection
         return $result;
     }
 
+    // check record is exits or not in favorite and blocked table
+    public function IsFavBlockExits($userid, $targetid){
+        $sql = "SELECT * FROM favoriteandblocked WHERE (UserId=$userid AND TargetUserId=$targetid) OR (UserId=$targetid AND TargetUserId=$userid)";
+        $result = $this->conn->query($sql);
+        //echo "<br>".$sql;
+        if($result->num_rows > 0){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    // insert favorite and blocked records
+    public function InsertFavoriteAndBlocked($userid, $targetid){
+        //echo $userid." ".$targetid."<br>";
+        if(!$this->IsFavBlockExits($userid, $targetid)){
+            try{
+                $this->conn->begin_transaction();
+                $this->conn->query("INSERT INTO favoriteandblocked (UserId, TargetUserId) VALUES ($userid, $targetid)");
+                $this->conn->query("INSERT INTO favoriteandblocked (UserId, TargetUserId) VALUES ($targetid, $userid)");
+                $this->conn->commit();
+                return true;
+            } catch (Exception $e){
+                return false;
+            }
+        }else{
+            return true;
+        }
+    }
+
     public function insertUserAddress($userid, $email)
     {
         $addline1 = trim($this->data["housenumber"]);

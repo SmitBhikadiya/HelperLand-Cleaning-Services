@@ -355,6 +355,7 @@ $(document).ready(function () {
     getDefaultRecords();
     setTimeout(setDefault, 100);
   });
+  
   // update city select option according to postal code
   $(document).on("keyup", "#add-postal", function (e) {
     var postal = $(this).val();
@@ -386,6 +387,24 @@ $(document).ready(function () {
       $("#city").html("");
       $.LoadingOverlay("hide");
     }
+  });
+
+  // blocked the customer
+  $(document).on("click", ".button-block", function(){
+    var id = $(this).parent().find(".userblock").text();
+    var is = $(this).text();
+    var spid = $("#spid").val();
+    //alert(spid);
+    jQuery.ajax({
+      type: "POST",
+      url: "http://localhost/Tatvasoft-PSD-TO-HTML/HelperLand/?controller=SDashboard&function=UpdateBlockUser",
+      datatype: "json",
+      data: { b_id: id, b_is: is, spid:spid },
+      success: function (result) {
+        console.log(result);
+        getAjaxDataByReq();
+      },
+    });
   });
 
   // when user want to update password
@@ -699,6 +718,7 @@ $(document).ready(function () {
     var html = '';
     var i=0;
     results.forEach((result) => {
+      var block = result.IsBlocked == 0 ? "Block" : "UnBlock";
       html+=`
       <div class="pro" id='data_${i++}'>
                 <div class="pro-avtar">
@@ -706,7 +726,8 @@ $(document).ready(function () {
                 </div>
                 <div class="pro-name">${result.FullName}</div>
                 <div class="pro-button">
-                    <button class="button-block">Block</button>
+                    <p class="userblock" style="display:none;">${result.Id}</p>
+                    <button class="button-block">${block}</button>
                 </div>
       </div>
       `;
