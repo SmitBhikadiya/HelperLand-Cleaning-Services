@@ -22,7 +22,8 @@ $(document).ready(function () {
   var records = [];
   var totalrecords = 0;
   var haspets;
-  var payment = $(".shistory-title select").val();
+  var payment = $("#select_payment").val();
+  var rating = $("#select_rating").val();
 
   switch (req) {
     case "setting":
@@ -338,8 +339,17 @@ $(document).ready(function () {
   });
 
   // when someone want to get data according to payment status
-  $(document).on("change", ".shistory-title select", function(){
+  $(document).on("change", "#select_payment", function(){
     payment = $(this).val();
+    updatePageNumber(currentpage);
+    getAjaxDataByReq();
+    getDefaultRecords();
+    setTimeout(setDefault, 100);
+  });
+
+  // when someone want to get data according to rating
+  $(document).on("change", "#select_rating", function(){
+    rating = $(this).val();
     updatePageNumber(currentpage);
     getAjaxDataByReq();
     getDefaultRecords();
@@ -424,7 +434,7 @@ $(document).ready(function () {
       type: "POST",
       url:"http://localhost/Tatvasoft-PSD-TO-HTML/HelperLand/?controller=SDashboard&function=TotalRequest&parameter="+req,
       datatype: "json",
-      data: {haspets:haspets, payment:payment},
+      data: {haspets:haspets, payment:payment, rating:rating},
       success: function (data) {
         console.log(data);
         var obj = JSON.parse(data);
@@ -441,7 +451,7 @@ $(document).ready(function () {
       type: "POST",
       url: "http://localhost/Tatvasoft-PSD-TO-HTML/HelperLand/?controller=SDashboard&function=ServiceRequest&parameter=" + req,
       datatype: "json",
-      data: { pagenumber: currentpage, limit: showrecords, haspets:haspets, payment:payment },
+      data: { pagenumber: currentpage, limit: showrecords, haspets:haspets, payment:payment, rating:rating },
       success: function (data) {
         console.log(data);
         //alert(data);

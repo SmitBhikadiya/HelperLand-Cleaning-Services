@@ -1,6 +1,6 @@
 <div class="div-content table-responsive">
 <div class="shistory-title">
-        <p>Payment Status <select class="form-select" aria-label="Default select example">
+        <p>Payment Status <select class="form-select" aria-label="Default select example" id="select_payment">
             <option value="all">All</option>
             <option value="cancelled">Cancelled</option>
             <option value="refund">Refund</option>

@@ -56,7 +56,18 @@ class SDashboardController
                     $result = $this->servicemodal->getAllServiceRequstBySPId($offset, $limit, $status, $userid);
                     break;
                 case "ratings":
-                    $result = $this->servicemodal->getAllRatingBySPId($offset, $limit, $userid);
+                    $rating = 0;
+                    if(isset($this->data["rating"])){
+                        switch($this->data["rating"]){
+                            case "excellent": $rating = 5; break;
+                            case "verygood": $rating = 4; break;
+                            case "good": $rating = 3; break;
+                            case "poor": $rating = 2; break;
+                            case "verypoor": $rating = 1; break;
+                            default: $rating = 0; 
+                        }
+                    }
+                    $result = $this->servicemodal->getAllRatingBySPId($offset, $limit, $userid, $rating);
                     break;
                 case "block":
                     $result = $this->servicemodal->getAllFavBlockBySPId($offset, $limit, $userid);
@@ -126,7 +137,18 @@ class SDashboardController
                     $result = $this->servicemodal->TotalServiceRequestBySPId($status, $userid);
                     break;
                 case "ratings":
-                    $result = $this->servicemodal->getTotalRatingBySPId($userid);
+                    $rating = 0;
+                    if(isset($this->data["rating"])){
+                        switch($this->data["rating"]){
+                            case "excellent": $rating = 5; break;
+                            case "verygood": $rating = 4; break;
+                            case "good": $rating = 3; break;
+                            case "poor": $rating = 2; break;
+                            case "verypoor": $rating = 1; break;
+                            default: $rating = 0; 
+                        }
+                    }
+                    $result = $this->servicemodal->getTotalRatingBySPId($userid, $rating);
                     break;
                 case "block":
                     $result = $this->servicemodal->TotalFavoriteAndBlockBySPId($userid);

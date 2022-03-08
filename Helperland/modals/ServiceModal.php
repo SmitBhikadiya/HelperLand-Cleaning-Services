@@ -136,8 +136,14 @@ class ServiceModal extends Connection
     }
 
     // get all rating detailes by sp id
-    public function getAllRatingBySPId($offset, $limit, $spid){
-        $sql = "SELECT rating.*, sr.ServiceStartDate, sr.ServiceHours, user.FirstName, user.LastName FROM rating JOIN servicerequest AS sr ON sr.ServiceRequestId = rating.ServiceRequestId JOIN user ON user.UserId = sr.UserId WHERE RatingTo=$spid LIMIT $offset, $limit";
+    public function getAllRatingBySPId($offset, $limit, $spid, $rating=0){
+        if($rating==0){
+            $sql = "SELECT rating.*, sr.ServiceStartDate, sr.ServiceHours, user.FirstName, user.LastName FROM rating JOIN servicerequest AS sr ON sr.ServiceRequestId = rating.ServiceRequestId JOIN user ON user.UserId = sr.UserId WHERE RatingTo=$spid AND Ratings>=0 AND Ratings<=5 LIMIT $offset, $limit";
+        }else{
+            $up = $rating+1;
+            $sql = "SELECT rating.*, sr.ServiceStartDate, sr.ServiceHours, user.FirstName, user.LastName FROM rating JOIN servicerequest AS sr ON sr.ServiceRequestId = rating.ServiceRequestId JOIN user ON user.UserId = sr.UserId WHERE RatingTo=$spid AND Ratings>=$rating AND Ratings<$up LIMIT $offset, $limit";
+        }
+        //echo $sql;
         $result = $this->conn->query($sql);
         $rows = [];
         if($result->num_rows > 0){
@@ -227,8 +233,14 @@ class ServiceModal extends Connection
     }
 
     // get total rating records given to the customer
-    public function getTotalRatingBySPId($spid){
-        $sql = "SELECT COUNT(*) as Total FROM rating WHERE RatingTo=$spid";
+    public function getTotalRatingBySPId($spid, $rating=0){
+        if($rating==0){
+            $sql = "SELECT count(*) AS Total FROM rating WHERE RatingTo=$spid AND Ratings>=0 AND Ratings<=5";
+        }else{
+            $up = $rating+1;
+            $sql = "SELECT count(*) AS Total FROM rating WHERE RatingTo=$spid AND Ratings>=$rating AND Ratings<$up";
+        }
+        //echo $sql;
         $result = $this->conn->query($sql);
         if ($result->num_rows > 0) {
             $result = $result->fetch_assoc();
