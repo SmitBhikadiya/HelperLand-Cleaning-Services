@@ -13,9 +13,11 @@ $(document).ready(function () {
 
   // Declare some global variable
   var today = new Date();
+  var today_ =today.getFullYear() + "-" + ("0" + (today.getMonth() + 1)).slice(-2) + "-" + ("0" + today.getDate()).slice(-2);
   var req = $("#req").val();
-  today.setDate(today.getDate() + 1);
-  var tommorrow =today.getFullYear() + "-" + ("0" + (today.getMonth() + 1)).slice(-2) + "-" + ("0" + today.getDate()).slice(-2);
+  var tommorrow = new Date();
+  tommorrow.setDate(tommorrow.getDate() + 1);
+  tommorrow =tommorrow.getFullYear() + "-" + ("0" + (tommorrow.getMonth() + 1)).slice(-2) + "-" + ("0" + tommorrow.getDate()).slice(-2);
   var currentpage = 1; // current page number
   var showrecords = $(".show-apge select").val(); // total records shown in select input
   var totalpage = 1;
@@ -88,6 +90,10 @@ $(document).ready(function () {
   $(document).on("click", "#table_upcomingservice tr", function(){
     var index = $(this).prop("id").split("_")[1];
     var result = records[index];
+    showUpcomingModal(result);
+  });
+
+  function showUpcomingModal(result){
     var date = getTimeAndDate(result.ServiceStartDate, result.ServiceHours);
     if(checkTimeForCompleteBtn(date.startdate, date.endtime)){
       $(".modal-button-complete").prop("id","");
@@ -116,7 +122,7 @@ $(document).ready(function () {
     $("#exampleModalServiceCancel .m-comments").text(result.Comments);
     $("#exampleModalServiceCancel .m-pets").html((result.HasPets == 0) ? '<span class="fa fa-times-circle-o"></span> I dont`t have pets at home': '<span class="fa fa-check" style="color:#0f7a2b"></span> I have pets at home');
     $("#exampleModalServiceCancel").modal("show");
-  });
+  }
 
   // when somebody click on the row of new request table
   $(document).on("click", "#table-newrequest tr", function(){
@@ -461,6 +467,27 @@ $(document).ready(function () {
     });
   }
 
+  $(document).on("click",".calendar .icon-left-right", function(){
+    switch($(this).prop("id")){
+      case "left-date":
+        today.setMonth(today.getMonth()-1);
+        break;
+      case "right-date":
+        today.setMonth(today.getMonth()+1);
+        break;
+    }
+    today_ = today.getFullYear() + "-" + ("0" + (today.getMonth() + 1)).slice(-2) + "-" + ("0" + today.getDate()).slice(-2);
+    //alert(today_);
+    getAjaxDataByReq();
+  });
+
+  $(document).on("click",".calendar .event",function(){
+    var index = $(this).prop("id").split("_")[1];
+    var result = records[index];
+    $("#exampleModalServiceCancel button").remove();
+    showUpcomingModal(result);
+  });
+
   // this is a function to get service data according to currentpage, showrecords and apge request
   function getAjaxDataByReq() {
     showLoader();
@@ -468,9 +495,9 @@ $(document).ready(function () {
       type: "POST",
       url: "http://localhost/Tatvasoft-PSD-TO-HTML/HelperLand/?controller=SDashboard&function=ServiceRequest&parameter=" + req,
       datatype: "json",
-      data: { pagenumber: currentpage, limit: showrecords, haspets:haspets, payment:payment, rating:rating },
+      data: { pagenumber: currentpage, limit: showrecords, haspets:haspets, payment:payment, rating:rating, date:today_},
       success: function (data) {
-        //console.log(data);
+        console.log(data);
         //alert(data);
         obj = JSON.parse(data);
         $("table tbody").html("");
@@ -495,6 +522,7 @@ $(document).ready(function () {
             case "block":
               setBlocks(obj.result);
             case "schedule":
+              setSchedules(obj.calendar);
               break;
             case "setting":
               break;
@@ -646,6 +674,9 @@ $(document).ready(function () {
       `;
     });
     $("table tbody").html(html);
+  }
+  function setSchedules(results){
+    $(".dov-content").html(results);
   }
   function setHistory(results){
     var html = '';

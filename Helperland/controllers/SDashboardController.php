@@ -3,6 +3,7 @@
 require_once("modals/ServiceModal.php");
 require_once("modals/UsersModal.php");
 require_once("phpmailer/mail.php");
+include_once("controllers/calendar/Calendar.php");
 
 class SDashboardController
 {
@@ -22,6 +23,7 @@ class SDashboardController
     {
         if (isset($_SESSION["userdata"])) {
             $result = [[], []];
+            $html = "";
             $currentpage = isset($this->data["pagenumber"]) ? $this->data["pagenumber"] : 1;
             $limit = isset($this->data["limit"]) ? $this->data["limit"] : 1;
             $haspets = isset($this->data["haspets"]) ? $this->data["haspets"] : "";
@@ -42,6 +44,25 @@ class SDashboardController
                     $result = $this->servicemodal->getAllServiceRequstBySPId($offset, $limit, "(2)", $userid);
                     break;
                 case "schedule":
+                    if(isset($this->data["date"])){
+                        $date = $this->data["date"];
+                    }else{
+                        $date = date("Y-m-d");
+                    }
+                    //echo $date;
+                    $calendar = new Calendar($date);
+                    $results = $this->servicemodal->getServiceByMonthAndYear($userid, $date, "(3,4)");
+                    //print_r($result);
+                    if(count($results)>0){
+                        $i=0;
+                        foreach($results as $result){
+                            $service_starttime = $result["ServiceStartTime"];
+                            $service_endtime = $this->convertStrToTime($result["ServiceHours"] + $this->convertTimeToStr($service_starttime));
+                            $calendar->add_event($service_starttime." - ".$service_endtime, $result["StartDate"], 1, $result["Status"]==3 ? "red":"green",$i++);
+                        }
+                    }
+                    $result = [$results, $this->errors];
+                    $html = $calendar->getCalendarHTML();
                     break;
                 case "history":
                     $status = "(3,4,5)";
@@ -82,7 +103,7 @@ class SDashboardController
             $this->addErrors("login", "User is not login!!!");
         }
 
-        echo json_encode(["result" => $result[0], "errors" => $this->errors]);
+        echo json_encode(["result" => $result[0], "errors" => $this->errors, "calendar"=>$html]);
     }
 
     public function UpdateBlockUser()

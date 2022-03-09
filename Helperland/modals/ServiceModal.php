@@ -92,10 +92,27 @@ class ServiceModal extends Connection
         }
     }
 
-    public function getServiceByStartDateSPAndStatus($favsp, $startdate, $status){
-        $sql = "SELECT sr.ServiceRequestId, DATE_FORMAT(sr.ServiceStartDate, '%H:%i') as ServiceStartTime, sr.ServiceHours, sr.Status, user.Email FROM servicerequest AS sr JOIN user ON user.UserId = sr.ServiceProviderId WHERE sr.ServiceProviderId = $favsp AND sr.Status IN $status AND sr.ServiceStartDate LIKE '%$startdate%';";
+    public function getServiceByMonthAndYear($spid, $startdate, $status){
+        $startdate = date("Y-m", strtotime($startdate));
+        //$sql = "SELECT sr.ServiceRequestId, DATE_FORMAT(sr.ServiceStartDate, '%H:%i') as ServiceStartTime,DATE_FORMAT(sr.ServiceStartDate, '%Y-%m-%d') as StartDate, sr.ServiceHours, sr.Status, user.Email FROM servicerequest AS sr JOIN user ON user.UserId = sr.ServiceProviderId WHERE sr.ServiceProviderId = $favsp AND sr.Status IN $status AND sr.ServiceStartDate LIKE '%$startdate%';";
+        $sql = "SELECT sr.ServiceRequestId, DATE_FORMAT(sr.ServiceStartDate, '%H:%i') as ServiceStartTime,DATE_FORMAT(sr.ServiceStartDate, '%Y-%m-%d') as StartDate, sr.ServiceStartDate, sr.UserId, sr.ServiceHourlyRate,sr.ServiceHours,sr.ExtraHours, sr.SubTotal, sr.Discount,sr.TotalCost, sr.ServiceProviderId, sr.SPAcceptedDate, sr.HasPets, sr.Status,sr.HasIssue, sr.PaymentDone, sr.RecordVersion, sr.ModifiedBy, sr.ModifiedDate, sr.Comments, sra.AddressLine1, sra.AddressLine2, sra.City, sra.State, sra.PostalCode, sra.Mobile, sre.ServiceExtraId, user.FirstName, user.LastName, user.Email FROM servicerequest AS sr JOIN user ON user.UserId = sr.UserId JOIN servicerequestaddress AS sra ON sra.ServiceRequestId = sr.ServiceRequestId LEFT JOIN servicerequestextra AS sre ON sre.ServiceRequestId = sr.ServiceRequestId WHERE sr.ServiceProviderId = $spid AND sr.Status IN $status AND sr.ServiceStartDate LIKE '%$startdate%';";
         $services = $this->conn->query($sql);
         $rows = [];
+        //echo $sql;
+        if($services->num_rows > 0){
+            // check any slot time with selected time
+            while($row = $services->fetch_assoc()){
+                 array_push($rows,$row);
+            }
+        }
+        return $rows;
+    }
+
+    public function getServiceByStartDateSPAndStatus($favsp, $startdate, $status){
+        $sql = "SELECT sr.ServiceRequestId, DATE_FORMAT(sr.ServiceStartDate, '%H:%i') as ServiceStartTime,DATE_FORMAT(sr.ServiceStartDate, '%Y-%m-%d') as ServiceStartDate, sr.ServiceHours, sr.Status, user.Email FROM servicerequest AS sr JOIN user ON user.UserId = sr.ServiceProviderId WHERE sr.ServiceProviderId = $favsp AND sr.Status IN $status AND sr.ServiceStartDate LIKE '%$startdate%';";
+        $services = $this->conn->query($sql);
+        $rows = [];
+        //echo $sql;
         if($services->num_rows > 0){
             // check any slot time with selected time
             while($row = $services->fetch_assoc()){
