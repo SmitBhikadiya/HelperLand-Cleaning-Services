@@ -246,6 +246,7 @@ class SDashboardController
             $serviceid = $this->data["serviceid"];
             if (count($this->servicemodal->IsAcceptedByAnySP($serviceid)) < 1) {
                 $service = $this->servicemodal->getServiceRequestById($serviceid);
+                $postalcode = $service["ZipCode"];
                 if (count($service) > 0) {
                     if (in_array($service["Status"], [0, 1])) {
                         $startdate = date('Y-m-d', strtotime($service["ServiceStartDate"]));
@@ -286,6 +287,15 @@ class SDashboardController
                         if (count($this->errors) < 1) {
                             if (!$this->servicemodal->AcceptServiceRequest($serviceid, $userid)) {
                                 $this->addErrors("SQLError", "Somthing went wrong with the sql!!!");
+                            }else{
+                                $emails = [];
+                                if(!empty($postalcode)){
+                                    $servicers = $this->servicemodal->getServicerEmailByPostalCode($postalcode);
+                                    foreach ($servicers as $servicer) {
+                                        array_push($emails, $servicer["Email"]);
+                                    }
+                                    $mailmsg = sendmail($emails, "Service is Acepted", "<h2>service request ".substr("000".$serviceid, -4)."  has already been <kbd><b>accepted</b></kbd> by someone and is no more available to you</h2>");
+                                }
                             }
                         }
                     }else{

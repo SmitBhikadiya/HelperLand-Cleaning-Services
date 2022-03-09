@@ -655,6 +655,18 @@ class ServiceModal extends Connection
         return $servicers;
     }
 
+    public function getServicerEmailByPostalCode($postalcode){
+        $sql = "SELECT * FROM user JOIN useraddress ON useraddress.UserId=user.UserId WHERE user.UserTypeId=2 AND user.IsApproved=1 AND user.IsDeleted=0 AND user.WorksWithPets >= 0 AND useraddress.PostalCode=$postalcode";
+        $result = $this->conn->query($sql);
+        $servicers = [];
+        if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                array_push($servicers, $row);
+            }
+        }
+        return $servicers;
+    }
+
     private function addErrors($key, $val)
     {
         $this->errors[$key] = $val;

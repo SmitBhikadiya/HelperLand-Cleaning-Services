@@ -20,12 +20,12 @@
         <table class="table" id="table-newrequest">
             <thead>
                 <tr>
-                    <th scope="col">Service ID <img src="./static/images/icon-sort.png" alt=""></th>
-                    <th scope="col">Service date <img src="./static/images/icon-sort.png" alt=""></th>
-                    <th scope="col">Cutomer details <img src="./static/images/icon-sort.png" alt="">
-                    </th>
-                    <th scope="col">Payment <img src="./static/images/icon-sort.png" alt=""></th>
-                    <th scope="col">Time conflict <img src="./static/images/icon-sort.png" alt=""></th>
+                    <!-- <img src="./static/images/icon-sort.png"> -->
+                    <th scope="col">Service ID</th>
+                    <th scope="col">Service date</th>
+                    <th scope="col">Cutomer details</th>
+                    <th scope="col">Payment</th>
+                    <th scope="col">Time conflict</th>
                     <th scope="col">Actions</th>
                 </tr>
             </thead>

@@ -12,9 +12,10 @@
         <table class="table" id="table">
             <thead>
                 <tr>
-                    <th scope="col">Service ID <img src="./static/images/icon-sort.png" alt=""></th>
-                    <th scope="col">Service date <img src="./static/images/icon-sort.png" alt=""></th>
-                    <th scope="col">Cutomer details <img src="./static/images/icon-sort.png" alt=""></th>
+                    <!-- <img src="./static/images/icon-sort.png"> -->
+                    <th scope="col">Service ID</th>
+                    <th scope="col">Service date</th>
+                    <th scope="col">Cutomer details</th>
                     <th scope="col">Status</th>
                 </tr>
             </thead>

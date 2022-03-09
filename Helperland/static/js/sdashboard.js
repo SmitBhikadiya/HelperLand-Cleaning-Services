@@ -157,7 +157,7 @@ $(document).ready(function () {
       datatype: "json",
       data: {serviceid:serviceid, spid:spid},
       success: function (data) {
-        console.log(data);
+        //console.log(data);
         var obj = JSON.parse(data);
         $(".modal").modal("hide");
         if (obj.errors.length == 0) {
@@ -256,7 +256,7 @@ $(document).ready(function () {
       datatype: "json",
       data: {serviceid:serviceid, spid:spid},
       success: function (data) {
-        console.log(data);
+        //console.log(data);
         var obj = JSON.parse(data);
         $(".modal").modal("hide");
         if (obj.errors.length == 0) {
@@ -298,7 +298,7 @@ $(document).ready(function () {
         datatype: "json",
         data: data,
         success: function (data) {
-          console.log(data);
+          //console.log(data);
           var obj = JSON.parse(data);
           if (obj.errors.length == 0) {
             $("#firstname").val(obj.result.FirstName);
@@ -355,7 +355,6 @@ $(document).ready(function () {
     getDefaultRecords();
     setTimeout(setDefault, 100);
   });
-  
   // update city select option according to postal code
   $(document).on("keyup", "#add-postal", function (e) {
     var postal = $(this).val();
@@ -394,14 +393,13 @@ $(document).ready(function () {
     var id = $(this).parent().find(".userblock").text();
     var is = $(this).text();
     var spid = $("#spid").val();
-    //alert(spid);
     jQuery.ajax({
       type: "POST",
       url: "http://localhost/Tatvasoft-PSD-TO-HTML/HelperLand/?controller=SDashboard&function=UpdateBlockUser",
       datatype: "json",
       data: { b_id: id, b_is: is, spid:spid },
       success: function (result) {
-        console.log(result);
+        //console.log(result);
         getAjaxDataByReq();
       },
     });
@@ -419,7 +417,7 @@ $(document).ready(function () {
         datatype: "json",
         data: $("#form-changepassword").serialize(),
         success: function (data) {
-          console.log(data);
+          //console.log(data);
           var obj = JSON.parse(data);
           if(obj.errors.length==0){
             $("#form-changepassword").prepend('<div class="alert alert-success alert-dismissible fade show" role="alert"><ul class="success">Password Changed Successfully!!</ul><button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>');
@@ -455,7 +453,7 @@ $(document).ready(function () {
       datatype: "json",
       data: {haspets:haspets, payment:payment, rating:rating},
       success: function (data) {
-        console.log(data);
+        //console.log(data);
         var obj = JSON.parse(data);
         var totalrequest = obj.result.Total;
         $(".show-apge .totalrecords").text(totalrequest);
@@ -472,7 +470,7 @@ $(document).ready(function () {
       datatype: "json",
       data: { pagenumber: currentpage, limit: showrecords, haspets:haspets, payment:payment, rating:rating },
       success: function (data) {
-        console.log(data);
+        //console.log(data);
         //alert(data);
         obj = JSON.parse(data);
         $("table tbody").html("");
