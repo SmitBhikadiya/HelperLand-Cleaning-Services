@@ -145,8 +145,9 @@ class ServiceModal extends Connection
     public function IsUserBlockedByTheCustomerORServicer($custid, $spid)
     {
         if ($this->isFavoriteBlockedExits($custid, $spid)) {
-            $sql = "SELECT * FROM favoriteandblocked WHERE UserId=$custid AND TargetUserId IN (SELECT UserId FROM favoriteandblocked WHERE UserId=$spid AND IsBlocked=0) AND IsBlocked=0";
+            $sql = "SELECT * FROM favoriteandblocked WHERE UserId=$custid AND TargetUserId IN (SELECT UserId FROM favoriteandblocked WHERE UserId=$spid AND TargetUserId=$custid AND IsBlocked=0) AND IsBlocked=0";
             $result = $this->conn->query($sql);
+            //echo $sql;
             if ($result->num_rows > 0) {
                 return true;
             } else {
@@ -215,11 +216,11 @@ class ServiceModal extends Connection
         if ($res->num_rows > 0) {
             while ($row = $res->fetch_assoc()) {
                 $custid = $row["UserId"];
-                if (!$this->IsUserBlockedByTheCustomerORServicer($custid, $spid) && $status=="(0,1)") {
-                    continue;
-                }
-                $total++;   
+                if ($this->IsUserBlockedByTheCustomerORServicer($custid, $spid) && $status=="(0,1)") {
+                    $total++;
+                }  
             }
+            //echo $total;
             $result["Total"] = $total;
         } else {
             $result["Total"] = 0;
