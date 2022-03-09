@@ -61,6 +61,10 @@
     color: #fff;
     word-wrap: break-word;
 }
+.calendar .days .day_num .event.appcolor{
+    background-color: #1d7a8c;
+    color: white;
+}
 .calendar .days .day_num .event.green {
     background-color: #51ce57;
 }

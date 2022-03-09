@@ -170,6 +170,10 @@
     align-items: center;
 }
 
+.modal-dialog{
+    justify-content: center;
+}
+
 /* #Ratesp .td-rating .rating-user img {
     width: 22px;
     height: 17px;

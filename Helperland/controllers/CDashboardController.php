@@ -15,6 +15,40 @@ class CDashboardController
         $this->servicemodal = new ServiceModal($this->data);
     }
 
+    public function TotalRequest($request='')
+    {   
+        $result = [[],[]];
+        if (isset($_SESSION["userdata"])) {
+            $user = $_SESSION["userdata"];
+            $userid = $user["UserId"];
+            switch ($request) {
+                case "service-history":
+                    $status = '(3,4)';
+                    $result = $this->servicemodal->TotalRequestByUserId($userid, $status);
+                    break;
+                case "favorite-pros":
+                    $result = $this->servicemodal->TotalFavoriteAndBlockByUserId($userid);
+                    break;
+                case "dashboard":
+                    $status = '(0,1,2)';
+                    $result = $this->servicemodal->TotalRequestByUserId($userid, $status);
+                    break;
+                default:
+                    $status = '(0,1,2)';
+                    $result = $this->servicemodal->TotalRequestByUserId($userid, $status);
+            }
+        }else {
+            $this->addErrors("login", "User is not login!!!");
+        }
+            
+        if (count($result[1]) > 0) {
+            foreach ($result[1] as $key => $val) {
+                $this->addErrors($key, $val);
+            }
+        }
+
+        echo json_encode(["result" => $result[0], "errors" => $this->errors]);
+    }
 
     public function ServiceRequest($request = "")
     {
@@ -176,41 +210,6 @@ class CDashboardController
             }
         }else {
             $this->addErrors("login", "User is not login!!!");
-        }
-
-        echo json_encode(["result" => $result[0], "errors" => $this->errors]);
-    }
-
-    public function TotalRequest($request='')
-    {   
-        $result = [[],[]];
-        if (isset($_SESSION["userdata"])) {
-            $user = $_SESSION["userdata"];
-            $userid = $user["UserId"];
-            switch ($request) {
-                case "service-history":
-                    $status = '(3,4)';
-                    $result = $this->servicemodal->TotalRequestByUserId($userid, $status);
-                    break;
-                case "favorite-pros":
-                    $result = $this->servicemodal->TotalFavoriteAndBlockByUserId($userid);
-                    break;
-                case "dashboard":
-                    $status = '(0,1,2)';
-                    $result = $this->servicemodal->TotalRequestByUserId($userid, $status);
-                    break;
-                default:
-                    $status = '(0,1,2)';
-                    $result = $this->servicemodal->TotalRequestByUserId($userid, $status);
-            }
-        }else {
-            $this->addErrors("login", "User is not login!!!");
-        }
-            
-        if (count($result[1]) > 0) {
-            foreach ($result[1] as $key => $val) {
-                $this->addErrors($key, $val);
-            }
         }
 
         echo json_encode(["result" => $result[0], "errors" => $this->errors]);

@@ -14,130 +14,172 @@ class ServiceModal extends Connection
     }
 
     // check service is accepted by any servicer provider
-    public function IsAcceptedByAnySP($serviceid){
+    public function IsAcceptedByAnySP($serviceid)
+    {
         $sql = "SELECT * FROM servicerequest WHERE ServiceRequestId=$serviceid AND Status=2";
         $result = $this->conn->query($sql);
-        if($result->num_rows > 0){
+        if ($result->num_rows > 0) {
             $result = $result->fetch_assoc();
-        }else{
+        } else {
             $result = [];
         }
         return $result;
     }
 
     // update service time slot
-    public function IsUpdateServiceSchedulePossibleOnDate($favsp, $startdate, $status){
+    public function IsUpdateServiceSchedulePossibleOnDate($favsp, $startdate, $status)
+    {
         // if service is already assign to service provider then check 
         // slot will be available on selected slot
-        if(!is_null($favsp)){
+        if (!is_null($favsp)) {
             $services = $this->getServiceByStartDateSPAndStatus($favsp, $startdate, $status);
-        }else{
+        } else {
             $services = [];
         }
         return [$services, $this->errors];
     }
 
     // accept the service request
-    public function AcceptServiceRequest($serviceid, $spid){
+    public function AcceptServiceRequest($serviceid, $spid)
+    {
         $record_version = 0;
-        $sql = "UPDATE servicerequest SET ServiceProviderId=$spid, SPAcceptedDate=now(), RecordVersion=$record_version, Status=2 WHERE ServiceRequestId=$serviceid"; 
+        $sql = "UPDATE servicerequest SET ServiceProviderId=$spid, SPAcceptedDate=now(), RecordVersion=$record_version, Status=2 WHERE ServiceRequestId=$serviceid";
         //echo $sql;
         return $this->conn->query($sql);
     }
 
     // complete the service request
-    public function CompleteServiceRequestBySPId($serviceid, $spid){
-        $sql = "UPDATE servicerequest SET Status=4 WHERE ServiceRequestId=$serviceid AND ServiceProviderId=$spid"; 
+    public function CompleteServiceRequestBySPId($serviceid, $spid)
+    {
+        $sql = "UPDATE servicerequest SET Status=4 WHERE ServiceRequestId=$serviceid AND ServiceProviderId=$spid";
         //echo $sql;
         return $this->conn->query($sql);
     }
 
     //
-    public function UpdateFavouriteUser($f_id, $set){
-        if($set==1){
+    public function UpdateFavouriteUser($f_id, $set)
+    {
+        if ($set == 1) {
             $sql = "UPDATE favoriteandblocked SET IsFavorite=$set, IsBlocked=0 WHERE Id=$f_id;";
-        }else{
+        } else {
             $sql = "UPDATE favoriteandblocked SET IsFavorite=$set WHERE Id=$f_id;";
         }
         $result = $this->conn->query($sql);
-        if($result){
+        if ($result) {
             return $set;
         }
     }
-    public function UpdateBlockUser($b_id, $set){
-        if($set==1){
+    public function UpdateBlockUser($b_id, $set)
+    {
+        if ($set == 1) {
             $sql = "UPDATE favoriteandblocked SET IsBlocked=$set, IsFavorite=0   WHERE Id=$b_id;";
-        }else{
+        } else {
             $sql = "UPDATE favoriteandblocked SET IsBlocked=$set WHERE Id=$b_id;";
         }
         $result = $this->conn->query($sql);
-        if($result){
+        if ($result) {
             return $set;
         }
     }
 
-    public function UpdateSerivceScheduleById($startdate, $starttime, $serviceId, $modifiedby, $status, $record_version){
-        
+    public function UpdateSerivceScheduleById($startdate, $starttime, $serviceId, $modifiedby, $status, $record_version)
+    {
+
         // for fromatting datetime
         $date = new DateTime($startdate);
         $date->setTime(floor($starttime), floor($starttime) == $starttime ? "00" : (("0." . substr($starttime, -1) * 60) * 100));
         $datetime = $date->format('Y-m-d H:i:s');
-        
+
         $sql = "UPDATE servicerequest SET ServiceStartDate='$datetime', ModifiedBy=$modifiedby, ModifiedDate=now(), Status=$status, RecordVersion=$record_version WHERE ServiceRequestId=$serviceId";
         $result = $this->conn->query($sql);
-        if($result){
+        if ($result) {
             return 1;
-        }else{
+        } else {
             return 0;
         }
     }
 
-    public function getServiceByMonthAndYear($spid, $startdate, $status){
+    public function getServiceByMonthAndYear($spid, $startdate, $status)
+    {
         $startdate = date("Y-m", strtotime($startdate));
         //$sql = "SELECT sr.ServiceRequestId, DATE_FORMAT(sr.ServiceStartDate, '%H:%i') as ServiceStartTime,DATE_FORMAT(sr.ServiceStartDate, '%Y-%m-%d') as StartDate, sr.ServiceHours, sr.Status, user.Email FROM servicerequest AS sr JOIN user ON user.UserId = sr.ServiceProviderId WHERE sr.ServiceProviderId = $favsp AND sr.Status IN $status AND sr.ServiceStartDate LIKE '%$startdate%';";
         $sql = "SELECT sr.ServiceRequestId, DATE_FORMAT(sr.ServiceStartDate, '%H:%i') as ServiceStartTime,DATE_FORMAT(sr.ServiceStartDate, '%Y-%m-%d') as StartDate, sr.ServiceStartDate, sr.UserId, sr.ServiceHourlyRate,sr.ServiceHours,sr.ExtraHours, sr.SubTotal, sr.Discount,sr.TotalCost, sr.ServiceProviderId, sr.SPAcceptedDate, sr.HasPets, sr.Status,sr.HasIssue, sr.PaymentDone, sr.RecordVersion, sr.ModifiedBy, sr.ModifiedDate, sr.Comments, sra.AddressLine1, sra.AddressLine2, sra.City, sra.State, sra.PostalCode, sra.Mobile, sre.ServiceExtraId, user.FirstName, user.LastName, user.Email FROM servicerequest AS sr JOIN user ON user.UserId = sr.UserId JOIN servicerequestaddress AS sra ON sra.ServiceRequestId = sr.ServiceRequestId LEFT JOIN servicerequestextra AS sre ON sre.ServiceRequestId = sr.ServiceRequestId WHERE sr.ServiceProviderId = $spid AND sr.Status IN $status AND sr.ServiceStartDate LIKE '%$startdate%';";
         $services = $this->conn->query($sql);
         $rows = [];
         //echo $sql;
-        if($services->num_rows > 0){
+        if ($services->num_rows > 0) {
             // check any slot time with selected time
-            while($row = $services->fetch_assoc()){
-                 array_push($rows,$row);
+            while ($row = $services->fetch_assoc()) {
+                array_push($rows, $row);
             }
         }
         return $rows;
     }
 
-    public function getServiceByStartDateSPAndStatus($favsp, $startdate, $status){
+    public function getServiceByStartDateSPAndStatus($favsp, $startdate, $status)
+    {
         $sql = "SELECT sr.ServiceRequestId, DATE_FORMAT(sr.ServiceStartDate, '%H:%i') as ServiceStartTime,DATE_FORMAT(sr.ServiceStartDate, '%Y-%m-%d') as ServiceStartDate, sr.ServiceHours, sr.Status, user.Email FROM servicerequest AS sr JOIN user ON user.UserId = sr.ServiceProviderId WHERE sr.ServiceProviderId = $favsp AND sr.Status IN $status AND sr.ServiceStartDate LIKE '%$startdate%';";
         $services = $this->conn->query($sql);
         $rows = [];
         //echo $sql;
-        if($services->num_rows > 0){
+        if ($services->num_rows > 0) {
             // check any slot time with selected time
-            while($row = $services->fetch_assoc()){
-                 array_push($rows,$row);
+            while ($row = $services->fetch_assoc()) {
+                array_push($rows, $row);
             }
         }
         return $rows;
     }
 
-    public function getAllServiceRequstBySPId($offset, $limit, $status, $spid, $haspets=""){
-        if($haspets!="" && $haspets==0){
+    public function isFavoriteBlockedExits($custid, $spid)
+    {
+        $sql = "SELECT * FROM favoriteandblocked WHERE UserId=$custid AND TargetUserId=$spid";
+        $result = $this->conn->query($sql);
+        if ($result->num_rows > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function IsUserBlockedByTheCustomerORServicer($custid, $spid)
+    {
+        if ($this->isFavoriteBlockedExits($custid, $spid)) {
+            $sql = "SELECT * FROM favoriteandblocked WHERE UserId=$custid AND TargetUserId IN (SELECT UserId FROM favoriteandblocked WHERE UserId=$spid AND IsBlocked=0) AND IsBlocked=0";
+            $result = $this->conn->query($sql);
+            if ($result->num_rows > 0) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return true;
+        }
+    }
+
+    public function getAllServiceRequstBySPId($offset, $limit, $status, $spid, $haspets = "")
+    {
+        if ($haspets != "" && $haspets == 0) {
             $haspets = "(0)";
-        }else{
+        } else {
             $haspets = "(0,1)";
         }
-        if($status=="(0,1)"){
-            //$sql = "SELECT sr.ServiceRequestId, sr.ServiceStartDate, sr.UserId, sr.ServiceHourlyRate, sr.ServiceHours, sr.ExtraHours, sr.SubTotal, sr.Discount,sr.TotalCost, sr.ServiceProviderId, sr.SPAcceptedDate, sr.HasPets, sr.Status, sr.HasIssue, sr.PaymentDone, sr.RecordVersion, sr.ModifiedBy, sr.ModifiedDate, sr.Comments, sra.AddressLine1, sra.AddressLine2, sra.City, sra.State, sra.PostalCode, sra.Mobile, sra.Email, sre.ServiceExtraId, user.FirstName, user.LastName FROM servicerequest AS sr JOIN servicerequestaddress AS sra ON sra.ServiceRequestId = sr.ServiceRequestId LEFT JOIN servicerequestextra AS sre ON sre.ServiceRequestId = sr.ServiceRequestId JOIN user ON user.UserId=sr.UserId WHERE sr.HasPets IN $haspets AND (sr.ServiceProviderId IS NULL OR sr.ServiceProviderId=$spid) AND sr.Status IN $status ORDER BY sr.ServiceRequestId DESC LIMIT $offset, $limit";
-            $sql = "SELECT sr.ServiceRequestId, sr.ServiceStartDate, sr.UserId, sr.ServiceHourlyRate, sr.ServiceHours, sr.ExtraHours, sr.SubTotal, sr.Discount,sr.TotalCost, sr.ServiceProviderId, sr.SPAcceptedDate, sr.HasPets, sr.Status, sr.HasIssue, sr.PaymentDone, sr.RecordVersion, sr.ModifiedBy, sr.ModifiedDate, sr.Comments, sra.AddressLine1, sra.AddressLine2, sra.City, sra.State, sra.PostalCode, sra.Mobile, sra.Email, sre.ServiceExtraId, user.FirstName, user.LastName, fb.Id, fb.IsBlocked FROM servicerequest AS sr JOIN servicerequestaddress AS sra ON sra.ServiceRequestId = sr.ServiceRequestId LEFT JOIN servicerequestextra AS sre ON sre.ServiceRequestId = sr.ServiceRequestId JOIN user ON user.UserId=sr.UserId LEFT JOIN favoriteandblocked AS fb ON fb.TargetUserId=sr.UserId WHERE sr.HasPets IN $haspets AND (sr.ServiceProviderId IS NULL OR sr.ServiceProviderId=$spid) AND fb.IsBlocked=0 AND sr.Status IN $status ORDER BY sr.ServiceRequestId DESC";    
-        }else{
+        if ($status == "(0,1)") {
+            //$sql = "SELECT sr.ServiceRequestId, sr.ServiceStartDate, sr.UserId, sr.ServiceHourlyRate, sr.ServiceHours, sr.ExtraHours, sr.SubTotal, sr.Discount,sr.TotalCost, sr.ServiceProviderId, sr.SPAcceptedDate, sr.HasPets, sr.Status, sr.HasIssue, sr.PaymentDone, sr.RecordVersion, sr.ModifiedBy, sr.ModifiedDate, sr.Comments, sra.AddressLine1, sra.AddressLine2, sra.City, sra.State, sra.PostalCode, sra.Mobile, sra.Email, sre.ServiceExtraId, user.FirstName, user.LastName, fb.Id, fb.IsBlocked FROM servicerequest AS sr JOIN servicerequestaddress AS sra ON sra.ServiceRequestId = sr.ServiceRequestId LEFT JOIN servicerequestextra AS sre ON sre.ServiceRequestId = sr.ServiceRequestId JOIN user ON user.UserId=sr.UserId LEFT JOIN favoriteandblocked AS fb ON fb.TargetUserId=sr.UserId WHERE sr.HasPets IN $haspets AND (sr.ServiceProviderId IS NULL OR sr.ServiceProviderId=$spid) AND (fb.IsBlocked=0 OR fb.IsBlocked IS NULL) AND sr.Status IN $status ORDER BY sr.ServiceRequestId DESC LIMIT $offset, $limit";
+            //$sql = "SELECT sr.ServiceRequestId, sr.ServiceStartDate, sr.UserId, sr.ServiceHourlyRate, sr.ServiceHours, sr.ExtraHours, sr.SubTotal, sr.Discount,sr.TotalCost, sr.ServiceProviderId, sr.SPAcceptedDate, sr.HasPets, sr.Status, sr.HasIssue, sr.PaymentDone, sr.RecordVersion, sr.ModifiedBy, sr.ModifiedDate, sr.Comments, sra.AddressLine1, sra.AddressLine2, sra.City, sra.State, sra.PostalCode, sra.Mobile, sra.Email, sre.ServiceExtraId, user.FirstName, user.LastName, fb.Id, fb.IsBlocked FROM servicerequest AS sr JOIN servicerequestaddress AS sra ON sra.ServiceRequestId = sr.ServiceRequestId LEFT JOIN servicerequestextra AS sre ON sre.ServiceRequestId = sr.ServiceRequestId JOIN user ON user.UserId=sr.UserId LEFT JOIN favoriteandblocked AS fb ON fb.UserId=sr.ServiceProviderId WHERE sr.HasPets IN $haspets AND (sr.ServiceProviderId IS NULL OR sr.ServiceProviderId=$spid) AND (fb.IsBlocked=0 OR fb.IsBlocked IS NULL) AND sr.Status IN $status ORDER BY sr.ServiceRequestId DESC LIMIT $offset, $limit";
+            $sql = "SELECT sr.ServiceRequestId, sr.ServiceStartDate, sr.UserId, sr.ServiceHourlyRate, sr.ServiceHours, sr.ExtraHours, sr.SubTotal, sr.Discount,sr.TotalCost, sr.ServiceProviderId, sr.SPAcceptedDate, sr.HasPets, sr.Status, sr.HasIssue, sr.PaymentDone, sr.RecordVersion, sr.ModifiedBy, sr.ModifiedDate, sr.Comments, sra.AddressLine1, sra.AddressLine2, sra.City, sra.State, sra.PostalCode, sra.Mobile, sra.Email, sre.ServiceExtraId, user.FirstName, user.LastName FROM servicerequest AS sr JOIN servicerequestaddress AS sra ON sra.ServiceRequestId = sr.ServiceRequestId LEFT JOIN servicerequestextra AS sre ON sre.ServiceRequestId = sr.ServiceRequestId JOIN user ON user.UserId=sr.UserId WHERE sr.HasPets IN $haspets AND (sr.ServiceProviderId IS NULL OR sr.ServiceProviderId=$spid) AND  sr.Status IN $status ORDER BY sr.ServiceRequestId DESC LIMIT $offset, $limit";
+        } else {
             $sql = "SELECT sr.ServiceRequestId, sr.ServiceStartDate, sr.UserId, sr.ServiceHourlyRate, sr.ServiceHours, sr.ExtraHours, sr.SubTotal, sr.Discount,sr.TotalCost, sr.ServiceProviderId, sr.SPAcceptedDate, sr.HasPets, sr.Status, sr.HasIssue, sr.PaymentDone, sr.RecordVersion, sr.ModifiedBy, sr.ModifiedDate, sr.Comments, sra.AddressLine1, sra.AddressLine2, sra.City, sra.State, sra.PostalCode, sra.Mobile, sra.Email, sre.ServiceExtraId, user.FirstName, user.LastName FROM servicerequest AS sr JOIN servicerequestaddress AS sra ON sra.ServiceRequestId = sr.ServiceRequestId LEFT JOIN servicerequestextra AS sre ON sre.ServiceRequestId = sr.ServiceRequestId JOIN user ON user.UserId=sr.UserId WHERE sr.HasPets IN $haspets AND (sr.ServiceProviderId = $spid AND sr.Status IN $status) ORDER BY sr.ServiceRequestId DESC LIMIT $offset, $limit";
         }
+        //echo $sql;
         $result = $this->conn->query($sql);
         $services = [];
         if ($result->num_rows > 0) {
-            while ($row = $result->fetch_assoc()) {                    
+            while ($row = $result->fetch_assoc()) {
+                $custid = $row["UserId"];
+                if (!$this->IsUserBlockedByTheCustomerORServicer($custid, $spid) && $status == "(0,1)") {
+                    continue;
+                }
                 if (!is_null($row["ServiceProviderId"])) {
                     $spid = $row["ServiceProviderId"];
                     $serviceid = $row["ServiceRequestId"];
@@ -153,109 +195,122 @@ class ServiceModal extends Connection
         return [$services, $this->errors];
     }
 
+    // get servicer request by sp id 
+    public function TotalServiceRequestBySPId($status, $spid, $haspets = "")
+    {
+        if ($haspets != "" && $haspets == 0) {
+            $haspets = "(0)";
+        } else {
+            $haspets = "(0,1)";
+        }
+        if ($status == "(0,1)") {
+            //$sql = "SELECT COUNT(*) as Total FROM servicerequest WHERE HasPets IN $haspets AND (ServiceProviderId IS NULL OR ServiceProviderId=$spid) AND Status IN $status";
+            $sql = "SELECT * FROM servicerequest AS sr WHERE sr.HasPets IN $haspets AND (sr.ServiceProviderId IS NULL OR sr.ServiceProviderId=$spid) AND sr.Status IN $status";
+        } else {
+            $sql = "SELECT * FROM servicerequest WHERE HasPets IN $haspets AND (ServiceProviderId=$spid AND Status IN $status)";
+        }
+        //echo $sql;
+        $res = $this->conn->query($sql);
+        $total = 0;
+        if ($res->num_rows > 0) {
+            while ($row = $res->fetch_assoc()) {
+                $custid = $row["UserId"];
+                if (!$this->IsUserBlockedByTheCustomerORServicer($custid, $spid) && $status=="(0,1)") {
+                    continue;
+                }
+                $total++;   
+            }
+            $result["Total"] = $total;
+        } else {
+            $result["Total"] = 0;
+        }
+        return [$result, $this->errors];
+    }
+
     // get all rating detailes by sp id
-    public function getAllRatingBySPId($offset, $limit, $spid, $rating=0){
-        if($rating==0){
+    public function getAllRatingBySPId($offset, $limit, $spid, $rating = 0)
+    {
+        if ($rating == 0) {
             $sql = "SELECT rating.*, sr.ServiceStartDate, sr.ServiceHours, user.FirstName, user.LastName FROM rating JOIN servicerequest AS sr ON sr.ServiceRequestId = rating.ServiceRequestId JOIN user ON user.UserId = sr.UserId WHERE RatingTo=$spid AND Ratings>=0 AND Ratings<=5 LIMIT $offset, $limit";
-        }else{
-            $up = $rating+1;
+        } else {
+            $up = $rating + 1;
             $sql = "SELECT rating.*, sr.ServiceStartDate, sr.ServiceHours, user.FirstName, user.LastName FROM rating JOIN servicerequest AS sr ON sr.ServiceRequestId = rating.ServiceRequestId JOIN user ON user.UserId = sr.UserId WHERE RatingTo=$spid AND Ratings>=$rating AND Ratings<$up LIMIT $offset, $limit";
         }
         //echo $sql;
         $result = $this->conn->query($sql);
         $rows = [];
-        if($result->num_rows > 0){
-            while($row = $result->fetch_assoc()){
-                array_push($rows,$row);
+        if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                array_push($rows, $row);
             }
         }
         return [$rows, $this->errors];
     }
 
     // get all favorite and blocked records by the spid 
-    public function getAllFavBlockBySPId($offset, $limit, $spid){
+    public function getAllFavBlockBySPId($offset, $limit, $spid)
+    {
         $sql = "SELECT fb.*, CONCAT(user.FirstName,' ', user.LastName) as FullName, user.UserProfilePicture FROM favoriteandblocked as fb JOIN user ON user.UserId = fb.TargetUserId WHERE fb.UserId=$spid AND fb.TargetUserId IN (SELECT UserId FROM favoriteandblocked WHERE TargetUserId=$spid AND IsBlocked=0) LIMIT $offset, $limit";
         $result = $this->conn->query($sql);
         $rows = [];
-        if($result->num_rows > 0){
-            while($row = $result->fetch_assoc()){
-                array_push($rows,$row);
+        if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                array_push($rows, $row);
             }
         }
         return [$rows, $this->errors];
     }
 
-      // get all the service by service request id
-      public function getAllServiceRequestByUserId($offset, $limit, $userid, $status = "")
-      {
-          if ($status != "") {
-              $sql = "SELECT sr.ServiceRequestId, sr.ServiceStartDate, sr.ServiceHourlyRate, sr.ServiceHours, sr.ExtraHours, sr.SubTotal, sr.Discount,sr.TotalCost, sr.ServiceProviderId, sr.SPAcceptedDate, sr.HasPets, sr.Status, sr.HasIssue, sr.PaymentDone, sr.RecordVersion, sra.AddressLine1, sra.AddressLine2, sra.City, sra.State, sra.PostalCode, sra.Mobile, sra.Email, sre.ServiceExtraId FROM servicerequest AS sr JOIN servicerequestaddress AS sra ON sra.ServiceRequestId = sr.ServiceRequestId LEFT JOIN servicerequestextra AS sre ON sre.ServiceRequestId = sr.ServiceRequestId WHERE sr.UserId = $userid AND sr.Status IN $status LIMIT $offset, $limit";
-              $result = $this->conn->query($sql);
-              $services = [];
-              if ($result->num_rows > 0) {
-                  while ($row = $result->fetch_assoc()) {                    
-                      if (!is_null($row["ServiceProviderId"])) {
-                          $spid = $row["ServiceProviderId"];
-                          $serviceid = $row["ServiceRequestId"];
-                          $rating = $this->getRatingByIds($serviceid);
-                          $spratings = $this->getSPDetailesBySPId($spid);
-                          $row = $row + $spratings + $rating;
-                      }
-                      array_push($services, $row);
-                  }
-              } else {
-                  $services = [];
-              }
-          }else{
-              $this->addErrors("missing", "Paramter missing!!");
-          }
-          return [$services, $this->errors];
-      }
+    // get all the service by service request id
+    public function getAllServiceRequestByUserId($offset, $limit, $userid, $status = "")
+    {
+        if ($status != "") {
+            $sql = "SELECT sr.ServiceRequestId, sr.ServiceStartDate, sr.ServiceHourlyRate, sr.ServiceHours, sr.ExtraHours, sr.SubTotal, sr.Discount,sr.TotalCost, sr.ServiceProviderId, sr.SPAcceptedDate, sr.HasPets, sr.Status, sr.HasIssue, sr.PaymentDone, sr.RecordVersion, sra.AddressLine1, sra.AddressLine2, sra.City, sra.State, sra.PostalCode, sra.Mobile, sra.Email, sre.ServiceExtraId FROM servicerequest AS sr JOIN servicerequestaddress AS sra ON sra.ServiceRequestId = sr.ServiceRequestId LEFT JOIN servicerequestextra AS sre ON sre.ServiceRequestId = sr.ServiceRequestId WHERE sr.UserId = $userid AND sr.Status IN $status LIMIT $offset, $limit";
+            $result = $this->conn->query($sql);
+            $services = [];
+            if ($result->num_rows > 0) {
+                while ($row = $result->fetch_assoc()) {
+                    if (!is_null($row["ServiceProviderId"])) {
+                        $spid = $row["ServiceProviderId"];
+                        $serviceid = $row["ServiceRequestId"];
+                        $rating = $this->getRatingByIds($serviceid);
+                        $spratings = $this->getSPDetailesBySPId($spid);
+                        $row = $row + $spratings + $rating;
+                    }
+                    array_push($services, $row);
+                }
+            } else {
+                $services = [];
+            }
+        } else {
+            $this->addErrors("missing", "Paramter missing!!");
+        }
+        return [$services, $this->errors];
+    }
 
-    public function getFavoriteAndBlockedList($userid){
+    public function getFavoriteAndBlockedList($userid)
+    {
         $sql = "SELECT fb.*, CONCAT(user.FirstName,' ', user.LastName) as FullName, user.UserProfilePicture FROM favoriteandblocked as fb JOIN user ON user.UserId = fb.TargetUserId WHERE fb.UserId=$userid AND fb.TargetUserId IN (SELECT UserId FROM favoriteandblocked WHERE TargetUserId=$userid AND IsBlocked=0);";
+        //echo $sql;
         $result = $this->conn->query($sql);
         $rows = [];
-        if($result->num_rows > 0){
-            while($row = $result->fetch_assoc()){
+        if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
                 $spid = $row["TargetUserId"];
                 $sprating = $this->getSPDetailesBySPId($spid);
-                array_push($rows,$row+$sprating);
+                array_push($rows, $row + $sprating);
             }
         }
         return [$rows, $this->errors];
-    }
-
-    // get servicer request by sp id 
-    public function TotalServiceRequestBySPId($status, $spid, $haspets="")
-    {
-        if($haspets!="" && $haspets==0){
-            $haspets = "(0)";
-        }else{
-            $haspets = "(0,1)";
-        }
-        if($status=="(0,1)"){
-            $sql = "SELECT COUNT(*) as Total FROM servicerequest WHERE HasPets IN $haspets AND (ServiceProviderId IS NULL OR ServiceProviderId=$spid) AND Status IN $status";
-        }else{
-            $sql = "SELECT COUNT(*) as Total FROM servicerequest WHERE HasPets IN $haspets AND (ServiceProviderId=$spid AND Status IN $status)";
-        }
-        $result = $this->conn->query($sql);
-        //echo $sql;
-        if ($result->num_rows > 0) {
-            $result = $result->fetch_assoc();
-        } else {
-            $result = [];
-            $result["Total"] = 0;
-        }
-        return [$result, $this->errors];
     }
 
     // get total rating records given to the customer
-    public function getTotalRatingBySPId($spid, $rating=0){
-        if($rating==0){
+    public function getTotalRatingBySPId($spid, $rating = 0)
+    {
+        if ($rating == 0) {
             $sql = "SELECT count(*) AS Total FROM rating WHERE RatingTo=$spid AND Ratings>=0 AND Ratings<=5";
-        }else{
-            $up = $rating+1;
+        } else {
+            $up = $rating + 1;
             $sql = "SELECT count(*) AS Total FROM rating WHERE RatingTo=$spid AND Ratings>=$rating AND Ratings<$up";
         }
         //echo $sql;
@@ -270,7 +325,8 @@ class ServiceModal extends Connection
     }
 
     // get total favorite and blocked by the servicer id
-    public function TotalFavoriteAndBlockBySPId($spid){
+    public function TotalFavoriteAndBlockBySPId($spid)
+    {
         $sql = "SELECT COUNT(*) as Total FROM favoriteandblocked WHERE TargetUserId=$spid";
         $result = $this->conn->query($sql);
         if ($result->num_rows > 0) {
@@ -296,8 +352,10 @@ class ServiceModal extends Connection
         return [$result, $this->errors];
     }
 
-    public function TotalFavoriteAndBlockByUserId($userid){
-        $sql = "SELECT COUNT(*) as Total FROM favoriteandblocked WHERE UserId = $userid";
+    public function TotalFavoriteAndBlockByUserId($userid)
+    {
+        //$sql = "SELECT COUNT(*) as Total FROM favoriteandblocked WHERE UserId = $userid";
+        $sql = "SELECT COUNT(*) as Total FROM favoriteandblocked AS fb JOIN user ON user.UserId = fb.UserId WHERE user.UserId = $userid AND fb.TargetUserId IN (SELECT UserId FROM favoriteandblocked WHERE TargetUserId=$userid AND IsBlocked=0)";
         $result = $this->conn->query($sql);
         if ($result->num_rows > 0) {
             $result = $result->fetch_assoc();
@@ -309,31 +367,34 @@ class ServiceModal extends Connection
     }
 
     // cancel service request  by servcie id and userid
-    public function CancelServiceById($userId, $serviceid, $comment=''){
+    public function CancelServiceById($userId, $serviceid, $comment = '')
+    {
         $status = 3;
         $sql = "UPDATE servicerequest SET Comments='$comment', Status=$status, HasIssue=1, ModifiedDate=now(), ModifiedBy=$userId WHERE UserId=$userId AND ServiceRequestId=$serviceid";
         $result = $this->conn->query($sql);
-        if($result){
+        if ($result) {
             return 1;
-        }else{
+        } else {
             return 0;
         }
     }
 
     // cancel service request  by servcie id and userid
-    public function CancelServiceBySPId($spid, $serviceid, $comment=''){
+    public function CancelServiceBySPId($spid, $serviceid, $comment = '')
+    {
         $status = 3;
         $record_version = 1;
         $sql = "UPDATE servicerequest SET Comments='$comment', Status=$status, HasIssue=1, ModifiedDate=now(), ModifiedBy=$spid, RecordVersion=$record_version WHERE ServiceProviderId=$spid AND ServiceRequestId=$serviceid";
         $result = $this->conn->query($sql);
-        if($result){
+        if ($result) {
             return 1;
-        }else{
+        } else {
             return 0;
         }
     }
 
-    public function getRatingByIds($serviceid){
+    public function getRatingByIds($serviceid)
+    {
         $sql = "SELECT rating.* FROM rating JOIN servicerequest ON servicerequest.ServiceRequestId=rating.ServiceRequestId WHERE servicerequest.ServiceRequestId=$serviceid";
         $result = $this->conn->query($sql);
         if ($result->num_rows > 0) {
@@ -388,7 +449,8 @@ class ServiceModal extends Connection
         return [$result, $this->errors];
     }
 
-    public function getUserAllAddressByUserId($userid){
+    public function getUserAllAddressByUserId($userid)
+    {
         $sql = "SELECT * FROM useraddress WHERE UserId=$userid AND IsDeleted=0";
 
         $result = $this->conn->query($sql);
@@ -447,31 +509,33 @@ class ServiceModal extends Connection
     }
 
     // check record is exits or not in favorite and blocked table
-    public function IsFavBlockExits($userid, $targetid){
+    public function IsFavBlockExits($userid, $targetid)
+    {
         $sql = "SELECT * FROM favoriteandblocked WHERE (UserId=$userid AND TargetUserId=$targetid) OR (UserId=$targetid AND TargetUserId=$userid)";
         $result = $this->conn->query($sql);
         //echo "<br>".$sql;
-        if($result->num_rows > 0){
+        if ($result->num_rows > 0) {
             return true;
-        }else{
+        } else {
             return false;
         }
     }
 
     // insert favorite and blocked records
-    public function InsertFavoriteAndBlocked($userid, $targetid){
+    public function InsertFavoriteAndBlocked($userid, $targetid)
+    {
         //echo $userid." ".$targetid."<br>";
-        if(!$this->IsFavBlockExits($userid, $targetid)){
-            try{
+        if (!$this->IsFavBlockExits($userid, $targetid)) {
+            try {
                 $this->conn->begin_transaction();
                 $this->conn->query("INSERT INTO favoriteandblocked (UserId, TargetUserId) VALUES ($userid, $targetid)");
                 $this->conn->query("INSERT INTO favoriteandblocked (UserId, TargetUserId) VALUES ($targetid, $userid)");
                 $this->conn->commit();
                 return true;
-            } catch (Exception $e){
+            } catch (Exception $e) {
                 return false;
             }
-        }else{
+        } else {
             return true;
         }
     }
@@ -646,7 +710,7 @@ class ServiceModal extends Connection
         return $result;
     }
 
-    public function getServicerByServiceRequestId($serviceid, $workwitpets=0)
+    public function getServicerByServiceRequestId($serviceid, $workwitpets = 0)
     {
         $sql = "SELECT * FROM user JOIN servicerequest ON servicerequest.ServiceProviderId = user.UserId WHERE servicerequest.ServiceRequestId = $serviceid AND user.WorksWithPets >= $workwitpets";
         $servicer = $this->conn->query($sql);
@@ -658,7 +722,7 @@ class ServiceModal extends Connection
         return $result;
     }
 
-    public function getAllServicer($workwithpets=0)
+    public function getAllServicer($workwithpets = 0)
     {
         //$sql = "SELECT * FROM user WHERE UserTypeId=2 AND IsApproved=1 AND IsDeleted=0 AND WorksWithPets >= $workwithpets";
         $sql = "SELECT * FROM user LEFT JOIN favoriteandblocked AS fb ON fb.UserId = user.UserId WHERE user.UserTypeId=2 AND user.IsApproved=1 AND user.IsDeleted=0 AND user.WorksWithPets >= $workwithpets AND fb.IsBlocked=0";
@@ -672,7 +736,8 @@ class ServiceModal extends Connection
         return $servicers;
     }
 
-    public function getServicerEmailByPostalCode($postalcode){
+    public function getServicerEmailByPostalCode($postalcode)
+    {
         $sql = "SELECT * FROM user JOIN useraddress ON useraddress.UserId=user.UserId WHERE user.UserTypeId=2 AND user.IsApproved=1 AND user.IsDeleted=0 AND user.WorksWithPets >= 0 AND useraddress.PostalCode=$postalcode";
         $result = $this->conn->query($sql);
         $servicers = [];

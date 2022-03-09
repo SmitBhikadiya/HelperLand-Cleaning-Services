@@ -95,12 +95,13 @@ $(document).ready(function () {
 
   function showUpcomingModal(result){
     var date = getTimeAndDate(result.ServiceStartDate, result.ServiceHours);
+    console.log(date);
     if(checkTimeForCompleteBtn(date.startdate, date.endtime)){
-      $(".modal-button-complete").prop("id","");
-      $(".modal-button-complete").hide();
-    }else{
       $(".modal-button-complete").prop("id","complete_request");
       $(".modal-button-complete").show();
+    }else{
+      $(".modal-button-complete").prop("id","");
+      $(".modal-button-complete").hide();
     }
     var extraid = result.ServiceExtraId;
     extraid = extraid == null ? 0 : extraid;
@@ -459,7 +460,7 @@ $(document).ready(function () {
       datatype: "json",
       data: {haspets:haspets, payment:payment, rating:rating},
       success: function (data) {
-        //console.log(data);
+        console.log(data);
         var obj = JSON.parse(data);
         var totalrequest = obj.result.Total;
         $(".show-apge .totalrecords").text(totalrequest);
@@ -484,7 +485,6 @@ $(document).ready(function () {
   $(document).on("click",".calendar .event",function(){
     var index = $(this).prop("id").split("_")[1];
     var result = records[index];
-    $("#exampleModalServiceCancel button").remove();
     showUpcomingModal(result);
   });
 
@@ -564,6 +564,7 @@ $(document).ready(function () {
     var service_date = `${month}/${day}/${year}`;
     var d1 = new Date(service_date+" "+service_endtime);
     var d2 = new Date();
+    //alert(d2.getTime() > d1.getTime());
     return (d2.getTime() > d1.getTime());
   }
 

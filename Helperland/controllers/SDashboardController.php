@@ -51,14 +51,14 @@ class SDashboardController
                     }
                     //echo $date;
                     $calendar = new Calendar($date);
-                    $results = $this->servicemodal->getServiceByMonthAndYear($userid, $date, "(3,4)");
+                    $results = $this->servicemodal->getServiceByMonthAndYear($userid, $date, "(2)");
                     //print_r($result);
                     if(count($results)>0){
                         $i=0;
                         foreach($results as $result){
                             $service_starttime = $result["ServiceStartTime"];
                             $service_endtime = $this->convertStrToTime($result["ServiceHours"] + $this->convertTimeToStr($service_starttime));
-                            $calendar->add_event($service_starttime." - ".$service_endtime, $result["StartDate"], 1, $result["Status"]==3 ? "red":"green",$i++);
+                            $calendar->add_event($service_starttime." - ".$service_endtime, $result["StartDate"], 1, "appcolor",$i++);
                         }
                     }
                     $result = [$results, $this->errors];
