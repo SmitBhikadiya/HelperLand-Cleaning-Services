@@ -562,9 +562,8 @@ $(document).ready(function () {
     var month = d[1];
     var year = d[2];
     var service_date = `${month}/${day}/${year}`;
-    var d1 = new Date(service_date+" "+service_endtime);
-    var d2 = new Date();
-    //alert(d2.getTime() > d1.getTime());
+    var d1 = new Date(service_date+" "+service_endtime); // format 03/10/2022 12:00
+    var d2 = new Date(); // current date
     return (d2.getTime() > d1.getTime());
   }
 
