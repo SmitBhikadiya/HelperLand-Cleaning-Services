@@ -762,7 +762,6 @@ $(document).ready(function () {
       `;
     });
     $(".pros").html(html);
-
   }
 
 });
