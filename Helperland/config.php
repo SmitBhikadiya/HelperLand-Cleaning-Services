@@ -33,8 +33,9 @@ class Config{
     const RESET_LINK_EXPIRY = 1;
     const EXTRA_SERVICES = ["Inside cabinet", "Inside fridge", "Inside Oven", "Laundry wash & dry", "Interior windows"];
 
-    /*-------------------- Service Request Status ---------------------*/
+    /*-------------------- Service Request ---------------------*/
     const SERVICE_HOURLY_RATE = 18; // per hour
+    const SERVICE_ACCEPT_GAPE = 1; // 1 hour gape
     const EXTRA_PER_SERVICE_RATE = self::SERVICE_HOURLY_RATE/2;
     const EXTRA_PER_SERVICE_TIME = 30; // in minute
     const SERVICE_STATUS = ["new", "assigned", "accepted", "reschedule", "completed", "cancelled"];

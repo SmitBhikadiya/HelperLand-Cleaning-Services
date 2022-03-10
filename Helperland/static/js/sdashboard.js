@@ -164,7 +164,7 @@ $(document).ready(function () {
       datatype: "json",
       data: {serviceid:serviceid, spid:spid},
       success: function (data) {
-        //console.log(data);
+        console.log(data);
         var obj = JSON.parse(data);
         $(".modal").modal("hide");
         if (obj.errors.length == 0) {
@@ -200,14 +200,17 @@ $(document).ready(function () {
     if ($("#cancel-comment").val().length > 0) {
       showLoader();
       var action = $("#form-service-cancel").prop("action");
+      var spid = $("#spid").val();
+      alert(action);
       jQuery.ajax({
         type: "POST",
         url: action,
         datatype: "json",
-        data: $("#form-service-cancel").serialize(),
+        data: $("#form-service-cancel").serialize()+"&spid="+spid,
         success: function (data) {
           var obj = JSON.parse(data);
           console.log(obj.result);
+          console.log($("#form-service-cancel").serialize());
           var serviceid = ("000" + $("#form-service-cancel input[type=hidden]").val()).slice(-4);
           $(".modal").modal("hide");
           if (obj.result == 1) {

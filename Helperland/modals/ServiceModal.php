@@ -178,7 +178,7 @@ class ServiceModal extends Connection
         if ($result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {
                 $custid = $row["UserId"];
-                if (!$this->IsUserBlockedByTheCustomerORServicer($custid, $spid) && $status == "(0,1)") {
+                if ($status == "(0,1)" && !$this->IsUserBlockedByTheCustomerORServicer($custid, $spid)) {
                     continue;
                 }
                 if (!is_null($row["ServiceProviderId"])) {
@@ -216,9 +216,10 @@ class ServiceModal extends Connection
         if ($res->num_rows > 0) {
             while ($row = $res->fetch_assoc()) {
                 $custid = $row["UserId"];
-                if ($this->IsUserBlockedByTheCustomerORServicer($custid, $spid) && $status=="(0,1)") {
-                    $total++;
-                }  
+                if ($status=="(0,1)" && !$this->IsUserBlockedByTheCustomerORServicer($custid, $spid)) {
+                    continue;
+                }
+                $total++;
             }
             //echo $total;
             $result["Total"] = $total;

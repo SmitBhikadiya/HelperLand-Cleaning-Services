@@ -695,11 +695,8 @@ $(document).ready(function () {
     var html = "";
     results.forEach((result) => {
       console.log(result);
-      var avatar =
-        result.UserProfilePicture == null
-          ? "avatar-hat.png"
-          : result.UserProfilePicture+".png";
-      var avgrating = result.AverageRating == null ? 0 : +result.AverageRating;
+      var avatar = result.UserProfilePicture == null ? "avatar-hat.png" : result.UserProfilePicture+".png";
+      var avgrating = result.AverageRating == null ? 0 : (+result.AverageRating).toFixed(2);
       var spstar = getStarHTMLByRating(avgrating);
       var favourite = result.IsFavorite == 0 ? "Favourite" : "UnFavourite";
       var block = result.IsBlocked == 0 ? "Block" : "UnBlock";
@@ -755,13 +752,14 @@ $(document).ready(function () {
             : result.UserProfilePicture+".png";
         var avgrating = result.AverageRating;
         var spstar = getStarHTMLByRating(avgrating);
+        var avgrating = (+result.AverageRating).toFixed(2);
         sphtml = `
             <div class="rating-user"><img src="./static/images/avtar/${avatar}" alt="">
                             </div>
                             <div class="rating-info">
                                 <div class="info-name">${result.Fullname}</div>
                                 <div class="info-ratings">${spstar}
-                                    (${+result.AverageRating})
+                                    (${avgrating})
                                 </div>
                             </div>
             `;

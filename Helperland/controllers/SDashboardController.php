@@ -232,6 +232,7 @@ class SDashboardController
             $service = $this->servicemodal->getServiceRequestById($serviceid);
             if (count($service) > 0 && $spid==$userid) {
                 if($service["Status"]==3){
+                    $mailmsg = "....";
                     $modifiedby = $service["ModifiedBy"];
                     $modifydate = date("d-m-Y H:i",strtotime($service["ModifiedDate"]));
                     $user_r = $this->usermodal->getUserByUserId($modifiedby);
@@ -253,7 +254,6 @@ class SDashboardController
         } else {
             $this->addErrors("login", "User is not login!!!");
         }
-
         echo json_encode(["result" => $result, "errors" => $this->errors, "mail" => $mailmsg]);
     }
 
@@ -274,7 +274,6 @@ class SDashboardController
                         $starttime = date('H:i', strtotime($service["ServiceStartDate"]));
                         $check_status = '(2)';
                         $results = $this->servicemodal->IsUpdateServiceSchedulePossibleOnDate($userid, $startdate, $check_status);
-                        //print_r($results);
                         if (count($results[1]) > 0) {
                             foreach ($results[1] as $key => $val) {
                                 $this->addErrors($key, $val);
@@ -292,13 +291,14 @@ class SDashboardController
                                         continue;
                                     }
                                     $service_starttime = $this->convertTimeToStr($res["ServiceStartTime"]);
-                                    $service_hour = $res["ServiceHours"][0];
+                                    $service_hour = $res["ServiceHours"];
                                     $service_endtime = $service_starttime + $service_hour;
+                                    $service_gape = Config::SERVICE_ACCEPT_GAPE;
                                     if (
                                         $select_starttime == $service_starttime || $select_endtime == $service_endtime || $select_starttime == $service_endtime || $select_endtime == $service_starttime ||
-                                        ($select_starttime < $service_starttime && $select_endtime > $service_starttime) || ($service_starttime - $select_endtime) < 1 ||
-                                        ($select_starttime > $service_starttime && $select_starttime < $service_endtime) || ($select_starttime - $service_endtime) < 1
-                                    ) {
+                                        (($select_starttime < $service_starttime && $select_endtime > $service_starttime) || ($select_starttime < $service_starttime && ($service_starttime - $select_endtime) < $service_gape)) ||
+                                        (($select_starttime > $service_starttime && $select_starttime < $service_endtime) || ($select_starttime > $service_starttime && ($select_starttime - $service_endtime) < $service_gape))
+                                    ){
                                         $this->addErrors("Invalid", "Another service request " . substr("000" . $res["ServiceRequestId"], -4) . " has already been assigned which has time overlap with this service request. You can’t pick this one!");
                                         break;
                                     }
