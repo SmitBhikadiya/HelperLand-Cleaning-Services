@@ -158,16 +158,28 @@ class ServiceModal extends Connection
         }
     }
 
-    public function getAllServiceRequstBySPId($offset, $limit, $status, $spid, $haspets = "")
-    {
-        if ($haspets != "" && $haspets == 0) {
-            $haspets = "(0)";
-        } else {
-            $haspets = "(0,1)";
+    public function getAllPostalWhereServiceAvailable($status="(0,1)"){
+        $sql = "SELECT DISTINCT sra.PostalCode FROM servicerequestaddress AS sra JOIN servicerequest AS sr ON sra.ServiceRequestId = sr.ServiceRequestId WHERE sr.Status IN $status";
+        $result = $this->conn->query($sql);
+        $postal = [];
+        if($result->num_rows > 0){
+            while($row = $result->fetch_assoc()){
+                array_push($postal, $row["PostalCode"]);
+            }
         }
+        return $postal;
+    }
+
+    public function getAllServiceRequstBySPId($offset, $limit, $status, $spid, $haspets = "", $postal = "all")
+    {
+        $haspets = ($haspets != "" && $haspets == 0) ? "(0)" : "(0,1)";    
         if ($status == "(0,1)") {
             //$sql = "SELECT sr.ServiceRequestId, sr.ServiceStartDate, sr.UserId, sr.ServiceHourlyRate, sr.ServiceHours, sr.ExtraHours, sr.SubTotal, sr.Discount,sr.TotalCost, sr.ServiceProviderId, sr.SPAcceptedDate, sr.HasPets, sr.Status, sr.HasIssue, sr.PaymentDone, sr.RecordVersion, sr.ModifiedBy, sr.ModifiedDate, sr.Comments, sra.AddressLine1, sra.AddressLine2, sra.City, sra.State, sra.PostalCode, sra.Mobile, sra.Email, sre.ServiceExtraId, user.FirstName, user.LastName FROM servicerequest AS sr JOIN servicerequestaddress AS sra ON sra.ServiceRequestId = sr.ServiceRequestId LEFT JOIN servicerequestextra AS sre ON sre.ServiceRequestId = sr.ServiceRequestId JOIN user ON user.UserId=sr.UserId WHERE sr.HasPets IN $haspets AND (sr.ServiceProviderId IS NULL OR sr.ServiceProviderId=$spid) AND  sr.Status IN $status ORDER BY sr.ServiceRequestId DESC LIMIT $offset, $limit";
-            $sql = "SELECT sr.ServiceRequestId, sr.ServiceStartDate, sr.UserId, sr.ServiceHourlyRate, sr.ServiceHours, sr.ExtraHours, sr.SubTotal, sr.Discount,sr.TotalCost, sr.ServiceProviderId, sr.SPAcceptedDate, sr.HasPets, sr.Status, sr.HasIssue, sr.PaymentDone, sr.RecordVersion, sr.ModifiedBy, sr.ModifiedDate, sr.Comments, sra.AddressLine1, sra.AddressLine2, sra.City, sra.State, sra.PostalCode, sra.Mobile, sra.Email, sre.ServiceExtraId, user.FirstName, user.LastName FROM servicerequest AS sr JOIN servicerequestaddress AS sra ON sra.ServiceRequestId = sr.ServiceRequestId LEFT JOIN servicerequestextra AS sre ON sre.ServiceRequestId = sr.ServiceRequestId JOIN user ON user.UserId=sr.UserId LEFT JOIN favoriteandblocked AS f1 ON f1.UserId = sr.UserId LEFT JOIN favoriteandblocked AS f2 ON f2.TargetUserId = sr.UserId WHERE sr.HasPets IN $haspets AND ((f2.UserId = $spid AND f1.TargetUserId=$spid AND f1.IsBlocked = 0 AND f2.IsBlocked = 0) OR (f1.TargetUserId IS NULL)) AND (sr.ServiceProviderId IS NULL OR sr.ServiceProviderId=$spid) AND  sr.Status IN $status ORDER BY sr.ServiceRequestId DESC LIMIT $offset, $limit";
+            if($postal=="all"){
+                $sql = "SELECT sr.ServiceRequestId, sr.ServiceStartDate, sr.UserId, sr.ServiceHourlyRate, sr.ServiceHours, sr.ExtraHours, sr.SubTotal, sr.Discount,sr.TotalCost, sr.ServiceProviderId, sr.SPAcceptedDate, sr.HasPets, sr.Status, sr.HasIssue, sr.PaymentDone, sr.RecordVersion, sr.ModifiedBy, sr.ModifiedDate, sr.Comments, sra.AddressLine1, sra.AddressLine2, sra.City, sra.State, sra.PostalCode, sra.Mobile, sra.Email, sre.ServiceExtraId, user.FirstName, user.LastName FROM servicerequest AS sr JOIN servicerequestaddress AS sra ON sra.ServiceRequestId = sr.ServiceRequestId LEFT JOIN servicerequestextra AS sre ON sre.ServiceRequestId = sr.ServiceRequestId JOIN user ON user.UserId=sr.UserId LEFT JOIN favoriteandblocked AS f1 ON f1.UserId = sr.UserId LEFT JOIN favoriteandblocked AS f2 ON f2.TargetUserId = sr.UserId WHERE sr.HasPets IN $haspets AND ((f2.UserId = $spid AND f1.TargetUserId=$spid AND f1.IsBlocked = 0 AND f2.IsBlocked = 0) OR (f1.TargetUserId IS NULL)) AND (sr.ServiceProviderId IS NULL OR sr.ServiceProviderId=$spid) AND  sr.Status IN $status ORDER BY sr.ServiceRequestId DESC LIMIT $offset, $limit";
+            }else{
+                $sql = "SELECT DISTINCT sr.ServiceRequestId, sr.ServiceStartDate, sr.UserId, sr.ServiceHourlyRate, sr.ServiceHours, sr.ExtraHours, sr.SubTotal, sr.Discount,sr.TotalCost, sr.ServiceProviderId, sr.SPAcceptedDate, sr.HasPets, sr.Status, sr.HasIssue, sr.PaymentDone, sr.RecordVersion, sr.ModifiedBy, sr.ModifiedDate, sr.Comments, sra.AddressLine1, sra.AddressLine2, sra.City, sra.State, sra.PostalCode, sra.Mobile, sra.Email, sre.ServiceExtraId, user.FirstName, user.LastName FROM servicerequest AS sr JOIN servicerequestaddress AS sra ON sra.ServiceRequestId = sr.ServiceRequestId LEFT JOIN servicerequestextra AS sre ON sre.ServiceRequestId = sr.ServiceRequestId JOIN user ON user.UserId=sr.UserId LEFT JOIN favoriteandblocked AS f1 ON f1.UserId = sr.UserId LEFT JOIN favoriteandblocked AS f2 ON f2.TargetUserId = sr.UserId WHERE sra.PostalCode=$postal AND sr.HasPets IN $haspets AND ((f2.UserId = $spid AND f1.TargetUserId=$spid AND f1.IsBlocked = 0 AND f2.IsBlocked = 0) OR (f1.TargetUserId IS NULL)) AND (sr.ServiceProviderId IS NULL OR sr.ServiceProviderId=$spid) AND  sr.Status IN $status ORDER BY sr.ServiceRequestId DESC LIMIT $offset, $limit";
+            }
         } else {
             $sql = "SELECT sr.ServiceRequestId, sr.ServiceStartDate, sr.UserId, sr.ServiceHourlyRate, sr.ServiceHours, sr.ExtraHours, sr.SubTotal, sr.Discount,sr.TotalCost, sr.ServiceProviderId, sr.SPAcceptedDate, sr.HasPets, sr.Status, sr.HasIssue, sr.PaymentDone, sr.RecordVersion, sr.ModifiedBy, sr.ModifiedDate, sr.Comments, sra.AddressLine1, sra.AddressLine2, sra.City, sra.State, sra.PostalCode, sra.Mobile, sra.Email, sre.ServiceExtraId, user.FirstName, user.LastName FROM servicerequest AS sr JOIN servicerequestaddress AS sra ON sra.ServiceRequestId = sr.ServiceRequestId LEFT JOIN servicerequestextra AS sre ON sre.ServiceRequestId = sr.ServiceRequestId JOIN user ON user.UserId=sr.UserId WHERE sr.HasPets IN $haspets AND (sr.ServiceProviderId = $spid AND sr.Status IN $status) ORDER BY sr.ServiceRequestId DESC LIMIT $offset, $limit";
         }
@@ -191,16 +203,17 @@ class ServiceModal extends Connection
     }
 
     // get servicer request by sp id 
-    public function TotalServiceRequestBySPId($status, $spid, $haspets = "")
+    public function TotalServiceRequestBySPId($status, $spid, $haspets = "", $postal="all")
     {
-        if ($haspets != "" && $haspets == 0) {
-            $haspets = "(0)";
-        } else {
-            $haspets = "(0,1)";
-        }
+        $haspets = ($haspets != "" && $haspets == 0) ? "(0)" : "(0,1)";
         if ($status == "(0,1)") {
             //$sql = "SELECT COUNT(*) as Total FROM servicerequest WHERE HasPets IN $haspets AND (ServiceProviderId IS NULL OR ServiceProviderId=$spid) AND Status IN $status";
-            $sql = "SELECT * FROM servicerequest AS sr WHERE sr.HasPets IN $haspets AND (sr.ServiceProviderId IS NULL OR sr.ServiceProviderId=$spid) AND sr.Status IN $status";
+            if($postal=="all"){
+                $sql = "SELECT * FROM servicerequest AS sr WHERE sr.HasPets IN $haspets AND (sr.ServiceProviderId IS NULL OR sr.ServiceProviderId=$spid) AND sr.Status IN $status";
+            }else{
+                $sql = "SELECT sr.* FROM servicerequest AS sr JOIN servicerequestaddress as sra ON sra.ServiceRequestId = sr.ServiceRequestId WHERE sra.PostalCode=$postal AND sr.HasPets IN $haspets AND (sr.ServiceProviderId IS NULL OR sr.ServiceProviderId=$spid) AND sr.Status IN $status";
+            }
+           // echo $sql;
         } else {
             $sql = "SELECT * FROM servicerequest WHERE HasPets IN $haspets AND (ServiceProviderId=$spid AND Status IN $status)";
         }
@@ -414,9 +427,11 @@ class ServiceModal extends Connection
         return $result;
     }
 
-    public function getPostalCode()
+    public function getPostalCode($zipcode="")
     {
-        $zipcode = $this->data["postalcode"];
+        if($zipcode==""){
+            $zipcode = $this->data["postalcode"];
+        }
         //$sql = "SELECT zipcode.Id, city.Id, state.Id,zipcode.ZipcodeValue,city.CityName,state.StateName FROM zipcode JOIN city ON city.Id = zipcode.CityId JOIN state ON state.Id=city.StateId WHERE zipcode.ZipcodeValue = '$zipcode' ";
         $sql = "SELECT zipcode.Id, city.Id, state.Id, zipcode.ZipcodeValue,city.CityName,state.StateName FROM zipcode JOIN city ON city.Id = zipcode.CityId JOIN state ON state.Id = city.StateId JOIN useraddress ON zipcode.ZipcodeValue = useraddress.PostalCode JOIN user ON useraddress.UserId = user.UserId WHERE user.UserTypeId=2 AND useraddress.PostalCode = '$zipcode' AND useraddress.IsDeleted=0";
         $result = $this->conn->query($sql);

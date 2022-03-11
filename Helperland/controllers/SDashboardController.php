@@ -38,7 +38,14 @@ class SDashboardController
                     $result[0] = ["new" => $newservice["Total"], "upcoming" => $upcoming["Total"], "paymentdue" => $paymentdue];
                     break;
                 case "newservice":
-                    $result = $this->servicemodal->getAllServiceRequstBySPId($offset, $limit, "(0,1)", $userid, $haspets);
+                    $postal = (isset($this->data["postal"])) ? $this->data["postal"] : "all";
+                    if($postal!="all"){
+                        $result = $this->servicemodal->getPostalCode($postal);
+                        if(count($result[1]) > 0){
+                            $postal = "all";
+                        }
+                    }
+                    $result = $this->servicemodal->getAllServiceRequstBySPId($offset, $limit, "(0,1)", $userid, $haspets, $postal);
                     break;
                 case "upcoming":
                     $result = $this->servicemodal->getAllServiceRequstBySPId($offset, $limit, "(2)", $userid);
@@ -141,7 +148,14 @@ class SDashboardController
             $haspets = isset($this->data["haspets"]) ? $this->data["haspets"] : "";
             switch ($request) {
                 case "newservice":
-                    $result = $this->servicemodal->TotalServiceRequestBySPId("(0,1)", $userid, $haspets);
+                    $postal = (isset($this->data["postal"])) ? $this->data["postal"] : "all";
+                    if($postal!="all"){
+                        $result = $this->servicemodal->getPostalCode($postal);
+                        if(count($result[1]) > 0){
+                            $postal = "all";
+                        }
+                    }
+                    $result = $this->servicemodal->TotalServiceRequestBySPId("(0,1)", $userid, $haspets, $postal);
                     break;
                 case "upcoming":
                     $result = $this->servicemodal->TotalServiceRequestBySPId("(2)", $userid);

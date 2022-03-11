@@ -1,12 +1,16 @@
 <div class="div-content table-responsive">
     <div class="service-filter">
-        Servicer Area <select class="form-select" aria-label="Default select example">
-            <option value="2">2</option>
-            <option value="5">5</option>
-            <option value="10">10</option>
-            <option value="15">15</option>
-            <option value="20">20</option>
-            <option value="25" selected>25</option>
+        <?php include("controllers/SDashboardController.php");
+            $obj = new ServiceModal($_POST);
+            $results = $obj->getAllPostalWhereServiceAvailable();
+        ?>
+        Service ZipCode <select class="form-select" style="width:fit-content;" id="select_postal" aria-label="Default select example">
+            <option value="all">All</option>
+            <?php 
+                foreach($results as $result){
+                    echo "<option value=$result>$result</option>";
+                }
+            ?>
         </select>
 
         <div class="form-check">

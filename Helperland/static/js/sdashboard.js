@@ -26,6 +26,7 @@ $(document).ready(function () {
   var haspets;
   var payment = $("#select_payment").val();
   var rating = $("#select_rating").val();
+  var postal = 'all';
 
   switch (req) {
     case "setting":
@@ -150,6 +151,14 @@ $(document).ready(function () {
     $("#exampleModalServiceAccept .m-comments").text(result.Comments);
     $("#exampleModalServiceAccept .m-pets").html((result.HasPets == 0) ? '<span class="fa fa-times-circle-o"></span> I dont`t have pets at home': '<span class="fa fa-check" style="color:#0f7a2b"></span> I have pets at home');
     $("#exampleModalServiceAccept").modal("show");
+  });
+
+  $(document).on("change", "#select_postal" ,function(){
+    postal = $(this).val();
+    updatePageNumber(currentpage);
+    getAjaxDataByReq();
+    getDefaultRecords();
+    setTimeout(setDefault, 100);
   });
 
   $(document).on("click", "#accept_request", function(e){
@@ -461,7 +470,7 @@ $(document).ready(function () {
       type: "POST",
       url:"http://localhost/Tatvasoft-PSD-TO-HTML/HelperLand/?controller=SDashboard&function=TotalRequest&parameter="+req,
       datatype: "json",
-      data: {haspets:haspets, payment:payment, rating:rating},
+      data: {haspets:haspets, payment:payment, rating:rating, postal:postal},
       success: function (data) {
         console.log(data);
         var obj = JSON.parse(data);
@@ -498,7 +507,7 @@ $(document).ready(function () {
       type: "POST",
       url: "http://localhost/Tatvasoft-PSD-TO-HTML/HelperLand/?controller=SDashboard&function=ServiceRequest&parameter=" + req,
       datatype: "json",
-      data: { pagenumber: currentpage, limit: showrecords, haspets:haspets, payment:payment, rating:rating, date:today_},
+      data: { pagenumber: currentpage, limit: showrecords, haspets:haspets, payment:payment, rating:rating, date:today_, postal:postal},
       success: function (data) {
         console.log(data);
         //alert(data);
