@@ -34,9 +34,8 @@ class DefaultController{
         include("views/Dashboards/ServicerDashboard.php");
     }
 
-    function admin_dashboard(){
-        echo "Comming Soon";
-        //include("views/Dashboards/AdminDashboard.php");
+    function admin_dashboard($parameter=""){
+        include("views/Dashboards/AdminDashboard.php");
     }
 
     function error(){
