@@ -237,15 +237,36 @@
 .service-status.na p{
     background-color: #f23737da;
 }
-.service-status.completed P{
+.service-status.completed P,.Active button{
     background-color: #28b834;
 }
-.service-status.setled P{
+.service-status.cancelled P,.InActive button{
+    background-color: #b82828;
+}
+.service-status.settled P{
     background-color: #28b834;
 }
 .service-status p{
     color: white;
     background-color: white;
     padding: 3px 8px;
+}
+
+.td-address{
+    width: 150px;
+}
+
+.div-date input{
+    padding-left: 40px;
+}
+.div-date{
+    position: relative;
+}
+.div-date img{
+    position: absolute;
+    content: "";
+    z-index: 1;
+    left: 9px;
+    top: 11px;
 }
 

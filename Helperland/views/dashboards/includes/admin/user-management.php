@@ -16,10 +16,10 @@
                 </div>
                 <div class="search-col">
                     <select class="form-select" aria-label="Default select example">
-                        <option selected>User Role</option>
-                        <option value="1">One</option>
-                        <option value="2">Two</option>
-                        <option value="3">Three</option>
+                        <option selected>User Type</option>
+                        <option value="1">Customer</option>
+                        <option value="2">Servicer</option>
+                        <option value="3">Admin</option>
                     </select>
                 </div>
                 <div class="search-col">
@@ -34,12 +34,14 @@
                 <div class="search-col">
                     <input type="email" class="form-control" placeholder="Email">
                 </div>
-                <div class="search-col">
-                    <input type="date" class="form-control" placeholder="From Date">
-                </div>
-                <div class="search-col">
-                    <input type="date" class="form-control" placeholder="To Date">
-                </div>
+                <div class="search-col div-date">
+                     <img src="static/images/admin-calendar.png" alt="">
+                     <input type="text" class="form-control" placeholder="From Date" title="Format:-yyyy-mm-dd">
+                 </div>
+                 <div class="search-col div-date">
+                    <img src="static/images/admin-calendar.png" alt="">
+                    <input type="text" class="form-control" placeholder="To Date" title="Format:-yyyy-mm-dd">
+                 </div>
                 <div class="search-col col-buttons">
                     <button type="Search" class="btn-search">Search</button>
                     <button type="reset" class="btn-clear">Clear</button>
@@ -53,13 +55,10 @@
                 <tr>
                     <th scope="col">User Name <img src="./static/images/icon-sort.png" alt=""></th>
                     <th scope="col">User Type <img src="./static/images/icon-sort.png" alt=""></th>
-                    <th scope="col">Role</th>
-                    <th scope="col">Postal Code <img src="./static/images/icon-sort.png" alt="">
-                    </th>
-                    <th scope="col">City</th>
-                    <th scope="col">Radius <img src="./static/images/icon-sort.png" alt=""></th>
-                    <th scope="col">User Status <img src="./static/images/icon-sort.png" alt="">
-                    </th>
+                    <th scope="col">Date of Registration</th>
+                    <th scope="col">Phone</th>
+                    <th scope="col">Postal Code <img src="./static/images/icon-sort.png" alt=""></th>
+                    <th scope="col">Status <img src="./static/images/icon-sort.png" alt=""></th>
                     <th scope="col">Action</th>
                 </tr>
             </thead>
@@ -428,26 +427,21 @@
         </table>
     </div>
     <div class="shistory-pagination">
-        <div class="show-apge">
-            show
-            <select class="form-select" aria-label="Default select example">
-                <option selected>10</option>
-                <option value="20">20</option>
-                <option value="50">50</option>
-                <option value="100">100</option>
-            </select>
-            Entries
-        </div>
-        <div class="paginations">
-            <div class="next-left"><img src="./static/images/next-left.png" alt=""></div>
-            <div class="current-page">1</div>
-            <div>2</div>
-            <div>3</div>
-            <div>4</div>
-            <div>5</div>
-            <div class="next-right"><img src="./static/images/next-left.png" alt=""></div>
-        </div>
-    </div>
+         <div class="show-apge">
+             show
+             <select class="form-select" aria-label="Default select example">
+                 <option value=2>2</option>
+                 <option value="5">5</option>
+                 <option value="10" selected>10</option>
+                 <option value="50">50</option>
+             </select>
+             Entries, Total Record : <span class="totalrecords"><span>
+         </div>
+         <div class="paginations">
+             <div class="next-left changepage"><img src="./static/images/next-left.png" alt=""></div>
+             <div class="next-right changepage"><img src="./static/images/next-left.png" alt=""></div>
+         </div>
+     </div>
     <div class="shistory-footer">
         ©2018 Helperland. All rights reserved.
     </div>
