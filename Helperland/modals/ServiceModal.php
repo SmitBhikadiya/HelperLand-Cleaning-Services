@@ -123,7 +123,6 @@ class ServiceModal extends Connection
         $rows = [];
         //echo $sql;
         if ($services->num_rows > 0) {
-            // check any slot time with selected time
             while ($row = $services->fetch_assoc()) {
                 array_push($rows, $row);
             }
@@ -349,8 +348,52 @@ class ServiceModal extends Connection
         return [$result, $this->errors];
     }
 
+     /* for admin special */
+     public function getAllServiceRequestForAdmin($offset, $limit)
+     {
+         $service_id = isset($this->data["serviceid"]) ? (empty($this->data["serviceid"]) ? 1 : 'sr.ServiceRequestId = '.$this->data["serviceid"]) : 1;
+         $postal = isset($this->data["postal"]) ? (empty($this->data["postal"]) ? 1 : 'sra.PostalCode = '.$this->data["postal"]) : 1;
+         $email = isset($this->data["email"]) ? (empty($this->data["email"]) ? 1 : "sra.Email = '".$this->data["email"]."'") : 1;
+         $custid =isset($this->data["custid"]) ? (empty($this->data["custid"]) ? 1 : 'cust.UserId = '.$this->data["custid"]): 1;
+         $servid =isset($this->data["servid"]) ? (empty($this->data["servid"]) ? 1 : 'serv.UserId = '.$this->data["servid"]): 1;
+         $status =isset($this->data["status"]) ? (empty($this->data["status"]) ? 1 : 'sr.Status = '.(($this->data["status"]==-1) ? 0 : $this->data["status"])) : 1;
+         $hasissue = isset($this->data["hasissue"]) ? (empty($this->data["hasissue"]) ? 1 : 'sr.HasIssue = '.$this->data["hasissue"]) : 1;
+         $todate =  isset($this->data["todate"]) ? (empty($this->data["todate"]) ? "3000-01-01" : $this->data["todate"]) : "3000-01-01";
+         $fromdate =  isset($this->data["fromdate"]) ? (empty($this->data["fromdate"]) ? "1900-01-01" : $this->data["fromdate"]) : "1900-01-01";
+         $sql = "SELECT sr.ServiceRequestId, sr.ServiceStartDate, sr.ServiceHourlyRate, sr.ServiceHours, sr.ExtraHours, sr.SubTotal, sr.Discount,sr.TotalCost, sr.ServiceProviderId, sr.SPAcceptedDate, sr.HasPets, sr.Status, sr.HasIssue, sr.PaymentDone, sr.RecordVersion, sra.AddressLine1, sra.AddressLine2, sra.City, sra.State, sra.PostalCode, sra.Mobile, sra.Email, sre.ServiceExtraId, CONCAT(cust.FirstName,' ', cust.LastName) as CustName, CONCAT(serv.FirstName,' ', serv.LastName) as ServName FROM servicerequest AS sr JOIN servicerequestaddress AS sra ON sra.ServiceRequestId = sr.ServiceRequestId JOIN user AS cust ON cust.UserId = sr.UserId LEFT JOIN user AS serv ON serv.UserId = sr.ServiceProviderId LEFT JOIN servicerequestextra AS sre ON sre.ServiceRequestId = sr.ServiceRequestId 
+         WHERE 1 AND $service_id AND $postal AND $email AND $custid AND $servid AND $status AND $hasissue AND sr.ServiceStartDate BETWEEN '$fromdate' AND '$todate' ORDER BY sr.ServiceRequestId DESC LIMIT $offset, $limit";
+        //echo $sql;
+         $result = $this->conn->query($sql);
+         $services = [];
+         if ($result->num_rows > 0) {
+             while ($row = $result->fetch_assoc()) {
+                 if (!is_null($row["ServiceProviderId"])) {
+                     $spid = $row["ServiceProviderId"];
+                     $serviceid = $row["ServiceRequestId"];
+                     $rating = $this->getRatingByIds($serviceid);
+                     $spratings = $this->getSPDetailesBySPId($spid);
+                     $row = $row + $spratings + $rating;
+                 }
+                 array_push($services, $row);
+             }
+         } else {
+             $services = [];
+         }
+         return [$services, $this->errors];
+     } 
+
     public function TotalRequestForAdmin(){
-        $sql = "SELECT COUNT(*) as Total FROM servicerequest";
+        $service_id = isset($this->data["serviceid"]) ? (empty($this->data["serviceid"]) ? 1 : 'sr.ServiceRequestId = '.$this->data["serviceid"]) : 1;
+        $postal = isset($this->data["postal"]) ? (empty($this->data["postal"]) ? 1 : 'sra.PostalCode = '.$this->data["postal"]) : 1;
+        $email = isset($this->data["email"]) ? (empty($this->data["email"]) ? 1 : "sra.Email = '".$this->data["email"]."'") : 1;
+        $custid =isset($this->data["custid"]) ? (empty($this->data["custid"]) ? 1 : 'cust.UserId = '.$this->data["custid"]): 1;
+        $servid =isset($this->data["servid"]) ? (empty($this->data["servid"]) ? 1 : 'serv.UserId = '.$this->data["servid"]): 1;
+        $status =isset($this->data["status"]) ? (empty($this->data["status"]) ? 1 : 'sr.Status = '.(($this->data["status"]==-1) ? 0 : $this->data["status"])) : 1;
+        $hasissue = isset($this->data["hasissue"]) ? (empty($this->data["hasissue"]) ? 1 : 'sr.HasIssue = '.$this->data["hasissue"]) : 1;
+        $todate =  isset($this->data["todate"]) ? (empty($this->data["todate"]) ? "3000-01-01" : $this->data["todate"]) : "3000-01-01";
+        $fromdate =  isset($this->data["fromdate"]) ? (empty($this->data["fromdate"]) ? "1900-01-01" : $this->data["fromdate"]) : "1900-01-01";
+        $sql = "SELECT COUNT(*) as Total FROM servicerequest AS sr JOIN servicerequestaddress AS sra ON sra.ServiceRequestId = sr.ServiceRequestId JOIN user AS cust ON cust.UserId = sr.UserId LEFT JOIN user AS serv ON serv.UserId = sr.ServiceProviderId LEFT JOIN servicerequestextra AS sre ON sre.ServiceRequestId = sr.ServiceRequestId WHERE 1 AND $service_id AND $postal AND $email AND $custid AND $servid AND $status AND $hasissue AND sr.ServiceStartDate BETWEEN '$fromdate' AND '$todate'";
+        //echo $sql;
         $result = $this->conn->query($sql);
         if ($result->num_rows > 0) {
             $result = $result->fetch_assoc();
@@ -362,17 +405,65 @@ class ServiceModal extends Connection
     }
 
     public function TotalUsersForAdmin(){
-        $sql = "SELECT COUNT(*) as Total FROM user";
+        $userid = isset($this->data["username"]) ? (empty($this->data["username"]) ? 1 : 'user.UserId = '.$this->data["username"]) : 1;
+        $usertype = isset($this->data["usertype"]) ? (empty($this->data["usertype"]) ? 1 : 'user.UserTypeId = '.$this->data["usertype"]) : 1;
+        $mobile = isset($this->data["mobile"]) ? (empty($this->data["mobile"]) ? 1 : "user.Mobile = '".$this->data["mobile"]."'") : 1;
+        $postal =isset($this->data["postal"]) ? (empty($this->data["postal"]) ? 1 : "ua.PostalCode = '".$this->data["postal"]."'"): 1;
+        $email =isset($this->data["email"]) ? (empty($this->data["email"]) ? 1 : "user.Email = '".$this->data["email"]."'"): 1;
+        $todate =  isset($this->data["todate"]) ? (empty($this->data["todate"]) ? "3000-01-01" : $this->data["todate"]) : "3000-01-01";
+        $fromdate =  isset($this->data["fromdate"]) ? (empty($this->data["fromdate"]) ? "1900-01-01" : $this->data["fromdate"]) : "1900-01-01";
+        $sql = "SELECT user.UserId FROM user LEFT JOIN useraddress AS ua ON user.UserId = ua.UserId WHERE 1 AND $userid AND $usertype AND $mobile AND $postal AND $email AND user.CreatedDate BETWEEN '$fromdate' AND '$todate' GROUP BY user.UserId ";
+        //echo $sql;
         $result = $this->conn->query($sql);
+        $res = [];
+        $total = 0;
         if ($result->num_rows > 0) {
-            $result = $result->fetch_assoc();
+            while ($row = $result->fetch_assoc()) {
+                $total++;
+            }
+            $res["Total"] = $total;
         } else {
-            $result = [];
-            $result["Total"] = 0;
+            $res["Total"] = 0;
         }
-        return [$result, $this->errors];
+        return [$res, $this->errors];
     }
 
+    public function getAllUsersForAdmin($offset, $limit){
+        $userid = isset($this->data["username"]) ? (empty($this->data["username"]) ? 1 : 'user.UserId = '.$this->data["username"]) : 1;
+        $usertype = isset($this->data["usertype"]) ? (empty($this->data["usertype"]) ? 1 : 'user.UserTypeId = '.$this->data["usertype"]) : 1;
+        $mobile = isset($this->data["mobile"]) ? (empty($this->data["mobile"]) ? 1 : "user.Mobile = '".$this->data["mobile"]."'") : 1;
+        $postal =isset($this->data["postal"]) ? (empty($this->data["postal"]) ? 1 : "ua.PostalCode = '".$this->data["postal"]."'"): 1;
+        $email =isset($this->data["email"]) ? (empty($this->data["email"]) ? 1 : "user.Email = '".$this->data["email"]."'"): 1;
+        $todate =  isset($this->data["todate"]) ? (empty($this->data["todate"]) ? "3000-01-01" : $this->data["todate"]) : "3000-01-01";
+        $fromdate =  isset($this->data["fromdate"]) ? (empty($this->data["fromdate"]) ? "1900-01-01" : $this->data["fromdate"]) : "1900-01-01";
+        $sql = "SELECT user.UserId, CONCAT(user.FirstName,' ',user.LastName) AS UserName, user.Email, DATE_FORMAT(user.CreatedDate, '%d/%m/%Y') AS RegistrationDate, user.UserTypeId, user.Mobile, user.Status, user.IsApproved, ua.PostalCode FROM user LEFT JOIN useraddress AS ua ON user.UserId = ua.UserId WHERE 1 AND $userid AND $usertype AND $mobile AND $postal AND $email AND user.CreatedDate BETWEEN '$fromdate' AND '$todate' GROUP BY user.UserId LIMIT $offset, $limit";
+        //echo $sql;
+        $result = $this->conn->query($sql);
+        $users = [];
+        if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                array_push($users, $row);
+            }
+        } else {
+            $users = [];
+        }
+        return [$users, $this->errors];
+    }
+
+    public function getAllUsers(){
+        $sql = "SELECT user.UserId, CONCAT(user.FirstName,' ',user.LastName) AS UserName FROM user";
+       // echo $sql;
+        $result = $this->conn->query($sql);
+        $users = [];
+        if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                array_push($users, $row);
+            }
+        } else {
+            $users = [];
+        }
+        return [$users, $this->errors];
+    }
     // get total service request by user id
     public function TotalRequestByUserId($userid, $status)
     {
@@ -786,44 +877,34 @@ class ServiceModal extends Connection
         return $servicers;
     }
 
-    /* for admin special */
-    public function getAllServiceRequestForAdmin($offset, $limit)
-    {
-        $sql = "SELECT sr.ServiceRequestId, sr.ServiceStartDate, sr.ServiceHourlyRate, sr.ServiceHours, sr.ExtraHours, sr.SubTotal, sr.Discount,sr.TotalCost, sr.ServiceProviderId, sr.SPAcceptedDate, sr.HasPets, sr.Status, sr.HasIssue, sr.PaymentDone, sr.RecordVersion, sra.AddressLine1, sra.AddressLine2, sra.City, sra.State, sra.PostalCode, sra.Mobile, sra.Email, sre.ServiceExtraId, CONCAT(cust.FirstName,' ', cust.LastName) as CustName, CONCAT(serv.FirstName,' ', serv.LastName) as ServName FROM servicerequest AS sr JOIN servicerequestaddress AS sra ON sra.ServiceRequestId = sr.ServiceRequestId JOIN user AS cust ON cust.UserId = sr.UserId LEFT JOIN user AS serv ON serv.UserId = sr.ServiceProviderId LEFT JOIN servicerequestextra AS sre ON sre.ServiceRequestId = sr.ServiceRequestId ORDER BY sr.ServiceRequestId DESC LIMIT $offset, $limit";
+   
+    public function getAllCustomerForAdmin(){
+        $sql = "SELECT UserId, CONCAT(FirstName,' ',LastName) AS UserName, Email FROM user WHERE UserTypeId=1";
         $result = $this->conn->query($sql);
-        $services = [];
+        $cust = [];
         if ($result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {
-                if (!is_null($row["ServiceProviderId"])) {
-                    $spid = $row["ServiceProviderId"];
-                    $serviceid = $row["ServiceRequestId"];
-                    $rating = $this->getRatingByIds($serviceid);
-                    $spratings = $this->getSPDetailesBySPId($spid);
-                    $row = $row + $spratings + $rating;
-                }
-                array_push($services, $row);
+                array_push($cust, $row);
             }
         } else {
-            $services = [];
+            $cust = [];
         }
-        return [$services, $this->errors];
+        return [$cust, $this->errors];
     }
 
-    public function getAllUsersForAdmin($offset, $limit){
-        $sql = "SELECT CONCAT(user.FirstName,' ',user.LastName) AS UserName, DATE_FORMAT(user.CreatedDate, '%d/%m/%Y') AS RegistrationDate, user.UserTypeId, user.Mobile, user.Status, user.IsApproved, useraddress.PostalCode FROM user LEFT JOIN useraddress ON USER.UserId = useraddress.UserId GROUP BY user.UserId LIMIT $offset, $limit";
+    public function getAllServicerForAdmin(){
+        $sql = "SELECT UserId, CONCAT(FirstName,' ',LastName) AS UserName, Email FROM user WHERE UserTypeId=2";
         $result = $this->conn->query($sql);
-        $users = [];
+        $serv = [];
         if ($result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {
-                array_push($users, $row);
+                array_push($serv, $row);
             }
         } else {
-            $users = [];
+            $serv = [];
         }
-        return [$users, $this->errors];
+        return [$serv, $this->errors];
     }
-
-    
 
     private function addErrors($key, $val)
     {

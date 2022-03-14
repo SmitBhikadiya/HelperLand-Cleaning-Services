@@ -4,7 +4,6 @@ function showLoader() {
     });
 }
 $(document).ready(function () {
-
         // logic for export 
         $('#export').click(function(){
           let data = document.getElementById('table');
@@ -28,10 +27,7 @@ $(document).ready(function () {
         var totalpage = 1;
         var records = [];
         var totalrecords = 0;
-        var haspets;
-        var payment = $("#select_payment").val();
-        var rating = $("#select_rating").val();
-        var postal = 'all';
+        var searchdata = "";
 
         getDefaultRecords();
         setTimeout(setDefault, 100);
@@ -105,12 +101,13 @@ $(document).ready(function () {
             type: "POST",
             url:"http://localhost/Tatvasoft-PSD-TO-HTML/HelperLand/?controller=ADashboard&function=TotalRequest&parameter="+req,
             datatype: "json",
-            data: {haspets:haspets, payment:payment, rating:rating, postal:postal},
+            data: searchdata,
             success: function (data) {
               console.log(data);
               var obj = JSON.parse(data);
               var totalrequest = obj.result.Total;
               $(".show-apge .totalrecords").text(totalrequest);
+              showrecords = $(".show-apge select").val();
             },
           });
         }
@@ -118,11 +115,12 @@ $(document).ready(function () {
         // this is a function to get service data according to currentpage, showrecords and apge request
         function getAjaxDataByReq() {
           showLoader();
+          var data = "pagenumber="+currentpage+"&limit="+showrecords+searchdata;
           $.ajax({
             type: "POST",
             url: "http://localhost/Tatvasoft-PSD-TO-HTML/HelperLand/?controller=ADashboard&function=ServiceRequest&parameter=" + req,
             datatype: "json",
-            data: { pagenumber: currentpage, limit: showrecords, haspets:haspets, payment:payment, rating:rating, date:today_, postal:postal},
+            data: data,//{ pagenumber: currentpage, limit: showrecords, haspets:haspets, payment:payment, rating:rating, date:today_, postal:postal},
             success: function (data) {
               console.log(data);
               //alert(data);
@@ -134,9 +132,11 @@ $(document).ready(function () {
                 switch (req) {
                   case "usermanagement":
                     setUserManagement(obj.result);
+                    setUserManagementSearchBar(obj.alluser);
                     break;
                   default:
                     setServiceRequest(obj.result);
+                    setServiceRequestSearchBar(obj.Customer,obj.Servicer);
                 }
               }
             },
@@ -211,7 +211,7 @@ $(document).ready(function () {
                 var status = getStatusName(result.Status);
                 var paymentstatus_cls = (+result.Status==4) ? "settled" : "na";
                 var paymentstatus_name = (paymentstatus_cls=='na') ? "Not Aplicable" : "Settled";
-                var action = (+result.Status==4) ? `<li><button class="dropdown-item" type="button" data-bs-toggle="modal" data-bs-target="#exampleModalRedund" data-bs-dismiss="modal">Refund</button></li><li><button class="dropdown-item" type="button">Inquiry</button><li><button class="dropdown-item" type="button">History Log</button><li><button class="dropdown-item" type="button">Download Invoice</button></li><li><button class="dropdown-item" type="button">Has Issue</button></li><li><button class="dropdown-item" type="button">Other Transaction</button>` : `<li><button class="dropdown-item" type="button" data-bs-toggle="modal" data-bs-target="#exampleModaledit" data-bs-dismiss="modal">Edit &Reschedule</button></li><li><button class="dropdown-item" type="button">Cancel SR by Cust</button><li><button class="dropdown-item" type="button">Inquiry</button><li><button class="dropdown-item" type="button">History Log</button><li><button class="dropdown-item" type="button">Download Invoice</button></li><li><button class="dropdown-item" type="button">Other Transaction</button>`;
+                var action = (+result.Status==4 || +result.Status==3) ? `<li><button class="dropdown-item" type="button" data-bs-toggle="modal" data-bs-target="#exampleModalRedund" data-bs-dismiss="modal">Refund</button></li><li><button class="dropdown-item" type="button">Inquiry</button><li><button class="dropdown-item" type="button">History Log</button><li><button class="dropdown-item" type="button">Download Invoice</button></li><li><button class="dropdown-item" type="button">Has Issue</button></li><li><button class="dropdown-item" type="button">Other Transaction</button>` : `<li><button class="dropdown-item" type="button" data-bs-toggle="modal" data-bs-target="#exampleModaledit" data-bs-dismiss="modal">Edit &Reschedule</button></li><li><button class="dropdown-item" type="button">Cancel SR by Cust</button><li><button class="dropdown-item" type="button">Inquiry</button><li><button class="dropdown-item" type="button">History Log</button><li><button class="dropdown-item" type="button">Download Invoice</button></li><li><button class="dropdown-item" type="button">Other Transaction</button>`;
                 html += `
                 <tr id='data_${i++}'>
                 <td>
@@ -251,6 +251,25 @@ $(document).ready(function () {
             $("table tbody").html(html);
 
         }
+        function setServiceRequestSearchBar(cust, serv){
+          $("#customername").html("<option value='' selected>Select Customer</option>");
+          $("#servicername").html("<option value='' selected>Select Servicer</option>");
+          var cust_html = $("#customername").html();
+          var serv_html = $("#servicername").html();
+          cust.forEach(customer=>{
+            //console.log(customer);
+            cust_html+=`
+            <option value=${customer.UserId}>${customer.UserName}</option>
+            `;
+          });
+          serv.forEach(servicer=>{
+            serv_html+=`
+            <option value=${servicer.UserId}>${servicer.UserName}</option>
+            `;
+          });
+          $("#customername").html(cust_html);
+          $("#servicername").html(serv_html);
+        }
         function setUserManagement(results){
             var html = "";
             var i=0;
@@ -261,6 +280,7 @@ $(document).ready(function () {
                 if(usertype==1){usertype="Customer";}
                 else if(usertype==2){usertype="Servicer";}
                 else if(usertype==3){usertype="Admin";}
+                var IsApproved = (result.IsApproved==1) ? "DeActivate" : "Activate";
                 html+=`
                 <tr>
                     <td>
@@ -285,11 +305,7 @@ $(document).ready(function () {
                                 <img src="./static/images/icon-menudot.png" alt="">
                             </button>
                             <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                                <li><button class="dropdown-item" type="button">Edit</button></li>
-                                <li><button class="dropdown-item" type="button">Deactivate</button>
-                                </li>
-                                <li><button class="dropdown-item" type="button">Service
-                                        History</button>
+                                <li><button class="dropdown-item ${IsApproved}" type="button">${IsApproved}</button>
                                 </li>
                             </ul>
                         </div>
@@ -298,6 +314,17 @@ $(document).ready(function () {
                 `;
             });
             $("table tbody").html(html);
+        }
+        function setUserManagementSearchBar(users){
+          $("#username").html("<option value='' selected>User name</option>");
+          var user_html = $("#username").html();
+          users.forEach(user=>{
+            //console.log(customer);
+            user_html+=`
+            <option value=${user.UserId}>${user.UserName}</option>
+            `;
+          });
+          $("#username").html(user_html);
         }
       
          // get time and date in required format
@@ -323,44 +350,84 @@ $(document).ready(function () {
         } 
         
          // this is logic to making star html for sp rating
-  function getStarHTMLByRating(avgrating) {
-    spstar = "";
-    var i = 0;
-    for (i = 0; i < Math.floor(avgrating); i++) {
-      spstar += '<span class="fa fa-star"></span>';
-    }
-    if (Math.floor(avgrating) < avgrating) {
-      i++;
-      spstar += '<span class="fa fa-star-half-o"></span>';
-    }
-    if (i < 5) {
-      for (var j = 0; j < 5 - i; j++) {
-        spstar += '<span class="fa fa-star-o"></span>';
-      }
-    }
-    return spstar;
-  }
-      
-    $(".div-sidebar .nav-tog p").on("click", function () {
-        if (!$(this).parent().hasClass("active-nav")) {
-            const navtags = document.getElementsByClassName("nav-tog");
-            for (var i = 0; i < navtags.length; i++) {
-                navtags[i].classList.remove("active-nav");
+        function getStarHTMLByRating(avgrating) {
+          spstar = "";
+          var i = 0;
+          for (i = 0; i < Math.floor(avgrating); i++) {
+            spstar += '<span class="fa fa-star"></span>';
+          }
+          if (Math.floor(avgrating) < avgrating) {
+            i++;
+            spstar += '<span class="fa fa-star-half-o"></span>';
+          }
+          if (i < 5) {
+            for (var j = 0; j < 5 - i; j++) {
+              spstar += '<span class="fa fa-star-o"></span>';
             }
-            $(this).parent().addClass("active-nav");
-        } else {
-            $(this).parent().removeClass("active-nav");
+          }
+          return spstar;
         }
-    });
-    $(".div-sidebar a").on("click", function () {
-        if (!$(this).find("sidebar-active").length) {
-            const active = document.getElementsByClassName("sidebar-active");
-            for (var i = 0; i < active.length; i++) {
-                active[i].classList.remove("sidebar-active");
+            
+        $(".div-sidebar .nav-tog p").on("click", function () {
+            if (!$(this).parent().hasClass("active-nav")) {
+                const navtags = document.getElementsByClassName("nav-tog");
+                for (var i = 0; i < navtags.length; i++) {
+                    navtags[i].classList.remove("active-nav");
+                }
+                $(this).parent().addClass("active-nav");
+            } else {
+                $(this).parent().removeClass("active-nav");
             }
-            $(this).addClass("sidebar-active");
-        } else {
-            $(this).removeClass("sidebar-active");
-        }
-    });
+        });
+        $(".div-sidebar a").on("click", function () {
+            if (!$(this).find("sidebar-active").length) {
+                const active = document.getElementsByClassName("sidebar-active");
+                for (var i = 0; i < active.length; i++) {
+                    active[i].classList.remove("sidebar-active");
+                }
+                $(this).addClass("sidebar-active");
+            } else {
+                $(this).removeClass("sidebar-active");
+            }
+        });
+
+        // for search bar 
+        $(document).on("click", ".btn-service-search", function(e){
+          e.preventDefault();
+          currentpage = 1;
+          var servid = $("#serviceid").val();
+          var postal = $("#postalcode").val();
+          var email = $("#email").val();
+          var customername = $("#customername").val();
+          var servicername = $("#servicername").val();
+          var servicestatus = $("#servicestatus").val();
+          var hasissue = ($("#hasissue").is(":checked")) ? "1" : "";
+          var fromdate = $("#fromdate").val();
+          var todate = $("#todate").val();
+          searchdata = "&serviceid="+servid+"&postal="+postal+"&email="+email+"&custid="+customername+"&servid="+servicername+"&status="+servicestatus+"&hasissue="+hasissue+"&fromdate="+fromdate+"&todate="+todate;
+          getDefaultRecords();
+          setTimeout(setDefault, 100);
+        });
+        // for search bar 
+        $(document).on("click", ".btn-user-search", function(e){
+          e.preventDefault();
+          currentpage = 1;
+          var username = $("#username").val();
+          var usertype = $("#usertype").val();
+          var mobile = $("#mobile").val();
+          var postal = $("#postal").val();
+          var email = $("#email").val();
+          var fromdate = $("#fromdate").val();
+          var todate = $("#todate").val();
+          searchdata = "&username="+username+"&usertype="+usertype+"&mobile="+mobile+"&postal="+postal+"&email="+email+"&fromdate="+fromdate+"&todate="+todate;
+          getDefaultRecords();
+          setTimeout(setDefault, 100);
+        });
+        $(document).on("click", ".btn-clear", function(e){
+          e.preventDefault();
+          $("#form_searchreq").trigger("reset");
+          searchdata = "";
+          getDefaultRecords();
+          setTimeout(setDefault, 100); 
+        });
 }); 

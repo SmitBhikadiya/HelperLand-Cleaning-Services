@@ -15,9 +15,9 @@ class ADashboardController
         $this->servicemodal = new ServiceModal($this->data);
     }
 
-    public function TotalRequest($request='')
-    {   
-        $result = [[],[]];
+    public function TotalRequest($request = '')
+    {
+        $result = [[], []];
         if (isset($_SESSION["userdata"])) {
             $user = $_SESSION["userdata"];
             $userid = $user["UserId"];
@@ -28,10 +28,10 @@ class ADashboardController
                 default:
                     $result = $this->servicemodal->TotalRequestForAdmin();
             }
-        }else {
+        } else {
             $this->addErrors("login", "User is not login!!!");
         }
-            
+
         if (count($result[1]) > 0) {
             foreach ($result[1] as $key => $val) {
                 $this->addErrors($key, $val);
@@ -50,15 +50,22 @@ class ADashboardController
             $offset = ($currentpage - 1) * $limit;
             $user = $_SESSION["userdata"];
             $userid = $user["UserId"];
+            $cust = [[], []];
+            $serv = [[], []];
+            $allusers = [[],[]];
             switch ($request) {
                 case "usermanagement":
                     $result = $this->servicemodal->getAllUsersForAdmin($offset, $limit);
+                    $allusers = $this->servicemodal->getAllUsers();
                     break;
                 default:
                     $result = $this->servicemodal->getAllServiceRequestForAdmin($offset, $limit);
+                    $cust = $this->servicemodal->getAllCustomerForAdmin();
+                    $serv = $this->servicemodal->getAllServicerForAdmin();
             }
-            if (count($result[1]) > 0) {
-                foreach ($result[1] as $key => $val) {
+            if (count($result[1]) > 0 || count($cust[1]) > 0 || count($serv[1]) > 0) {
+                $errors = $result[1] + $cust[1] + $serv[1];
+                foreach ($errors as $key => $val) {
                     $this->addErrors($key, $val);
                 }
             }
@@ -66,7 +73,7 @@ class ADashboardController
             $this->addErrors("login", "User is not login!!!");
         }
 
-        echo json_encode(["result" => $result[0], "errors" => $this->errors]);
+        echo json_encode(["result" => $result[0], "Customer" => $cust[0], "Servicer" => $serv[0], "alluser"=>$allusers[0], "errors" => $this->errors]);
     }
 
     /*------------ Convert time(10:30) format to num(10.5) -------------*/
@@ -85,13 +92,14 @@ class ADashboardController
     }
 
     /*------------ Convert  format num(10.5) to time(10:30) -------------*/
-    private function convertStrToTime($str){
-        $hour = substr("0"+floor($str), -2);
+    private function convertStrToTime($str)
+    {
+        $hour = substr("0" + floor($str), -2);
         $min = "00";
-        if($hour<$str){
+        if ($hour < $str) {
             $min = "30";
         }
-        return $hour.":".$min;
+        return $hour . ":" . $min;
     }
 
     /*------------- Set error ------------*/
