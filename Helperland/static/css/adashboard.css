@@ -218,6 +218,12 @@
     color: white;
     margin-top: 20px;
     padding: 10px;
+    box-shadow: none;
+}
+.btn-modal:focus{
+    background-color: #1fb6ff;
+    color: white;
+    box-shadow: none;
 }
 .btn-modal:hover{
     color: rgba(255, 255, 255, 0.651);
@@ -246,6 +252,9 @@
 .service-status.settled P{
     background-color: #28b834;
 }
+.service-status.refunded p{
+    background-color: #232d58;
+}
 .service-status p{
     color: white;
     background-color: white;
@@ -269,4 +278,14 @@
     left: 9px;
     top: 11px;
 }
-
+.alert{
+    padding: 2px;
+}
+.alert ul{
+    list-style: none;
+    padding: 0;
+    margin-bottom: 2px;
+}
+.error{
+    color: red;
+}

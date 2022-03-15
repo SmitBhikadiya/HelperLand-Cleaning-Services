@@ -54,7 +54,7 @@ class ADashboardController
             $userid = $user["UserId"];
             $cust = [[], []];
             $serv = [[], []];
-            $allusers = [[],[]];
+            $allusers = [[], []];
             switch ($request) {
                 case "usermanagement":
                     $result = $this->servicemodal->getAllUsersForAdmin($offset, $limit);
@@ -75,32 +75,129 @@ class ADashboardController
             $this->addErrors("login", "User is not login!!!");
         }
 
-        echo json_encode(["result" => $result[0], "Customer" => $cust[0], "Servicer" => $serv[0], "alluser"=>$allusers[0], "errors" => $this->errors]);
+        echo json_encode(["result" => $result[0], "Customer" => $cust[0], "Servicer" => $serv[0], "alluser" => $allusers[0], "errors" => $this->errors]);
     }
 
-    public function SetApprovedByAdmin(){
-        $result = 0;
-        if(isset($_SESSION["userdata"])){
+    public function EditServiceDetailes()
+    {
+        $result = [[], []];
+        $mailmsg = "";
+        if (isset($_SESSION["userdata"]) && isset($this->data["adid"])) {
             $user = $_SESSION["userdata"];
-            if(isset($this->data["aid"]) && isset($this->data["userid"]) && $this->data["aid"]==$user["UserId"]){
-                $userid = $this->data["userid"];
-                $adminid = $this->data["aid"];
-                if($this->usersmodal->IsUserExists($userid)){
-                    if($this->usersmodal->UpdateApprovalByAdmin($adminid, $userid)){
-                        $result = 1;
-                    }else{
-                        $this->addErrors("SQLError", "Somthing Went Wrong with the SQL!!!");
+            $userid = $user["UserId"];
+            $adid = $this->data["adid"];
+            if ($userid == $adid) {
+                if (isset($this->data["serviceid"])) {
+                    $serviceid = $this->data["serviceid"];
+                    $service = $this->servicemodal->getServiceRequestById($serviceid);
+                    if (count($service) > 0) {
+                        $startdate = date('Y-m-d', strtotime(str_replace('/', '-', $this->data["date"])));
+                        $spid = $service["ServiceProviderId"];
+                        $check_status = '(0,1,2)';
+                        $results = $this->servicemodal->IsUpdateServiceSchedulePossibleOnDate($spid, $startdate, $check_status);
+                        if (count($results[1]) > 0) {
+                            foreach ($results[1] as $key => $val) {
+                                $this->addErrors($key, $val);
+                            }
+                        } else {
+                            $select_starttime = $this->data["time"];
+                            $select_totalhour = $service["ServiceHours"][0];
+                            $select_endtime =  $select_starttime + $select_totalhour;
+                            if ($select_starttime + $select_totalhour > 21.0) {
+                                $this->addErrors("Invalid", "Could not completed the service request, because service booking request is must be completed within 21:00 time");
+                            } else {
+                                for ($i = 0; $i < count($results[0]); $i++) {
+                                    $res = $results[0][$i];
+                                    if ($res["ServiceRequestId"] == $serviceid) {
+                                        continue;
+                                    }
+                                    $service_starttime = $this->convertTimeToStr($res["ServiceStartTime"]);
+                                    $service_hour = $res["ServiceHours"][0];
+                                    $service_endtime = $service_starttime + $service_hour;
+                                    $service_gape = Config::SERVICE_ACCEPT_GAPE;
+                                    if(
+                                        $select_starttime == $service_starttime || $select_endtime == $service_endtime || $select_starttime == $service_endtime || $select_endtime == $service_starttime ||
+                                        (($select_starttime < $service_starttime && $select_endtime > $service_starttime) || ($select_starttime < $service_starttime && ($service_starttime - $select_endtime) < $service_gape)) ||
+                                        (($select_starttime > $service_starttime && $select_starttime < $service_endtime) || ($select_starttime > $service_starttime && ($select_starttime - $service_endtime) < $service_gape))
+                                    ){
+                                        $this->addErrors("Invalid", "Another service request " . substr("000" . $res["ServiceRequestId"], -4) . " has already been assigned to Servicer(ID: ".$res['ServiceProviderId'].") which has time overlap with this service request. You can’t Reschdule this one!");
+                                        break;
+                                    }
+                                }
+                            }
+
+                            // check user is laready request to reschude service
+                            $record_version = 0;
+                            $status = $service["Status"];
+                            if ($service["Status"] == 2 && (is_null($service["RecordVersion"]) || $service["RecordVersion"] == 0)) {
+                                $record_version = 1;
+                                $status = 1;
+                            } else if ($service["Status"] == 1 && $service["RecordVersion"] == 1) {
+                                $this->addErrors("Service", "You already reschdule a service wait untill the servicer accept it");
+                            }
+
+                            // if no errors then update date and time
+                            $mailmsg = "";
+                            if (!(count($this->errors) > 0)) {
+                                $comment = isset($this->data["comment"]) ? $this->data["comment"] : "";
+                                $update = $this->servicemodal->UpdateSerivceScheduleById($startdate, $select_starttime, $serviceid, $userid, $status, $record_version, $comment);
+                                if (!$update) {
+                                    $this->addErrors("Wrong", "Somthing went wrong with the update schedule");
+                                } else {
+                                    $updateaddress = $this->usersmodal->updateServiceRequestAddress($service["ServiceRequestId"]);
+                                    if (count($updateaddress[1]) > 0) {
+                                        $this->addErrors("Wrong", "Somthing went wrong with the update useraddress");
+                                    } else {
+                                        $body = "<h1>Service Request <b>" . $service["ServiceRequestId"] . "</h1></b> has been rescheduled by Admin. New date and time are <b>$startdate " . $this->convertStrToTime($select_starttime) . "</b>";
+                                        $emails = [$service["CEmail"]];
+                                        if (!is_null($service["SPEmail"])) {
+                                            $emails[] = $service["SPEmail"];
+                                        }
+                                        $mailmsg = sendmail($emails, "Service Edit & Reschedule", $body);
+                                    }
+                                }
+                            }
+                        }
+                    } else {
+                        $this->addErrors("Invalid", "Service Request Not Found");
                     }
-                }else{
-                    $this->addErrors("Invalid", "Invalid Reuqest!!!");
+                } else {
+                    $this->addErrors("Invalid", "Service Id is not found!!!");
                 }
-            }else{
-                $this->addErrors("Invalid", "Invalid Reuqest!!!");
+            } else {
+                $this->addErrors("Invalid", "Invalid Request");
             }
-        }else{
+        } else {
             $this->addErrors("login", "User is not login!!!");
         }
-        echo json_encode(["result" => $result,"errors" => $this->errors]);
+
+        echo json_encode(["result" => $result[0], "errors" => $this->errors, "mail" => $mailmsg]);
+    }
+
+    public function SetApprovedByAdmin()
+    {
+        $result = 0;
+        if (isset($_SESSION["userdata"])) {
+            $user = $_SESSION["userdata"];
+            if (isset($this->data["aid"]) && isset($this->data["userid"]) && $this->data["aid"] == $user["UserId"]) {
+                $userid = $this->data["userid"];
+                $adminid = $this->data["aid"];
+                if ($this->usersmodal->IsUserExists($userid)) {
+                    if ($this->usersmodal->UpdateApprovalByAdmin($adminid, $userid)) {
+                        $result = 1;
+                    } else {
+                        $this->addErrors("SQLError", "Somthing Went Wrong with the SQL!!!");
+                    }
+                } else {
+                    $this->addErrors("Invalid", "Invalid Reuqest!!!");
+                }
+            } else {
+                $this->addErrors("Invalid", "Invalid Reuqest!!!");
+            }
+        } else {
+            $this->addErrors("login", "User is not login!!!");
+        }
+        echo json_encode(["result" => $result, "errors" => $this->errors]);
     }
 
     /*------------ Convert time(10:30) format to num(10.5) -------------*/

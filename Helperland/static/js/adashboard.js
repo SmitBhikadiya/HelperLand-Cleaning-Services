@@ -4,16 +4,6 @@ function showLoader() {
     });
 }
 $(document).ready(function () {
-        // logic for export 
-        $('#export').click(function(){
-          let data = document.getElementById('table');
-          var fp = XLSX.utils.table_to_book(data,{sheet:'History'});
-          XLSX.write(fp,{
-            bookType:'xlsx',
-            type:'base64'
-          });
-          XLSX.writeFile(fp, 'service-history.xlsx');
-        });
       
         // Declare some global variable
         var today = new Date();
@@ -32,50 +22,233 @@ $(document).ready(function () {
         getDefaultRecords();
         setTimeout(setDefault, 100);
       
-        // this pagination logic to increase or decrease a page number
-        $(document).on("click", ".paginations .changepage", function () {
-          var actionclass = $(this).prop("class").split(" ")[0];
-          //alert(currentpage);
-          switch (actionclass) {
-            case "next-left":
-              if (currentpage > 1) {
-                currentpage--;
-                $(".paginations div").removeClass("current-page");
-                if(currentpage<5){
-                    $(".paginations div.pagenumber:nth-child("+(currentpage+1)+")").addClass("current-page");
-                }else{
-                    $(".paginations div.pagenumber:nth-child("+(6)+")").text(currentpage);
-                    $(".paginations div.pagenumber:nth-child("+(6)+")").addClass("current-page");
-                }
+      $(document).on("click", ".paginations .changepage", function () {
+        var actionclass = $(this).prop("class").split(" ")[0];
+        //alert(currentpage);
+        switch (actionclass) {
+          case "next-left":
+            if (currentpage > 1) {
+              currentpage--;
+              $(".paginations div").removeClass("current-page");
+              if(currentpage<5){
+                  $(".paginations div.pagenumber:nth-child("+(currentpage+1)+")").addClass("current-page");
+              }else{
+                  $(".paginations div.pagenumber:nth-child("+(6)+")").text(currentpage);
+                  $(".paginations div.pagenumber:nth-child("+(6)+")").addClass("current-page");
               }
-              break;
-            case "next-right":
-              if (currentpage < totalpage) {
-                currentpage++;
-                $(".paginations div").removeClass("current-page");
-                if(currentpage<5){
-                    $(".paginations div.pagenumber:nth-child("+(currentpage+1)+")").addClass("current-page");
-                }else{
-                    $(".paginations div.pagenumber:nth-child("+(6)+")").text(currentpage);
-                    $(".paginations div.pagenumber:nth-child("+(6)+")").addClass("current-page");
-                }
+            }
+            break;
+          case "next-right":
+            if (currentpage < totalpage) {
+              currentpage++;
+              $(".paginations div").removeClass("current-page");
+              if(currentpage<5){
+                  $(".paginations div.pagenumber:nth-child("+(currentpage+1)+")").addClass("current-page");
+              }else{
+                  $(".paginations div.pagenumber:nth-child("+(6)+")").text(currentpage);
+                  $(".paginations div.pagenumber:nth-child("+(6)+")").addClass("current-page");
               }
-              break;
-          }
+            }
+            break;
+        }
+        updatePageNumber(currentpage);
+        getAjaxDataByReq();
+      });
+      $(document).on("click", ".pagenumber", function(){
+          currentpage = +$(this).text();
+          $(".pagenumber").removeClass("current-page");
+          $(this).addClass("current-page");
           updatePageNumber(currentpage);
           getAjaxDataByReq();
+      });
+      $(document).on("change", ".show-apge select", function () {
+        showrecords = $(this).val();
+        totalpage = Math.ceil(totalrecords / showrecords);
+        totalpage = totalpage == 0 ? 1 : totalpage;
+        currentpage = 1;
+        updatePageNumber(currentpage);
+        setDefault();
+      });
+      $(document).on("click", ".btn-isapproved", function(){
+        var userid = $(this).data("id");
+        var admin = $("#aid").val();
+        $.ajax({
+          type: "POST",
+          url: "http://localhost/Tatvasoft-PSD-TO-HTML/HelperLand/?controller=ADashboard&function=SetApprovedByAdmin",
+          datatype: "json",
+          data: {userid:userid, aid:admin},
+          success: function (data) {
+            console.log(data);
+            obj = JSON.parse(data);
+            if (obj.errors.length == 0) {
+              getDefaultRecords();
+              setTimeout(setDefault, 100);
+            }
+          }
         });
-        
-        $(document).on("click", ".pagenumber", function(){
-            currentpage = +$(this).text();
-            $(".pagenumber").removeClass("current-page");
-            $(this).addClass("current-page");
-            updatePageNumber(currentpage);
-            getAjaxDataByReq();
+      });      
+      $(document).on("click",".div-sidebar .nav-tog p", function () {
+          if (!$(this).parent().hasClass("active-nav")) {
+              const navtags = document.getElementsByClassName("nav-tog");
+              for (var i = 0; i < navtags.length; i++) {
+                  navtags[i].classList.remove("active-nav");
+              }
+              $(this).parent().addClass("active-nav");
+          } else {
+              $(this).parent().removeClass("active-nav");
+          }
+      });
+      $(document).on("click", ".div-sidebar a", function () {
+          if (!$(this).find("sidebar-active").length) {
+              const active = document.getElementsByClassName("sidebar-active");
+              for (var i = 0; i < active.length; i++) {
+                  active[i].classList.remove("sidebar-active");
+              }
+              $(this).addClass("sidebar-active");
+          } else {
+              $(this).removeClass("sidebar-active");
+          }
+      });
+      $(document).on("click", ".btn-service-search", function(e){
+        e.preventDefault();
+        currentpage = 1;
+        var servid = $("#serviceid").val();
+        var postal = $("#postalcode").val();
+        var email = $("#email").val();
+        var customername = $("#customername").val();
+        var servicername = $("#servicername").val();
+        var servicestatus = $("#servicestatus").val();
+        var hasissue = ($("#hasissue").is(":checked")) ? "1" : "";
+        var fromdate = $("#fromdate").val();
+        var todate = $("#todate").val();
+        searchdata = "&serviceid="+servid+"&postal="+postal+"&email="+email+"&custid="+customername+"&servid="+servicername+"&status="+servicestatus+"&hasissue="+hasissue+"&fromdate="+fromdate+"&todate="+todate;
+        getDefaultRecords();
+        setTimeout(setDefault, 100);
+      });
+      $(document).on("click", ".btn-user-search", function(e){
+        e.preventDefault();
+        currentpage = 1;
+        var username = $("#username").val();
+        var usertype = $("#usertype").val();
+        var mobile = $("#mobile").val();
+        var postal = $("#postal").val();
+        var email = $("#email").val();
+        var fromdate = $("#fromdate").val();
+        var todate = $("#todate").val();
+        searchdata = "&username="+username+"&usertype="+usertype+"&mobile="+mobile+"&postal="+postal+"&email="+email+"&fromdate="+fromdate+"&todate="+todate;
+        getDefaultRecords();
+        setTimeout(setDefault, 100);
+      });
+      $(document).on("click", ".btn-clear", function(e){
+        e.preventDefault();
+        currentpage = 1;
+        $("#form_searchreq").trigger("reset");
+        searchdata = "";
+        getDefaultRecords();
+        setTimeout(setDefault, 100); 
+      });
+      $(document).on("click", '#export', function(){
+        let data = document.getElementById('table');
+        var fp = XLSX.utils.table_to_book(data,{sheet:'History'});
+        XLSX.write(fp,{
+          bookType:'xlsx',
+          type:'base64'
         });
+        XLSX.writeFile(fp, 'service-history.xlsx');
+      });
+      $(document).on("click", ".editreschedule", function(){
+        var index = $(this).parent().data("index");
+        var result = records[index];
+        var date  = getTimeAndDate(result.ServiceStartDate, result.ServiceHours);
+        $("#er-servid").val(result.ServiceRequestId);
+        $("#er-date").val(date.startdate);
+        $(".selecttime select option:contains("+date.starttime+")").attr('selected', 'selected');
+        $("#er-street").val(result.AddressLine2);
+        $("#er-house").val(result.AddressLine1);
+        $("#er-postalcode").val(result.PostalCode);
+        $("#er-mobile").val(result.Mobile);
+        $("#er-city").html("<option value="+result.City.toLowerCase()+">"+result.City+"</option>");
+        $("#er-comment").val(result.Comments);
+      });
+      $(document).on("click", ".refund", function(){
+        var index = $(this).parent().data("index");
+        var result = records[index];
+      });
+      $(document).on("keyup", "#er-postalcode", function (e) {
+        var postal = $(this).val();
+        if(postal.length == 5){
+          $(".error").remove();
+          showLoader();
+          jQuery.ajax({
+            type: "POST",
+            url: "http://localhost/Tatvasoft-PSD-TO-HTML/HelperLand/?controller=Users&function=getCityByPostal",
+            datatype: "json",
+            data: {postalcode:postal},
+            success: function (data) {
+              var obj = JSON.parse(data);
+              if(obj.errors.length==0){
+                var option = "<option value="+obj.result.CityName.toLowerCase()+" selected>"+obj.result.CityName+"</option>";
+                $("#er-city").html(option);
+                //alert(obj.result.CityName);
+              }else{
+                $("#er-city").html("");
+                $("#er-postalcode").after("<span class='error' style='color:red;'>*invalid postal code</span>");
+              }
+            },
+            complete: function (data) {
+              $.LoadingOverlay("hide");
+            },
+          });
+        }else{
+          $("#er-city").html("");
+        }
+      });
+      $(document).on("click", "#btn-editandreschedule", function(e){
+        e.preventDefault();
+        showLoader();
+        $(".alert").remove();
+        var action = $(this).parent().parent().parent().prop("action");
+        var adid = $("#aid").val();
+        //alert(action+" "+adid);
+        if($(this).parent().parent().parent().find('.error').length==0){
+          jQuery.ajax({
+            type: "POST",
+            url: action,
+            datatype: "json",
+            data: $("#form-reschedule").serialize()+"&adid="+adid,
+            success: function (data) {
+              console.log(data);
+              var obj = JSON.parse(data);
+              if (obj.errors.length == 0) {
+                $("#form-reschedule").prepend(
+                  '<div class="alert alert-success alert-dismissible fade show" role="alert"><ul class="success">Service rescheduled Successfully!!</ul></div>'
+                );
+                getAjaxDataByReq();
+              } else {
+                var errorlist = "";
+                for (const [key, val] of Object.entries(obj.errors)) {
+                  errorlist += `<li>${val}</li>`;
+                }
+                $("#form-reschedule").prepend(
+                  '<div class="alert alert-danger alert-dismissible fade show" role="alert"><ul class="errorlist">' +
+                    errorlist +
+                    "</ul></div>"
+                );
+              }
+              $([document.documentElement, document.body]).animate({
+                scrollTop: $("#exampleModaledit").offset().top,
+              },100);
+            },
+            complete: function (data) {
+              $.LoadingOverlay("hide");
+            },
+          });
+        }else{
+          $.LoadingOverlay("hide");
+        }
+      });
       
-        // this is function to set default thinks or call by timeout vecause of late ajax responce
-        function setDefault() {
+      function setDefault() {
           totalrecords = $(".show-apge .totalrecords").text();
           totalpage = Math.ceil(totalrecords / showrecords);
           totalpage = totalpage == 0 ? 1 : totalpage;
@@ -93,10 +266,8 @@ $(document).ready(function () {
           }
           $(".next-left").after(pageshtml);
           getAjaxDataByReq();
-        }
-      
-        // this is a function get total records from database
-        function getDefaultRecords() {
+      }
+      function getDefaultRecords() {
           $.ajax({
             type: "POST",
             url:"http://localhost/Tatvasoft-PSD-TO-HTML/HelperLand/?controller=ADashboard&function=TotalRequest&parameter="+req,
@@ -110,10 +281,8 @@ $(document).ready(function () {
               showrecords = $(".show-apge select").val();
             },
           });
-        }
-      
-        // this is a function to get service data according to currentpage, showrecords and apge request
-        function getAjaxDataByReq() {
+      }
+      function getAjaxDataByReq() {
           showLoader();
           var data = "pagenumber="+currentpage+"&limit="+showrecords+searchdata;
           $.ajax({
@@ -144,26 +313,13 @@ $(document).ready(function () {
               $.LoadingOverlay("hide");
             },
           });
-        }
-      
-        // for updating page number
-        function updatePageNumber(number) {
+      }
+      function updatePageNumber(number) {
           if (totalpage < currentpage) {
             number = totalpage;
           }
-        }
-      
-        // thhi is a function to update pagination when somebody change show records dropdown
-        $(document).on("change", ".show-apge select", function () {
-          showrecords = $(this).val();
-          totalpage = Math.ceil(totalrecords / showrecords);
-          totalpage = totalpage == 0 ? 1 : totalpage;
-          currentpage = 1;
-          updatePageNumber(currentpage);
-          setDefault();
-        });
-
-        function getStatusName(st){
+      }
+      function getStatusName(st){
             var status;
             switch(+st){
                 case 0:
@@ -179,11 +335,13 @@ $(document).ready(function () {
                 case 4:
                     status="completed";
                     break;
+                case 5:
+                  status="refunded";
+                  break;
             }
             return status;
-        }
-
-        function setServiceRequest(results){
+      }
+      function setServiceRequest(results){
             var html = "";
             var i=0;
             results.forEach(result => {
@@ -211,9 +369,9 @@ $(document).ready(function () {
                 var status = getStatusName(result.Status);
                 var paymentstatus_cls = (+result.Status==4) ? "settled" : "na";
                 var paymentstatus_name = (paymentstatus_cls=='na') ? "Not Aplicable" : "Settled";
-                var action = (+result.Status==4 || +result.Status==3) ? `<li><button class="dropdown-item" type="button" data-bs-toggle="modal" data-bs-target="#exampleModalRedund" data-bs-dismiss="modal">Refund</button></li><li><button class="dropdown-item" type="button">Inquiry</button><li><button class="dropdown-item" type="button">History Log</button><li><button class="dropdown-item" type="button">Download Invoice</button></li><li><button class="dropdown-item" type="button">Has Issue</button></li><li><button class="dropdown-item" type="button">Other Transaction</button>` : `<li><button class="dropdown-item" type="button" data-bs-toggle="modal" data-bs-target="#exampleModaledit" data-bs-dismiss="modal">Edit &Reschedule</button></li><li><button class="dropdown-item" type="button">Cancel SR by Cust</button><li><button class="dropdown-item" type="button">Inquiry</button><li><button class="dropdown-item" type="button">History Log</button><li><button class="dropdown-item" type="button">Download Invoice</button></li><li><button class="dropdown-item" type="button">Other Transaction</button>`;
+                var action = (+result.Status==4 || +result.Status==3) ? `<li data-index=${i}><button class="dropdown-item refund" type="button" data-bs-toggle="modal" data-bs-target="#exampleModalRedund" data-bs-dismiss="modal">Refund</button></li><li><button class="dropdown-item" type="button">Inquiry</button><li><button class="dropdown-item" type="button">History Log</button><li><button class="dropdown-item" type="button">Download Invoice</button></li><li><button class="dropdown-item" type="button">Has Issue</button></li><li><button class="dropdown-item" type="button">Other Transaction</button>` : `<li data-index=${i}><button class="dropdown-item editreschedule" type="button" data-bs-toggle="modal" data-bs-target="#exampleModaledit" data-bs-dismiss="modal">Edit &Reschedule</button></li><li><button class="dropdown-item" type="button">Cancel SR by Cust</button><li><button class="dropdown-item" type="button">Inquiry</button><li><button class="dropdown-item" type="button">History Log</button><li><button class="dropdown-item" type="button">Download Invoice</button></li><li><button class="dropdown-item" type="button">Other Transaction</button>`;
                 html += `
-                <tr id='data_${i++}'>
+                <tr id='data_${i}'>
                 <td>
                     <div class="td-name">${("000" + result.ServiceRequestId).slice(-4)}</div>
                 </td>
@@ -247,11 +405,12 @@ $(document).ready(function () {
                 </td>
             </tr>
                 `;
+                i++;
             });
             $("table tbody").html(html);
 
-        }
-        function setServiceRequestSearchBar(cust, serv){
+      }
+      function setServiceRequestSearchBar(cust, serv){
           $("#customername").html("<option value='' selected>Select Customer</option>");
           $("#servicername").html("<option value='' selected>Select Servicer</option>");
           var cust_html = $("#customername").html();
@@ -269,27 +428,8 @@ $(document).ready(function () {
           });
           $("#customername").html(cust_html);
           $("#servicername").html(serv_html);
-        }
-
-        $(document).on("click", ".btn-isapproved", function(){
-          var userid = $(this).data("id");
-          var admin = $("#aid").val();
-          $.ajax({
-            type: "POST",
-            url: "http://localhost/Tatvasoft-PSD-TO-HTML/HelperLand/?controller=ADashboard&function=SetApprovedByAdmin",
-            datatype: "json",
-            data: {userid:userid, aid:admin},
-            success: function (data) {
-              console.log(data);
-              obj = JSON.parse(data);
-              if (obj.errors.length == 0) {
-                getDefaultRecords();
-                setTimeout(setDefault, 100);
-              }
-            }
-          });
-        });
-        function setUserManagement(results){
+      }
+      function setUserManagement(results){
             var html = "";
             var i=0;
             results.forEach(result => {
@@ -333,8 +473,8 @@ $(document).ready(function () {
                 `;
             });
             $("table tbody").html(html);
-        }
-        function setUserManagementSearchBar(users){
+      }
+      function setUserManagementSearchBar(users){
           $("#username").html("<option value='' selected>User name</option>");
           var user_html = $("#username").html();
           users.forEach(user=>{
@@ -344,10 +484,8 @@ $(document).ready(function () {
             `;
           });
           $("#username").html(user_html);
-        }
-      
-         // get time and date in required format
-         function getTimeAndDate(sdate, stime) {
+      }
+      function getTimeAndDate(sdate, stime) {
           //alert(sdate, stime);
           var dateobj = new Date(sdate);
           var startdate = dateobj.toLocaleDateString("en-AU");
@@ -366,10 +504,8 @@ $(document).ready(function () {
           }
           var endtime = ("0" + endhour).slice(-2) + ":" + ("0" + endmin).slice(-2);
           return { startdate: startdate, starttime: starttime, endtime: endtime };
-        } 
-        
-         // this is logic to making star html for sp rating
-        function getStarHTMLByRating(avgrating) {
+      }
+      function getStarHTMLByRating(avgrating) {
           spstar = "";
           var i = 0;
           for (i = 0; i < Math.floor(avgrating); i++) {
@@ -385,69 +521,5 @@ $(document).ready(function () {
             }
           }
           return spstar;
-        }
-            
-        $(".div-sidebar .nav-tog p").on("click", function () {
-            if (!$(this).parent().hasClass("active-nav")) {
-                const navtags = document.getElementsByClassName("nav-tog");
-                for (var i = 0; i < navtags.length; i++) {
-                    navtags[i].classList.remove("active-nav");
-                }
-                $(this).parent().addClass("active-nav");
-            } else {
-                $(this).parent().removeClass("active-nav");
-            }
-        });
-        $(".div-sidebar a").on("click", function () {
-            if (!$(this).find("sidebar-active").length) {
-                const active = document.getElementsByClassName("sidebar-active");
-                for (var i = 0; i < active.length; i++) {
-                    active[i].classList.remove("sidebar-active");
-                }
-                $(this).addClass("sidebar-active");
-            } else {
-                $(this).removeClass("sidebar-active");
-            }
-        });
-
-        // for search bar 
-        $(document).on("click", ".btn-service-search", function(e){
-          e.preventDefault();
-          currentpage = 1;
-          var servid = $("#serviceid").val();
-          var postal = $("#postalcode").val();
-          var email = $("#email").val();
-          var customername = $("#customername").val();
-          var servicername = $("#servicername").val();
-          var servicestatus = $("#servicestatus").val();
-          var hasissue = ($("#hasissue").is(":checked")) ? "1" : "";
-          var fromdate = $("#fromdate").val();
-          var todate = $("#todate").val();
-          searchdata = "&serviceid="+servid+"&postal="+postal+"&email="+email+"&custid="+customername+"&servid="+servicername+"&status="+servicestatus+"&hasissue="+hasissue+"&fromdate="+fromdate+"&todate="+todate;
-          getDefaultRecords();
-          setTimeout(setDefault, 100);
-        });
-        // for search bar 
-        $(document).on("click", ".btn-user-search", function(e){
-          e.preventDefault();
-          currentpage = 1;
-          var username = $("#username").val();
-          var usertype = $("#usertype").val();
-          var mobile = $("#mobile").val();
-          var postal = $("#postal").val();
-          var email = $("#email").val();
-          var fromdate = $("#fromdate").val();
-          var todate = $("#todate").val();
-          searchdata = "&username="+username+"&usertype="+usertype+"&mobile="+mobile+"&postal="+postal+"&email="+email+"&fromdate="+fromdate+"&todate="+todate;
-          getDefaultRecords();
-          setTimeout(setDefault, 100);
-        });
-        $(document).on("click", ".btn-clear", function(e){
-          e.preventDefault();
-          currentpage = 1;
-          $("#form_searchreq").trigger("reset");
-          searchdata = "";
-          getDefaultRecords();
-          setTimeout(setDefault, 100); 
-        });
+      }
 }); 

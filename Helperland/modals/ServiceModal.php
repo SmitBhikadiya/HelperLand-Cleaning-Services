@@ -82,7 +82,7 @@ class ServiceModal extends Connection
         }
     }
 
-    public function UpdateSerivceScheduleById($startdate, $starttime, $serviceId, $modifiedby, $status, $record_version)
+    public function UpdateSerivceScheduleById($startdate, $starttime, $serviceId, $modifiedby, $status, $record_version, $comment="")
     {
 
         // for fromatting datetime
@@ -90,7 +90,8 @@ class ServiceModal extends Connection
         $date->setTime(floor($starttime), floor($starttime) == $starttime ? "00" : (("0." . substr($starttime, -1) * 60) * 100));
         $datetime = $date->format('Y-m-d H:i:s');
 
-        $sql = "UPDATE servicerequest SET ServiceStartDate='$datetime', ModifiedBy=$modifiedby, ModifiedDate=now(), Status=$status, RecordVersion=$record_version WHERE ServiceRequestId=$serviceId";
+        $sql = "UPDATE servicerequest SET ServiceStartDate='$datetime', ModifiedBy=$modifiedby, ModifiedDate=now(), Status=$status, RecordVersion=$record_version, Comments='$comment' WHERE ServiceRequestId=$serviceId";
+        //echo $sql;
         $result = $this->conn->query($sql);
         if ($result) {
             return 1;
@@ -118,7 +119,7 @@ class ServiceModal extends Connection
 
     public function getServiceByStartDateSPAndStatus($favsp, $startdate, $status)
     {
-        $sql = "SELECT sr.ServiceRequestId, DATE_FORMAT(sr.ServiceStartDate, '%H:%i') as ServiceStartTime,DATE_FORMAT(sr.ServiceStartDate, '%Y-%m-%d') as ServiceStartDate, sr.ServiceHours, sr.Status, user.Email FROM servicerequest AS sr JOIN user ON user.UserId = sr.ServiceProviderId WHERE sr.ServiceProviderId = $favsp AND sr.Status IN $status AND sr.ServiceStartDate LIKE '%$startdate%';";
+        $sql = "SELECT sr.ServiceRequestId, DATE_FORMAT(sr.ServiceStartDate, '%H:%i') as ServiceStartTime,DATE_FORMAT(sr.ServiceStartDate, '%Y-%m-%d') as ServiceStartDate, sr.ServiceHours, sr.Status, sr.ServiceProviderId, user.Email FROM servicerequest AS sr JOIN user ON user.UserId = sr.ServiceProviderId WHERE sr.ServiceProviderId = $favsp AND sr.Status IN $status AND sr.ServiceStartDate LIKE '%$startdate%';";
         $services = $this->conn->query($sql);
         $rows = [];
         //echo $sql;
@@ -360,7 +361,7 @@ class ServiceModal extends Connection
          $hasissue = isset($this->data["hasissue"]) ? (empty($this->data["hasissue"]) ? 1 : 'sr.HasIssue = '.$this->data["hasissue"]) : 1;
          $todate =  isset($this->data["todate"]) ? (empty($this->data["todate"]) ? "3000-01-01" : $this->data["todate"]) : "3000-01-01";
          $fromdate =  isset($this->data["fromdate"]) ? (empty($this->data["fromdate"]) ? "1900-01-01" : $this->data["fromdate"]) : "1900-01-01";
-         $sql = "SELECT sr.ServiceRequestId, sr.ServiceStartDate, sr.ServiceHourlyRate, sr.ServiceHours, sr.ExtraHours, sr.SubTotal, sr.Discount,sr.TotalCost, sr.ServiceProviderId, sr.SPAcceptedDate, sr.HasPets, sr.Status, sr.HasIssue, sr.PaymentDone, sr.RecordVersion, sra.AddressLine1, sra.AddressLine2, sra.City, sra.State, sra.PostalCode, sra.Mobile, sra.Email, sre.ServiceExtraId, CONCAT(cust.FirstName,' ', cust.LastName) as CustName, CONCAT(serv.FirstName,' ', serv.LastName) as ServName FROM servicerequest AS sr JOIN servicerequestaddress AS sra ON sra.ServiceRequestId = sr.ServiceRequestId JOIN user AS cust ON cust.UserId = sr.UserId LEFT JOIN user AS serv ON serv.UserId = sr.ServiceProviderId LEFT JOIN servicerequestextra AS sre ON sre.ServiceRequestId = sr.ServiceRequestId 
+         $sql = "SELECT sr.ServiceRequestId, sr.ServiceStartDate, sr.ServiceHourlyRate, sr.ServiceHours, sr.ExtraHours, sr.SubTotal, sr.Discount,sr.TotalCost, sr.ServiceProviderId, sr.SPAcceptedDate, sr.HasPets, sr.Status, sr.HasIssue, sr.PaymentDone, sr.RecordVersion, sr.Comments, sra.AddressLine1, sra.AddressLine2, sra.City, sra.State, sra.PostalCode, sra.Mobile, sra.Email, sre.ServiceExtraId, CONCAT(cust.FirstName,' ', cust.LastName) as CustName, CONCAT(serv.FirstName,' ', serv.LastName) as ServName FROM servicerequest AS sr JOIN servicerequestaddress AS sra ON sra.ServiceRequestId = sr.ServiceRequestId JOIN user AS cust ON cust.UserId = sr.UserId LEFT JOIN user AS serv ON serv.UserId = sr.ServiceProviderId LEFT JOIN servicerequestextra AS sre ON sre.ServiceRequestId = sr.ServiceRequestId 
          WHERE 1 AND $service_id AND $postal AND $email AND $custid AND $servid AND $status AND $hasissue AND sr.ServiceStartDate BETWEEN '$fromdate' AND '$todate' ORDER BY sr.ServiceRequestId DESC LIMIT $offset, $limit";
         //echo $sql;
          $result = $this->conn->query($sql);
@@ -828,7 +829,7 @@ class ServiceModal extends Connection
 
     public function getServiceRequestById($serviceid)
     {
-        $sql = "SELECT sr.*, sra.*, user.Email as SPEmail FROM servicerequest as sr JOIN servicerequestaddress as sra ON sra.ServiceRequestId = sr.ServiceRequestId LEFT JOIN user ON user.UserId=sr.ServiceProviderId WHERE sr.ServiceRequestId = $serviceid";
+        $sql = "SELECT sr.*, sra.*, Serv.Email AS SPEmail, Cust.Email AS CEmail, Cust.UserId AS UserId FROM servicerequest as sr JOIN servicerequestaddress as sra ON sra.ServiceRequestId = sr.ServiceRequestId JOIN user AS Cust ON Cust.UserId=sr.UserId LEFT JOIN user AS Serv ON Serv.UserId=sr.ServiceProviderId WHERE sr.ServiceRequestId = $serviceid";
         $service = $this->conn->query($sql);
         if ($service->num_rows > 0) {
             $result = $service->fetch_assoc();

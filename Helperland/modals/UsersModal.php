@@ -147,6 +147,28 @@ class UsersModal extends Connection
         }
     }
 
+    public function updateServiceRequestAddress($serviceid){
+        $addline1 = trim($this->data["housenumber"]);
+        $addline2 = trim($this->data["streetname"]);
+        $postalcode = $this->data["postalcode"];
+        $mobile = $this->data["mobile"];
+        $result = $this->getCityByPostal($postalcode);
+        if(count($result) > 0){
+            $city = $result["CityName"];
+            $state = $result["StateName"];
+            $sql = "UPDATE servicerequestaddress SET AddressLine1='$addline1', AddressLine2='$addline2', City='$city', State='$state', PostalCode='$postalcode', Mobile='$mobile' WHERE ServiceRequestId=$serviceid";
+            $result = $this->conn->query($sql);
+            if(!$result){
+                $this->addErrors("SQLError", "Somthing went wrong with the $sql!!!");            
+            }
+        }else{
+            $this->addErrors("NotFound", "City or State is not found!!!");            
+        }
+        //echo $sql;
+        //print_r($this->errors);
+        return [$result, $this->errors];
+    }
+
     public function updateUserAddress($userid, $addid){
         $addline1 = trim($this->data["housenumber"]);
         $addline2 = trim($this->data["streetname"]);
