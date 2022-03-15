@@ -106,6 +106,16 @@ class UsersModal extends Connection
         }
     }
 
+    public function IsUserExists($userid){
+        $sql = "SELECT * FROM user WHERE UserId=$userid";
+        $result = $this->conn->query($sql);
+        if ($result->num_rows > 0) {
+            return 1;
+        } else {
+            return 0;
+        }
+    }
+
     public function changePassword($email, $psw){
         $password = password_hash($psw, PASSWORD_DEFAULT);
         $sql ="UPDATE user SET Password='$password' WHERE Email='$email'";
@@ -258,6 +268,12 @@ class UsersModal extends Connection
         $sql = "UPDATE rating SET Ratings=$avgrating, Comments='$feedback', RatingDate=now(), OnTimeArrival=$ontime, Friendly=$friendly, QualityOfService=$quality WHERE RatingId=$ratingid;";
         $result = $this->conn->query($sql);
         $result = ($result) ? $this->getUserRatingByIds($ratingid) : [];
+        return $result;
+    }
+
+    public function UpdateApprovalByAdmin($aid,$uid){
+        $sql = "UPDATE user SET IsApproved=1-IsApproved, ModifiedDate=now(), ModifiedBy=$aid WHERE UserId=$uid";
+        $result = $this->conn->query($sql);
         return $result;
     }
 

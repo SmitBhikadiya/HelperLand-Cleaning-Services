@@ -64,6 +64,7 @@ if (isset($_SESSION["userdata"]) && $_SESSION["userdata"]["UserTypeId"] == Confi
                     } else {
                         include("includes/admin/service-requests.php");
                     }
+                    echo "<input type='hidden' id='aid' name='aid' value=" . $userdata["UserId"] . "></input>";
                     echo "<input type='hidden' id='req' name='req' value=" . $req . "></input>";
                     ?>
                 </div>

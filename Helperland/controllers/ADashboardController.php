@@ -1,18 +1,20 @@
 <?php
 
 require_once("modals/ServiceModal.php");
+require_once("modals/UsersModal.php");
 require_once("phpmailer/mail.php");
 
 class ADashboardController
 {
     public $validate;
-    public $servicemodal;
+    public $servicemodal, $usersmodal;
     public $errors = [];
 
     public function __construct()
     {
         $this->data = $_POST;
         $this->servicemodal = new ServiceModal($this->data);
+        $this->usersmodal = new UsersModal($this->data);
     }
 
     public function TotalRequest($request = '')
@@ -74,6 +76,31 @@ class ADashboardController
         }
 
         echo json_encode(["result" => $result[0], "Customer" => $cust[0], "Servicer" => $serv[0], "alluser"=>$allusers[0], "errors" => $this->errors]);
+    }
+
+    public function SetApprovedByAdmin(){
+        $result = 0;
+        if(isset($_SESSION["userdata"])){
+            $user = $_SESSION["userdata"];
+            if(isset($this->data["aid"]) && isset($this->data["userid"]) && $this->data["aid"]==$user["UserId"]){
+                $userid = $this->data["userid"];
+                $adminid = $this->data["aid"];
+                if($this->usersmodal->IsUserExists($userid)){
+                    if($this->usersmodal->UpdateApprovalByAdmin($adminid, $userid)){
+                        $result = 1;
+                    }else{
+                        $this->addErrors("SQLError", "Somthing Went Wrong with the SQL!!!");
+                    }
+                }else{
+                    $this->addErrors("Invalid", "Invalid Reuqest!!!");
+                }
+            }else{
+                $this->addErrors("Invalid", "Invalid Reuqest!!!");
+            }
+        }else{
+            $this->addErrors("login", "User is not login!!!");
+        }
+        echo json_encode(["result" => $result,"errors" => $this->errors]);
     }
 
     /*------------ Convert time(10:30) format to num(10.5) -------------*/

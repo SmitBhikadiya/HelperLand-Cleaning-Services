@@ -270,13 +270,32 @@ $(document).ready(function () {
           $("#customername").html(cust_html);
           $("#servicername").html(serv_html);
         }
+
+        $(document).on("click", ".btn-isapproved", function(){
+          var userid = $(this).data("id");
+          var admin = $("#aid").val();
+          $.ajax({
+            type: "POST",
+            url: "http://localhost/Tatvasoft-PSD-TO-HTML/HelperLand/?controller=ADashboard&function=SetApprovedByAdmin",
+            datatype: "json",
+            data: {userid:userid, aid:admin},
+            success: function (data) {
+              console.log(data);
+              obj = JSON.parse(data);
+              if (obj.errors.length == 0) {
+                getDefaultRecords();
+                setTimeout(setDefault, 100);
+              }
+            }
+          });
+        });
         function setUserManagement(results){
             var html = "";
             var i=0;
             results.forEach(result => {
                 var usertype = result.UserTypeId;
                 var postal = (result.PostalCode==null) ? "" : result.PostalCode;
-                var status = (result.Status==0 || result.Status==null) ? "Active" : "InActive";
+                var status = (result.IsApproved==0 || result.IsApproved==null) ? "InActive" : "Active";
                 if(usertype==1){usertype="Customer";}
                 else if(usertype==2){usertype="Servicer";}
                 else if(usertype==3){usertype="Admin";}
@@ -305,7 +324,7 @@ $(document).ready(function () {
                                 <img src="./static/images/icon-menudot.png" alt="">
                             </button>
                             <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                                <li><button class="dropdown-item ${IsApproved}" type="button">${IsApproved}</button>
+                                <li><button class="dropdown-item btn-isapproved ${IsApproved}" type="button" data-id=${result.UserId}>${IsApproved}</button>
                                 </li>
                             </ul>
                         </div>
@@ -425,6 +444,7 @@ $(document).ready(function () {
         });
         $(document).on("click", ".btn-clear", function(e){
           e.preventDefault();
+          currentpage = 1;
           $("#form_searchreq").trigger("reset");
           searchdata = "";
           getDefaultRecords();
