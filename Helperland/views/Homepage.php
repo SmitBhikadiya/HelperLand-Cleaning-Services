@@ -54,7 +54,7 @@ if (isset($_SESSION["userdata"])) {
             </div>
             <div class="btn-lets">
                 <div>
-                    <?php if($usertypeid!=2){?><button onclick="window.location = '<?= Config::BASE_URL.'?controller=Default&function=booknow' ?>'" class="btn btn-outline-light text-light">Book a helper!</button><?php }?>
+                    <?php if($usertypeid==1 || $usertypeid==""){?><button onclick="window.location = '<?= Config::BASE_URL.'?controller=Default&function=booknow' ?>'" class="btn btn-outline-light text-light">Book a helper!</button><?php }?>
                 </div>
             </div>
             <div class="all-steps">

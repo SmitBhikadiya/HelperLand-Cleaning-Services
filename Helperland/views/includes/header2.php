@@ -3,7 +3,7 @@ $username = $userdata["FirstName"] . " " . $userdata["LastName"];
 ?>
 <header id="section-header" class="d-block">
     <nav class="navbar navbar-expand-lg">
-        <a class="navbar-brand" href="#">
+        <a class="navbar-brand" href="<?= Config::BASE_URL . "/?controller=Default&function=homepage"?>">
             helperland
         </a>
         <button class="navbar-toggler navbar-dark" type="button" data-bs-toggle="modal" data-bs-target="#exampleModalnavbartoggle" data-bs-dismiss="modal">

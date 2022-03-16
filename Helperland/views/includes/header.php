@@ -15,7 +15,7 @@ if(isset($_SESSION["userdata"])){
     <nav class="navbar">
         <a class="navbar-brand" href="<?=$base_url.'?controller=Default&function=homepage'?>"><img src="static/images/nav-logo.png" alt=""></a>
         <ul class="nav-list">
-            <?php if($usertypeid!=2){?><li><a href="<?=$base_url.'?controller=Default&function=booknow'?> " class="nav-btn">Book a Cleaner</a></li><?php }?>
+            <?php if($usertypeid==1 || $usertypeid==""){?><li><a href="<?=$base_url.'?controller=Default&function=booknow'?> " class="nav-btn">Book a Cleaner</a></li><?php }?>
             <li><a href="<?=$base_url.'?controller=Default&function=price'?>">Prices & Services</a></li>
             <li><a href="#">Warranty</a></li>
             <li><a href="#">Blog</a></li>
