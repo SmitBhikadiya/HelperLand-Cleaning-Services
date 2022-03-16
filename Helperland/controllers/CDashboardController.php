@@ -23,7 +23,7 @@ class CDashboardController
             $userid = $user["UserId"];
             switch ($request) {
                 case "service-history":
-                    $status = '(3,4)';
+                    $status = '(3,4,5)';
                     $result = $this->servicemodal->TotalRequestByUserId($userid, $status);
                     break;
                 case "favorite-pros":

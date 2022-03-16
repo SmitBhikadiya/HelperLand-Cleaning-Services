@@ -232,6 +232,10 @@ table tbody {
     background-color: #ff6b6b;
 }
 
+.refunded button {
+    background-color: #6db599;
+}
+
 .btn-ratesp button {
     margin-top: 7px;
     width: 70px;

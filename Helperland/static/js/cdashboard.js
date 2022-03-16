@@ -732,17 +732,15 @@ $(document).ready(function () {
       var status = result.Status;
       var stshtml = "";
       var record_veresion = result.RecordVersion;
-      if (["3", "4"].includes(status)) {
-        stshtml =
-          status == "4"
-            ? '<td class="btn-status completed"><button>Completed</button></td>'
-            : '<td class="btn-status cancelled"><button>Cancelled</button></td>';
+      if (["3", "4", "5"].includes(status)) {
         if (status == 3) {
           stshtml +=
-            '<td class="btn-ratesp"><button class="disabled" disabled>RateSP</button></td>';
-        } else {
+            '<td class="btn-status cancelled"><button>Cancelled</button></td><td class="btn-ratesp"><button class="disabled" disabled>RateSP</button></td>';
+        } else if(status == 4){
           stshtml +=
-            '<td class="btn-ratesp"><button data-bs-toggle="modal" data-bs-target="#Ratesp" data-bs-dismiss="modal" id="ratesp">RateSP</button></td>';
+            '<td class="btn-status completed"><button>Completed</button></td><td class="btn-ratesp"><button data-bs-toggle="modal" data-bs-target="#Ratesp" data-bs-dismiss="modal" id="ratesp">RateSP</button></td>';
+        } else if(status == 5){stshtml +=
+            '<td class="btn-status refunded"><button>refunded</button></td><td></td>'
         }
       }
       if (result.ServiceProviderId != null) {
