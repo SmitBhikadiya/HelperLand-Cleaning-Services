@@ -740,7 +740,7 @@ $(document).ready(function () {
           stshtml +=
             '<td class="btn-status completed"><button>Completed</button></td><td class="btn-ratesp"><button data-bs-toggle="modal" data-bs-target="#Ratesp" data-bs-dismiss="modal" id="ratesp">RateSP</button></td>';
         } else if(status == 5){stshtml +=
-            '<td class="btn-status refunded"><button>refunded</button></td><td></td>'
+            '<td class="btn-status refunded"><button>refunded</button></td><td class="btn-ratesp"><button class="disabled" disabled>RateSP</button></td>'
         }
       }
       if (result.ServiceProviderId != null) {
