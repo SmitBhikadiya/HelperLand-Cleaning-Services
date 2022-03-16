@@ -240,20 +240,20 @@
 .service-status.new p{
     background-color: #f2bb37da;
 }
-.service-status.na p{
+.service-status.na p,.service-status.cancelled P{
     background-color: #f23737da;
 }
 .service-status.completed P,.Active button{
     background-color: #28b834;
 }
-.service-status.cancelled P,.InActive button{
+.InActive button{
     background-color: #b82828;
 }
 .service-status.settled P{
     background-color: #28b834;
 }
 .service-status.refunded p{
-    background-color: #232d58;
+    background-color: #7589df;
 }
 .service-status p{
     color: white;

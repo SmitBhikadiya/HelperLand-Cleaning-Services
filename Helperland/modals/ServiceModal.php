@@ -82,7 +82,7 @@ class ServiceModal extends Connection
         }
     }
 
-    public function UpdateSerivceScheduleById($startdate, $starttime, $serviceId, $modifiedby, $status, $record_version, $comment="")
+    public function UpdateSerivceScheduleById($startdate, $starttime, $serviceId, $modifiedby, $status, $record_version, $comment = "")
     {
 
         // for fromatting datetime
@@ -91,6 +91,18 @@ class ServiceModal extends Connection
         $datetime = $date->format('Y-m-d H:i:s');
 
         $sql = "UPDATE servicerequest SET ServiceStartDate='$datetime', ModifiedBy=$modifiedby, ModifiedDate=now(), Status=$status, RecordVersion=$record_version, Comments='$comment' WHERE ServiceRequestId=$serviceId";
+        //echo $sql;
+        $result = $this->conn->query($sql);
+        if ($result) {
+            return 1;
+        } else {
+            return 0;
+        }
+    }
+
+    public function RefundAmount($modifiedby, $serviceid, $refunded_amt, $comment)
+    {
+        $sql = "UPDATE servicerequest SET RefundedAmount=RefundedAmount+$refunded_amt, ModifiedBy=$modifiedby, ModifiedDate=now(), Status=5, Comments='$comment' WHERE ServiceRequestId=$serviceid";
         //echo $sql;
         $result = $this->conn->query($sql);
         if ($result) {
@@ -349,48 +361,49 @@ class ServiceModal extends Connection
         return [$result, $this->errors];
     }
 
-     /* for admin special */
-     public function getAllServiceRequestForAdmin($offset, $limit)
-     {
-         $service_id = isset($this->data["serviceid"]) ? (empty($this->data["serviceid"]) ? 1 : 'sr.ServiceRequestId = '.$this->data["serviceid"]) : 1;
-         $postal = isset($this->data["postal"]) ? (empty($this->data["postal"]) ? 1 : 'sra.PostalCode = '.$this->data["postal"]) : 1;
-         $email = isset($this->data["email"]) ? (empty($this->data["email"]) ? 1 : "sra.Email = '".$this->data["email"]."'") : 1;
-         $custid =isset($this->data["custid"]) ? (empty($this->data["custid"]) ? 1 : 'cust.UserId = '.$this->data["custid"]): 1;
-         $servid =isset($this->data["servid"]) ? (empty($this->data["servid"]) ? 1 : 'serv.UserId = '.$this->data["servid"]): 1;
-         $status =isset($this->data["status"]) ? (empty($this->data["status"]) ? 1 : 'sr.Status = '.(($this->data["status"]==-1) ? 0 : $this->data["status"])) : 1;
-         $hasissue = isset($this->data["hasissue"]) ? (empty($this->data["hasissue"]) ? 1 : 'sr.HasIssue = '.$this->data["hasissue"]) : 1;
-         $todate =  isset($this->data["todate"]) ? (empty($this->data["todate"]) ? "3000-01-01" : $this->data["todate"]) : "3000-01-01";
-         $fromdate =  isset($this->data["fromdate"]) ? (empty($this->data["fromdate"]) ? "1900-01-01" : $this->data["fromdate"]) : "1900-01-01";
-         $sql = "SELECT sr.ServiceRequestId, sr.ServiceStartDate, sr.ServiceHourlyRate, sr.ServiceHours, sr.ExtraHours, sr.SubTotal, sr.Discount,sr.TotalCost, sr.ServiceProviderId, sr.SPAcceptedDate, sr.HasPets, sr.Status, sr.HasIssue, sr.PaymentDone, sr.RecordVersion, sr.Comments, sra.AddressLine1, sra.AddressLine2, sra.City, sra.State, sra.PostalCode, sra.Mobile, sra.Email, sre.ServiceExtraId, CONCAT(cust.FirstName,' ', cust.LastName) as CustName, CONCAT(serv.FirstName,' ', serv.LastName) as ServName FROM servicerequest AS sr JOIN servicerequestaddress AS sra ON sra.ServiceRequestId = sr.ServiceRequestId JOIN user AS cust ON cust.UserId = sr.UserId LEFT JOIN user AS serv ON serv.UserId = sr.ServiceProviderId LEFT JOIN servicerequestextra AS sre ON sre.ServiceRequestId = sr.ServiceRequestId 
+    /* for admin special */
+    public function getAllServiceRequestForAdmin($offset, $limit)
+    {
+        $service_id = isset($this->data["serviceid"]) ? (empty($this->data["serviceid"]) ? 1 : 'sr.ServiceRequestId = ' . $this->data["serviceid"]) : 1;
+        $postal = isset($this->data["postal"]) ? (empty($this->data["postal"]) ? 1 : 'sra.PostalCode = ' . $this->data["postal"]) : 1;
+        $email = isset($this->data["email"]) ? (empty($this->data["email"]) ? 1 : "sra.Email = '" . $this->data["email"] . "'") : 1;
+        $custid = isset($this->data["custid"]) ? (empty($this->data["custid"]) ? 1 : 'cust.UserId = ' . $this->data["custid"]) : 1;
+        $servid = isset($this->data["servid"]) ? (empty($this->data["servid"]) ? 1 : 'serv.UserId = ' . $this->data["servid"]) : 1;
+        $status = isset($this->data["status"]) ? (empty($this->data["status"]) ? 1 : 'sr.Status = ' . (($this->data["status"] == -1) ? 0 : $this->data["status"])) : 1;
+        $hasissue = isset($this->data["hasissue"]) ? (empty($this->data["hasissue"]) ? 1 : 'sr.HasIssue = ' . $this->data["hasissue"]) : 1;
+        $todate =  isset($this->data["todate"]) ? (empty($this->data["todate"]) ? "3000-01-01" : $this->data["todate"]) : "3000-01-01";
+        $fromdate =  isset($this->data["fromdate"]) ? (empty($this->data["fromdate"]) ? "1900-01-01" : $this->data["fromdate"]) : "1900-01-01";
+        $sql = "SELECT sr.ServiceRequestId, sr.ServiceStartDate, sr.ServiceHourlyRate, sr.ServiceHours, sr.ExtraHours, sr.SubTotal, sr.Discount,sr.TotalCost, sr.ServiceProviderId, sr.SPAcceptedDate, sr.HasPets, sr.Status, sr.HasIssue, sr.PaymentDone, sr.RecordVersion, sr.Comments, sr.RefundedAmount, sra.AddressLine1, sra.AddressLine2, sra.City, sra.State, sra.PostalCode, sra.Mobile, sra.Email, sre.ServiceExtraId, CONCAT(cust.FirstName,' ', cust.LastName) as CustName, CONCAT(serv.FirstName,' ', serv.LastName) as ServName FROM servicerequest AS sr JOIN servicerequestaddress AS sra ON sra.ServiceRequestId = sr.ServiceRequestId JOIN user AS cust ON cust.UserId = sr.UserId LEFT JOIN user AS serv ON serv.UserId = sr.ServiceProviderId LEFT JOIN servicerequestextra AS sre ON sre.ServiceRequestId = sr.ServiceRequestId 
          WHERE 1 AND $service_id AND $postal AND $email AND $custid AND $servid AND $status AND $hasissue AND sr.ServiceStartDate BETWEEN '$fromdate' AND '$todate' ORDER BY sr.ServiceRequestId DESC LIMIT $offset, $limit";
         //echo $sql;
-         $result = $this->conn->query($sql);
-         $services = [];
-         if ($result->num_rows > 0) {
-             while ($row = $result->fetch_assoc()) {
-                 if (!is_null($row["ServiceProviderId"])) {
-                     $spid = $row["ServiceProviderId"];
-                     $serviceid = $row["ServiceRequestId"];
-                     $rating = $this->getRatingByIds($serviceid);
-                     $spratings = $this->getSPDetailesBySPId($spid);
-                     $row = $row + $spratings + $rating;
-                 }
-                 array_push($services, $row);
-             }
-         } else {
-             $services = [];
-         }
-         return [$services, $this->errors];
-     } 
+        $result = $this->conn->query($sql);
+        $services = [];
+        if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                if (!is_null($row["ServiceProviderId"])) {
+                    $spid = $row["ServiceProviderId"];
+                    $serviceid = $row["ServiceRequestId"];
+                    $rating = $this->getRatingByIds($serviceid);
+                    $spratings = $this->getSPDetailesBySPId($spid);
+                    $row = $row + $spratings + $rating;
+                }
+                array_push($services, $row);
+            }
+        } else {
+            $services = [];
+        }
+        return [$services, $this->errors];
+    }
 
-    public function TotalRequestForAdmin(){
-        $service_id = isset($this->data["serviceid"]) ? (empty($this->data["serviceid"]) ? 1 : 'sr.ServiceRequestId = '.$this->data["serviceid"]) : 1;
-        $postal = isset($this->data["postal"]) ? (empty($this->data["postal"]) ? 1 : 'sra.PostalCode = '.$this->data["postal"]) : 1;
-        $email = isset($this->data["email"]) ? (empty($this->data["email"]) ? 1 : "sra.Email = '".$this->data["email"]."'") : 1;
-        $custid =isset($this->data["custid"]) ? (empty($this->data["custid"]) ? 1 : 'cust.UserId = '.$this->data["custid"]): 1;
-        $servid =isset($this->data["servid"]) ? (empty($this->data["servid"]) ? 1 : 'serv.UserId = '.$this->data["servid"]): 1;
-        $status =isset($this->data["status"]) ? (empty($this->data["status"]) ? 1 : 'sr.Status = '.(($this->data["status"]==-1) ? 0 : $this->data["status"])) : 1;
-        $hasissue = isset($this->data["hasissue"]) ? (empty($this->data["hasissue"]) ? 1 : 'sr.HasIssue = '.$this->data["hasissue"]) : 1;
+    public function TotalRequestForAdmin()
+    {
+        $service_id = isset($this->data["serviceid"]) ? (empty($this->data["serviceid"]) ? 1 : 'sr.ServiceRequestId = ' . $this->data["serviceid"]) : 1;
+        $postal = isset($this->data["postal"]) ? (empty($this->data["postal"]) ? 1 : 'sra.PostalCode = ' . $this->data["postal"]) : 1;
+        $email = isset($this->data["email"]) ? (empty($this->data["email"]) ? 1 : "sra.Email = '" . $this->data["email"] . "'") : 1;
+        $custid = isset($this->data["custid"]) ? (empty($this->data["custid"]) ? 1 : 'cust.UserId = ' . $this->data["custid"]) : 1;
+        $servid = isset($this->data["servid"]) ? (empty($this->data["servid"]) ? 1 : 'serv.UserId = ' . $this->data["servid"]) : 1;
+        $status = isset($this->data["status"]) ? (empty($this->data["status"]) ? 1 : 'sr.Status = ' . (($this->data["status"] == -1) ? 0 : $this->data["status"])) : 1;
+        $hasissue = isset($this->data["hasissue"]) ? (empty($this->data["hasissue"]) ? 1 : 'sr.HasIssue = ' . $this->data["hasissue"]) : 1;
         $todate =  isset($this->data["todate"]) ? (empty($this->data["todate"]) ? "3000-01-01" : $this->data["todate"]) : "3000-01-01";
         $fromdate =  isset($this->data["fromdate"]) ? (empty($this->data["fromdate"]) ? "1900-01-01" : $this->data["fromdate"]) : "1900-01-01";
         $sql = "SELECT COUNT(*) as Total FROM servicerequest AS sr JOIN servicerequestaddress AS sra ON sra.ServiceRequestId = sr.ServiceRequestId JOIN user AS cust ON cust.UserId = sr.UserId LEFT JOIN user AS serv ON serv.UserId = sr.ServiceProviderId LEFT JOIN servicerequestextra AS sre ON sre.ServiceRequestId = sr.ServiceRequestId WHERE 1 AND $service_id AND $postal AND $email AND $custid AND $servid AND $status AND $hasissue AND sr.ServiceStartDate BETWEEN '$fromdate' AND '$todate'";
@@ -405,12 +418,13 @@ class ServiceModal extends Connection
         return [$result, $this->errors];
     }
 
-    public function TotalUsersForAdmin(){
-        $userid = isset($this->data["username"]) ? (empty($this->data["username"]) ? 1 : 'user.UserId = '.$this->data["username"]) : 1;
-        $usertype = isset($this->data["usertype"]) ? (empty($this->data["usertype"]) ? 1 : 'user.UserTypeId = '.$this->data["usertype"]) : 1;
-        $mobile = isset($this->data["mobile"]) ? (empty($this->data["mobile"]) ? 1 : "user.Mobile = '".$this->data["mobile"]."'") : 1;
-        $postal =isset($this->data["postal"]) ? (empty($this->data["postal"]) ? 1 : "ua.PostalCode = '".$this->data["postal"]."'"): 1;
-        $email =isset($this->data["email"]) ? (empty($this->data["email"]) ? 1 : "user.Email = '".$this->data["email"]."'"): 1;
+    public function TotalUsersForAdmin()
+    {
+        $userid = isset($this->data["username"]) ? (empty($this->data["username"]) ? 1 : 'user.UserId = ' . $this->data["username"]) : 1;
+        $usertype = isset($this->data["usertype"]) ? (empty($this->data["usertype"]) ? 1 : 'user.UserTypeId = ' . $this->data["usertype"]) : 1;
+        $mobile = isset($this->data["mobile"]) ? (empty($this->data["mobile"]) ? 1 : "user.Mobile = '" . $this->data["mobile"] . "'") : 1;
+        $postal = isset($this->data["postal"]) ? (empty($this->data["postal"]) ? 1 : "ua.PostalCode = '" . $this->data["postal"] . "'") : 1;
+        $email = isset($this->data["email"]) ? (empty($this->data["email"]) ? 1 : "user.Email = '" . $this->data["email"] . "'") : 1;
         $todate =  isset($this->data["todate"]) ? (empty($this->data["todate"]) ? "3000-01-01" : $this->data["todate"]) : "3000-01-01";
         $fromdate =  isset($this->data["fromdate"]) ? (empty($this->data["fromdate"]) ? "1900-01-01" : $this->data["fromdate"]) : "1900-01-01";
         $sql = "SELECT user.UserId FROM user LEFT JOIN useraddress AS ua ON user.UserId = ua.UserId WHERE 1 AND $userid AND $usertype AND $mobile AND $postal AND $email AND user.CreatedDate BETWEEN '$fromdate' AND '$todate' GROUP BY user.UserId ";
@@ -429,12 +443,13 @@ class ServiceModal extends Connection
         return [$res, $this->errors];
     }
 
-    public function getAllUsersForAdmin($offset, $limit){
-        $userid = isset($this->data["username"]) ? (empty($this->data["username"]) ? 1 : 'user.UserId = '.$this->data["username"]) : 1;
-        $usertype = isset($this->data["usertype"]) ? (empty($this->data["usertype"]) ? 1 : 'user.UserTypeId = '.$this->data["usertype"]) : 1;
-        $mobile = isset($this->data["mobile"]) ? (empty($this->data["mobile"]) ? 1 : "user.Mobile = '".$this->data["mobile"]."'") : 1;
-        $postal =isset($this->data["postal"]) ? (empty($this->data["postal"]) ? 1 : "ua.PostalCode = '".$this->data["postal"]."'"): 1;
-        $email =isset($this->data["email"]) ? (empty($this->data["email"]) ? 1 : "user.Email = '".$this->data["email"]."'"): 1;
+    public function getAllUsersForAdmin($offset, $limit)
+    {
+        $userid = isset($this->data["username"]) ? (empty($this->data["username"]) ? 1 : 'user.UserId = ' . $this->data["username"]) : 1;
+        $usertype = isset($this->data["usertype"]) ? (empty($this->data["usertype"]) ? 1 : 'user.UserTypeId = ' . $this->data["usertype"]) : 1;
+        $mobile = isset($this->data["mobile"]) ? (empty($this->data["mobile"]) ? 1 : "user.Mobile = '" . $this->data["mobile"] . "'") : 1;
+        $postal = isset($this->data["postal"]) ? (empty($this->data["postal"]) ? 1 : "ua.PostalCode = '" . $this->data["postal"] . "'") : 1;
+        $email = isset($this->data["email"]) ? (empty($this->data["email"]) ? 1 : "user.Email = '" . $this->data["email"] . "'") : 1;
         $todate =  isset($this->data["todate"]) ? (empty($this->data["todate"]) ? "3000-01-01" : $this->data["todate"]) : "3000-01-01";
         $fromdate =  isset($this->data["fromdate"]) ? (empty($this->data["fromdate"]) ? "1900-01-01" : $this->data["fromdate"]) : "1900-01-01";
         $sql = "SELECT user.UserId, CONCAT(user.FirstName,' ',user.LastName) AS UserName, user.Email, DATE_FORMAT(user.CreatedDate, '%d/%m/%Y') AS RegistrationDate, user.UserTypeId, user.Mobile, user.Status, user.IsApproved, ua.PostalCode FROM user LEFT JOIN useraddress AS ua ON user.UserId = ua.UserId WHERE 1 AND $userid AND $usertype AND $mobile AND $postal AND $email AND user.CreatedDate BETWEEN '$fromdate' AND '$todate' GROUP BY user.UserId LIMIT $offset, $limit";
@@ -451,9 +466,10 @@ class ServiceModal extends Connection
         return [$users, $this->errors];
     }
 
-    public function getAllUsers(){
+    public function getAllUsers()
+    {
         $sql = "SELECT user.UserId, CONCAT(user.FirstName,' ',user.LastName) AS UserName FROM user";
-       // echo $sql;
+        // echo $sql;
         $result = $this->conn->query($sql);
         $users = [];
         if ($result->num_rows > 0) {
@@ -770,6 +786,7 @@ class ServiceModal extends Connection
         $userid = $_SESSION["userdata"]["UserId"];
         $spacceptdate = "NULL";
         $paymentdone = 1;
+        $refunded_amt = 0;
 
         if (isset($this->data["extra"])) {
             $extrahour = count($this->data["extra"]) * 0.5;
@@ -790,8 +807,8 @@ class ServiceModal extends Connection
         $result = $this->isServiceAvailable($addressid, $startdate, $userid);
         if (count($result[1]) < 1) {
             // step 1: insert record into the servicerequest table
-            $sql = "INSERT INTO servicerequest (UserId, ServiceStartDate, ZipCode, ServiceHourlyRate, ServiceHours, ExtraHours, SubTotal, Discount, TotalCost, Comments, ServiceProviderId, SPAcceptedDate, HasPets, Status, CreatedDate, PaymentDone) 
-                VALUES ($userid, '$cleaningstartdate', '$postalcode', $servicehourlyrate, $cleaningworkinghour, $extrahour, $subtotal, $discount, $totalpayment, '$comment', $spid, $spacceptdate, $workwitpets, $status, now(), $paymentdone);";
+            $sql = "INSERT INTO servicerequest (UserId, ServiceStartDate, ZipCode, ServiceHourlyRate, ServiceHours, ExtraHours, SubTotal, Discount, TotalCost, Comments, ServiceProviderId, SPAcceptedDate, HasPets, Status, CreatedDate, PaymentDone, RefundedAmount) 
+                VALUES ($userid, '$cleaningstartdate', '$postalcode', $servicehourlyrate, $cleaningworkinghour, $extrahour, $subtotal, $discount, $totalpayment, '$comment', $spid, $spacceptdate, $workwitpets, $status, now(), $paymentdone, $refunded_amt);";
             $service_req = $this->conn->query($sql);
             if (!$service_req) {
                 $this->addErrors("SQL", "Somthing went wrong with the $sql");
@@ -878,8 +895,8 @@ class ServiceModal extends Connection
         return $servicers;
     }
 
-   
-    public function getAllCustomerForAdmin(){
+    public function getAllCustomerForAdmin()
+    {
         $sql = "SELECT UserId, CONCAT(FirstName,' ',LastName) AS UserName, Email FROM user WHERE UserTypeId=1";
         $result = $this->conn->query($sql);
         $cust = [];
@@ -893,7 +910,8 @@ class ServiceModal extends Connection
         return [$cust, $this->errors];
     }
 
-    public function getAllServicerForAdmin(){
+    public function getAllServicerForAdmin()
+    {
         $sql = "SELECT UserId, CONCAT(FirstName,' ',LastName) AS UserName, Email FROM user WHERE UserTypeId=2";
         $result = $this->conn->query($sql);
         $serv = [];

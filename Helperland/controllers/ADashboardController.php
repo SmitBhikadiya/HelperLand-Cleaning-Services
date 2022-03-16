@@ -78,6 +78,44 @@ class ADashboardController
         echo json_encode(["result" => $result[0], "Customer" => $cust[0], "Servicer" => $serv[0], "alluser" => $allusers[0], "errors" => $this->errors]);
     }
 
+    public function RefundAmount(){
+        $result = [[], []];
+        $mailmsg = "";
+        if (isset($_SESSION["userdata"]) && isset($this->data["adid"])) {
+            $user = $_SESSION["userdata"];
+            $userid = $user["UserId"];
+            $adid = $this->data["adid"];
+            if ($userid == $adid) {
+                if (isset($this->data["re-servid"])) {
+                    $serviceid = $this->data["re-servid"];
+                    $service = $this->servicemodal->getServiceRequestById($serviceid);
+                    if (count($service) > 0) {
+                        $refunded = $this->data["re-total"];
+                        $refunded_amt = is_null($service["RefundedAmount"])? 0 : $service["RefundedAmount"];
+                        if($refunded <= ($service["TotalCost"]-$refunded_amt)){
+                            $comment = $this->data["re-comment"];
+                            if(!$this->servicemodal->RefundAmount($adid, $serviceid, $refunded, $comment)){
+                                $this->addErrors("SQLError", "Somthing Went wrong with the SQL");
+                            }
+                        }else{
+                            $this->addErrors("Invalid", "Invalid Amount");
+                        }
+                    }else {
+                        $this->addErrors("Invalid", "Service Request Not Found");
+                    }
+                } else {
+                    $this->addErrors("Invalid", "Service Id is not found!!!");
+                }
+            } else {
+                $this->addErrors("Invalid", "Invalid Request");
+            }
+        } else {
+            $this->addErrors("login", "User is not login!!!");
+        }
+
+        echo json_encode(["result" => $result[0], "errors" => $this->errors, "mail" => $mailmsg]);
+    }
+
     public function EditServiceDetailes()
     {
         $result = [[], []];

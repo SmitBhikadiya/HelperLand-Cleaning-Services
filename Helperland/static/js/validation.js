@@ -25,6 +25,17 @@ $(document).ready(function(){
         }
     });
 
+    $("#btn_refund").click(function(e){
+        window.isValid = true;
+        $('.error').remove();
+        $('.alert').remove();
+        isFieldEmpty("Comment", ".refund-comment");
+        if(!window.isValid){
+            $.LoadingOverlay("hide");
+            e.preventDefault();
+        }
+    });
+
     $("#btn-editandreschedule").click(function(e){
         window.isValid = true;
         $('.error').remove();

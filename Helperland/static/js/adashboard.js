@@ -172,7 +172,23 @@ $(document).ready(function () {
       });
       $(document).on("click", ".refund", function(){
         var index = $(this).parent().data("index");
+        $(".alert").remove();
         var result = records[index];
+        var paid_amt = result.TotalCost;
+        var refunded_amt = (result.RefundedAmount==null) ? "0.00" : result.RefundedAmount;
+        var inbalance_amt = +paid_amt-(+refunded_amt);
+        $("#refund_serv_id").val(result.ServiceRequestId);
+        $(".paid-amt").text(paid_amt);
+        $(".refunded-amt").text(refunded_amt);
+        $(".inbalance-amt").text(inbalance_amt);
+        $(".refund-comment").val("");
+        if(refunded_amt!=0){
+          $(".refund-comment").val(result.Comments);
+        }
+        $(".calculate-amount").removeAttr("readonly");
+        if(inbalance_amt==0){
+          $('.calculate-amount').prop('readonly', true);
+        }
       });
       $(document).on("keyup", "#er-postalcode", function (e) {
         var postal = $(this).val();
@@ -247,6 +263,86 @@ $(document).ready(function () {
           $.LoadingOverlay("hide");
         }
       });
+      $(document).on("keyup", ".calculate-amount", function(){
+        var method = $("#select-method").val();
+        var entered = +$(this).val();
+        var paid_amt = +$(".paid-amt").text();
+        var refunded_amt = +$(".refunded-amt").text();
+        var inbalance_amt = +$(".inbalance-amt").text();
+        var refunded = 0;
+        if(method==0){
+          if(+entered > 100){
+            $(this).val(100);
+            refunded = inbalance_amt;
+            alert("You can't exceed 100%");
+          }else{
+            refunded =  (inbalance_amt)*(entered/100);
+          }
+        }else if(method==1){
+          if(+entered > inbalance_amt){
+            refunded = inbalance_amt;
+            $(this).val(inbalance_amt);
+            alert("You can not exceed net amount total");
+          }else{
+            refunded = entered;
+          }
+        }
+        $("#calculated-amt").val(refunded.toFixed(2));
+      });
+      $(document).on("change", "#select-method", function(){
+        $(".calculate-amount").val("");
+        $("#calculated-amt").val("");
+      });
+      $(document).on("click", "#btn_refund", function(e){
+        e.preventDefault();
+        showLoader();
+        $(".alert").remove();
+        var action = $("#form-refund").prop("action");
+        var adid = $("#aid").val();
+        if($(this).parent().parent().parent().find('.error').length==0){
+          jQuery.ajax({
+            type: "POST",
+            url: action,
+            datatype: "json",
+            data: $("#form-refund").serialize()+"&adid="+adid,
+            success: function (data) {
+              console.log(data);
+              var obj = JSON.parse(data);
+              if (obj.errors.length == 0) {
+                var paid_amt = +$(".paid-amt").text();
+                var refunded_amt = +$(".refunded-amt").text();
+                var cal = +$("#calculated-amt").val();
+                $(".refunded-amt").text(refunded_amt+cal);
+                refunded_amt = +$(".refunded-amt").text();
+                $(".inbalance-amt").text(paid_amt-refunded_amt);
+                $("#calculated-amt").val("");
+                $(".calculate-amount").val("");
+                $("#form-refund").prepend('<div class="alert alert-success alert-dismissible fade show" role="alert"><ul class="success">Amount Refunded Successfully!!</ul></div>');
+                getAjaxDataByReq();
+              } else {
+                var errorlist = "";
+                for (const [key, val] of Object.entries(obj.errors)) {
+                  errorlist += `<li>${val}</li>`;
+                }
+                $("#form-refund").prepend(
+                  '<div class="alert alert-danger alert-dismissible fade show" role="alert"><ul class="errorlist">' +
+                    errorlist +
+                    "</ul></div>"
+                );
+              }
+              $([document.documentElement, document.body]).animate({
+                scrollTop: $("#exampleModalRedund").offset().top,
+              },100);
+            },
+            complete: function (data) {
+              $.LoadingOverlay("hide");
+            },
+          });
+        }else{
+          $.LoadingOverlay("hide");
+        }
+      });
+
       
       function setDefault() {
           totalrecords = $(".show-apge .totalrecords").text();
@@ -369,7 +465,7 @@ $(document).ready(function () {
                 var status = getStatusName(result.Status);
                 var paymentstatus_cls = (+result.Status==4) ? "settled" : "na";
                 var paymentstatus_name = (paymentstatus_cls=='na') ? "Not Aplicable" : "Settled";
-                var action = (+result.Status==4 || +result.Status==3) ? `<li data-index=${i}><button class="dropdown-item refund" type="button" data-bs-toggle="modal" data-bs-target="#exampleModalRedund" data-bs-dismiss="modal">Refund</button></li><li><button class="dropdown-item" type="button">Inquiry</button><li><button class="dropdown-item" type="button">History Log</button><li><button class="dropdown-item" type="button">Download Invoice</button></li><li><button class="dropdown-item" type="button">Has Issue</button></li><li><button class="dropdown-item" type="button">Other Transaction</button>` : `<li data-index=${i}><button class="dropdown-item editreschedule" type="button" data-bs-toggle="modal" data-bs-target="#exampleModaledit" data-bs-dismiss="modal">Edit &Reschedule</button></li><li><button class="dropdown-item" type="button">Cancel SR by Cust</button><li><button class="dropdown-item" type="button">Inquiry</button><li><button class="dropdown-item" type="button">History Log</button><li><button class="dropdown-item" type="button">Download Invoice</button></li><li><button class="dropdown-item" type="button">Other Transaction</button>`;
+                var action = ([3,4,5].includes(+result.Status)) ? `<li data-index=${i}><button class="dropdown-item refund" type="button" data-bs-toggle="modal" data-bs-target="#exampleModalRedund" data-bs-dismiss="modal">Refund</button></li><li><button class="dropdown-item" type="button">Inquiry</button><li><button class="dropdown-item" type="button">History Log</button><li><button class="dropdown-item" type="button">Download Invoice</button></li><li><button class="dropdown-item" type="button">Has Issue</button></li><li><button class="dropdown-item" type="button">Other Transaction</button>` : `<li data-index=${i}><button class="dropdown-item editreschedule" type="button" data-bs-toggle="modal" data-bs-target="#exampleModaledit" data-bs-dismiss="modal">Edit &Reschedule</button></li><li><button class="dropdown-item" type="button">Cancel SR by Cust</button><li><button class="dropdown-item" type="button">Inquiry</button><li><button class="dropdown-item" type="button">History Log</button><li><button class="dropdown-item" type="button">Download Invoice</button></li><li><button class="dropdown-item" type="button">Other Transaction</button>`;
                 html += `
                 <tr id='data_${i}'>
                 <td>
