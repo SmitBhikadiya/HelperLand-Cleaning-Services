@@ -22,9 +22,9 @@ class Calendar {
         $first_day_of_week = array_search(date('D', strtotime($this->active_year . '-' . $this->active_month . '-1')), $days);
         $html = '<div class="calendar">';
         $html .= '<div class="header">';
-        $html .= '<div class="month-year"><span class="icon-left-right fa fa-arrow-circle-left" id="left-date"></span> ';
-        $html .= date('F Y', strtotime($this->active_year . '-' . $this->active_month . '-' . $this->active_day));
-        $html .= ' <span class="icon-left-right fa fa-arrow-circle-right" id="right-date"></span></div>';
+        $html .= '<div class="month-year"><span class="icon-left-right fa fa-chevron-left" id="left-date"></span><span class="icon-left-right fa fa-chevron-right" id="right-date"></span><span class="heading-date">';
+        $html .= date('Y-M', strtotime($this->active_year . '-' . $this->active_month . '-' . $this->active_day));
+        $html .= '</span><button class="btn-today">Today</button></div>';
         $html .= '</div>';
         $html .= '<div class="days">';
         foreach ($days as $day) {

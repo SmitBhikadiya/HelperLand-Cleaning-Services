@@ -4,6 +4,21 @@
 }
 .calendar .icon-left-right{
     cursor: pointer;
+    color: #1d7a8c;
+    font-size: 30px;
+    border: 1px solid #dddddd;
+    padding: 5px;
+}
+.heading-date{
+    margin-left: 10px;
+}
+.btn-today{
+    margin-left: 10px;
+    border: 1px solid #dddddd;
+    background-color: white;
+    color: #1d7a8c;
+    border-radius: 2px;
+    padding: 1px 5px;
 }
 .calendar {
     display: flex;

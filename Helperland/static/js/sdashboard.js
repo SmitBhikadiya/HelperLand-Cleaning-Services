@@ -567,6 +567,12 @@ $(document).ready(function () {
     getAjaxDataByReq();
   });
 
+  $(document).on("click", ".btn-today", function(){
+    today = new Date();
+    today_ = today.getFullYear() + "-" + ("0" + (today.getMonth() + 1)).slice(-2) + "-" + ("0" + today.getDate()).slice(-2);
+    getAjaxDataByReq();
+  });
+
   // compare time to set complete button
   function checkTimeForCompleteBtn(service_date, service_endtime){
     var d = service_date.split("/");
@@ -645,6 +651,7 @@ $(document).ready(function () {
     var i=0;
     results.forEach((result) => {
       var date = getTimeAndDate(result.ServiceStartDate, result.ServiceHours);
+      var assignto = (result.ServiceProviderId==null) ? "None" : "<kbd>You</kbd>";
       html+=`
       <tr id='data_${i++}'>
         <td scope="row" style="line-height: 50px;">${("000" + result.ServiceRequestId).slice(-4)}</td>
@@ -657,6 +664,7 @@ $(document).ready(function () {
             <div class="td-address"><img src="./static/images/icon-address.png" style='margin-bottom: 8px;'>${result.AddressLine1} ${result.AddressLine2}, ${result.PostalCode} ${result.City}</div>
         </td>
         <td>${result.TotalCost}€</td>
+        <td>${assignto}</td>
         <td></td>
         <td class="btn-accept"><button data-bs-toggle="modal" data-bs-target="#exampleModalServiceAccept" data-bs-dismiss="modal">Accept</button></td>
       </tr>
