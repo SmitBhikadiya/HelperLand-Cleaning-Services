@@ -194,7 +194,7 @@
 .button-block{
     background-color: #ff6b6b;
 }
-.completed, .cancelled{
+.completed, .cancelled, .refunded{
     border: none;
     padding: 2px 5px;
     border: 1px solid black;
@@ -205,6 +205,9 @@
 }
 .cancelled{
     color: red;
+}
+.refunded{
+    color:#1fb6ff;
 }
 
 /*----------Footer----------*/

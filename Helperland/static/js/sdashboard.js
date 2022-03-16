@@ -696,7 +696,10 @@ $(document).ready(function () {
     results.forEach((result) => {
       var date = getTimeAndDate(result.ServiceStartDate, result.ServiceHours);
 
-      var status = (result.Status==3) ? "cancelled" : "completed";
+      var status = "";
+      if(result.Status==3) { status = "cancelled" }
+      else if(result.Status==4) { status = "completed" }
+      else if(result.Status==5) { status = "refunded" }
       var bywhom = "";
       if(result.Status==4 || (result.Status==3 && result.RecordVersion==1 && result.ModifiedBy==result.ServiceProviderId)){
         bywhom = "You";
