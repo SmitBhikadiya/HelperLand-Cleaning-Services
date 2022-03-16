@@ -259,7 +259,7 @@ class SDashboardController
                     $result = $this->servicemodal->CancelServiceBySPId($userid, $serviceid, $comment);
                     if ($result == 1) {
                         $body = "<h1>Service Request <b>" . $service["ServiceRequestId"] . "</h1></b> has been <kbd style='color:red;'><b>cancelled</b></kbd> by the User( $userid ).";
-                        $mailmsg = sendmail([$service["SPEmail"], Config::ADMIN_EMAIL], "Service Cancelled", $body);
+                        $mailmsg = sendmail([$service["CEmail"], Config::ADMIN_EMAIL], "Service Cancelled", $body);
                     }
                 }
             }else{

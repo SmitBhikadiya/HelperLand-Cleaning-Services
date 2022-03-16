@@ -525,9 +525,10 @@ class ServiceModal extends Connection
     // cancel service request  by servcie id and userid
     public function CancelServiceBySPId($spid, $serviceid, $comment = '')
     {
-        $status = 3;
-        $record_version = 1;
-        $sql = "UPDATE servicerequest SET Comments='$comment', Status=$status, HasIssue=1, ModifiedDate=now(), ModifiedBy=$spid, RecordVersion=$record_version WHERE ServiceProviderId=$spid AND ServiceRequestId=$serviceid";
+        $record_version = 0;
+        $sp_setid = "NULL";
+        $spacceptdate = "NULL";
+        $sql = "UPDATE servicerequest SET Comments='$comment', Status=0, HasIssue=1, ModifiedDate=now(), ModifiedBy=$spid, RecordVersion=$record_version,ServiceProviderId=$sp_setid, SPAcceptedDate=$spacceptdate  WHERE ServiceProviderId=$spid AND ServiceRequestId=$serviceid";
         $result = $this->conn->query($sql);
         if ($result) {
             return 1;

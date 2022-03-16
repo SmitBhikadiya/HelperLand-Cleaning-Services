@@ -210,7 +210,7 @@ $(document).ready(function () {
       showLoader();
       var action = $("#form-service-cancel").prop("action");
       var spid = $("#spid").val();
-      alert(action);
+      //alert(action);
       jQuery.ajax({
         type: "POST",
         url: action,
