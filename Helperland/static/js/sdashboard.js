@@ -123,6 +123,8 @@ $(document).ready(function () {
     $("#exampleModalServiceCancel .m-distance span").text("-");
     $("#exampleModalServiceCancel .m-comments").text(result.Comments);
     $("#exampleModalServiceCancel .m-pets").html((result.HasPets == 0) ? '<span class="fa fa-times-circle-o"></span> I dont`t have pets at home': '<span class="fa fa-check" style="color:#0f7a2b"></span> I have pets at home');
+    var src = "https://www.google.com/maps/embed/v1/place?q="+result.PostalCode+" "+result.City+"&key=AIzaSyAag-Mf1I5xbhdVHiJmgvBsPfw7mCqwBKU";
+    $("#exampleModalServiceCancel .modal-section-map iframe").prop("src", src);
     $("#exampleModalServiceCancel").modal("show");
   }
 
@@ -150,6 +152,8 @@ $(document).ready(function () {
     $("#exampleModalServiceAccept .m-distance span").text("-");
     $("#exampleModalServiceAccept .m-comments").text(result.Comments);
     $("#exampleModalServiceAccept .m-pets").html((result.HasPets == 0) ? '<span class="fa fa-times-circle-o"></span> I dont`t have pets at home': '<span class="fa fa-check" style="color:#0f7a2b"></span> I have pets at home');
+    var src = "https://www.google.com/maps/embed/v1/place?q="+result.PostalCode+" "+result.City+"&key=AIzaSyAag-Mf1I5xbhdVHiJmgvBsPfw7mCqwBKU";
+    $("#exampleModalServiceAccept .modal-section-map iframe").prop("src", src);
     $("#exampleModalServiceAccept").modal("show");
   });
 
