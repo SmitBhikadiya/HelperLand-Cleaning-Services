@@ -11,6 +11,7 @@
                     <th onclick="sortTable(1)">Service Date <img class="sorting-icon" src="./static/images/icon-sort.png" alt=""></th>
                     <th onclick="sortTable(2)">Service Provider <img class="sorting-icon" src="./static/images/icon-sort.png" alt=""></th>
                     <th onclick="sortTable(3)">Payment <img class="sorting-icon" src="./static/images/icon-sort.png" alt=""></th>
+                    <th>Is Accepted?</th>
                     <th>Action</th>
                 </tr>
             </thead>

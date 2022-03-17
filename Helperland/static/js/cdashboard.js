@@ -731,6 +731,7 @@ $(document).ready(function () {
       var sphtml = "";
       var status = result.Status;
       var stshtml = "";
+      var accepthtml = "";
       var record_veresion = result.RecordVersion;
       if (["3", "4", "5"].includes(status)) {
         if (status == 3) {
@@ -741,6 +742,15 @@ $(document).ready(function () {
             '<td class="btn-status completed"><button>Completed</button></td><td class="btn-ratesp"><button data-bs-toggle="modal" data-bs-target="#Ratesp" data-bs-dismiss="modal" id="ratesp">RateSP</button></td>';
         } else if(status == 5){stshtml +=
             '<td class="btn-status refunded"><button>refunded</button></td><td class="btn-ratesp"><button class="disabled" disabled>RateSP</button></td>'
+        }
+      }
+      if(["0","1","2"].includes(status)){
+        if (status == 0 || status == 1) {
+          accepthtml +=
+            '<td class="btn-status">NO</td>';
+        } else if(status == 2){
+          accepthtml +=
+            '<td class="btn-status">YES</td>'
         }
       }
       if (result.ServiceProviderId != null) {
@@ -784,6 +794,7 @@ $(document).ready(function () {
                     </td>
                     `;
       if (stshtml == "") {
+        html+= accepthtml;
         if(record_veresion!=1){
           html += `<td class="btn-dashboard">
               <button class="btn-reschedule" data-bs-toggle="modal" data-bs-target="#exampleModalServiceReschedule" data-bs-dismiss="modal">Reschedule</button>
