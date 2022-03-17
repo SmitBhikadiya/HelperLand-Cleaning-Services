@@ -64,7 +64,7 @@ if (isset($_SESSION["changeuser"])) {
     <div class="container mt-5">
         <div class="row">
             <div class="col-sm-2">
-                <form action="<?= Config::BASE_URL . "?controller=Users&function=changepassword" ?>" method="POST">
+                <form action="<?= Config::BASE_URL . "?controller=Users&function=changepassword" ?>" id="form-changepassword" method="POST">
                     <div class="form-group">
                         <label for="New Password">New Password</label>
                         <input class="form-control" type="text" name="Password" id="password" placeholder="password" require>

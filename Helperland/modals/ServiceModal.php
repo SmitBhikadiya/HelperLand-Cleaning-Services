@@ -374,7 +374,7 @@ class ServiceModal extends Connection
         $todate =  isset($this->data["todate"]) ? (empty($this->data["todate"]) ? "3000-01-01" : $this->data["todate"]) : "3000-01-01";
         $fromdate =  isset($this->data["fromdate"]) ? (empty($this->data["fromdate"]) ? "1900-01-01" : $this->data["fromdate"]) : "1900-01-01";
         $sql = "SELECT sr.ServiceRequestId, sr.ServiceStartDate, sr.ServiceHourlyRate, sr.ServiceHours, sr.ExtraHours, sr.SubTotal, sr.Discount,sr.TotalCost, sr.ServiceProviderId, sr.SPAcceptedDate, sr.HasPets, sr.Status, sr.HasIssue, sr.PaymentDone, sr.RecordVersion, sr.Comments, sr.RefundedAmount, sra.AddressLine1, sra.AddressLine2, sra.City, sra.State, sra.PostalCode, sra.Mobile, sra.Email, sre.ServiceExtraId, CONCAT(cust.FirstName,' ', cust.LastName) as CustName, CONCAT(serv.FirstName,' ', serv.LastName) as ServName FROM servicerequest AS sr JOIN servicerequestaddress AS sra ON sra.ServiceRequestId = sr.ServiceRequestId JOIN user AS cust ON cust.UserId = sr.UserId LEFT JOIN user AS serv ON serv.UserId = sr.ServiceProviderId LEFT JOIN servicerequestextra AS sre ON sre.ServiceRequestId = sr.ServiceRequestId 
-         WHERE 1 AND $service_id AND $postal AND $email AND $custid AND $servid AND $status AND $hasissue AND sr.ServiceStartDate BETWEEN '$fromdate' AND '$todate' ORDER BY sr.ServiceRequestId DESC LIMIT $offset, $limit";
+         WHERE 1 AND $service_id AND $postal AND $email AND $custid AND $servid AND $status AND $hasissue AND DATE(sr.ServiceStartDate) >= '$fromdate' AND DATE(sr.ServiceStartDate) <= '$todate' ORDER BY sr.ServiceRequestId DESC LIMIT $offset, $limit";
         //echo $sql;
         $result = $this->conn->query($sql);
         $services = [];
@@ -406,7 +406,7 @@ class ServiceModal extends Connection
         $hasissue = isset($this->data["hasissue"]) ? (empty($this->data["hasissue"]) ? 1 : 'sr.HasIssue = ' . $this->data["hasissue"]) : 1;
         $todate =  isset($this->data["todate"]) ? (empty($this->data["todate"]) ? "3000-01-01" : $this->data["todate"]) : "3000-01-01";
         $fromdate =  isset($this->data["fromdate"]) ? (empty($this->data["fromdate"]) ? "1900-01-01" : $this->data["fromdate"]) : "1900-01-01";
-        $sql = "SELECT COUNT(*) as Total FROM servicerequest AS sr JOIN servicerequestaddress AS sra ON sra.ServiceRequestId = sr.ServiceRequestId JOIN user AS cust ON cust.UserId = sr.UserId LEFT JOIN user AS serv ON serv.UserId = sr.ServiceProviderId LEFT JOIN servicerequestextra AS sre ON sre.ServiceRequestId = sr.ServiceRequestId WHERE 1 AND $service_id AND $postal AND $email AND $custid AND $servid AND $status AND $hasissue AND sr.ServiceStartDate BETWEEN '$fromdate' AND '$todate'";
+        $sql = "SELECT COUNT(*) as Total FROM servicerequest AS sr JOIN servicerequestaddress AS sra ON sra.ServiceRequestId = sr.ServiceRequestId JOIN user AS cust ON cust.UserId = sr.UserId LEFT JOIN user AS serv ON serv.UserId = sr.ServiceProviderId LEFT JOIN servicerequestextra AS sre ON sre.ServiceRequestId = sr.ServiceRequestId WHERE 1 AND $service_id AND $postal AND $email AND $custid AND $servid AND $status AND $hasissue AND DATE(sr.ServiceStartDate) >= '$fromdate' AND DATE(sr.ServiceStartDate) <= '$todate'";
         //echo $sql;
         $result = $this->conn->query($sql);
         if ($result->num_rows > 0) {
@@ -427,7 +427,7 @@ class ServiceModal extends Connection
         $email = isset($this->data["email"]) ? (empty($this->data["email"]) ? 1 : "user.Email = '" . $this->data["email"] . "'") : 1;
         $todate =  isset($this->data["todate"]) ? (empty($this->data["todate"]) ? "3000-01-01" : $this->data["todate"]) : "3000-01-01";
         $fromdate =  isset($this->data["fromdate"]) ? (empty($this->data["fromdate"]) ? "1900-01-01" : $this->data["fromdate"]) : "1900-01-01";
-        $sql = "SELECT user.UserId FROM user LEFT JOIN useraddress AS ua ON user.UserId = ua.UserId WHERE 1 AND $userid AND $usertype AND $mobile AND $postal AND $email AND user.CreatedDate BETWEEN '$fromdate' AND '$todate' GROUP BY user.UserId ";
+        $sql = "SELECT user.UserId FROM user LEFT JOIN useraddress AS ua ON user.UserId = ua.UserId WHERE 1 AND $userid AND $usertype AND $mobile AND $postal AND $email AND DATE(user.CreatedDate) >= '$fromdate' AND DATE(user.CreatedDate) <= '$todate' GROUP BY user.UserId ";
         //echo $sql;
         $result = $this->conn->query($sql);
         $res = [];
@@ -452,7 +452,7 @@ class ServiceModal extends Connection
         $email = isset($this->data["email"]) ? (empty($this->data["email"]) ? 1 : "user.Email = '" . $this->data["email"] . "'") : 1;
         $todate =  isset($this->data["todate"]) ? (empty($this->data["todate"]) ? "3000-01-01" : $this->data["todate"]) : "3000-01-01";
         $fromdate =  isset($this->data["fromdate"]) ? (empty($this->data["fromdate"]) ? "1900-01-01" : $this->data["fromdate"]) : "1900-01-01";
-        $sql = "SELECT user.UserId, CONCAT(user.FirstName,' ',user.LastName) AS UserName, user.Email, DATE_FORMAT(user.CreatedDate, '%d/%m/%Y') AS RegistrationDate, user.UserTypeId, user.Mobile, user.Status, user.IsApproved, ua.PostalCode FROM user LEFT JOIN useraddress AS ua ON user.UserId = ua.UserId WHERE 1 AND $userid AND $usertype AND $mobile AND $postal AND $email AND user.CreatedDate BETWEEN '$fromdate' AND '$todate' GROUP BY user.UserId LIMIT $offset, $limit";
+        $sql = "SELECT user.UserId, CONCAT(user.FirstName,' ',user.LastName) AS UserName, user.Email, DATE_FORMAT(user.CreatedDate, '%d/%m/%Y') AS RegistrationDate, user.UserTypeId, user.Mobile, user.Status, user.IsApproved, ua.PostalCode FROM user LEFT JOIN useraddress AS ua ON user.UserId = ua.UserId WHERE 1 AND $userid AND $usertype AND $mobile AND $postal AND $email AND DATE(user.CreatedDate) >= '$fromdate' AND DATE(user.CreatedDate) <= '$todate' GROUP BY user.UserId LIMIT $offset, $limit";
         //echo $sql;
         $result = $this->conn->query($sql);
         $users = [];
@@ -838,6 +838,7 @@ class ServiceModal extends Connection
             }
         }
 
+        $result = [];
         $result["ServiceRequestId"] = $last_id;
         $result["FavoriteServicerId"] = $spid;
         $result["workwitpets"] = $workwitpets;
@@ -869,10 +870,11 @@ class ServiceModal extends Connection
         return $result;
     }
 
-    public function getAllServicer($workwithpets = 0)
+    public function getAllServicer($userid)
     {
         //$sql = "SELECT * FROM user WHERE UserTypeId=2 AND IsApproved=1 AND IsDeleted=0 AND WorksWithPets >= $workwithpets";
-        $sql = "SELECT * FROM user LEFT JOIN favoriteandblocked AS fb ON fb.UserId = user.UserId WHERE user.UserTypeId=2 AND user.IsApproved=1 AND user.IsDeleted=0 AND user.WorksWithPets >= $workwithpets AND fb.IsBlocked=0";
+        $sql = "SELECT user.* FROM user WHERE user.UserTypeId=2 AND user.IsApproved = 1 AND user.IsDeleted = 0 AND user.WorksWithPets >= 0";
+        //echo $sql;
         $result = $this->conn->query($sql);
         $servicers = [];
         if ($result->num_rows > 0) {

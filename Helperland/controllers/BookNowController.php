@@ -111,6 +111,8 @@ class BookNowController
         $mail = "";
         $emails = [];
         if (isset($_SESSION["userdata"])) {
+            $user = $_SESSION["userdata"];
+            $userid = $user["UserId"];
             $errors = $this->validator->isServiceRequestValidate();
             if (count($errors) > 0) {
                 foreach ($errors as $key => $val) {
@@ -118,6 +120,7 @@ class BookNowController
                 }
             } else {
                 $result = $this->booknowModal->insertServiceRequest();
+                //print_r($result);
                 $mail = "No need to send message";
                 if (count($result[1]) > 0) {
                     foreach ($result[1] as $key => $val) {
@@ -126,7 +129,7 @@ class BookNowController
                 } else {
                     $body = $this->getBodyToSendMailToSPs($result[0]["ServiceRequestId"]);
                     if ($result[0]["FavoriteServicerId"] == "NULL") {
-                        $servicers = $this->booknowModal->getAllServicer();
+                        $servicers = $this->booknowModal->getAllServicer($userid);
                         if (count($servicers) > 0) {
                             foreach ($servicers as $servicer) {
                                 array_push($emails, $servicer["Email"]);

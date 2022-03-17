@@ -327,6 +327,9 @@ class SDashboardController
                                 if(!empty($postalcode)){
                                     $servicers = $this->servicemodal->getServicerEmailByPostalCode($postalcode);
                                     foreach ($servicers as $servicer) {
+                                        if($servicer["UserId"]==$userid){
+                                            continue;
+                                        }
                                         array_push($emails, $servicer["Email"]);
                                     }
                                     $mailmsg = sendmail($emails, "Service is Acepted", "<h2>service request ".substr("000".$serviceid, -4)."  has already been <kbd><b>accepted</b></kbd> by someone and is no more available to you</h2>");
