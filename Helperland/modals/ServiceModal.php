@@ -887,7 +887,7 @@ class ServiceModal extends Connection
 
     public function getServicerEmailByPostalCode($postalcode)
     {
-        $sql = "SELECT * FROM user JOIN useraddress ON useraddress.UserId=user.UserId WHERE user.UserTypeId=2 AND user.IsApproved=1 AND user.IsDeleted=0 AND user.WorksWithPets >= 0 AND useraddress.PostalCode=$postalcode";
+        $sql = "SELECT * FROM user JOIN useraddress ON useraddress.UserId=user.UserId WHERE user.UserTypeId=2 AND user.IsApproved=1 AND user.IsDeleted=0 AND user.WorksWithPets >= 0"; //AND useraddress.PostalCode=$postalcode";
         $result = $this->conn->query($sql);
         $servicers = [];
         if ($result->num_rows > 0) {

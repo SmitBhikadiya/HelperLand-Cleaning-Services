@@ -7,7 +7,6 @@
                     <th scope="col">Service ID</th>
                     <th scope="col">Service date</th>
                     <th scope="col">Cutomer details</th>
-                    <th scope="col">Distance</th>
                     <th scope="col">Actions</th>
                 </tr>
             </thead>

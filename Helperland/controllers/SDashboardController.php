@@ -334,6 +334,7 @@ class SDashboardController
                                     }
                                     $mailmsg = sendmail($emails, "Service is Acepted", "<h2>service request ".substr("000".$serviceid, -4)."  has already been <kbd><b>accepted</b></kbd> by someone and is no more available to you</h2>");
                                 }
+                                $mailmsg = sendmail([$service["CEmail"]], "Service is Acepted", "<h2>Your service request ".substr("000".$serviceid, -4)." <kbd><b>is accepted</b></kbd> by the servicer<br><kbd>Check Your Dashboard</kbd></h2>");
                             }
                         }
                     }else{

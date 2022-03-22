@@ -669,7 +669,6 @@ $(document).ready(function () {
         </td>
         <td>${result.TotalCost}€</td>
         <td>${assignto}</td>
-        <td></td>
         <td class="btn-accept"><button data-bs-toggle="modal" data-bs-target="#exampleModalServiceAccept" data-bs-dismiss="modal">Accept</button></td>
       </tr>
       `;
@@ -692,7 +691,6 @@ $(document).ready(function () {
             <div class="td-name" style='padding-left: 26px;'>${result.FirstName} ${result.LastName}</div>
             <div class="td-address"><img src="./static/images/icon-address.png" style='margin-bottom: 8px;'>${result.AddressLine1} ${result.AddressLine2}, ${result.PostalCode} ${result.City}</div>
         </td>
-        <td style="line-height: 50px;"></td>
         <td class="btn-cancel"><button data-bs-toggle="modal" data-bs-target="#exampleModalServiceCancel" data-bs-dismiss="modal">Cancel</button></td>
       </tr>
       `;

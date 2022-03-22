@@ -30,7 +30,6 @@
                     <th scope="col">Cutomer details</th>
                     <th scope="col">Payment</th>
                     <th scope="col">Assign To</th>
-                    <th scope="col">Time conflict</th>
                     <th scope="col">Actions</th>
                 </tr>
             </thead>
