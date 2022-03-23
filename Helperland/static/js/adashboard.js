@@ -3,6 +3,18 @@ function showLoader() {
       background: "rgba(0, 0, 0, 0.7)",
     });
 }
+
+// logic for export 
+$('#export').click(function(){
+  let data = document.getElementById('table');
+  var fp = XLSX.utils.table_to_book(data,{sheet:'User Management'});
+  XLSX.write(fp,{
+    bookType:'xlsx',
+    type:'base64'
+  });
+  XLSX.writeFile(fp, 'service-history.xlsx');
+});
+
 $(document).ready(function () {
       
         // Declare some global variable

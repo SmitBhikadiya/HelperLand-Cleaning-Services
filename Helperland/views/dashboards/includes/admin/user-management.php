@@ -46,7 +46,7 @@
         </form>
     </div>
     <div id="servicehistory" class="table-responsive">
-        <table class="table">
+        <table class="table" id="table">
             <thead>
                 <tr>
                     <th scope="col">User Name <img src="./static/images/icon-sort.png" alt=""></th>
