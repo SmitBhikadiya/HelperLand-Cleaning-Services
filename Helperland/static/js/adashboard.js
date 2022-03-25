@@ -311,47 +311,53 @@ $(document).ready(function () {
         $(".alert").remove();
         var action = $("#form-refund").prop("action");
         var adid = $("#aid").val();
-        if($(this).parent().parent().parent().find('.error').length==0){
-          jQuery.ajax({
-            type: "POST",
-            url: action,
-            datatype: "json",
-            data: $("#form-refund").serialize()+"&adid="+adid,
-            success: function (data) {
-              console.log(data);
-              var obj = JSON.parse(data);
-              if (obj.errors.length == 0) {
-                var paid_amt = +$(".paid-amt").text();
-                var refunded_amt = +$(".refunded-amt").text();
-                var cal = +$("#calculated-amt").val();
-                $(".refunded-amt").text(refunded_amt+cal);
-                refunded_amt = +$(".refunded-amt").text();
-                $(".inbalance-amt").text(paid_amt-refunded_amt);
-                $("#calculated-amt").val("");
-                $(".calculate-amount").val("");
-                $("#form-refund").prepend('<div class="alert alert-success alert-dismissible fade show" role="alert"><ul class="success">Amount Refunded Successfully!!</ul></div>');
-                getAjaxDataByReq();
-              } else {
-                var errorlist = "";
-                for (const [key, val] of Object.entries(obj.errors)) {
-                  errorlist += `<li>${val}</li>`;
+        var inbalance = +$(".inbalance-amt").text();
+        if(inbalance!=0){
+          if($(this).parent().parent().parent().find('.error').length==0){
+            jQuery.ajax({
+              type: "POST",
+              url: action,
+              datatype: "json",
+              data: $("#form-refund").serialize()+"&adid="+adid,
+              success: function (data) {
+                console.log(data);
+                var obj = JSON.parse(data);
+                if (obj.errors.length == 0) {
+                  var paid_amt = +$(".paid-amt").text();
+                  var refunded_amt = +$(".refunded-amt").text();
+                  var cal = +$("#calculated-amt").val();
+                  $(".refunded-amt").text(refunded_amt+cal);
+                  refunded_amt = +$(".refunded-amt").text();
+                  $(".inbalance-amt").text(paid_amt-refunded_amt);
+                  $("#calculated-amt").val("");
+                  $(".calculate-amount").val("");
+                  $("#form-refund").prepend('<div class="alert alert-success alert-dismissible fade show" role="alert"><ul class="success">Amount Refunded Successfully!!</ul></div>');
+                  getAjaxDataByReq();
+                } else {
+                  var errorlist = "";
+                  for (const [key, val] of Object.entries(obj.errors)) {
+                    errorlist += `<li>${val}</li>`;
+                  }
+                  $("#form-refund").prepend(
+                    '<div class="alert alert-danger alert-dismissible fade show" role="alert"><ul class="errorlist">' +
+                      errorlist +
+                      "</ul></div>"
+                  );
                 }
-                $("#form-refund").prepend(
-                  '<div class="alert alert-danger alert-dismissible fade show" role="alert"><ul class="errorlist">' +
-                    errorlist +
-                    "</ul></div>"
-                );
-              }
-              $([document.documentElement, document.body]).animate({
-                scrollTop: $("#exampleModalRedund").offset().top,
-              },100);
-            },
-            complete: function (data) {
-              $.LoadingOverlay("hide");
-            },
-          });
+                $([document.documentElement, document.body]).animate({
+                  scrollTop: $("#exampleModalRedund").offset().top,
+                },100);
+              },
+              complete: function (data) {
+                $.LoadingOverlay("hide");
+              },
+            });
+          }else{
+            $.LoadingOverlay("hide");
+          }
         }else{
           $.LoadingOverlay("hide");
+          alert("All the amount refunded!!");
         }
       });
 
