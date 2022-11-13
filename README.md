@@ -1,27 +1,17 @@
 # Helperland
 
-### PSD Location
-> Tatvasoft-PSD-To_HTML/HTML
-
-### MVC Location
-> Tatvasoft-PSD-To_HTML/Helperland
-
-### URLs 
-> [Base URL to Run a project](http://localhost/Tatvasoft-PSD-TO-HTML/HelperLand/)  
-> [Database File Location](https://github.com/SmitBhikadiya/Tatvasoft-PSD-TO-HTML/blob/main/Database/new-helperland.sql)
-
 ### SMTP configuration (config.php) (if you want to enable mailing system)
 >set const SMTP_EMAIL = "";
 >set const SMTP_PASS = ""; 
 
-## ***>>> Submission <<<***
-### 1st Submission
+## ***>>> Task <<<***
+### 1st Phase
   > Set footer, header and modal common for homepage, contactus, faqs, aboutus and prices
   - Validate contact us form at server and client side both
   - User can contact a admin by submitting contact us form via mail services 
 
 
-### 2nd Submission
+### 2nd Phase
 > completed sign in, signup, logout and forgot password functionality for customer and servicer
  - Validate All the forms at the server and client-side by showing the proper error message
  - Store Hashing value of the password
@@ -29,7 +19,7 @@
  - added session tracking : after 60 min of login user will automatically logout (with popup session has been expired)
 
 
-### 3rd Submission
+### 3rd Phase
 > completed all the functionality given in srs with all validation
   - Step1: check any sp provide service on entered postal code then and then you can move to next step
   - Step2: user can select the date, time, extra service or specify any comment, or checked it has pets or not 
@@ -43,7 +33,7 @@
   - once service is booked user can not book a service at the same address on a same date
 
 
-### 4th Submission
+### 4th Phase
 > Setting:
   - User can update its basic details.
   - Added, Delete and Update user addresses
